@@ -1,0 +1,24 @@
+#!/bin/bash
+#PBS -q lasigma
+#PBS -l nodes=1:ppn=16
+#PBS -l walltime=4:00:00
+#PBS -N average_q-l16
+
+
+procpernode=1
+
+cd $PBS_O_WORKDIR
+
+for i in `cat $PBS_NODEFILE | uniq`
+do
+ for j in $(seq $procpernode)
+ do
+   echo $i
+ done
+done > hostfile
+
+nprocs=`cat hostfile | wc -l`
+
+
+cd /work/sfeng/ising/l16/h01-07-15
+mpirun -np $nprocs -hostfile $PBS_O_WORKDIR/hostfile ../jack > ../h01.txt

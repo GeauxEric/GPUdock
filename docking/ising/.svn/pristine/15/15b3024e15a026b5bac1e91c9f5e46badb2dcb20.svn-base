@@ -1,0 +1,28 @@
+#!/bin/bash
+#PBS -q lasigma
+#PBS -l walltime=03:20:00  
+#PBS -l nodes=6:ppn=16
+#PBS -N spin-glass-l16
+
+
+procpernode=1
+
+cd $PBS_O_WORKDIR
+
+for i in `cat $PBS_NODEFILE | uniq`
+do
+ for j in $(seq $procpernode)
+ do
+   echo $i
+ done
+done > hostfile
+
+nprocs=`cat hostfile | wc -l`
+
+
+#mpirun ./a.sh
+cd /work/sfeng/ising/l16
+#for i in {1..5} 
+#do
+mpirun -np $nprocs -hostfile $PBS_O_WORKDIR/hostfile ./mpi_ising
+#done

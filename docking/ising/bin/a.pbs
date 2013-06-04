@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#PBS -l walltime=00:05:00
+#PBS -l nodes=4:ppn=2:gpus=2
+#PBS -o output.log
+#PBS -j oe
+#PBS -N gpu-class
+
+source ~/cuda_env
+cd ~/sheng/bin/
+echo $PBS_NODEFILE > hostfile
+mpirun -np 8 ./mpi_ising
