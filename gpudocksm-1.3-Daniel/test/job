@@ -1,0 +1,36 @@
+#!/bin/bash
+
+##allocation code
+#PBS -A lasigma
+
+##to run a serial job, single node with one process is required
+#PBS -l nodes=1:ppn=16
+
+##wall-clock time limit
+#PBS -l walltime=00:60:00
+
+##name of the output file
+#PBS -o /home/jaydy/biology/trunk/gpudocksm-rem-1.0/output/prt_pt_num.out
+
+##std error should be merged into standard output
+#PBS -j oe
+
+##jobname so that it can be found in the que
+#PBS -N prt_num 
+
+##mark the time things
+date
+
+##set some handy env variables
+export HOME_DIR=/home/jaydy/biology/trunk/gpudocksm-rem-1.0/test
+#export WORK_DIR=/home/jaydy/biology/trunk/gpudocksm-rem-1.0/bin
+
+##cp files, jump to WORK_DIR, and execute the program
+cd $HOME_DIR
+./count.sh prt
+
+##mark the finish time
+date
+
+##and we are out'a here
+exit 0

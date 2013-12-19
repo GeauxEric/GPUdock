@@ -1,0 +1,178 @@
+//Daniel Case 11-20-12
+//Complex Header
+
+
+#ifndef __COMPLEX_H_
+#define __COMPLEX_H_
+
+
+
+#include<cstring>
+#include<cstdio>
+#include<vector>
+#include<fstream>
+#include<iostream>
+#include<iomanip>
+#include<sstream>
+#include<cmath>
+#include<algorithm>
+#include<list>
+#include<bitset>
+#include<map>
+
+#include <gsl/gsl_sf_pow_int.h>
+//#include <gsl/gsl_randist.h>
+
+
+#include "size.h"
+#include "coords.h"
+#include "data.h"
+#include "rmsd.h"
+using namespace std;
+
+/*
+extern"C" {
+
+ void u3b_(double (*)[MAXLIG], double (*)[MAXLIG][3], double (*)[MAXLIG][3], int *, int *, double *, double (*)[3][3], double (*)[3], int *);
+
+}
+*/
+
+
+
+
+
+class Complex {
+ 
+  private:
+ 
+    /* Receptor */
+
+    vector<CoordsProtein>	_protein_xyz;
+
+    double			_pocket_center[3];
+    double 			_ligand_center[3];
+    int				_pnp;
+    int				_pnr;
+
+    std::string			_protein_seq1;
+    char			_protein_seq2[MAXPRO];
+    int				_protein_seq3[MAXPRO];
+
+    int				_pens_total;
+    int				_pens_current;
+
+    /* LIGAND */
+   
+    vector<CoordsLigand>	_ligand_xyz;
+    
+    int				_lna;
+    int                         _lnb;               // number of ligand bonds
+    int				_lens_total;
+    int				_lens_current;
+    
+    double			_cmcc;		    // correlation coef  
+
+    double               _lens_rmsd[MAXEN2]; // ensemble rmsd
+
+    std::string          _ligand_id;         // ligand id
+    std::string          _ligand_smiles;     // ligand smiles
+
+    bitset<MAXFP1>       _ligand_fpt_smiles; // fingerprint smiles
+    bitset<MAXFP2>       _ligand_fpt_maccs;  // fingerprint maccs
+
+    double               _ligand_prop_mw;    // ligand molecular weight
+    double               _ligand_prop_logp;  // ligand water/octanol partition coeff
+    double               _ligand_prop_psa;   // ligand polar surface area
+    double               _ligand_prop_mr;    // ligand molar refractivity
+
+    int                  _ligand_prop_hbd;   // ligand hydrogen bond donors
+    int                  _ligand_prop_hba;   // ligand hydrogen bond acceptors
+
+
+
+    /* COMPLEX */
+
+    double _complex_vdw[MAXTP1][MAXTP2][2]; // L-J potential
+    double _complex_ele[MAXTP3];            // electrostatic potential
+    double _complex_pmf[MAXTP1][MAXTP2][2]; // contact potential
+    double _complex_hpp[MAXTP4];            // protein hydrophobicity
+    double _complex_hpl[MAXTP2][2];         // ligand hydrophobicity
+    double _complex_hdb[MAXTP1][MAXTP2][2]; // ligand hydrophobicity
+
+    double _weights[MAXWEI];                // weights for energy terms
+
+
+//    double _complex_pmf[MAXTP1][MAXTP2][2]; // contact potential
+    //static double _cmatrix[MAXLIG][MAXPRO];	    // contact matrix
+
+    double _par_lj[3];                      // L-J params
+    double _par_el[2];                      // electrostatic params
+    double _par_kde;                        // kde bandwidth
+
+
+
+
+
+  public:
+
+
+  Complex( int, int );
+
+    Complex( void );
+
+    ~Complex();
+
+     /* RECEPTOR */
+
+    int getProteinPointsTotal( void );
+
+    int getProteinResiduesTotal( void );
+
+    int getProteinEnsembleTotal( void );
+
+    int getProteinEnsembleCurrent( void );
+
+    std::string getProteinSequence( void );
+
+    bool loadProtein( std::string );
+
+    bool loadParams( std::string );
+
+    void setProteinEnsembleCurrent( int );
+
+    void setLigandEnsembleCurrent( int );
+ 
+    void protEnsemble(int);
+
+     /* LIGAND */
+
+    int getLigandAtomsTotal( void );
+
+    int getLigandBondsTotal( void );
+
+    int getLigandEnsembleTotal( void );
+
+    int getLigandEnsembleCurrent( void );
+
+    bool loadLigand( std::string [], int, std::string );
+
+    std::string getLigandID( void );
+
+    void setConfCoords ( double [][3] );
+
+    void setConfCoordsPerm ( double [][3] );
+
+
+     /* COMPLEX */
+
+    double getEnergy( int );
+
+    void calculateEnergy( void );
+ 
+    void createContactMatrix( void );
+
+    void clearContactMatrix( void );
+};
+
+#endif

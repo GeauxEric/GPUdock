@@ -1,0 +1,33 @@
+EXE = hpcmcc
+
+OBJ = hpcmcc.o coords.o data.o complex.o rmsd.o mpidecoys.o
+SRC_MPI = mpidecoys.C
+SRC_CPU = hpcmcc.C coords.C data.C complex.C rmsd.f 
+
+CPP = g++
+FC = gfortran
+MPICC = mpic++
+
+CFLAGS = -O0 -Wall -I/project/michal/apps/gsl/include/ -I.
+FFLAGS = -O0 -Wall
+LDFLAGS = -lm -lgsl -lgslcblas -L/project/michal/apps/gsl/lib/ 
+
+default: $(EXE)
+all: $(EXE)
+
+$(EXE): $(OBJ)
+		$(MPICC) $(LDFLAGS) -o $@ $(OBJ)
+		@mv $(EXE) ../bin/
+
+# highest priority
+mpidecoys.o: mpidecoys.C
+		$(MPICC) -c $<
+
+%.o: %.f
+		$(FC) $(FFLAGS) -c $<
+
+%.o: %.C
+		$(CPP) $(CFLAGS) -c $<
+
+clean:
+		@(rm -f ${EXE} ../bin/hpcmcc ${OBJ} )

@@ -1,0 +1,115 @@
+
+
+#include "decoys.h"
+using namespace std;
+
+static double mccMatrix[15000][15000];
+
+
+void Decoy(Complex * d_complex, std::string iname, std::string oname)
+{
+ //cout<<"dtest0.25"<<endl;
+ //d_complex->clearContactMatrix();
+ ifstream infile;
+ fstream outfile;
+ //cout<<"dtest0.5"<<endl;
+// double mccMatrix[1000][1000];
+ for(int i=0; i<15000;i++){
+  for(int j=0; j<15000; j++)
+    mccMatrix[i][j]=0.0;
+  }
+ string linecount;
+ int number_of_lines=0;
+ //cout<<"dtest1"<<endl;
+ infile.open(iname.c_str());
+ if(infile.is_open()){
+        while(!infile.eof()){
+            getline(infile,linecount);
+            number_of_lines++;
+        }
+  }
+
+ outfile.open(oname.c_str());
+ int line=1;
+ int atoms, newpens, newlens;
+ int conf=0;
+ int conf2=0;
+ infile.clear();
+ infile.seekg(0, ios::beg);
+ atoms=d_complex->getLigandAtomsTotal();
+ 
+ 
+ double newcoords[MAXLIG][3];
+ //cout<<"dtest2"<<endl;
+ 
+ while(line<number_of_lines){
+ infile>>newpens;
+ line++;
+ infile>>newlens;
+ line++;
+ d_complex->setProteinEnsembleCurrent(newpens);
+ d_complex->setLigandEnsembleCurrent(newlens);
+
+ for(int i=0;i<atoms;i++ ){
+  infile>>newcoords[i][0]>>newcoords[i][1]>>newcoords[i][2];
+  line++;
+ }
+  
+  d_complex->setConfCoords(newcoords);
+  d_complex->clearContactMatrix();
+  d_complex->createContactMatrix();
+  d_complex->calculateEnergy();
+  mccMatrix[conf][conf2]=d_complex->getEnergy(1);
+
+  while(!infile.eof()){
+  conf2++;
+  infile.clear();
+  infile.seekg(0, ios::beg);
+  //cout<<"THE LINE IS: "<<line<<" "<<"The matrix entry is: ";
+  line++;
+  line++;
+  GotoLine(infile,line);
+  infile>>newpens;
+ // cout<<"newpens is: "<<newpens<<endl;
+  line++;
+  infile>>newlens;
+ // cout<<"newlens is: "<<newlens<<endl;
+  line++;
+
+  d_complex->setProteinEnsembleCurrent(newpens);
+  d_complex->setLigandEnsembleCurrent(newlens);
+
+  for(int j=0;j<atoms;j++){
+   infile>>newcoords[j][0]>>newcoords[j][1]>>newcoords[j][2];
+   line++;
+  }
+  d_complex->setConfCoords(newcoords);
+  d_complex->calculateEnergy();
+  mccMatrix[conf][conf2]=d_complex->getEnergy(1);
+  mccMatrix[conf2][conf]=d_complex->getEnergy(1);
+ // cout<<mccMatrix[conf][conf2]<<endl;
+  }
+ 
+ conf++;
+ conf2=conf;
+ line=(atoms+5)*conf-(conf-1);
+ infile.clear();
+ infile.seekg(0, ios::beg);
+ GotoLine(infile,line); 
+ cout<<conf<<endl; 
+ }
+
+
+ for(int i=0;i<conf+1;i++){
+  for(int j=0;j<conf+1;j++)
+   outfile<<mccMatrix[i][j]<<" ";
+  outfile<<endl;
+ }
+  
+ infile.close();
+ outfile.close();
+ 
+}
+rn file;
+}
+

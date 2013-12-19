@@ -1,0 +1,81 @@
+#include <math.h>
+
+if (total_confs % 2 == 1)	// odd number, last row computed individually
+
+
+total_confs--;
+// dispatch the work and compute
+
+int half_total = total_confs / 2;
+int half_rows_per_process = (int)ceil((float)half_total / size);
+int begin_row = half_rows_per_process * rank;
+int end_row = min(begin_row + half_rows_per_process - 1, half_total - 1);
+
+for (int row = begin_row; row <= end_row; ++row) {
+	compute_a_row(row, mcc);
+	compute_a_row(total_confs - row - 1, mcc);
+}
+
+if (total_confs % 2 == 1 && rank == 0)	// odd number
+	compute_a_row(total_confs - 1, mcc);
+
+// reduce
+
+MPI_Status status[N_PROCS];
+MPI_Request send_req[N_PROCS], recv_req[N_PROCS];
+const int tag1 = 1, tag2 = 2;
+
+// sender
+if (rank != 0) {
+	int msg_size = total_confs * (end_row - begin_row);
+	MPI_Isend(&mcc[begin_row][0], msg_size, MPI_FLOAT, 0, tag1, MPI_COMM_WORLD, &send_reqs[rank]);
+	MPI_Isend(&mcc[total_confs - end_row - 1][0], msg_size, MPI_FLOAT, 0, tag2, MPI_COMM_WORLD, &send_reqs[rank]);
+	MPI_Waitall(N_PROCS, &send_req[rank], &status[rank]);
+}
+// receiver
+else {				// rank 0
+	for (int sender = 1; sender < size; ++sender) {
+		int begin_row_sender = half_rows_per_process * sender;
+		int end_row_sender = min(begin_row_sender + half_rows_per_process - 1, half_total - 1);
+		int msg_size = total_confs * (end_row_sender - begin_row_sender);
+		MPI_Irecv(&mcc[begin_row_sender][0], msg_confs, MPI_FLOAT, sender, tag1, MPI_COMM_WORLD,
+			  &recv_req[sender]);
+		MPI_Irecv(&mcc[total_confs - end_row_sender - 1][0], msg_confs, MPI_FLOAT, sender, tag2, MPI_COMM_WORLD,
+			  &recv_req[sender]);
+	}
+	for (int sender = 1; sender < size; ++sender) {
+		MPI_Waitall(N_PROCS, &recv_req[sender], &status[sender]);
+	}
+}
+
+void compute_a_row(Complex * d_complex, int row, float mcc[total_confs][total_confs]);
+{
+	int n1 = (atoms + 3) * row;
+	int newpens = atoi((data[n1]).c_str());
+	int newlens = atoi((data[n1 + 1]).c_str());
+	d_complex->setProteinEnsembleCurrent(newpens);
+	d_complex->setLigandEnsembleCurrent(newlens);
+	for (int j = n1 + 2, k = 0; k < atoms; j++, k++) {
+		stringstream vec1_entry((data[j]).c_str());
+		vec1_entry >> newcoords[k][0] >> newcoords[k][1] >> newcoords[k][2];
+	}
+	d_complex->setConfCoords(newcoords);	// set lig conf coords
+	d_complex->clearContactMatrix();
+	d_complex->createContactMatrix();
+
+	for (int col = row; col < total_confs; ++col) {
+		int n = (atoms + 3) * col;
+		int pens = atoi((data[n]).c_str());
+		int lens = atoi((data[n + 1]).c_str());
+		d_complex->setProteinEnsembleCurrent(pens);
+		d_complex->setLigandEnsembleCurrent(lens);
+		for (int j = n + 2, k = 0; k < atoms; j++, k++) {
+			stringstream vec_entry((data[j]).c_str());
+			vec_entry >> coords_p[k][0] >> coords_p[k][1] >> coords_p[k][2];
+		}
+		d_complex->setConfCoords(coords_p);
+
+		d_complex->calculateEnergy();
+		mcc[row][col] = d_complex_p->getEnergy(1);
+	}
+}

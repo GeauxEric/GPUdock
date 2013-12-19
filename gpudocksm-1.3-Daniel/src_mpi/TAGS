@@ -1,0 +1,269 @@
+
+data.h,35
+#define __DATA_H___DATA_H_17,860
+
+walltime.h,43
+#define __WALLTIME_H___WALLTIME_H_17,864
+
+complex.h,2926
+#define __COMPLEX_H___COMPLEX_H_6,63
+class Complex {Complex45,628
+    vector<CoordsProtein>	_protein_xyz;_protein_xyz51,679
+    double			_pocket_center[3];_pocket_center53,720
+    double 			_ligand_center[3];_ligand_center54,752
+    int				_pnp;_pnp55,785
+    int				_pnr;_pnr56,802
+    std::string			_protein_seq1;_protein_seq158,820
+    char			_protein_seq2[MAXPRO];_protein_seq259,853
+    int				_protein_seq3[MAXPRO];_protein_seq360,887
+    int				_pens_total;_pens_total62,922
+    int				_pens_current;_pens_current63,946
+    vector<CoordsLigand>	_ligand_xyz;_ligand_xyz67,994
+    int				_lna;_lna69,1037
+    int                         _lnb;               // number of ligand bonds_lnb70,1054
+    int				_lens_total;_lens_total71,1132
+    int				_lens_current;_lens_current72,1156
+    double			_cmcc;		    // correlation coef  _cmcc74,1187
+    double               _lens_rmsd[MAXEN2]; // ensemble rmsd_lens_rmsd76,1235
+    std::string          _ligand_id;         // ligand id_ligand_id78,1298
+    std::string          _ligand_smiles;     // ligand smiles_ligand_smiles79,1356
+    bitset<MAXFP1>       _ligand_fpt_smiles; // fingerprint smiles_ligand_fpt_smiles81,1419
+    bitset<MAXFP2>       _ligand_fpt_maccs;  // fingerprint maccs_ligand_fpt_maccs82,1486
+    double               _ligand_prop_mw;    // ligand molecular weight_ligand_prop_mw84,1553
+    double               _ligand_prop_logp;  // ligand water/octanol partition coeff_ligand_prop_logp85,1625
+    double               _ligand_prop_psa;   // ligand polar surface area_ligand_prop_psa86,1710
+    double               _ligand_prop_mr;    // ligand molar refractivity_ligand_prop_mr87,1784
+    int                  _ligand_prop_hbd;   // ligand hydrogen bond donors_ligand_prop_hbd89,1859
+    int                  _ligand_prop_hba;   // ligand hydrogen bond acceptors_ligand_prop_hba90,1935
+    double _complex_vdw[MAXTP1][MAXTP2][2]; // L-J potential_complex_vdw96,2036
+    double _complex_ele[MAXTP3];            // electrostatic potential_complex_ele97,2097
+    double _complex_pmf[MAXTP1][MAXTP2][2]; // contact potential_complex_pmf98,2168
+    double _complex_hpp[MAXTP4];            // protein hydrophobicity_complex_hpp99,2233
+    double _complex_hpl[MAXTP2][2];         // ligand hydrophobicity_complex_hpl100,2303
+    double _complex_hdb[MAXTP1][MAXTP2][2]; // ligand hydrophobicity_complex_hdb101,2372
+    double _weights[MAXWEI];                // weights for energy terms_weights103,2442
+    int _confusion_matrix[MAXLIG][MAXPRO];	    // confusion matrix descrbing the contacts of  the prt and lig points_confusion_matrix105,2515
+    double _par_lj[3];                      // L-J params_par_lj110,2769
+    double _par_el[2];                      // electrostatic params_par_el111,2827
+    double _par_kde;                        // kde bandwidth_par_kde112,2895
+
+remc.C,158
+void REMC( Complex * re_complex, int re_replicas, int re_steps, int re_cycles, double re_t, double re_r, double re_d, double re_b, bool re_prt )REMC23,1045
+
+decoys.C,163
+void Decoy(Complex * d_complex, std::string iname, std::string oname)Decoy9,85
+std::ifstream& GotoLine(std::ifstream& file, unsigned int num){GotoLine117,2783
+
+decoys.h,0
+
+decoy_mpi.C,556
+int half_total = total_confs / 2;half_total14,184
+int half_rows_per_process = (int)ceil((float)half_total / size);half_rows_per_process15,218
+int begin_row = half_rows_per_process * rank;begin_row16,283
+int end_row = min(begin_row + half_rows_per_process - 1, half_total - 1);end_row17,329
+MPI_Status status[N_PROCS];status26,539
+MPI_Request send_req[N_PROCS], recv_req[N_PROCS];send_req27,567
+MPI_Request send_req[N_PROCS], recv_req[N_PROCS];recv_req27,567
+const int tag1 = 1, tag2 = 2;tag128,617
+const int tag1 = 1, tag2 = 2;tag228,617
+
+mcc.sh,0
+
+rmsd.f,1416
+      subroutine u3b(u3b16,995
+    1 r(i,j) = zero149,2192
+    2 yc(i) = yc(i) + (w(m) * y(i,m))262,2495
+    3 yc(i) = yc(i) / wc368,2691
+    4 r(i,j) = r(i,j) + (d * (x(j,m) - xc(j)))479,2980
+    5 rr(m) = ((r(1,i) * r(1,j)) + (r(2,i) * r(2,j))) + (r(3,i) * r(3,j)595,3544
+    6 e(i) = spur6104,3859
+    8 if (mode) 30, 50, 308130,4688
+   10 do 15 l = 1, 3, 210132,4731
+   11 j = 311144,5164
+   12 if (dabs(ss1) .lt. dabs(ss6)) goto 1112146,5190
+   13 d = zero13147,5234
+   14 d = d + (ss(k) * ss(k))14152,5333
+   15 a(i,l) = a(i,l) * d15155,5426
+   16 p = zero16162,5616
+   17 p = p + (a(i,m1) ** 2)17165,5691
+   18 a(i,m1) = a(i,m1) * p18169,5796
+   19 p = one19171,5838
+   20 continue20176,5947
+   21 a(1,2) = (a(2,3) * a(3,1)) - (a(2,1) * a(3,3))21184,6162
+   30 do 32 l = 1, 230190,6426
+   31 d = d + (b(i,l) ** 2)31196,6581
+   32 b(i,l) = b(i,l) * d32199,6672
+   33 p = p + (b(i,2) ** 2)33204,6841
+   34 b(i,2) = b(i,2) * p34208,6945
+   35 p = one35210,6985
+   36 continue36215,7094
+   37 b(1,3) = (b(2,1) * b(3,2)) - (b(2,2) * b(3,1))37223,7306
+   39 u(i,j) = ((b(i,1) * a(j,1)) + (b(i,2) * a(j,2))) + (b(i,3) * a(j,339230,7596
+   40 do 41 i = 1, 340232,7678
+   41 t(i) = ((yc(i) - (u(i,1) * xc(1))) - (u(i,2) * xc(2))) - (u(i,3)41235,7788
+   50 do 51 i = 1, 350237,7875
+   51 e(i) = dsqrt(e(i))51239,7934
+   52 d = (d + e2) + e152246,8127
+
+gpudocksm.C,45
+int main(int argc, char *argv[])main24,932
+
+mpidecoys.C,252
+#define     MPI	MPI9,145
+#define     TUNE	TUNE10,164
+#define     ORIGINAL	ORIGINAL11,183
+void Decoy(Complex * d_complex, std::string iname, std::string oname)Decoy16,230
+std::ifstream & GotoLine(std::ifstream & file, int num)GotoLine351,9734
+
+mpi_mcc.h,34
+#define  MPI_MCC_HMPI_MCC_H4,54
+
+comm.C,103
+#define     MP3	MP312,157
+#define     TUNE TUNE13,176
+int main(int argc, char *argv[])main15,196
+
+remc.h,161
+#define __REMC_H___REMC_H_17,860
+struct replicareplica35,1194
+ double conf1[MAXLIG][3];conf137,1212
+ double conf2[22];conf238,1238
+ int num;num39,1257
+
+complex.C,1784
+Complex::Complex(int ap, int al)Complex28,1627
+Complex::Complex(void)Complex128,3423
+Complex::~Complex()~Complex221,5115
+int Complex::getProteinPointsTotal(void)getProteinPointsTotal227,5251
+int Complex::getProteinResiduesTotal(void)getProteinResiduesTotal234,5424
+int Complex::getProteinEnsembleTotal(void)getProteinEnsembleTotal241,5599
+int Complex::getProteinEnsembleCurrent(void)getProteinEnsembleCurrent248,5783
+std::string Complex::getProteinSequence(void)getProteinSequence255,5964
+int Complex::getLigandAtomsTotal(void)getLigandAtomsTotal262,6147
+int Complex::getLigandBondsTotal(void)getLigandBondsTotal269,6314
+int Complex::getLigandEnsembleTotal(void)getLigandEnsembleTotal276,6484
+int Complex::getLigandEnsembleCurrent(void)getLigandEnsembleCurrent283,6666
+bool Complex::loadProtein(std::string p1_name)loadProtein329,7872
+bool Complex::loadParams(std::string d1_name)loadParams634,16418
+bool Complex::loadLigand(std::string llib1[], int llib2, std::string llib3)loadLigand805,20251
+std::string Complex::getLigandID(void)getLigandID1055,26882
+void Complex::protEnsemble(int ens1)protEnsemble1087,28146
+void Complex::createConfusionMatrix(void)createConfusionMatrix1225,32456
+void Complex::clearConfusionMatrix(void)clearConfusionMatrix1260,33619
+void Complex::calculateMccMtrx( void ){calculateMccMtrx1271,33909
+double Complex::getAmcc ( void ){getAmcc1313,35364
+void Complex::calculateEnergy(void)calculateEnergy1319,35521
+double Complex::getEnergy(int ei)getEnergy1624,45835
+void Complex::setConfCoords(double iconf1[][3])setConfCoords1731,48758
+void Complex::setProteinEnsembleCurrent(int newEns)setProteinEnsembleCurrent1767,49874
+void Complex::setLigandEnsembleCurrent(int newEns)setLigandEnsembleCurrent1773,50069
+
+montecarlo.C,163
+double MonteCarlo( gsl_rng*& r, Complex * mc_complex, int mc_steps, double mc_t, double mc_r, double mc_d, double mc_b, int mc_n, bool mc_prt )MonteCarlo23,1008
+
+mpidecoys.h,0
+
+montecarlo.h,47
+#define __MONTECARLO_H___MONTECARLO_H_17,866
+
+mpi_mcc.C,45
+int main(int argc, char *argv[])main16,293
+
+rmsd.h,37
+#define __WRMSD_H___WRMSD_H_17,861
+
+Makefile,631
+EXE = mpi_mccEXE1,0
+OBJ = mpi_mcc.o coords.o data.o complex.o rmsd.o mpidecoys.oOBJ3,15
+SRC_MPI = mpidecoys.CSRC_MPI4,76
+SRC_CPU = mpi_mcc.C coords.C data.C complex.C rmsd.f SRC_CPU5,98
+CPP = /usr/local/packages/mpich/3.0.2/Intel-13.0.0/bin/mpicxxCPP11,245
+FC =  /usr/local/packages/mpich/3.0.2/Intel-13.0.0/bin/mpif90FC12,307
+MPICC = /usr/local/packages/mpich/3.0.2/Intel-13.0.0/bin/mpiccMPICC13,369
+CFLAGS = -O2 -Wall -I/usr/local/packages/gsl/1.15/Intel-13.0.0/include -I.CFLAGS16,434
+FFLAGS = -O2 -WallFFLAGS17,509
+LDFLAGS = -L/usr/local/packages/gsl/1.15/Intel-13.0.0/lib -lgsl -lgslcblas -lmLDFLAGS18,528
+
+temp.C,0
+
+size.h,1183
+#define __SIZE_H___SIZE_H_17,860
+const int MAXPRO = 10000;  /* protein residues */MAXPRO19,879
+const int MAXLIG = 100;   /* ligand heavy atoms */MAXLIG20,929
+const int MAXEN1 = 20;     /* protein confs */MAXEN121,980
+const int MAXEN2 = 70;    /* ligand confs */MAXEN222,1027
+const int MAXLIB = 100;   /* library cmps */MAXLIB23,1072
+const int MAXSDF = 500;  /* sdf length */MAXSDF24,1117
+const int MAXTP1 = 30;    /* point types */MAXTP125,1159
+const int MAXTP2 = 24;    /* atom types */MAXTP226,1203
+const int MAXTP3 = 50;    /* point types (for ele) */MAXTP327,1246
+const int MAXTP4 = 20;    /* residue types */MAXTP428,1300
+const int MAXFP1 = 1024;  /* smiles */MAXFP129,1346
+const int MAXFP2 = 168;   /* maccs */MAXFP230,1385
+const int MAXWEI = 9;     /* energy terms */MAXWEI31,1423
+const int MAXKDE = 10000; /* kde points */MAXKDE32,1468
+const int MAXMCS = 500;   /* mcs fields */MAXMCS33,1511
+const int MAXPOS = 1000;  /* position restraints */MAXPOS34,1554
+const int MAXREP = 32;MAXREP37,1618
+const int BADKDE =50;	  /* value used for return statement in data.C for missing atoms */BADKDE38,1641
+const double PI = 3.14159265;PI41,1752
+
+coords.h,890
+class CoordsProtein {CoordsProtein10,208
+    int    _r;         // residue number_r14,243
+    int    _n;         // effective point number_n15,284
+    double _x[MAXEN1]; // x coords (ensemble)_x16,333
+    double _y[MAXEN1]; // y coords (ensemble)_y17,379
+    double _z[MAXEN1]; // z coords (ensemble)_z18,425
+    int    _t;         // effective point type_t19,471
+    int    _c;         // effective point class_c20,518
+    int    _d;         // residue code_d21,566
+class CoordsLigand {CoordsLigand46,1044
+    int    _n;         // atom number_n50,1078
+    double _x[MAXEN2]; // x coords (ensemble)_x51,1116
+    double _y[MAXEN2]; // y coords (ensemble)_y52,1162
+    double _z[MAXEN2]; // z coords (ensemble)_z53,1208
+    string _a;         // atom name_a54,1254
+    int    _t;         // atom type_t55,1290
+    double _c;         // atom charge_c56,1326
+
+coords.C,1422
+CoordsProtein::CoordsProtein( int ar, int an, int at, int ad, int ac )CoordsProtein9,156
+CoordsProtein::CoordsProtein( void )CoordsProtein25,376
+CoordsProtein::~CoordsProtein() {}~CoordsProtein41,557
+int CoordsProtein::getPointNumber( void )getPointNumber43,593
+int CoordsProtein::getResidueNumber( void )getResidueNumber48,652
+int CoordsProtein::getResidueCode( void )getResidueCode53,713
+double CoordsProtein::getCoords( int an, int ai )getCoords57,771
+void CoordsProtein::setCoords( double ax, double ay, double az, int ai)setCoords69,959
+int CoordsProtein::getPointType( void )getPointType76,1078
+int CoordsProtein::getPointClass( void )getPointClass81,1135
+CoordsLigand::CoordsLigand( int an, string aa, int at, double ac )CoordsLigand88,1295
+CoordsLigand::CoordsLigand( void )CoordsLigand103,1501
+CoordsLigand::~CoordsLigand() {}~CoordsLigand118,1674
+int CoordsLigand::getAtomNumber( void )getAtomNumber120,1708
+double CoordsLigand::getCoords( int an, int ai )getCoords125,1765
+void CoordsLigand::setCoords( double ax, double ay, double az, int ai)setCoords137,1952
+string CoordsLigand::getAtomName( void )getAtomName144,2070
+int CoordsLigand::getAtomType( void )getAtomType149,2128
+void CoordsLigand::setAtomType( int at )setAtomType154,2183
+double CoordsLigand::getAtomCharge( void )getAtomCharge159,2239
+void CoordsLigand::setAtomCharge( double ac )setAtomCharge164,2299
+
+gpudocksm.h,45
+#define __GPUDOCKSM_H___GPUDOCKSM_H_17,865
+
+data.C,591
+std::string three2oneS( std::string resnam1 )three2oneS20,883
+char three2oneC( std::string resnam1 )three2oneC52,1991
+std::string one2three( std::string resnam1 )one2three84,3092
+int getResCode( std::string r_name )getResCode116,4199
+int getResCodeOne( std::string r_name )getResCodeOne143,5164
+std::string getResName( int r_code )getResName170,6092
+int getPntCode( std::string r_name )getPntCode197,7062
+std::string getPntName( int r_code )getPntName234,8415
+int getLigCode( std::string r_name )getLigCode271,9773
+std::string getLigName( int r_code )getLigName302,10954
+
+walltime.C,47
+void printTime( double dif1 )printTime20,887
