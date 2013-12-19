@@ -1,0 +1,197 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA
+END
+magma_zfortran.mod
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_zfortran.mod
+END
+magma_clapack.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_clapack.h
+END
+magma_dlapack.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_dlapack.h
+END
+magma_s.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_s.h
+END
+magmablas_s.h
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magmablas_s.h
+END
+magma_cfortran.mod
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_cfortran.mod
+END
+magma.mod
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma.mod
+END
+magma_z.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_z.h
+END
+magmablas_z.h
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magmablas_z.h
+END
+Makefile.src
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/Makefile.src
+END
+magma_slapack.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_slapack.h
+END
+magma.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma.h
+END
+magmablas.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magmablas.h
+END
+magma_zlapack.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_zlapack.h
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/CMakeLists.txt
+END
+magma_sfortran.mod
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_sfortran.mod
+END
+magma_param.mod
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_param.mod
+END
+magma_cbulgeinc.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_cbulgeinc.h
+END
+magma_lapack.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_lapack.h
+END
+magma_dbulgeinc.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_dbulgeinc.h
+END
+magma_ds.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_ds.h
+END
+magma_dfortran.mod
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_dfortran.mod
+END
+magmablas_ds.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magmablas_ds.h
+END
+magma_sbulgeinc.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_sbulgeinc.h
+END
+magma_zc.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_zc.h
+END
+magmablas_zc.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magmablas_zc.h
+END
+magma_zbulgeinc.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_zbulgeinc.h
+END
+cblas.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/cblas.h
+END
+magma_c.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_c.h
+END
+magma_d.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magma_d.h
+END
+magmablas_c.h
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magmablas_c.h
+END
+magmablas_d.h
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA/magmablas_d.h
+END

@@ -1,0 +1,44 @@
+
+performance comparison on various docking simulation implementations
+
+                                MCS/s           normalized
+--------------------------------------------------------------------
+CPU single-replica                843.75          1.00 X
+CPU multi-replicas *             5062.50          6.00 X
+
+GPU single-replica               2612.80          3.10 X
+GPU multi-replicas              40828.75         48.39 X
+
+GPU multi-replicas (new, rec)	70448.548
+GPU multi-replicas (new, norec)	96083.385	113.87 X
+--------------------------------------------------------------------
+
+
+
+
+                                MCS/s           	unit	unit			MCS/s/dollar	MCS/s/watt
+							price	power consumption
+							(USD)	(W) (Maximum)
+---------------------------------------------------------------------------------------------------------------------
+CPU multi-replicas *             5062.50 (1.0X)		1100	130			 4.602 ( 1.0X)	 38.942 (1.0X)
+GPU multi-replicas              40828.75 (8.1X)		550	244			74.234 (16.1X)	167.331 (4.3X)
+---------------------------------------------------------------------------------------------------------------------
+
+
+
+The performance is measured in Monte Carlo Sweeps per Second (MCS/s)
+cpu:    Core i7 X 990 @ 3.47GHz 6-core    gcc 4.4.7, -O3, single threaded
+gpu:    GeForce GTX 580                   nvcc 4.2,  -O2
+
+* hypothetical CPU multi-replicas performance, assume using all 6 CPU cores and has no contentions.
+
+
+
+
+
+
+
+985.696		AoS	gpudocksm-1.1-untested_modified		calculateEnergy_v3.C
+1185.191	AoS	gpudocksm-1.1-untested_modified		calculateEnergy_orig.C
+4983.497	SoA
+
