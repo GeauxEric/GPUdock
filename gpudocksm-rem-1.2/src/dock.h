@@ -426,6 +426,8 @@ struct Replica
 
 struct McPara
 {
+  float lowest_temp;   // lowest temperature in all replicas
+  
   int steps_total;
   int steps_per_dump;
   int steps_per_exchange;

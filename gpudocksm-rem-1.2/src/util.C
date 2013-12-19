@@ -29,6 +29,29 @@ ParseArguments (int argc, char **argv, McPara * mcpara, InputFiles * inputfiles)
 {
   char mydir[MAXSTRINGLENG] = "output_default";
 
+  float temp = 0.f;  // temperature
+  float t = 0.f;  // translational scale
+  float r = 0.f;  // rotational scale
+
+ for ( int i = 0; i < argc; i++ )
+ {
+  if ( !strcmp(argv[i],"-T")  && i < argc ) {
+    temp = atof(argv[i+1]);
+  }
+  if ( !strcmp(argv[i],"-t")  && i < argc ) {
+    t = atof(argv[i+1]);
+  }
+  if ( !strcmp(argv[i],"-r")  && i < argc ) {
+    r = atof(argv[i+1]);
+  }
+  // if ( !strcmp(argv[i],"-l")  && i < argc ) { compounds_name = string(argv[i+1]); compounds_opt = true; }
+  // if ( !strcmp(argv[i],"-s")  && i < argc ) { lhm_name       = string(argv[i+1]); lhm_opt       = true; }
+  // if ( !strcmp(argv[i],"-o")  && i < argc ) { output_name    = string(argv[i+1]); output_opt    = true; }
+  // if ( !strcmp(argv[i],"-i")  && i < argc ) { molid          = string(argv[i+1]);                       }
+  // if ( !strcmp(argv[i],"-nr") && i < argc ) { remc_replicas  = atoi(argv[i+1]);                         }
+  // if ( !strcmp(argv[i],"-ns") && i < argc ) { remc_steps     = atoi(argv[i+1]);                         }
+  // if ( !strcmp(argv[i],"-nc") && i < argc ) { remc_cycles    = atoi(argv[i+1]);                         }
+ }
 #if 1
   inputfiles->lig_file.id = "1a07C1";
   inputfiles->lig_file.path = "../test/1a07C1.sdf";
@@ -39,12 +62,12 @@ ParseArguments (int argc, char **argv, McPara * mcpara, InputFiles * inputfiles)
   inputfiles->enepara_file.path = "../dat/gpudocksm.ff";
   inputfiles->weight_file.path = "../dat/08ff_opt";
 
+  mcpara->lowest_temp = temp;
+
   mcpara->steps_total = STEPS_TOTAL;
   mcpara->steps_per_dump = STEPS_PER_DUMP;
   mcpara->steps_per_exchange = STEPS_PER_EXCHANGE;
 
-  const float t = 0.0001f;
-  const float r = 0.000628f;
   // const float t = 1.0f;
   // const float r = 5.0f;
 
@@ -80,32 +103,6 @@ ParseArguments (int argc, char **argv, McPara * mcpara, InputFiles * inputfiles)
 #endif
 
 #endif
-
-  /*
-     // parse command line parameters
-     if (argc != 1)
-     for (int i = 1; i < argc; i++) {
-     if (argv[i][0] == '-') {  // leading "-"
-     switch (argv[i][1]) {
-     case 'l':
-     beta_low = strtof (argv[++i], NULL);
-     break;
-     case 'u':
-     beta_high = strtof (argv[++i], NULL);
-     break;
-     case 'o':
-     strcpy (mydir, argv[++i]);
-     break;
-     default:
-     host_usage (argv[0]);
-     }
-     }
-     else
-     usage (argv[0]);
-     }
-     if (beta_low >= beta_high)
-     usage (argv[0]);
-   */
 
 }
 
@@ -395,10 +392,11 @@ SetWeight (EnePara * enepara)
 */
 
 void
-SetTemperature (Temp * temp, const ComplexSize complexsize)
+SetTemperature (Temp * temp, McPara * mcpara, const ComplexSize complexsize)
 {
+  float lowest_temp = mcpara->lowest_temp;
   for (int i = 0; i < complexsize.n_tmp; i++) {
-    temp[i].t = INITTEMP;
+    temp[i].t = lowest_temp;
     temp[i].minus_beta = -1.0f / temp[i].t;
     temp[i].order = i;
   }
@@ -773,6 +771,9 @@ PrintSummary (const InputFiles * inputfiles, const McPara * mcpara, const Temp *
 
   const size_t ligrecord_sz = sizeof (LigRecord) * complexsize->n_rep;
   printf ("per dump record size:\t\t%.3f MB\n", (float) ligrecord_sz / 1048576);
+
+  printf ("lowest temperature\t\t");
+  printf ("%10.8f\n", mcpara->lowest_temp);
 
   printf ("movement scale (txyz, rxyz)\t");
   for (int i = 0; i < 6; ++i)

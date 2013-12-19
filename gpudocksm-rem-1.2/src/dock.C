@@ -74,7 +74,7 @@ main (int argc, char **argv)
 
   // initialize system
   InitLigCoord (lig, complexsize);
-  SetTemperature (temp, complexsize);
+  SetTemperature (temp, mcpara, complexsize);
   SetReplica (replica, lig, complexsize);
   SetMcLog (mclog);
 
