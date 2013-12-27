@@ -52,6 +52,7 @@ ParseArguments (int argc, char **argv, McPara * mcpara, InputFiles * inputfiles)
   // if ( !strcmp(argv[i],"-ns") && i < argc ) { remc_steps     = atoi(argv[i+1]);                         }
   // if ( !strcmp(argv[i],"-nc") && i < argc ) { remc_cycles    = atoi(argv[i+1]);                         }
  }
+
 #if 1
   inputfiles->lig_file.id = "1a07C1";
   inputfiles->lig_file.path = "../test/1a07C1.sdf";
@@ -61,6 +62,8 @@ ParseArguments (int argc, char **argv, McPara * mcpara, InputFiles * inputfiles)
   inputfiles->lhm_file.ligand_id = "1a07C1";
   inputfiles->enepara_file.path = "../dat/gpudocksm.ff";
   inputfiles->weight_file.path = "../dat/08ff_opt";
+  inputfiles->norpara_file.path_a = "../dat/nor_a";
+  inputfiles->norpara_file.path_b = "../dat/nor_b";
 
   mcpara->lowest_temp = temp;
 

@@ -303,6 +303,18 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
     ehpc[0] = ehpc[0] / lna_dc;
     ekde[0] = ekde[0] / lna_dc;
 
+    // calculate the normalized total energy using linear combination
+    // const float etotal =
+    //   enepara_dc->w[0] * evdw[0] +
+    //   enepara_dc->w[1] * eele[0] +
+    //   enepara_dc->w[2] * epmf[0] +
+    //   enepara_dc->w[3] * ehpc[0] +
+    //   enepara_dc->w[4] * ehdb[0] +
+    //   enepara_dc->w[5] * edst +
+    //   enepara_dc->w[6] * epsp[0] +
+    //   enepara_dc->w[7] * ekde[0] +
+    //   enepara_dc->w[8] * elhm[0];
+
     // calculate the total energy using linear combination
     const float etotal =
       enepara_dc->w[0] * evdw[0] +

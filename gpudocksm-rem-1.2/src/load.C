@@ -1344,15 +1344,16 @@ loadEnePara (EneParaFile * enepara_file, EnePara0 * enepara)
 
 }
 
-void LoadWeight(WeightFile * weight_file, EnePara0 * enepara )
+void loadNorPara(NorParaFile * norpara_file, EnePara0 * enepara )
 {
-	std::string ifn = weight_file->path;
+        // loading parameter a
+	std::string ifn = norpara_file->path_a;
 
 	list < string > data;
 	list < string >::iterator data_i;
 
-	string line1;				// tmp string for each line
-	ifstream data_file(ifn.c_str());	// open the data_file as the buffer
+	string line1;				
+	ifstream data_file(ifn.c_str());
 
 	if (!data_file.is_open()) {
 		cout << "cannot open " << ifn << endl;
@@ -1360,7 +1361,69 @@ void LoadWeight(WeightFile * weight_file, EnePara0 * enepara )
 	}
 
 	while (getline(data_file, line1))
-		data.push_back(line1);	// push each line to the list
+		data.push_back(line1);	
+
+	data_file.close();		
+
+	int total_item = data.size();
+	int iter = 0;
+
+	for (iter = 0, data_i = data.begin(); iter < total_item && data_i != data.end(); iter++, data_i++) {	
+		string s = (*data_i).substr(0, 30);
+		istringstream os(s);
+		float tmp = 0.0;
+		os >> tmp;				
+		enepara->a_para[iter] = tmp;
+	}
+
+        // loading parameter b
+	std::string ifn2 = norpara_file->path_b;
+
+	list < string > data2;
+	list < string >::iterator data2_i;
+
+	string line2;				
+	ifstream data2_file(ifn2.c_str());
+
+	if (!data2_file.is_open()) {
+		cout << "cannot open " << ifn2 << endl;
+		exit(EXIT_FAILURE);
+	}
+
+	while (getline(data2_file, line2))
+		data2.push_back(line2);	
+
+	data2_file.close();		
+
+	total_item = data2.size();
+	iter = 0;
+
+	for (iter = 0, data2_i = data2.begin(); iter < total_item && data2_i != data2.end(); iter++, data2_i++) {	
+		string s = (*data2_i).substr(0, 30);
+		istringstream os(s);
+		float tmp = 0.0;
+		os >> tmp;				
+		enepara->b_para[iter] = tmp;
+	}
+}
+
+void loadWeight(WeightFile * weight_file, EnePara0 * enepara )
+{
+	std::string ifn = weight_file->path;
+
+	list < string > data;
+	list < string >::iterator data_i;
+
+	string line2;				// tmp string for each line
+	ifstream data_file(ifn.c_str());	// open the data_file as the buffer
+
+	if (!data_file.is_open()) {
+		cout << "cannot open " << ifn << endl;
+		exit(EXIT_FAILURE);
+	}
+
+	while (getline(data_file, line2))
+		data.push_back(line2);	// push each line to the list
 
 	data_file.close();			// close
 
