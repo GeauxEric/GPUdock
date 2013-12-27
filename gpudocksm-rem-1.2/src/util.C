@@ -362,6 +362,12 @@ OptimizeEnepara (const EnePara0 * enepara0, EnePara * enepara)
     enepara->w[i] = enepara0->w[i];
     // cout << enepara->w[i] << endl;
   }
+
+  for (int i = 0; i < MAXWEI; ++i) {
+    enepara->a_para[i] = enepara0->a_para[i];
+    enepara->b_para[i] = enepara0->b_para[i];
+    // cout << enepara->w[i] << endl;
+  }
 }
 
 

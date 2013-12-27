@@ -302,18 +302,18 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
     // ehdb[0] = ehdb[0] / lna_dc; // using hdb2 is faster
     ehpc[0] = ehpc[0] / lna_dc;
     ekde[0] = ekde[0] / lna_dc;
+    
 
-    // calculate the normalized total energy using linear combination
-    // const float etotal =
-    //   enepara_dc->w[0] * evdw[0] +
-    //   enepara_dc->w[1] * eele[0] +
-    //   enepara_dc->w[2] * epmf[0] +
-    //   enepara_dc->w[3] * ehpc[0] +
-    //   enepara_dc->w[4] * ehdb[0] +
-    //   enepara_dc->w[5] * edst +
-    //   enepara_dc->w[6] * epsp[0] +
-    //   enepara_dc->w[7] * ekde[0] +
-    //   enepara_dc->w[8] * elhm[0];
+    // convert to the normalized energy
+    evdw[0] = enepara_dc->a_para[0] * evdw[0] + enepara_dc->b_para[0];
+    eele[0] = enepara_dc->a_para[1] * eele[0] + enepara_dc->b_para[1];
+    epmf[0] = enepara_dc->a_para[2] * epmf[0] + enepara_dc->b_para[2];
+    ehpc[0] = enepara_dc->a_para[3] * ehpc[0] + enepara_dc->b_para[3];
+    ehdb[0] = enepara_dc->a_para[4] * ehdb[0] + enepara_dc->b_para[4];
+    edst    = enepara_dc->a_para[5] * edst    + enepara_dc->b_para[5];
+    epsp[0] = enepara_dc->a_para[6] * epsp[0] + enepara_dc->b_para[6];
+    ekde[0] = enepara_dc->a_para[7] * ekde[0] + enepara_dc->b_para[7];
+    elhm[0] = enepara_dc->a_para[8] * elhm[0] + enepara_dc->b_para[8];
 
     // calculate the total energy using linear combination
     const float etotal =

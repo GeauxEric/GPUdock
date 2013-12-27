@@ -196,6 +196,11 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 - mode0 and mode1 combined together provides a mechanism that can do a complete information 
   exchange across all the replicas
   
+** TODO why care about the # mcs ??
+   #+BEGIN_SRC 
+  complexsize.n_pos = inputfiles->lhm_file.n_pos;	// number of MCS positions
+   #+END_SRC
+
 * testing
    
 ** DONE introduce the toggle of random walk
@@ -267,8 +272,7 @@ for ( int i1 = 0; i1 < _lna; i1++ )
    to leave 4 digits
 ** DONE check the temperature settings 
 ** TODO modify energy calculation if needed
-   - [ ] implementation after the testings are done
-   - result abtained from using /home/jaydy/work/dat/output/output/FF_opt/0.8.ff
+   - weight abtained from using /home/jaydy/work/dat/output/output/FF_opt/0.8.ff
    - applying the linear transformation normalized_df = a*df + b
      #+BEGIN_SRC c++
      inputfiles->norpara_file.path_a = "../dat/linear_a";
@@ -297,6 +301,9 @@ for ( int i1 = 0; i1 < _lna; i1++ )
     | _epsp |   0.001993 |
     | _ekde |  -1.000000 |
     | _elhm |  -0.294676 |
+   - [ ] 18 more float number from normalization parameter in the device constant
+   - [ ] to calculat energy combination can be potentially optimized
+
      
 ** TODO argument parsing
    - [X] T
@@ -308,5 +315,11 @@ for ( int i1 = 0; i1 < _lna; i1++ )
    - [ ] 
 
 
-** TODO why care about the # mcs ??
+
+   
+** TODO lowest energy record
+   record the lowest energy so far in each replica
+
+** TODO simplist monte carlo implementation
+   to run only one replica
 

@@ -399,6 +399,8 @@ struct EnePara
 
   // weights for energy terms
   float w[MAXWEI];
+  float a_para[MAXWEI];         // the a parameter in normalization
+  float b_para[MAXWEI];         // the b parameter in normalization
 };
 
 
