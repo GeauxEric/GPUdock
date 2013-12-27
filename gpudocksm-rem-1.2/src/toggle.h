@@ -8,7 +8,7 @@
 // random walk toggle
 #define IS_RANDOM 1
 
-#define N_REP 240
+
 
 #endif // TOGGLE_H
 

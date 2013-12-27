@@ -5,8 +5,8 @@
 #include "util.h"
 #include "size.h"
 #include "hdf5io.h"
-#include "toggle.h"
 
+#define N_REP 240
 
 
 int
@@ -32,7 +32,7 @@ main (int argc, char **argv)
   const int arg = 2;
   PrintLigRecord (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
   // PrintRepRecord (ligrecord, STEPS_PER_DUMP, repp_begin, repp_end, iter_begin, iter_end, arg);
-  // PrintMoveRecord (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
+  PrintMoveRecord (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
 
   free (ligrecord);
   return 0;
