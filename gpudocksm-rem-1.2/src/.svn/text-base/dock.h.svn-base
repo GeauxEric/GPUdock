@@ -48,6 +48,12 @@ struct EneParaFile
   std::string path;
 };
 
+struct NorParaFile
+{
+  std::string path_a;
+  std::string path_b;
+};
+
 struct WeightFile
 {
   std::string path;
@@ -60,6 +66,7 @@ struct InputFiles
   LhmFile lhm_file;
   EneParaFile enepara_file;
   WeightFile weight_file;
+  NorParaFile norpara_file;
 };
 
 
@@ -350,6 +357,8 @@ struct EnePara0
   float kde;			// kde bandwidth
 
   float w[MAXWEI];		// weights for energy terms
+  float a_para[MAXWEI];         // the a parameter in normalization
+  float b_para[MAXWEI];         // the b parameter in normalization
 };
 
 
@@ -390,6 +399,8 @@ struct EnePara
 
   // weights for energy terms
   float w[MAXWEI];
+  float a_para[MAXWEI];         // the a parameter in normalization
+  float b_para[MAXWEI];         // the b parameter in normalization
 };
 
 
@@ -426,6 +437,8 @@ struct Replica
 
 struct McPara
 {
+  float lowest_temp;   // lowest temperature in all replicas
+  
   int steps_total;
   int steps_per_dump;
   int steps_per_exchange;

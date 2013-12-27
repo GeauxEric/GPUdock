@@ -6,8 +6,8 @@
 * Developers' log
 ** DONE Data structure from array of structure (AoS) to structure of array (SoA)
 
-** TODO Energy calculation and Metropolis Monte Carlo
-*** TODO perturbation of ligand
+** DONE Energy calculation and Metropolis Monte Carlo
+*** DONE perturbation of ligand
 **** DONE c++ code
     - [X] in loading, the coord of original ligand should be guaranteed to be in its center reference
     - [X] after loading, the coord of original ligand should be guaranteed to be in its center reference
@@ -106,25 +106,9 @@
   }
 	    #+END_SRC
 	  
-*** TODO setting the scale of movement should be taken out of ParseArguments func
-    #+BEGIN_SRC 
-    const float t = 1.0f;
-    const float r = 5.0f;
-    // const float t = 0.0f;
-    // const float r = 0.0f;
-
-    mcpara->move_scale[0] = t;
-    mcpara->move_scale[1] = t;
-    mcpara->move_scale[2] = t;
-    mcpara->move_scale[3] = r;
-    mcpara->move_scale[4] = r;
-    mcpara->move_scale[5] = r;
-    #+END_SRC
-*** TODO correct the pmf energy calculation
-    - energy of pmf slightly different compared with c++ codes result
+*** DONE correct the pmf energy calculation
+    - energy of pmf slightly different compared with c++ codes result until r190 in svn log
     - the result is different in the third digit after the desimal
-**** TODO check the pmf loading
-**** TODO check pmf optimization
 **** DONE check the pmf calculation
      - correct c++ code
        #+BEGIN_SRC 
@@ -139,10 +123,13 @@
 	    enepara_dc->pmf1[lig_t][prt_t] /
 	    (1.0f + expf ((-0.5f * dst + 6.0f) * dst_minus_pmf0));
        #+END_SRC
+**** DONE correct the pmf calculation
+     pmf calculated to be correct after using the movematrix to record the trail of the system
 
 
-*** TODO figure out the coordinate ref system of the ligand, ligand center and protein center
-**** TODO  how upgraded in the serial C++ code
+
+*** DONE figure out the coordinate ref system of the ligand, ligand center and protein center
+**** DONE  how upgraded in the serial C++ code
 ***** both ligand and prt center initialized at (0, 0, 0) coordinate
 #+BEGIN_SRC c++ 
   for ( int ai = 0; ai < 3; ai++ )
@@ -192,62 +179,35 @@ for ( int i1 = 0; i1 < _lna; i1++ )
   }
 #+END_SRC
       
-*** TODO pocket_center accompany the protein structure
+*** DONE pocket_center accompany the protein structure
     - [X] pocket_center the same for all ligand conformations loaded from the same .sdf file
     - [X] pocket_center is a proporty of each replica and be used in every energy calculation
-    - [ ] 
 
 **** TODO how invloved in the energy calculation and Monte Carlo
     
      
-
+** DONE move the load weight function to load.h and load.C
+** DONE calculation of acceptance ratio added
 ** TODO Replica-exchange Monte Carlo
-*** TODO acceptance ratio vs temperature
-    util.C
-    #+BEGIN_SRC 
-#if 0
-  for (int t = 0; t < complexsize->n_tmp; ++t) {
-    const int myreplica = complexsize->n_lig * t;
-    printf ("AR of temperature[%d]=%f \t %d / %d \t%f\n",
-	    t,
-	    temp[t].t,
-	    mclog->acs[myreplica],
-	    mcpara->steps_total, (float) mclog->acs[myreplica] / mcpara->steps_total);
-  }
-#endif
-
-#if 0
-
-  for (int i = 0; i < complexsize->n_prt; ++i) {
-    for (int j = 0; j < complexsize->n_tmp; ++j) {
-      for (int k = 0; k < complexsize->n_lig; ++k) {
-	const int linear_addr =
-	  complexsize->n_tmp * complexsize->n_lig * i + complexsize->n_lig * j + k;
-	printf ("AR of %4d temperature[%d]=%f \t %d / %d \t%f\n", linear_addr, j, temp[j].t,
-		mclog->acs[linear_addr], mcpara->steps_total,
-		(float) mclog->acs[linear_addr] / mcpara->steps_total);
-      }
-    }
-  }
-#endif
-    
-    #+END_SRC
-
-
+*** TODO figure out the dependance of acceptance ratio on temperature
+     
 ***  mode
 - mode describes the exchanging pattern of the ligand and temperature between the replicas
 - mode0 and mode1 combined together provides a mechanism that can do a complete information 
   exchange across all the replicas
-- 
   
+** TODO why care about the # mcs ??
+   #+BEGIN_SRC 
+  complexsize.n_pos = inputfiles->lhm_file.n_pos;	// number of MCS positions
+   #+END_SRC
+
 * testing
+   
 ** DONE introduce the toggle of random walk
    #+BEGIN_SRC 
    mcpara->if_random = 1; // random walk by default
    #+END_SRC
    
-** DONE fix Monte Carlo
-
 ** DONE load the weight from file
    - old
    #+BEGIN_SRC 
@@ -308,18 +268,16 @@ for ( int i1 = 0; i1 < _lna; i1++ )
    
    #+END_SRC
    
-** DONE  move the load weight function to load.h and load.C
-** DONE WTF is output_20131205_105456/a_XXXX.h5 ???
+** DONE What does output_20131205_105456/a_XXXX.h5's xxxx stand for ???
    to leave 4 digits
-   
-** TODO calculation of acceptance ratio added
-   AR greater than 1.0 
 ** DONE check the temperature settings 
-
 ** TODO modify energy calculation if needed
-   - [ ] implementation after the testings are done
-   - result abtained from using /home/jaydy/work/dat/output/output/FF_opt/0.8.ff
+   - weight abtained from using /home/jaydy/work/dat/output/output/FF_opt/0.8.ff
    - applying the linear transformation normalized_df = a*df + b
+     #+BEGIN_SRC c++
+     inputfiles->norpara_file.path_a = "../dat/linear_a";
+     inputfiles->norpara_file.path_b = "../dat/linear_b";
+     #+END_SRC
     | a:    |            |
     |-------+------------|
     | _evdw |   0.746595 |
@@ -343,18 +301,25 @@ for ( int i1 = 0; i1 < _lna; i1++ )
     | _epsp |   0.001993 |
     | _ekde |  -1.000000 |
     | _elhm |  -0.294676 |
+   - [ ] 18 more float number from normalization parameter in the device constant
+   - [ ] to calculat energy combination can be potentially optimized
+
+     
+** TODO argument parsing
+   - [X] T
+     lowest temperature
+   - [X] t
+     translational scale
+   - [X] r
+     rotation scale
+   - [ ] 
+
+
+
    
-** TODO enable argument parsing
+** TODO lowest energy record
+   record the lowest energy so far in each replica
 
-*** TODO enable the modification of MAXTMP
+** TODO simplist monte carlo implementation
+   to run only one replica
 
-*** TODO enable multiple types of recording 
-
-** TODO WTF is cutil_yeah.h ???
-   
-   
-    
-** TODO why care about the mcs ??
-
-** TODO record all the other replicas except for replica 0
-** TODO 

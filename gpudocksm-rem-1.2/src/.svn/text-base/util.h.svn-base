@@ -24,7 +24,7 @@ void OptimizeEnepara (const EnePara0 *, EnePara *);
 
 //void SetWeight (EnePara *);
 void InitLigCoord (Ligand *, const ComplexSize);
-void SetTemperature (Temp *, const ComplexSize);
+void SetTemperature (Temp *, McPara *, const ComplexSize);
 void SetReplica (Replica *, Ligand *, const ComplexSize);
 void SetMcLog (McLog *);
 
