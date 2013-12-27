@@ -4,6 +4,19 @@
   - Replica-exchange Monte Carlo method ussed as the searching method
 
 * Developers' log
+** TODO Replica-exchange Monte Carlo
+*** TODO figure out the dependance of acceptance ratio on temperature
+*** DONE mode
+- mode describes the exchanging pattern of the ligand and temperature between the replicas
+- mode0 and mode1 combined together provides a mechanism that can do a complete information 
+  exchange across all the replicas
+  
+** TODO why care about the # mcs ??
+   #+BEGIN_SRC 
+  complexsize.n_pos = inputfiles->lhm_file.n_pos;	// number of MCS positions
+   #+END_SRC
+
+
 ** DONE Data structure from array of structure (AoS) to structure of array (SoA)
 
 ** DONE Energy calculation and Metropolis Monte Carlo
@@ -185,24 +198,65 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 
 **** TODO how invloved in the energy calculation and Monte Carlo
     
-     
 ** DONE move the load weight function to load.h and load.C
 ** DONE calculation of acceptance ratio added
-** TODO Replica-exchange Monte Carlo
-*** TODO figure out the dependance of acceptance ratio on temperature
-     
-***  mode
-- mode describes the exchanging pattern of the ligand and temperature between the replicas
-- mode0 and mode1 combined together provides a mechanism that can do a complete information 
-  exchange across all the replicas
-  
-** TODO why care about the # mcs ??
-   #+BEGIN_SRC 
-  complexsize.n_pos = inputfiles->lhm_file.n_pos;	// number of MCS positions
-   #+END_SRC
+   
 
 * testing
-   
+  
+** TODO toggle to record only the accepted configuration
+   now all tracks are recorded
+
+
+** TODO test simplist monte carlo implementation
+   modify the analysis.C to check one specific replica
+
+** TODO lowest energy 
+   find the lowest energy through the Monte Carlo running, implement in analysis.C
+  
+** TODO modify energy calculation if needed
+   - weight abtained from using /home/jaydy/work/dat/output/output/FF_opt/0.8.ff
+   - applying the linear transformation normalized_df = a*df + b
+     #+BEGIN_SRC c++
+     inputfiles->norpara_file.path_a = "../dat/linear_a";
+     inputfiles->norpara_file.path_b = "../dat/linear_b";
+     #+END_SRC
+    | a:    |            |
+    |-------+------------|
+    | _evdw |   0.746595 |
+    | _eele |  18.289225 |
+    | _epmf |   0.282088 |
+    | _ehpc |   0.427256 |
+    | _ehdb |   2.147791 |
+    | _edst |   0.497450 |
+    | _epsp |   0.572314 |
+    | _ekde | 233.329020 |
+    | _elhm |   0.726683 |
+    |-------+------------|
+    | b:    |            |
+    |-------+------------|
+    | _evdw |   1.036550 |
+    | _eele |  -0.028357 |
+    | _epmf |   0.256679 |
+    | _ehpc |  -1.023866 |
+    | _ehdb |   1.000000 |
+    | _edst |  -1.000000 |
+    | _epsp |   0.001993 |
+    | _ekde |  -1.000000 |
+    | _elhm |  -0.294676 |
+   - [ ] 18 more float number from normalization parameter in the device constant
+   - [ ] to calculat energy combination can be potentially optimized
+
+     
+** TODO argument parsing
+   - [X] T
+     lowest temperature
+   - [X] t
+     translational scale
+   - [X] r
+     rotation scale
+   - [ ] 
+
 ** DONE introduce the toggle of random walk
    #+BEGIN_SRC 
    mcpara->if_random = 1; // random walk by default
@@ -271,55 +325,3 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 ** DONE What does output_20131205_105456/a_XXXX.h5's xxxx stand for ???
    to leave 4 digits
 ** DONE check the temperature settings 
-** TODO modify energy calculation if needed
-   - weight abtained from using /home/jaydy/work/dat/output/output/FF_opt/0.8.ff
-   - applying the linear transformation normalized_df = a*df + b
-     #+BEGIN_SRC c++
-     inputfiles->norpara_file.path_a = "../dat/linear_a";
-     inputfiles->norpara_file.path_b = "../dat/linear_b";
-     #+END_SRC
-    | a:    |            |
-    |-------+------------|
-    | _evdw |   0.746595 |
-    | _eele |  18.289225 |
-    | _epmf |   0.282088 |
-    | _ehpc |   0.427256 |
-    | _ehdb |   2.147791 |
-    | _edst |   0.497450 |
-    | _epsp |   0.572314 |
-    | _ekde | 233.329020 |
-    | _elhm |   0.726683 |
-    |-------+------------|
-    | b:    |            |
-    |-------+------------|
-    | _evdw |   1.036550 |
-    | _eele |  -0.028357 |
-    | _epmf |   0.256679 |
-    | _ehpc |  -1.023866 |
-    | _ehdb |   1.000000 |
-    | _edst |  -1.000000 |
-    | _epsp |   0.001993 |
-    | _ekde |  -1.000000 |
-    | _elhm |  -0.294676 |
-   - [ ] 18 more float number from normalization parameter in the device constant
-   - [ ] to calculat energy combination can be potentially optimized
-
-     
-** TODO argument parsing
-   - [X] T
-     lowest temperature
-   - [X] t
-     translational scale
-   - [X] r
-     rotation scale
-   - [ ] 
-
-
-
-   
-** TODO lowest energy record
-   record the lowest energy so far in each replica
-
-** TODO simplist monte carlo implementation
-   to run only one replica
-
