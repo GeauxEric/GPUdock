@@ -25,7 +25,7 @@ Accept_d (const int bidx, Ligand * __restrict__ mylig, const float mybeta, const
       is_accept = 1;
     }
     else {
-      const float delta_energy = mylig->energy_new.e[9] - mylig->energy_old.e[9];
+      const float delta_energy = mylig->energy_new.e[MAXWEI - 1] - mylig->energy_old.e[MAXWEI -1];
       is_accept = MyRand_d () < expf (delta_energy * mybeta);
     }
 
@@ -35,9 +35,9 @@ Accept_d (const int bidx, Ligand * __restrict__ mylig, const float mybeta, const
   __syncthreads ();
 
   if (is_accept == 1) {
-    if (bidx <= 6)
+    if (bidx < 6)
       mylig->movematrix_old[bidx] = mylig->movematrix_new[bidx];
-    if (bidx <= MAXWEI)
+    if (bidx < MAXWEI)
       mylig->energy_old.e[bidx] = mylig->energy_new.e[bidx];
   }
 }

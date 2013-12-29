@@ -292,7 +292,6 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
 
 
 
-  // save energy;
   if (bidx == 0) {
     evdw[0] = evdw[0] / lna_dc;
     eele[0] = eele[0] / lna_dc;
@@ -304,7 +303,7 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
     ekde[0] = ekde[0] / lna_dc;
     
 
-    // convert to the normalized energy
+    // calculate normalized energy
     evdw[0] = enepara_dc->a_para[0] * evdw[0] + enepara_dc->b_para[0];
     eele[0] = enepara_dc->a_para[1] * eele[0] + enepara_dc->b_para[1];
     epmf[0] = enepara_dc->a_para[2] * epmf[0] + enepara_dc->b_para[2];

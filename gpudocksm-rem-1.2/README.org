@@ -3,6 +3,7 @@
   - The implementation of ligand docking on GPU architecture
   - Replica-exchange Monte Carlo method ussed as the searching method
 
+
 * Developers' log
 ** DONE Data structure from array of structure (AoS) to structure of array (SoA)
 
@@ -185,22 +186,70 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 
 **** TODO how invloved in the energy calculation and Monte Carlo
     
-     
 ** DONE move the load weight function to load.h and load.C
 ** DONE calculation of acceptance ratio added
+
+
 * testing
 
 ** TODO simplist monte carlo implementation
-   to run only one replica
-*** TODO N_REP
+
+*** to diagnose one replica
+    #+BEGIN_SRC C++ 
+     const int myreplica = 0; // the # of replica chosen to print
+    #+END_SRC
+
+*** TODO testing single temperature Monte Carlo
+    - total energy increases through the Monte Carlo process
+    - [X] subscript in bounds in accept_d.cu
+      #+BEGIN_SRC C++
+	if (is_accept == 1) {
+	  if (bidx <= 6)
+	    mylig->movematrix_old[bidx] = mylig->movematrix_new[bidx];
+	  if (bidx <= MAXWEI)
+	    mylig->energy_old.e[bidx] = mylig->energy_new.e[bidx];
+	}
+      #+END_SRC
+
+    
+** TODO search the lowest energy in the track
+   to find the lowest energy and the corresponding configuration in each replica
+
+*** TODO in production version, every step has to be recorded, which generate redunancy
+    1. because memory allocated for recording would be left with some unused space 
+       if only the accepted configuration information is recorded
+    2. about 9.0% performace would be lost due to recording redundancy information
+**** TODO record 
+    - [ ] total energy
+    - [ ] movematrix
+    - [ ] ligand conformation and protein conformation
+**** TODO estimate hard disk requirement
+     - [ ] set total steps and total temperature from cmd
+
+
+
+** TODO why care about the # mcs ??
+   #+BEGIN_SRC 
+  complexsize.n_pos = inputfiles->lhm_file.n_pos;	// number of MCS positions
+   #+END_SRC
+
 
 ** TODO Replica-exchange Monte Carlo mode
    mode describes the exchanging pattern of the ligand and temperature across all the replicas
-*** TODO which mode support the temperature exchange
+*** TODO temperature exchange mode
+**** TODO testing the parallel tempering
+     
 *** TODO which mode supposts complete information exchange
     - mode0 and mode1 combined together provides a mechanism that can do a complete information 
 
-** TODO modify energy calculation if needed
+     
+** DONE argument parsing
+   #+BEGIN_SRC C++
+     void
+     ParseArguments (int argc, char **argv, McPara * mcpara, InputFiles * inputfiles);
+   #+END_SRC
+
+** DONE modify energy calculation if needed
    - weight abtained from using /home/jaydy/work/dat/output/output/FF_opt/0.8.ff
    - applying the linear transformation normalized_df = a*df + b
      #+BEGIN_SRC c++
@@ -230,34 +279,9 @@ for ( int i1 = 0; i1 < _lna; i1++ )
     | _epsp |   0.001993 |
     | _ekde |  -1.000000 |
     | _elhm |  -0.294676 |
-   - [ ] 18 more float number from normalization parameter in the device constant
-   - [ ] to calculat energy combination can be potentially optimized
-
-
-
-   
-** TODO search the lowest energy in the track
-   to find the lowest energy and the corresponding configuration in each replica
-
-*** TODO record only accepted configuration 
-
-*** TODO update analysis
-    
-   
-** TODO why care about the # mcs ??
-   #+BEGIN_SRC 
-  complexsize.n_pos = inputfiles->lhm_file.n_pos;	// number of MCS positions
-   #+END_SRC
-
+   - [X] 18 more float number from normalization parameter in the device constant
      
-** TODO argument parsing
-   - [X] T
-     lowest temperature
-   - [X] t
-     translational scale
-   - [X] r
-     rotation scale
-   - [ ] 
+   - [X] abort to optimize calculat combination due to its low cost
 
 ** DONE introduce the toggle of random walk
    #+BEGIN_SRC 

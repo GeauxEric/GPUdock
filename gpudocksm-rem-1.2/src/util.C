@@ -29,13 +29,13 @@ ParseArguments (int argc, char **argv, McPara * mcpara, InputFiles * inputfiles)
 {
   char mydir[MAXSTRINGLENG] = "output_default";
 
-  float temp = 0.f;  // temperature
-  float t = 0.f;  // translational scale
-  float r = 0.f;  // rotational scale
+  float temp = 0.003f;  // temperature
+  float t = 0.001f;  // translational scale
+  float r = 3.1415f;  // rotational scale
 
  for ( int i = 0; i < argc; i++ )
  {
-  if ( !strcmp(argv[i],"-T")  && i < argc ) {
+  if ( !strcmp(argv[i],"-temp")  && i < argc ) {
     temp = atof(argv[i+1]);
   }
   if ( !strcmp(argv[i],"-t")  && i < argc ) {

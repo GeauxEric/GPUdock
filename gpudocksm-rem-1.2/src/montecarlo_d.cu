@@ -22,6 +22,8 @@ MonteCarlo_Init_d (const int rep_begin, const int rep_end)
       const Protein *myprt = &prt_dc[replica_dc[myreplica].idx_prt];
       CalcEnergy_d (bidx, mylig, myprt);
 
+      // InitLigRecord_d (bidx, myreplica, rep_begin);  // set all entries of lig record to zero
+
       if (bidx <= MAXWEI)
 	mylig->energy_old.e[bidx] = mylig->energy_new.e[bidx];
     }
@@ -53,8 +55,8 @@ MonteCarlo_d (const int rep_begin, const int rep_end, const int s1, const int s2
       Ligand *mylig = &lig_dc[replica_dc[myreplica].idx_rep];
       const Protein *myprt = &prt_dc[replica_dc[myreplica].idx_prt];
       const float mybeta = temp_dc[replica_dc[myreplica].idx_tmp].minus_beta;
+      // printf("mybeta: %f\n", mybeta);
 
-      
       for (int s3 = 0; s3 < steps_per_exchange_dc; ++s3) {
 
 #if IS_OUTPUT == 1

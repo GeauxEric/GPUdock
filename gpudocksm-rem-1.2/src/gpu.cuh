@@ -29,6 +29,8 @@ __forceinline__ __device__ void Accept_d (const int, Ligand * __restrict__, cons
 
 __device__ void InitAcs_d (const int);
 
+__device__ void InitLigRecord_d (const int, const int, const int);
+
 //__forceinline__ __device__ void BackupLigCoord_d (const int, Ligand *);
 
 __device__ void ComputeMoveMatrix_d (const int, const int, Ligand *);

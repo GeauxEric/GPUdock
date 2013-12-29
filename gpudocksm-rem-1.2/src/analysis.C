@@ -22,17 +22,17 @@ main (int argc, char **argv)
   
   ReadLigRecord (ligrecord, N_REP, argv[1]);
 
-
-  const int myreplica = 0;
+  const int myreplica = 1;
   const int repp_begin = 0;
   const int repp_end = 22;
   const int iter_begin = 0;
-  const int iter_end = minimal_int (STEPS_PER_DUMP, 30) - 1;
+  const int iter_end = STEPS_PER_DUMP - 1;
+  // const int iter_end = minimal_int (STEPS_PER_DUMP, 60) - 1;
   // const int iter_end = minimal_int (STEPS_PER_DUMP, 10);
   const int arg = 2;
   PrintLigRecord (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
   // PrintRepRecord (ligrecord, STEPS_PER_DUMP, repp_begin, repp_end, iter_begin, iter_end, arg);
-  PrintMoveRecord (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
+  // PrintMoveRecord (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
 
   free (ligrecord);
   return 0;
