@@ -9,11 +9,10 @@ import matplotlib.pyplot as plt
 
 df = pandas.DataFrame
 
-def plotTotalEne(dt, hdf_path):
+def plotTotalEne(dt, pdf_path):
     """line plot of the total energy
     """
-    base = os.path.splitext(hdf_path)[0] 
-    ofn = base + '.pdf'
+    ofn = pdf_path
 
     ener = dt['total'].values
 
@@ -39,35 +38,29 @@ def getHdfPath(pattern=' '):
     
     return hdf_path
     
-
-def loadAndRemoveDup(hdf_path):
-
-    base = os.path.splitext(hdf_path)[0] 
-    analysis_path = base + '.csv'
-
-    print "pandas loading \t\t\t", analysis_path
-
-    dt = pandas.read_csv(analysis_path)
-
-    print "removing duplicates ..."
-    dt = dt.drop_duplicates(cols=['total'])
-    
-    return dt
-
-def printTotal(dt, hdf_path):
-    """print the total energy data to csv 
-    """
-    base = os.path.splitext(hdf_path)[0] 
-    ofn = base + '_total.csv'
-    print "total enregy\t\t\t", ofn
-    total = df(dt['total'])
-    total.to_csv(ofn, index=False)
-
-if __name__ == "__main__":
+def main():
     pattern = './output_*/a_*.h5'
     hdf_path = getHdfPath(pattern)
-    dt = loadAndRemoveDup(hdf_path)
-    printTotal(dt, hdf_path)
-    plotTotalEne(dt, hdf_path)
+    
+    base = os.path.splitext(hdf_path)[0]  # in testing, only the first hdf file tested
+
+    csv_path = base + '.csv'
+    total_ener_path = base + '_total.csv'
+    pdf_path = base + '.pdf'
+
+    print "pandas loading \t\t\t", csv_path
+    dt = pandas.read_csv(csv_path)
+
+    print "removing duplicates ..."
+    dt = dt.drop_duplicates(cols=['total', 'vdw', 'ele', 'pmf', 'psp', 'hdb', 'hpc', 'kde', 'lhm', 'dst'])
+
+    print "total enregy\t\t\t", total_ener_path
+    total = df(dt['total'])
+    total.to_csv(total_ener_path, index=False)
+
+    plotTotalEne(dt, pdf_path)
 
 
+    
+if __name__ == "__main__":
+    main()
