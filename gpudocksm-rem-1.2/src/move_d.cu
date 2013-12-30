@@ -17,7 +17,8 @@ Move_d (const int bidx, Ligand * __restrict__ mylig)
   __shared__ float rot[3][3]; // rotz roty rotx
 
   if (bidx < 6) {
-    float perturbation = 2.0f * MyRand_d() - 1.0f;  // range [-1 , 1]
+    // range of perturbation should be [-1 , 1]
+    float perturbation = 2.0f * MyRand_d() - 1.0f;  
     movematrix_new[bidx] = move_scale_dc[bidx] * perturbation + mylig->movematrix_old[bidx];
     mylig->movematrix_new[bidx] = movematrix_new[bidx];
   }
