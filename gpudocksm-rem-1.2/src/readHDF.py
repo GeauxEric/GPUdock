@@ -22,7 +22,7 @@ def readHdf(analysisProgram='./analysis', hdf_path=' ', analysis_path=' '):
 
 def main():
     # read the hdf file into plain text
-    pattern = './output_*/a_*'
+    pattern = './output_*/a_*.h5'
     outputs = glob.glob(pattern)
     hdf_path = outputs[0]  # in testing, only the first hdf file tested
     hdf_path = os.path.abspath(hdf_path)
