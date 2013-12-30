@@ -201,20 +201,30 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 
 *** TODO testing single temperature Monte Carlo
     - total energy increases through the Monte Carlo process
-    - [X] subscript in bounds in accept_d.cu
-      #+BEGIN_SRC C++
-	if (is_accept == 1) {
-	  if (bidx <= 6)
-	    mylig->movematrix_old[bidx] = mylig->movematrix_new[bidx];
-	  if (bidx <= MAXWEI)
-	    mylig->energy_old.e[bidx] = mylig->energy_new.e[bidx];
-	}
-      #+END_SRC
+      - [X] subscript in bounds in accept_d.cu
+      - [ ] in perturbing the ligand, MyRand_d() is always positive
+	#+BEGIN_SRC C++
+	movematrix_new[bidx] = move_scale_dc[bidx] * MyRand_d () + mylig->movematrix_old[bidx];
+	#+END_SRC
+      - [ ] in accept_d()
+	- toggle 
+	  #+BEGIN_SRC C++
+	    const float delta_energy = mylig->energy_new.e[MAXWEI - 1] - mylig->energy_old.e[MAXWEI -1];
+	    // const float delta_energy = mylig->energy_old.e[MAXWEI - 1] - mylig->energy_new.e[MAXWEI -1];
+	  #+END_SRC
+	  or
+	  #+BEGIN_SRC C++
+	    if (is_accept == 1)
+	    // if (is_accept == 1)
+	  #+END_SRC
+	  won't change the behavior of total energy
 
     
 ** TODO search the lowest energy in the track
    to find the lowest energy and the corresponding configuration in each replica
 
+*** TODO more functions in analysis.C 
+    
 *** TODO in production version, every step has to be recorded, which generate redunancy
     1. because memory allocated for recording would be left with some unused space 
        if only the accepted configuration information is recorded
@@ -225,8 +235,6 @@ for ( int i1 = 0; i1 < _lna; i1++ )
     - [ ] ligand conformation and protein conformation
 **** TODO estimate hard disk requirement
      - [ ] set total steps and total temperature from cmd
-
-
 
 ** TODO why care about the # mcs ??
    #+BEGIN_SRC 

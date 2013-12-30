@@ -9,11 +9,6 @@
 #include "gpu.cuh"
 */
 
-
-
-
-
-
 __forceinline__
 __device__ void
 Accept_d (const int bidx, Ligand * __restrict__ mylig, const float mybeta, const int myreplica)
@@ -25,8 +20,12 @@ Accept_d (const int bidx, Ligand * __restrict__ mylig, const float mybeta, const
       is_accept = 1;
     }
     else {
+      // const float delta_energy = mylig->energy_old.e[MAXWEI - 1] - mylig->energy_new.e[MAXWEI -1];
       const float delta_energy = mylig->energy_new.e[MAXWEI - 1] - mylig->energy_old.e[MAXWEI -1];
-      is_accept = MyRand_d () < expf (delta_energy * mybeta);
+      is_accept = (MyRand_d () < expf (delta_energy * mybeta));  // mybeta is less than zero
+      // printf("is_accept: %d\n", is_accept);
+      // printf("Myrand_d: %f\n", MyRand_d());
+      // printf("prob: %f\n", expf (delta_energy * mybeta));
     }
 
     acs_dc[myreplica] += is_accept;
@@ -42,3 +41,4 @@ Accept_d (const int bidx, Ligand * __restrict__ mylig, const float mybeta, const
   }
 }
 
+ 

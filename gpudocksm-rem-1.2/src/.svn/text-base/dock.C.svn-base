@@ -20,8 +20,6 @@ main (int argc, char **argv)
   InputFiles *inputfiles = new InputFiles[1];
   ParseArguments (argc, argv, mcpara, inputfiles);
 
-
-
   // load into preliminary data structures
   Ligand0 *lig0 = new Ligand0[MAXEN2];
   Protein0 *prt0 = new Protein0[MAXEN1];

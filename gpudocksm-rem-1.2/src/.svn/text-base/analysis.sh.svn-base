@@ -1,0 +1,5 @@
+# analysis result stored in analysis.out
+./analysis output_*/a_* > analysis.out
+
+# total energy in the 12ed collumn stored in analysis_total.out
+cat analysis.out | awk '{print $12}' > analysis_total.out

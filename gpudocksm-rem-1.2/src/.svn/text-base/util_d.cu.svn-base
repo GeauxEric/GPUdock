@@ -25,6 +25,26 @@ InitAcs_d (const int bidx)
   }
 }
 
+__device__ void
+InitLigRecord_d (const int bidx, const int myreplica, const int rep_begin)
+{
+  for (int s2s3 = 0; s2s3 < steps_per_dump_dc; ++s2s3) {
+    LigRecordSingleStep *myrecord = &ligrecord_dc[myreplica - rep_begin].step[s2s3];
+    myrecord->replica.idx_rep = 0;
+    myrecord->replica.idx_prt = 0;
+    myrecord->replica.idx_tmp = 0;
+    myrecord->replica.idx_lig = 0;
+
+    for (int i = 0; i < MAXWEI; ++i)
+      myrecord->energy.e[i] = 0.0f;
+
+    for (int i = 0; i < 6; ++i)
+      myrecord->movematrix[i] = 0.0f;
+
+    myrecord->step = 0;
+  }
+
+}
 
 
 /*

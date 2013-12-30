@@ -22,7 +22,7 @@ main (int argc, char **argv)
   
   ReadLigRecord (ligrecord, N_REP, argv[1]);
 
-  const int myreplica = 1;
+  const int myreplica = 0;
   const int repp_begin = 0;
   const int repp_end = 22;
   const int iter_begin = 0;

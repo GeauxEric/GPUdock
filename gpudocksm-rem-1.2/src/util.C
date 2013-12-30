@@ -492,6 +492,42 @@ PrintEnergy1 (const Energy * energy, const int step, const int arg)
 
 
 void
+PrintCsv (const Energy * energy, const int idx_rep, const int step,
+	      const int arg)
+{
+
+  char names[MAXWEI][8] = {
+    "vdw",
+    "ele",
+    "pmf",
+    "psp",
+    "hdb",
+    "hpc",
+    "kde",
+    "lhm",
+    "dst",
+    "total"
+  };
+
+  int a = arg & 0x1;
+  int b = (arg >> 1) & 0x1;
+
+  if (a == 1) {
+    printf ("rep,step");
+    for (int i = 0; i < MAXWEI; ++i)
+      printf (",%s", names[i]);
+    printf ("\n");
+  }
+
+  if (b == 1) {
+    printf ("%4d,%5d", idx_rep, step);
+    for (int i = 0; i < MAXWEI; ++i)
+      printf (",%+14.10f", energy->e[i]);
+    printf ("\n");
+  }
+}
+
+void
 PrintEnergy2 (const Energy * energy, const int idx_rep, const int step,
 	      const int arg)
 {
@@ -603,11 +639,13 @@ PrintLigRecord (const LigRecord * ligrecord, const int steps_per_dump, const int
 		const int iter_begin, const int iter_end, const int arg)
 {
   // print title
-  PrintEnergy2 (NULL, NULL, NULL, 1);
+  // PrintEnergy2 (NULL, NULL, NULL, 1);
+  PrintCsv (NULL, NULL, NULL, 1);
 
   for (int s = iter_begin; s <= iter_end; ++s) {
     const LigRecordSingleStep *myrecord = &ligrecord[replica].step[s];
-    PrintEnergy2 (&myrecord->energy, replica, myrecord->step, arg);
+    // PrintEnergy2 (&myrecord->energy, replica, myrecord->step, arg);
+    PrintCsv (&myrecord->energy, replica, myrecord->step, arg);
   }
 
 }
