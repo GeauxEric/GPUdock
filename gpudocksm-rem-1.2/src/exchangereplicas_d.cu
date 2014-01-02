@@ -53,11 +53,16 @@ ExchangeReplicas_d (const int mode_l, const int mode_t)
 	      float etot2 = energies[o2];
 	      float minus_beta1 = temp_dc[temps[o1]].minus_beta;
 	      float minus_beta2 = temp_dc[temps[o2]].minus_beta;
-	      printf("etot1: %f, minus_beta1: %f\n", etot1, minus_beta1);
-	      printf("etot2: %f, minus_beta2: %f\n", etot2, minus_beta2);
 	      
-	      temps[o1] = temps[o2];
-	      temps[o2] = tt;
+	      float delta = (minus_beta1 - minus_beta2) * (etot2 - etot1);
+	      float exchange_prob = expf(delta);
+	      // printf("exchange_prob: %f\n", exchange_prob);
+	      // printf("etot1: %f, minus_beta1: %f\n", etot1, minus_beta1);
+	      // printf("etot2: %f, minus_beta2: %f\n", etot2, minus_beta2);
+	      if (exchange_prob > MyRand_d()) {
+		temps[o1] = temps[o2];
+		temps[o2] = tt;
+	      }
 	    }
 	  }
 

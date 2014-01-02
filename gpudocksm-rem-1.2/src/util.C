@@ -77,7 +77,7 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, I
 
   exchgpara->floor_temp = floor_temp;
   exchgpara->ceiling_temp = ceiling_temp;
-  if (num_temp < MAXTMP)
+  if (num_temp <= MAXTMP)
     exchgpara->num_temp = num_temp;
   else
     {
@@ -432,12 +432,25 @@ SetTemperature (Temp * temp, ExchgPara * exchgpara)
   int num_temp = exchgpara->num_temp;
   float floor_temp = exchgpara->floor_temp;
   float ceiling_temp = exchgpara->ceiling_temp;
+  
+  float beta_high = 1.0f / floor_temp;
+  float beta_low = 1.0f / ceiling_temp;
+  const float beta_ratio = exp (log (beta_high / beta_low) / (float) (num_temp - 1));
+  // cout << "beta_ratio: " << beta_ratio << endl;
 
+  float a = beta_low;
   for (int i = 0; i < num_temp; i++) {
-    temp[i].t = floor_temp;
-    temp[i].minus_beta = -1.0f / temp[i].t;
     temp[i].order = i;
+    temp[i].minus_beta = 0.0f - a;
+
+    a *= beta_ratio;
   }
+
+  // for (int i = 0; i < num_temp; i++) {
+  //   temp[i].t = floor_temp;
+  //   temp[i].minus_beta = -1.0f / temp[i].t;
+  //   temp[i].order = i;
+  // }
 }
 
 // replica[n_rep]
