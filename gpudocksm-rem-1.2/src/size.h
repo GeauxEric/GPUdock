@@ -34,7 +34,7 @@
 #define MAXLIG_NUM 200
 /* MAX ligand in one ligand .sdf file */
 
-#define MAXTMP 6
+#define MAXTMP 8
 /* number of temperature replicas */
 
 #define MAXREP 2048

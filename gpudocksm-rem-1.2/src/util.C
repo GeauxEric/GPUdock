@@ -430,13 +430,13 @@ SetReplica (Replica * replica, Ligand * lig, const ComplexSize complexsize)
   for (int i = 0; i < n_prt; ++i) {
     for (int j = 0; j < n_tmp; ++j) {
       for (int k = 0; k < n_lig; ++k) {
-	const int linear_addr = n_tmp * n_lig * i + n_lig * j + k;
-	replica[linear_addr].idx_rep = linear_addr;
-	replica[linear_addr].idx_prt = i;
-	replica[linear_addr].idx_tmp = j;
-	replica[linear_addr].idx_lig = k;
+	const int flatten_addr = n_tmp * n_lig * i + n_lig * j + k;
+	replica[flatten_addr].idx_rep = flatten_addr;
+	replica[flatten_addr].idx_prt = i;
+	replica[flatten_addr].idx_tmp = j;
+	replica[flatten_addr].idx_lig = k;
 
-	lig[linear_addr] = lig[k];	// duplicate ligand replicas
+	lig[flatten_addr] = lig[k];	// duplicate ligand replicas
       }
     }
   }
@@ -706,22 +706,22 @@ PrintRepRecord2 (const LigRecord * ligrecord, const ComplexSize complexsize,
 		 const int steps_per_dump, const int idx_prt, const int idx_lig,
 		 const int iter_begin, const int iter_end, const int arg)
 {
-  printf ("\treplicas\n");
+  printf ("\ttemperature replica with lig %d prt %d\n", idx_lig, idx_prt);
 
-  printf ("step|\t");
+  printf ("MC step |\t");
 
   for (int t = 0; t < complexsize.n_tmp; ++t)
     printf ("%2d\t", t);
   putchar ('\n');
 
-  printf ("----+");
+  printf ("--------+");
 
   for (int t = 0; t < complexsize.n_tmp; ++t)
     printf ("--------");
   putchar ('\n');
 
   for (int s = iter_begin; s <= iter_end; ++s) {
-    printf ("%3d |\t", s);
+    printf ("%5d   |\t", s);
 
     for (int t = 0; t < complexsize.n_tmp; ++t) {
       const int r =
@@ -914,11 +914,11 @@ PrintSummary (const InputFiles * inputfiles, const McPara * mcpara, const Temp *
   for (int i = 0; i < complexsize->n_prt; ++i) {
     for (int j = 0; j < complexsize->n_tmp; ++j) {
       for (int k = 0; k < complexsize->n_lig; ++k) {
-	const int linear_addr =
+	const int flatten_addr =
 	  complexsize->n_tmp * complexsize->n_lig * i + complexsize->n_lig * j + k;
-	printf ("AR of %4d temperature[%d]=%f \t %d / %d \t%f\n", linear_addr, j, temp[j].t,
-		mclog->acs[linear_addr], mcpara->steps_total,
-		(float) mclog->acs[linear_addr] / mcpara->steps_total);
+	printf ("AR of %4d temperature[%d]=%f \t %d / %d \t%f\n", flatten_addr, j, temp[j].t,
+		mclog->acs[flatten_addr], mcpara->steps_total,
+		(float) mclog->acs[flatten_addr] / mcpara->steps_total);
       }
     }
   }

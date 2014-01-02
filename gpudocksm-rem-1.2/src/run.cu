@@ -330,7 +330,7 @@ Run (const Ligand * lig,
   //PrintLigRecord (ligrecord2, mcpara->steps_per_dump, myreplica, iter_begin, iter_end, arg);
   //PrintMoveRecord (ligrecord2, mcpara->steps_per_dump, myreplica, iter_begin, iter_end, arg);
   //PrintRepRecord (ligrecord2, mcpara->steps_per_dump, repp_begin, repp_end, iter_begin, iter_end, arg);
-  PrintRepRecord2 (ligrecord2, complexsize, STEPS_PER_DUMP, 0, 0, iter_begin, iter_end, arg);
+  PrintRepRecord2 (ligrecord2, complexsize, STEPS_PER_DUMP, 1, 1, iter_begin, iter_end, arg);
 
   free (ligrecord2);
 #endif

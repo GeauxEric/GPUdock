@@ -19,10 +19,10 @@ ExchangeReplicas_d (const int mode_l, const int mode_t)
     //__shared__ int idx_lig[MAXREP];
     
 
-    //__shared__ int common_temp_replica[n_prt_dc][n_lig_dc][n_tmp_dc];
-    //__shared__ int common_temp_replica[n_tmp_dc];
-    __shared__ int common_temp_replica[MAXTMP];
-    __shared__ int common_temp_order[MAXTMP];
+    //__shared__ int temps[n_prt_dc][n_lig_dc][n_tmp_dc];
+    //__shared__ int temps[n_tmp_dc];
+    __shared__ int temps[MAXTMP];
+    __shared__ int temp_orders[MAXTMP];
 
 
     if (bidx == 0) {
@@ -32,42 +32,33 @@ ExchangeReplicas_d (const int mode_l, const int mode_t)
 
 	  // copy index from the replica structure
 	  for (int t = 0; t < n_tmp_dc; ++t) {
-	     const int linear_addr =
+	     const int flatten_addr =
 	       n_tmp_dc * n_lig_dc * p + n_lig_dc * t + l;
-	     common_temp_replica[t] = replica_dc[linear_addr].idx_tmp;
-	     common_temp_order[common_temp_replica[t]] = t;
+	     temps[t] = replica_dc[flatten_addr].idx_tmp;
+	     temp_orders[temps[t]] = t;
 	  }
 
-	  /*
-	  // bubble sort temperature in increment order
-	  for (int i = 0; i < n_tmp_dc - 1; ++i) {
-	    for (int j = i + 1; j < n_tmp_dc; ++j) {
-	      const int left = common_temp_replica[i];
-	      const int right = common_temp_replica[j];
-	      if (left > right) {
-		common_temp_replica[i] = right;
-		common_temp_replica[j] = left;
-	      }
-            }
-	  }
-	  */
 
-
-          // exchange temperature, assume even number of temperatures
-	  for (int t = mode_t; t < n_tmp_dc - 1; t += 2) {
-	    int left_t = common_temp_order[t];
-	    int right_t = common_temp_order[t + 1];
-	    const int tt = common_temp_replica[left_t];
-	    common_temp_replica[left_t] = common_temp_replica[right_t];
-	    common_temp_replica[right_t] = tt;
+	  // exchange temperature
+	  if (mode_t < 2) {
+	    const int maxpair = n_tmp_dc / 2 - (n_tmp_dc % 2 == 0) * (mode_t == 1);
+	    for (int pair = 0 ; pair < maxpair; ++pair) {
+	      const int i1 = (pair << 1) + mode_t;
+	      const int i2 = i1 + 1;
+	      const int o1 = temp_orders[i1];
+	      const int o2 = temp_orders[i2];
+	      const int tt = temps[o1];
+	      temps[o1] = temps[o2];
+	      temps[o2] = tt;
+	    }
 	  }
 
  
 	  // copy index to the replica structure
 	  for (int t = 0; t < n_tmp_dc; ++t) {
-	    const int linear_addr =
+	    const int flatten_addr =
 	      n_tmp_dc * n_lig_dc * p + n_lig_dc * t + l;
-	    replica_dc[linear_addr].idx_tmp = common_temp_replica[t];
+	    replica_dc[flatten_addr].idx_tmp = temps[t];
 	  }
 
         }
