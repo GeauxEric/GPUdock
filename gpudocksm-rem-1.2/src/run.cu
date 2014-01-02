@@ -23,13 +23,14 @@
 
 
 
-#if 0
-// print debug parameters
-const int myreplica = 0;
-// const int repp_begin = 70;
-// const int repp_end = 90;
+#if 1
+// parameters for reading HD5 file
+
+//const int myreplica = 0;
+//const int repp_begin = 70;
+//const int repp_end = 90;
 const int iter_begin = 0;
-const int iter_end = minimal_int (STEPS_PER_DUMP, 30) - 1;
+const int iter_end = minimal_int (STEPS_PER_DUMP, 20) - 1;
 const int arg = 2;
 #endif
 
@@ -317,17 +318,20 @@ Run (const Ligand * lig,
 
 
 // read outputfiles and print something
-#if 0
+#if 1
 #if IS_OUTPUT == 1
   char myoutputfile[MAXSTRINGLENG];
   sprintf(myoutputfile, "%s/%s_%04d.h5", mcpara->outputdir, mcpara->outputfile, 0);
   LigRecord *ligrecord2;
   ligrecord2 = (LigRecord *) malloc (ligrecord_sz);
   putchar ('\n');
+
   ReadLigRecord (ligrecord2, n_rep, myoutputfile);
-  PrintLigRecord (ligrecord2, mcpara->steps_per_dump, myreplica, iter_begin, iter_end, arg);
-  PrintMoveRecord (ligrecord2, mcpara->steps_per_dump, myreplica, iter_begin, iter_end, arg);
+  //PrintLigRecord (ligrecord2, mcpara->steps_per_dump, myreplica, iter_begin, iter_end, arg);
+  //PrintMoveRecord (ligrecord2, mcpara->steps_per_dump, myreplica, iter_begin, iter_end, arg);
   //PrintRepRecord (ligrecord2, mcpara->steps_per_dump, repp_begin, repp_end, iter_begin, iter_end, arg);
+  PrintRepRecord2 (ligrecord2, complexsize, STEPS_PER_DUMP, 0, 0, iter_begin, iter_end, arg);
+
   free (ligrecord2);
 #endif
 #endif

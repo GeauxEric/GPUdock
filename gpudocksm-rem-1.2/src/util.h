@@ -36,6 +36,7 @@ void PrintEnergy2 (const Energy *, const int, const int, const int);
 void PrintEnergy3 (const Energy *, const int, const int, const int, const int);
 void PrintLigRecord (const LigRecord *, const int, const int, const int, const int, const int);
 void PrintRepRecord (const LigRecord *, const int, const int, const int, const int, const int, const int);
+void PrintRepRecord2 (const LigRecord *, const ComplexSize, const int, const int, const int, const int, const int, const int);
 void PrintLigCoord (const Ligand *, const int);
 void PrintLigand (const Ligand *);
 void PrintProtein (const Protein *);

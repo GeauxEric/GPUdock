@@ -9,4 +9,4 @@ rm -rf output_*
 # rotation scale
 
 
-./dock -temp 0.25f -t 0.001f -r 3.1415f
+./dock -temp 0.001f -t 0.001f -r 3.1415f

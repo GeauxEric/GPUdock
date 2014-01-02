@@ -1,7 +1,7 @@
 10
 
 dir
-198
+201
 https://svn.cct.lsu.edu/repos/ClassicalMC/biology/trunk/gpudocksm-rem-1.2/src/include_cuda/MAGMA
 https://svn.cct.lsu.edu/repos/ClassicalMC
 
@@ -604,40 +604,6 @@ yfang11
 
 1381
 
-magma_cbulgeinc.h
-file
-
-
-
-
-2013-12-27T18:10:53.000000Z
-f91e96c82e531dac7da08a2f4d9c0122
-2013-10-03T18:31:50.999051Z
-161
-yfang11
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3894
-
 magma_lapack.h
 file
 
@@ -671,6 +637,40 @@ yfang11
 
 
 4153
+
+magma_cbulgeinc.h
+file
+
+
+
+
+2013-12-27T18:10:53.000000Z
+f91e96c82e531dac7da08a2f4d9c0122
+2013-10-03T18:31:50.999051Z
+161
+yfang11
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3894
 
 magma_dbulgeinc.h
 file
@@ -910,14 +910,14 @@ yfang11
 
 1276
 
-magma_zbulgeinc.h
+magma_c.h
 file
 
 
 
 
 2013-12-27T18:10:53.000000Z
-f76a97b5a2aa76f01a62a395c3ffdef1
+f3deca629b3fbb236577725c64a5f406
 2013-10-03T18:31:50.999051Z
 161
 yfang11
@@ -942,7 +942,7 @@ yfang11
 
 
 
-3897
+32804
 
 cblas.h
 file
@@ -978,14 +978,14 @@ yfang11
 
 32477
 
-magma_c.h
+magma_zbulgeinc.h
 file
 
 
 
 
 2013-12-27T18:10:53.000000Z
-f3deca629b3fbb236577725c64a5f406
+f76a97b5a2aa76f01a62a395c3ffdef1
 2013-10-03T18:31:50.999051Z
 161
 yfang11
@@ -1010,7 +1010,7 @@ yfang11
 
 
 
-32804
+3897
 
 magma_d.h
 file

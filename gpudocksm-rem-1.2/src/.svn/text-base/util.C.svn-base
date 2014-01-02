@@ -145,16 +145,22 @@ OptimizeLigand (const Ligand0 * lig0, Ligand * lig, const ComplexSize complexsiz
 // move the ligand to its center
 void InitLigCoord (Ligand * lig, const ComplexSize complexsize){
   for (int i = 0; i < complexsize.n_lig; ++i) {
-    Ligand *dst = &lig[i];
-    dst->coord_new = dst->coord_orig;
-    for (int residue = 0; residue < dst->lna; residue++) {
-      dst->coord_new.x[residue] += dst->coord_new.center[0];
-      dst->coord_new.y[residue] += dst->coord_new.center[1];
-      dst->coord_new.z[residue] += dst->coord_new.center[2];
+    Ligand *mylig = &lig[i];
+    
+    // debugging, move ligand far away from center
+    // mylig->coord_orig.center[0] += 0.5f;
+    // mylig->coord_orig.center[1] += 0.5f;
+    // mylig->coord_orig.center[2] += 0.5f;
+
+    mylig->coord_new = mylig->coord_orig;
+    for (int residue = 0; residue < mylig->lna; residue++) {
+      mylig->coord_new.x[residue] += mylig->coord_new.center[0];
+      mylig->coord_new.y[residue] += mylig->coord_new.center[1];
+      mylig->coord_new.z[residue] += mylig->coord_new.center[2];
     }
 
     for (int i = 0; i < 6; ++i) {
-      dst->movematrix_old[i] = 0.0f;
+      mylig->movematrix_old[i] = 0.0f;
     }
   }
 }
@@ -492,6 +498,42 @@ PrintEnergy1 (const Energy * energy, const int step, const int arg)
 
 
 void
+PrintCsv (const Energy * energy, const int idx_rep, const int step,
+	      const int arg)
+{
+
+  char names[MAXWEI][8] = {
+    "vdw",
+    "ele",
+    "pmf",
+    "psp",
+    "hdb",
+    "hpc",
+    "kde",
+    "lhm",
+    "dst",
+    "total"
+  };
+
+  int a = arg & 0x1;
+  int b = (arg >> 1) & 0x1;
+
+  if (a == 1) {
+    printf ("rep,step");
+    for (int i = 0; i < MAXWEI; ++i)
+      printf (",%s", names[i]);
+    printf ("\n");
+  }
+
+  if (b == 1) {
+    printf ("%4d,%5d", idx_rep, step);
+    for (int i = 0; i < MAXWEI; ++i)
+      printf (",%+14.10f", energy->e[i]);
+    printf ("\n");
+  }
+}
+
+void
 PrintEnergy2 (const Energy * energy, const int idx_rep, const int step,
 	      const int arg)
 {
@@ -603,14 +645,20 @@ PrintLigRecord (const LigRecord * ligrecord, const int steps_per_dump, const int
 		const int iter_begin, const int iter_end, const int arg)
 {
   // print title
-  PrintEnergy2 (NULL, NULL, NULL, 1);
+  // PrintEnergy2 (NULL, NULL, NULL, 1);
+  PrintCsv (NULL, NULL, NULL, 1);
 
   for (int s = iter_begin; s <= iter_end; ++s) {
     const LigRecordSingleStep *myrecord = &ligrecord[replica].step[s];
-    PrintEnergy2 (&myrecord->energy, replica, myrecord->step, arg);
+    // PrintEnergy2 (&myrecord->energy, replica, myrecord->step, arg);
+    PrintCsv (&myrecord->energy, replica, myrecord->step, arg);
   }
 
 }
+
+
+
+
 
 void
 PrintRepRecord (const LigRecord * ligrecord, const int steps_per_dump, const int rep_begin,
@@ -647,6 +695,56 @@ PrintRepRecord (const LigRecord * ligrecord, const int steps_per_dump, const int
   }
 
 }
+
+
+
+
+
+// print all temperature replicas of the same lig & prt
+void
+PrintRepRecord2 (const LigRecord * ligrecord, const ComplexSize complexsize,
+		 const int steps_per_dump, const int idx_prt, const int idx_lig,
+		 const int iter_begin, const int iter_end, const int arg)
+{
+  printf ("\treplicas\n");
+
+  printf ("step|\t");
+
+  for (int t = 0; t < complexsize.n_tmp; ++t)
+    printf ("%2d\t", t);
+  putchar ('\n');
+
+  printf ("----+");
+
+  for (int t = 0; t < complexsize.n_tmp; ++t)
+    printf ("--------");
+  putchar ('\n');
+
+  for (int s = iter_begin; s <= iter_end; ++s) {
+    printf ("%3d |\t", s);
+
+    for (int t = 0; t < complexsize.n_tmp; ++t) {
+      const int r =
+	complexsize.n_tmp * complexsize.n_lig * idx_prt +
+	complexsize.n_lig * t +
+	idx_lig;
+      const Replica *myrep = &ligrecord[r].step[s].replica;
+      //printf ("%2d ", myrep->idx_prt);
+      printf ("%2d ", myrep->idx_tmp);
+      //printf ("%2d ", myrep->idx_lig);
+      //printf ("%2d ", myrep->idx_rep);
+
+      printf ("\t");
+    }
+    putchar ('\n');
+  }
+
+}
+
+
+
+
+
 
 void
 PrintLigCoord (const Ligand * lig, const int unused)

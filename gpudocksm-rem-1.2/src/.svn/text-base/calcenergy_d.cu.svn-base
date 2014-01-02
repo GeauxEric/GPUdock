@@ -274,10 +274,6 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
 
 #endif
 
-
-
-
-
   // energy edst e[8]
   __shared__ float edst;
 

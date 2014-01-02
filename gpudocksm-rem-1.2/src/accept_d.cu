@@ -20,7 +20,6 @@ Accept_d (const int bidx, Ligand * __restrict__ mylig, const float mybeta, const
       is_accept = 1;
     }
     else {
-      // const float delta_energy = mylig->energy_old.e[MAXWEI - 1] - mylig->energy_new.e[MAXWEI -1];
       const float delta_energy = mylig->energy_new.e[MAXWEI - 1] - mylig->energy_old.e[MAXWEI -1];
       is_accept = (MyRand_d () < expf (delta_energy * mybeta));  // mybeta is less than zero
       // printf("is_accept: %d\n", is_accept);

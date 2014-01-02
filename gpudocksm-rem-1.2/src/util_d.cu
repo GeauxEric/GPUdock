@@ -14,7 +14,6 @@
 
 
 
-
 __device__ void
 InitAcs_d (const int bidx)
 {
@@ -215,7 +214,6 @@ SumReduction2D_2_d (float a[BDy][BDx], float b[BDy][BDx])
     __syncthreads ();
   }
 }
-
 
 
 

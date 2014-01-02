@@ -1,13 +1,13 @@
 K 25
 svn:wc:ra_dav:version-url
 V 67
-/repos/ClassicalMC/!svn/ver/197/biology/trunk/gpudocksm-rem-1.2/src
+/repos/ClassicalMC/!svn/ver/201/biology/trunk/gpudocksm-rem-1.2/src
 END
 dock.sh
 K 25
 svn:wc:ra_dav:version-url
 V 75
-/repos/ClassicalMC/!svn/ver/199/biology/trunk/gpudocksm-rem-1.2/src/dock.sh
+/repos/ClassicalMC/!svn/ver/200/biology/trunk/gpudocksm-rem-1.2/src/dock.sh
 END
 data.C
 K 25
@@ -25,7 +25,7 @@ analysis.sh
 K 25
 svn:wc:ra_dav:version-url
 V 79
-/repos/ClassicalMC/!svn/ver/199/biology/trunk/gpudocksm-rem-1.2/src/analysis.sh
+/repos/ClassicalMC/!svn/ver/200/biology/trunk/gpudocksm-rem-1.2/src/analysis.sh
 END
 hdf5io.C
 K 25
@@ -49,13 +49,13 @@ util.h
 K 25
 svn:wc:ra_dav:version-url
 V 74
-/repos/ClassicalMC/!svn/ver/197/biology/trunk/gpudocksm-rem-1.2/src/util.h
+/repos/ClassicalMC/!svn/ver/201/biology/trunk/gpudocksm-rem-1.2/src/util.h
 END
 analysis.C
 K 25
 svn:wc:ra_dav:version-url
 V 78
-/repos/ClassicalMC/!svn/ver/199/biology/trunk/gpudocksm-rem-1.2/src/analysis.C
+/repos/ClassicalMC/!svn/ver/201/biology/trunk/gpudocksm-rem-1.2/src/analysis.C
 END
 load.h
 K 25
@@ -79,7 +79,7 @@ accept_d.cu
 K 25
 svn:wc:ra_dav:version-url
 V 79
-/repos/ClassicalMC/!svn/ver/199/biology/trunk/gpudocksm-rem-1.2/src/accept_d.cu
+/repos/ClassicalMC/!svn/ver/200/biology/trunk/gpudocksm-rem-1.2/src/accept_d.cu
 END
 timing.C
 K 25
@@ -87,17 +87,17 @@ svn:wc:ra_dav:version-url
 V 76
 /repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/src/timing.C
 END
-initcurand_d.cu
-K 25
-svn:wc:ra_dav:version-url
-V 83
-/repos/ClassicalMC/!svn/ver/181/biology/trunk/gpudocksm-rem-1.2/src/initcurand_d.cu
-END
 gpu.cuh
 K 25
 svn:wc:ra_dav:version-url
 V 75
 /repos/ClassicalMC/!svn/ver/199/biology/trunk/gpudocksm-rem-1.2/src/gpu.cuh
+END
+initcurand_d.cu
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/repos/ClassicalMC/!svn/ver/181/biology/trunk/gpudocksm-rem-1.2/src/initcurand_d.cu
 END
 quicksort.h
 K 25
@@ -105,17 +105,17 @@ svn:wc:ra_dav:version-url
 V 79
 /repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/src/quicksort.h
 END
-debug.h
-K 25
-svn:wc:ra_dav:version-url
-V 75
-/repos/ClassicalMC/!svn/ver/195/biology/trunk/gpudocksm-rem-1.2/src/debug.h
-END
 gpumulti.cu
 K 25
 svn:wc:ra_dav:version-url
 V 79
 /repos/ClassicalMC/!svn/ver/190/biology/trunk/gpudocksm-rem-1.2/src/gpumulti.cu
+END
+debug.h
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/repos/ClassicalMC/!svn/ver/195/biology/trunk/gpudocksm-rem-1.2/src/debug.h
 END
 Makefile
 K 25
@@ -127,19 +127,25 @@ move_d.cu
 K 25
 svn:wc:ra_dav:version-url
 V 77
-/repos/ClassicalMC/!svn/ver/195/biology/trunk/gpudocksm-rem-1.2/src/move_d.cu
+/repos/ClassicalMC/!svn/ver/200/biology/trunk/gpudocksm-rem-1.2/src/move_d.cu
+END
+readHDF.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/repos/ClassicalMC/!svn/ver/200/biology/trunk/gpudocksm-rem-1.2/src/readHDF.py
 END
 calcenergy_d.cu
 K 25
 svn:wc:ra_dav:version-url
 V 83
-/repos/ClassicalMC/!svn/ver/199/biology/trunk/gpudocksm-rem-1.2/src/calcenergy_d.cu
+/repos/ClassicalMC/!svn/ver/200/biology/trunk/gpudocksm-rem-1.2/src/calcenergy_d.cu
 END
 util_d.cu
 K 25
 svn:wc:ra_dav:version-url
 V 77
-/repos/ClassicalMC/!svn/ver/199/biology/trunk/gpudocksm-rem-1.2/src/util_d.cu
+/repos/ClassicalMC/!svn/ver/200/biology/trunk/gpudocksm-rem-1.2/src/util_d.cu
 END
 hdf5_datastruct_ligrecord_create.h
 K 25
@@ -147,17 +153,17 @@ svn:wc:ra_dav:version-url
 V 102
 /repos/ClassicalMC/!svn/ver/193/biology/trunk/gpudocksm-rem-1.2/src/hdf5_datastruct_ligrecord_create.h
 END
-hdf5_datastruct_ligrecord_close.h
-K 25
-svn:wc:ra_dav:version-url
-V 101
-/repos/ClassicalMC/!svn/ver/193/biology/trunk/gpudocksm-rem-1.2/src/hdf5_datastruct_ligrecord_close.h
-END
 rmsd.f
 K 25
 svn:wc:ra_dav:version-url
 V 74
 /repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/src/rmsd.f
+END
+hdf5_datastruct_ligrecord_close.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/repos/ClassicalMC/!svn/ver/193/biology/trunk/gpudocksm-rem-1.2/src/hdf5_datastruct_ligrecord_close.h
 END
 rmsd.h
 K 25
@@ -165,11 +171,17 @@ svn:wc:ra_dav:version-url
 V 74
 /repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/src/rmsd.h
 END
+removeDup.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/repos/ClassicalMC/!svn/ver/200/biology/trunk/gpudocksm-rem-1.2/src/removeDup.py
+END
 util.C
 K 25
 svn:wc:ra_dav:version-url
 V 74
-/repos/ClassicalMC/!svn/ver/199/biology/trunk/gpudocksm-rem-1.2/src/util.C
+/repos/ClassicalMC/!svn/ver/201/biology/trunk/gpudocksm-rem-1.2/src/util.C
 END
 data.h
 K 25
@@ -177,17 +189,17 @@ svn:wc:ra_dav:version-url
 V 74
 /repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/src/data.h
 END
-size.h
-K 25
-svn:wc:ra_dav:version-url
-V 74
-/repos/ClassicalMC/!svn/ver/199/biology/trunk/gpudocksm-rem-1.2/src/size.h
-END
 load.C
 K 25
 svn:wc:ra_dav:version-url
 V 74
 /repos/ClassicalMC/!svn/ver/197/biology/trunk/gpudocksm-rem-1.2/src/load.C
+END
+size.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/repos/ClassicalMC/!svn/ver/201/biology/trunk/gpudocksm-rem-1.2/src/size.h
 END
 gpu.cu
 K 25
@@ -223,7 +235,7 @@ toggle.h
 K 25
 svn:wc:ra_dav:version-url
 V 76
-/repos/ClassicalMC/!svn/ver/199/biology/trunk/gpudocksm-rem-1.2/src/toggle.h
+/repos/ClassicalMC/!svn/ver/201/biology/trunk/gpudocksm-rem-1.2/src/toggle.h
 END
 count.C
 K 25
@@ -235,7 +247,7 @@ run.cu
 K 25
 svn:wc:ra_dav:version-url
 V 74
-/repos/ClassicalMC/!svn/ver/195/biology/trunk/gpudocksm-rem-1.2/src/run.cu
+/repos/ClassicalMC/!svn/ver/201/biology/trunk/gpudocksm-rem-1.2/src/run.cu
 END
 montecarlo_d.cu
 K 25
@@ -253,5 +265,5 @@ exchangereplicas_d.cu
 K 25
 svn:wc:ra_dav:version-url
 V 89
-/repos/ClassicalMC/!svn/ver/161/biology/trunk/gpudocksm-rem-1.2/src/exchangereplicas_d.cu
+/repos/ClassicalMC/!svn/ver/201/biology/trunk/gpudocksm-rem-1.2/src/exchangereplicas_d.cu
 END

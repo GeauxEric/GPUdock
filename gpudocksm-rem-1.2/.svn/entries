@@ -1,7 +1,7 @@
 10
 
 dir
-198
+201
 https://svn.cct.lsu.edu/repos/ClassicalMC/biology/trunk/gpudocksm-rem-1.2
 https://svn.cct.lsu.edu/repos/ClassicalMC
 
@@ -23,7 +23,7 @@ yding
 
 
 
-
+incomplete
 922981e5-fc55-477a-8c12-344fa47e9601
 
 test
@@ -31,7 +31,7 @@ dir
 
 log
 file
-
+198
 
 
 
@@ -65,7 +65,7 @@ yfang11
 
 qa
 file
-
+198
 
 
 
@@ -106,37 +106,15 @@ file
 
 
 
-2013-12-27T18:10:54.000000Z
-90864f55044dc283dd0bdd7cf6ddf454
-2013-12-27T04:44:06.749805Z
-197
-yding
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-9963
+129b4a1602dc3c639353f70807776e10
+2014-01-01T20:48:27.178800Z
+201
+yfang11
 
 2do
 file
-
+198
 
 
 
@@ -179,7 +157,7 @@ dir
 
 benchmark.txt
 file
-
+198
 
 
 
@@ -213,7 +191,7 @@ yfang11
 
 reference_result.txt
 file
-
+198
 
 
 
