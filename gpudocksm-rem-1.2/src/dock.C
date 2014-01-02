@@ -17,8 +17,9 @@ main (int argc, char **argv)
 
   McPara *mcpara = new McPara;
   McLog *mclog = new McLog;
+  ExchgPara *exchgpara = new ExchgPara;
   InputFiles *inputfiles = new InputFiles[1];
-  ParseArguments (argc, argv, mcpara, inputfiles);
+  ParseArguments (argc, argv, mcpara, exchgpara, inputfiles);
 
   // load into preliminary data structures
   Ligand0 *lig0 = new Ligand0[MAXEN2];
@@ -39,7 +40,7 @@ main (int argc, char **argv)
   // sizes
   ComplexSize complexsize;
   complexsize.n_prt = inputfiles->prt_file.conf_total;	// number of protein conf
-  complexsize.n_tmp = MAXTMP;	// number of temperature
+  complexsize.n_tmp = exchgpara->num_temp;	// number of temperature
   complexsize.n_lig = inputfiles->lig_file.conf_total;	// number of ligand conf
   complexsize.n_rep = complexsize.n_lig * complexsize.n_prt * complexsize.n_tmp;
   complexsize.n_pos = inputfiles->lhm_file.n_pos;	// number of MCS positions
@@ -73,7 +74,8 @@ main (int argc, char **argv)
 
   // initialize system
   InitLigCoord (lig, complexsize);
-  SetTemperature (temp, mcpara, complexsize);
+  SetTemperature (temp, exchgpara);
+  // SetTemperature (temp, mcpara, complexsize);
   SetReplica (replica, lig, complexsize);
   SetMcLog (mclog);
 
@@ -103,6 +105,7 @@ main (int argc, char **argv)
   delete[]enepara;
   delete[]temp;
   delete[]replica;
+  delete[]exchgpara;
 
   return 0;
 }

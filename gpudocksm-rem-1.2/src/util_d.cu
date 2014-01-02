@@ -69,19 +69,6 @@ BackupLigCoord_d (const int bidx, Ligand *mylig)
 
 
 __device__ void
-ComputeMoveMatrix_d (const int bidx, const int myreplica, Ligand *mylig)
-{
-  if (bidx < 6)
-    ligmovematrix_dc[myreplica].a[bidx] = mylig->movematrix_old[bidx];
-
-}
-
-
-
-
-
-
-__device__ void
 RecordLigand_d (const int bidx, const int s1, const int s2s3, const int myreplica, const int rep_begin, const Ligand * mylig)
 {
   /*

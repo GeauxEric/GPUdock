@@ -19,10 +19,9 @@ ExchangeReplicas_d (const int mode_l, const int mode_t)
     //__shared__ int idx_lig[MAXREP];
     
 
-    //__shared__ int temps[n_prt_dc][n_lig_dc][n_tmp_dc];
-    //__shared__ int temps[n_tmp_dc];
     __shared__ int temps[MAXTMP];
     __shared__ int temp_orders[MAXTMP];
+    __shared__ float energies[MAXTMP];
 
 
     if (bidx == 0) {
@@ -35,6 +34,7 @@ ExchangeReplicas_d (const int mode_l, const int mode_t)
 	     const int flatten_addr =
 	       n_tmp_dc * n_lig_dc * p + n_lig_dc * t + l;
 	     temps[t] = replica_dc[flatten_addr].idx_tmp;
+	     energies[t] = etotal_dc[flatten_addr];
 	     temp_orders[temps[t]] = t;
 	  }
 
@@ -48,6 +48,14 @@ ExchangeReplicas_d (const int mode_l, const int mode_t)
 	      const int o1 = temp_orders[i1];
 	      const int o2 = temp_orders[i2];
 	      const int tt = temps[o1];
+	      
+	      float etot1 = energies[o1];
+	      float etot2 = energies[o2];
+	      float minus_beta1 = temp_dc[temps[o1]].minus_beta;
+	      float minus_beta2 = temp_dc[temps[o2]].minus_beta;
+	      printf("etot1: %f, minus_beta1: %f\n", etot1, minus_beta1);
+	      printf("etot2: %f, minus_beta2: %f\n", etot2, minus_beta2);
+	      
 	      temps[o1] = temps[o2];
 	      temps[o2] = tt;
 	    }

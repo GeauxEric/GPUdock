@@ -25,18 +25,28 @@ Usage (char *bin)
 
 
 void
-ParseArguments (int argc, char **argv, McPara * mcpara, InputFiles * inputfiles)
+ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, InputFiles * inputfiles)
 {
   char mydir[MAXSTRINGLENG] = "output_default";
 
-  float temp = 0.003f;  // temperature
+  ////////////////////////////////////////////////////////////////////////////////
+  // default settings
+  float floor_temp = 0.3f;   // lowest temperature in all replicas
+  float ceiling_temp = 0.3f;   // highest temperature in all replicas
+  int num_temp = 9;      // number of temperatures for the same ligand and protein conformations
   float t = 0.001f;  // translational scale
   float r = 3.1415f;  // rotational scale
 
  for ( int i = 0; i < argc; i++ )
  {
-  if ( !strcmp(argv[i],"-temp")  && i < argc ) {
-    temp = atof(argv[i+1]);
+  if ( !strcmp(argv[i],"-floor_temp")  && i < argc ) {
+    floor_temp = atof(argv[i+1]);
+  }
+  if ( !strcmp(argv[i],"-ceiling_temp")  && i < argc ) {
+    ceiling_temp = atof(argv[i+1]);
+  }
+  if ( !strcmp(argv[i],"-num_temp")  && i < argc ) {
+    num_temp = atoi(argv[i+1]);
   }
   if ( !strcmp(argv[i],"-t")  && i < argc ) {
     t = atof(argv[i+1]);
@@ -65,7 +75,17 @@ ParseArguments (int argc, char **argv, McPara * mcpara, InputFiles * inputfiles)
   inputfiles->norpara_file.path_a = "../dat/nor_a";
   inputfiles->norpara_file.path_b = "../dat/nor_b";
 
-  mcpara->lowest_temp = temp;
+  exchgpara->floor_temp = floor_temp;
+  exchgpara->ceiling_temp = ceiling_temp;
+  if (num_temp < MAXTMP)
+    exchgpara->num_temp = num_temp;
+  else
+    {
+      cout << "setting number of temperatures exceeds MAXTMP" << endl;
+      cout << "docking exiting ..." << endl;
+      exit(1);
+    }
+
 
   mcpara->steps_total = STEPS_TOTAL;
   mcpara->steps_per_dump = STEPS_PER_DUMP;
@@ -407,11 +427,14 @@ SetWeight (EnePara * enepara)
 */
 
 void
-SetTemperature (Temp * temp, McPara * mcpara, const ComplexSize complexsize)
+SetTemperature (Temp * temp, ExchgPara * exchgpara)
 {
-  float lowest_temp = mcpara->lowest_temp;
-  for (int i = 0; i < complexsize.n_tmp; i++) {
-    temp[i].t = lowest_temp;
+  int num_temp = exchgpara->num_temp;
+  float floor_temp = exchgpara->floor_temp;
+  float ceiling_temp = exchgpara->ceiling_temp;
+
+  for (int i = 0; i < num_temp; i++) {
+    temp[i].t = floor_temp;
     temp[i].minus_beta = -1.0f / temp[i].t;
     temp[i].order = i;
   }
@@ -878,9 +901,6 @@ PrintSummary (const InputFiles * inputfiles, const McPara * mcpara, const Temp *
 
   const size_t ligrecord_sz = sizeof (LigRecord) * complexsize->n_rep;
   printf ("per dump record size:\t\t%.3f MB\n", (float) ligrecord_sz / 1048576);
-
-  printf ("lowest temperature\t\t");
-  printf ("%10.8f\n", mcpara->lowest_temp);
 
   printf ("movement scale (txyz, rxyz)\t");
   for (int i = 0; i < 6; ++i)
