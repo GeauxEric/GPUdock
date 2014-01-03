@@ -12,7 +12,7 @@
 // util.C
 
 void Usage (char *);
-void ParseArguments (int argc, char **argv, McPara *, InputFiles *);
+void ParseArguments (int argc, char **argv, McPara *, ExchgPara *, InputFiles *);
 
 
 void OptimizeLigand (const Ligand0 *, Ligand *, const ComplexSize);
@@ -24,7 +24,8 @@ void OptimizeEnepara (const EnePara0 *, EnePara *);
 
 //void SetWeight (EnePara *);
 void InitLigCoord (Ligand *, const ComplexSize);
-void SetTemperature (Temp *, McPara *, const ComplexSize);
+// void SetTemperature (Temp *, McPara *, const ComplexSize);
+void SetTemperature (Temp *, ExchgPara *);
 void SetReplica (Replica *, Ligand *, const ComplexSize);
 void SetMcLog (McLog *);
 

@@ -33,8 +33,6 @@ __device__ void InitLigRecord_d (const int, const int, const int);
 
 //__forceinline__ __device__ void BackupLigCoord_d (const int, Ligand *);
 
-__device__ void ComputeMoveMatrix_d (const int, const int, Ligand *);
-
 __device__ void RecordLigand_d (const int, const int, const int, const int, const int, const Ligand *);
 
 

@@ -104,7 +104,10 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, I
   // random walk toggle
   mcpara->is_random = IS_RANDOM;
 
+
 #if IS_OUTPUT == 1
+  // create output directory
+
   // obtain the time tag
   char mystime[MAXSTRINGLENG];
   time_t mytime = time (NULL);
@@ -742,7 +745,7 @@ PrintRepRecord2 (const LigRecord * ligrecord, const ComplexSize complexsize,
 		 const int steps_per_dump, const int idx_prt, const int idx_lig,
 		 const int iter_begin, const int iter_end, const int arg)
 {
-  printf ("\ttemperature replica with lig %d prt %d\n", idx_lig, idx_prt);
+  printf ("temperature replicas with lig %d prt %d\n", idx_lig, idx_prt);
 
   printf ("MC step |\t");
 
@@ -750,7 +753,7 @@ PrintRepRecord2 (const LigRecord * ligrecord, const ComplexSize complexsize,
     printf ("%2d\t", t);
   putchar ('\n');
 
-  printf ("--------+");
+  printf ("--------+----");
 
   for (int t = 0; t < complexsize.n_tmp; ++t)
     printf ("--------");
@@ -774,7 +777,6 @@ PrintRepRecord2 (const LigRecord * ligrecord, const ComplexSize complexsize,
     }
     putchar ('\n');
   }
-
 }
 
 

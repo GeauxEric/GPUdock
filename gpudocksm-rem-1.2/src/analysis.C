@@ -6,47 +6,59 @@
 #include "size.h"
 #include "hdf5io.h"
 
-#define N_REP 240
-
 
 int
 main (int argc, char **argv)
 {
-  if (argc != 2) {
-    fprintf (stderr, "usage: %s <input file>\n", argv[0]);
+  if (argc < 2) {
+    fprintf (stderr, "usage: %s  <input file>\n", argv[0]);
+    printf ("-nl <number of show lines>\n");
+    printf ("-l <ligand conf number>\n");
+    printf ("-p <protein conf number>\n");
   }
 
-  LigRecord *ligrecord;
-  const size_t ligrecord_sz = sizeof (LigRecord) * N_REP;
-  ligrecord = (LigRecord *) malloc (ligrecord_sz);
-  
-  ReadLigRecord (ligrecord, N_REP, argv[1]);
+  // default settings
+  int num_show_line = 0;
+  int lig_conf_num = 0;
+  int prt_conf_num = 0;
 
-  const int myreplica = 0;
-  const int repp_begin = 0;
-  const int repp_end = 22;
-  const int iter_begin = 0;
-  //const int iter_end = STEPS_PER_DUMP - 1;
-  const int iter_end = minimal_int (STEPS_PER_DUMP, 20) - 1;
-  const int arg = 2;
+  for ( int i = 0; i < argc; i++ ) {
+    if ( !strcmp(argv[i],"-nl")  && i < argc ) 
+      num_show_line = atoi(argv[i+1]);
+    if ( !strcmp(argv[i],"-l")  && i < argc ) 
+      lig_conf_num = atoi(argv[i+1]);
+    if ( !strcmp(argv[i],"-p")  && i < argc ) 
+      prt_conf_num = atoi(argv[i+1]);
+  }
 
   ComplexSize complexsize;
   complexsize.n_prt = 3;
   complexsize.n_tmp = MAXTMP;
   complexsize.n_lig = 20;
   complexsize.n_rep = complexsize.n_lig * complexsize.n_prt * complexsize.n_tmp;
+  complexsize.n_pos = 0; // unused, the value does not matter
 
+  LigRecord *ligrecord;
+  const size_t ligrecord_sz = sizeof (LigRecord) * complexsize.n_rep;
+  ligrecord = (LigRecord *) malloc (ligrecord_sz);
+  ReadLigRecord (ligrecord, complexsize.n_rep, argv[argc-1]);
 
-
-
-
-
+  const int myreplica = 0;
+  //const int repp_begin = 0;
+  //const int repp_end = 22;
+  const int iter_begin = 0;
+  //const int iter_end = STEPS_PER_DUMP - 1;
+  const int iter_end = minimal_int (STEPS_PER_DUMP, num_show_line) - 1;
+  const int arg = 2;
 
   PrintLigRecord (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
   //PrintRepRecord (ligrecord, STEPS_PER_DUMP, repp_begin, repp_end, iter_begin, iter_end, arg);
-  PrintRepRecord2 (ligrecord, complexsize, STEPS_PER_DUMP, 0, 0, iter_begin, iter_end, arg);
+  PrintRepRecord2 (ligrecord, complexsize, STEPS_PER_DUMP, 
+		   lig_conf_num, prt_conf_num, 
+		   iter_begin, iter_end, arg);
   //PrintMoveRecord (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
 
   free (ligrecord);
   return 0;
 }
+

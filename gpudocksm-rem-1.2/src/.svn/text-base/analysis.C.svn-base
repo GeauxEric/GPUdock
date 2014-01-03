@@ -6,8 +6,6 @@
 #include "size.h"
 #include "hdf5io.h"
 
-#define N_REP 240
-
 
 int
 main (int argc, char **argv)
@@ -16,28 +14,31 @@ main (int argc, char **argv)
     fprintf (stderr, "usage: %s <input file>\n", argv[0]);
   }
 
-  LigRecord *ligrecord;
-  const size_t ligrecord_sz = sizeof (LigRecord) * N_REP;
-  ligrecord = (LigRecord *) malloc (ligrecord_sz);
-  
-  ReadLigRecord (ligrecord, N_REP, argv[1]);
 
-  const int myreplica = 0;
-  const int repp_begin = 0;
-  const int repp_end = 22;
-  const int iter_begin = 0;
-  //const int iter_end = STEPS_PER_DUMP - 1;
-  const int iter_end = minimal_int (STEPS_PER_DUMP, 20) - 1;
-  const int arg = 2;
 
   ComplexSize complexsize;
   complexsize.n_prt = 3;
   complexsize.n_tmp = MAXTMP;
   complexsize.n_lig = 20;
   complexsize.n_rep = complexsize.n_lig * complexsize.n_prt * complexsize.n_tmp;
+  complexsize.n_pos = 0; // unused, the value does not matter
 
 
 
+  LigRecord *ligrecord;
+  const size_t ligrecord_sz = sizeof (LigRecord) * complexsize.n_rep;
+  ligrecord = (LigRecord *) malloc (ligrecord_sz);
+  ReadLigRecord (ligrecord, complexsize.n_rep, argv[1]);
+
+
+
+  const int myreplica = 0;
+  //const int repp_begin = 0;
+  //const int repp_end = 22;
+  const int iter_begin = 0;
+  //const int iter_end = STEPS_PER_DUMP - 1;
+  const int iter_end = minimal_int (STEPS_PER_DUMP, 20) - 1;
+  const int arg = 2;
 
 
 
@@ -50,3 +51,4 @@ main (int argc, char **argv)
   free (ligrecord);
   return 0;
 }
+

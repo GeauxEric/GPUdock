@@ -23,7 +23,7 @@
 
 
 
-#if 1
+#if 0
 // parameters for reading HD5 file
 
 //const int myreplica = 0;
@@ -192,7 +192,7 @@ Run (const Ligand * lig,
   const size_t lig_sz = sizeof (Ligand) * n_rep;
   const size_t replica_sz = sizeof (Replica) * n_rep;
   const size_t etotal_sz = sizeof (float) * n_rep;
-  const size_t ligmovematrix_sz = sizeof (LigMoveMatrix) * n_rep;
+  const size_t ligmovevector_sz = sizeof (LigMoveVector) * n_rep;
   const size_t tmpenergy_sz = sizeof (TmpEnergy) * n_rep;
   const size_t acs_sz = sizeof (int) * MAXREP; // acceptance counter
   //size_t etotal_sz_per_gpu[NGPU];
@@ -202,7 +202,7 @@ Run (const Ligand * lig,
   Ligand *lig_d[NGPU];
   Replica *replica_d[NGPU];
   float *etotal_d[NGPU];
-  LigMoveMatrix *ligmovematrix_d[NGPU];
+  LigMoveVector *ligmovevector_d[NGPU];
   TmpEnergy *tmpenergy_d[NGPU];
   int *acs, *acs_d[NGPU];
 
@@ -213,14 +213,14 @@ Run (const Ligand * lig,
     cudaMalloc ((void **) &lig_d[i], lig_sz);
     cudaMalloc ((void **) &replica_d[i], replica_sz);
     cudaMalloc ((void **) &etotal_d[i], etotal_sz);
-    cudaMalloc ((void **) &ligmovematrix_d[i], ligmovematrix_sz);
+    cudaMalloc ((void **) &ligmovevector_d[i], ligmovevector_sz);
     cudaMalloc ((void **) &tmpenergy_d[i], tmpenergy_sz);
     cudaMalloc ((void **) &acs_d[i], acs_sz);
 
     CUDAMEMCPYTOSYMBOL (lig_dc, &lig_d[i], Ligand *);
     CUDAMEMCPYTOSYMBOL (replica_dc, &replica_d[i], Replica *);
     CUDAMEMCPYTOSYMBOL (etotal_dc, &etotal_d[i], float *);
-    CUDAMEMCPYTOSYMBOL (ligmovematrix_dc, &ligmovematrix_d[i], LigMoveMatrix *);
+    CUDAMEMCPYTOSYMBOL (ligmovevector_dc, &ligmovevector_d[i], LigMoveVector *);
     CUDAMEMCPYTOSYMBOL (tmpenergy_dc, &tmpenergy_d[i], TmpEnergy *);
     CUDAMEMCPYTOSYMBOL (acs_dc, &acs_d[i], int *);
 
@@ -306,7 +306,7 @@ Run (const Ligand * lig,
     cudaFree (lig_d[i]);
     cudaFree (replica_d[i]);
     cudaFree (etotal_d[i]);
-    cudaFree (ligmovematrix_d[i]);
+    cudaFree (ligmovevector_d[i]);
     cudaFree (tmpenergy_d[i]);
     cudaFree (acs_d[i]);
 
@@ -318,7 +318,7 @@ Run (const Ligand * lig,
 
 
 // read outputfiles and print something
-#if 1
+#if 0
 #if IS_OUTPUT == 1
   char myoutputfile[MAXSTRINGLENG];
   sprintf(myoutputfile, "%s/%s_%04d.h5", mcpara->outputdir, mcpara->outputfile, 0);

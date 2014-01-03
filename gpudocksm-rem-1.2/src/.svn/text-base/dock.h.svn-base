@@ -433,12 +433,15 @@ struct Replica
 };
 
 
+struct ExchgPara{
+  float floor_temp;   // lowest temperature in all replicas
+  float ceiling_temp;   // highest temperature in all replicas
+  int num_temp;      // number of temperatures for the same ligand and protein conformations
+};
 
 
 struct McPara
 {
-  float lowest_temp;   // lowest temperature in all replicas
-  
   int steps_total;
   int steps_per_dump;
   int steps_per_exchange;
@@ -450,9 +453,6 @@ struct McPara
   char outputdir[MAXSTRINGLENG];
   char outputfile[MAXSTRINGLENG];
 };
-
-
-
 
 struct McLog
 {
@@ -480,12 +480,11 @@ struct LigRecord
   LigRecordSingleStep step[STEPS_PER_DUMP];
 };
 
-
-
-struct LigMoveMatrix
+struct LigMoveVector
 {
-  float a[6]; // translation xyz, rotation xyz
+  float ele[6]; // translation xyz, rotation xyz
 };
+
 
 
 

@@ -39,10 +39,8 @@ def getHdfPath(pattern=' '):
     return hdf_path
     
 def main():
-    pattern = './output_*/a_*.h5'
-    hdf_path = getHdfPath(pattern)
-    
-    base = os.path.splitext(hdf_path)[0]  # in testing, only the first hdf file tested
+    import sys
+    base = sys.argv[1]
 
     csv_path = base + '.csv'
     total_ener_path = base + '_total.csv'

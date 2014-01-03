@@ -26,7 +26,7 @@ __constant__ Temp *temp_dc;
 __constant__ Ligand *lig_dc;
 __constant__ Replica *replica_dc;
 __constant__ float *etotal_dc;
-__constant__ LigMoveMatrix *ligmovematrix_dc;
+__constant__ LigMoveVector *ligmovevector_dc;
 __constant__ LigRecord *ligrecord_dc;
 __constant__ TmpEnergy *tmpenergy_dc;
 __constant__ int *acs_dc;

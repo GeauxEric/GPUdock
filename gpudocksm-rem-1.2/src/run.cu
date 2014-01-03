@@ -23,7 +23,7 @@
 
 
 
-#if 1
+#if 0
 // parameters for reading HD5 file
 
 //const int myreplica = 0;
@@ -318,7 +318,7 @@ Run (const Ligand * lig,
 
 
 // read outputfiles and print something
-#if 1
+#if 0
 #if IS_OUTPUT == 1
   char myoutputfile[MAXSTRINGLENG];
   sprintf(myoutputfile, "%s/%s_%04d.h5", mcpara->outputdir, mcpara->outputfile, 0);
@@ -330,7 +330,7 @@ Run (const Ligand * lig,
   //PrintLigRecord (ligrecord2, mcpara->steps_per_dump, myreplica, iter_begin, iter_end, arg);
   //PrintMoveRecord (ligrecord2, mcpara->steps_per_dump, myreplica, iter_begin, iter_end, arg);
   //PrintRepRecord (ligrecord2, mcpara->steps_per_dump, repp_begin, repp_end, iter_begin, iter_end, arg);
-  PrintRepRecord2 (ligrecord2, complexsize, STEPS_PER_DUMP, 1, 1, iter_begin, iter_end, arg);
+  PrintRepRecord2 (ligrecord2, complexsize, STEPS_PER_DUMP, 0, 0, iter_begin, iter_end, arg);
 
   free (ligrecord2);
 #endif

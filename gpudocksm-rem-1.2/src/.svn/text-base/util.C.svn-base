@@ -25,18 +25,28 @@ Usage (char *bin)
 
 
 void
-ParseArguments (int argc, char **argv, McPara * mcpara, InputFiles * inputfiles)
+ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, InputFiles * inputfiles)
 {
   char mydir[MAXSTRINGLENG] = "output_default";
 
-  float temp = 0.003f;  // temperature
+  ////////////////////////////////////////////////////////////////////////////////
+  // default settings
+  float floor_temp = 0.3f;   // lowest temperature in all replicas
+  float ceiling_temp = 0.3f;   // highest temperature in all replicas
+  int num_temp = 9;      // number of temperatures for the same ligand and protein conformations
   float t = 0.001f;  // translational scale
   float r = 3.1415f;  // rotational scale
 
  for ( int i = 0; i < argc; i++ )
  {
-  if ( !strcmp(argv[i],"-temp")  && i < argc ) {
-    temp = atof(argv[i+1]);
+  if ( !strcmp(argv[i],"-floor_temp")  && i < argc ) {
+    floor_temp = atof(argv[i+1]);
+  }
+  if ( !strcmp(argv[i],"-ceiling_temp")  && i < argc ) {
+    ceiling_temp = atof(argv[i+1]);
+  }
+  if ( !strcmp(argv[i],"-num_temp")  && i < argc ) {
+    num_temp = atoi(argv[i+1]);
   }
   if ( !strcmp(argv[i],"-t")  && i < argc ) {
     t = atof(argv[i+1]);
@@ -65,7 +75,17 @@ ParseArguments (int argc, char **argv, McPara * mcpara, InputFiles * inputfiles)
   inputfiles->norpara_file.path_a = "../dat/nor_a";
   inputfiles->norpara_file.path_b = "../dat/nor_b";
 
-  mcpara->lowest_temp = temp;
+  exchgpara->floor_temp = floor_temp;
+  exchgpara->ceiling_temp = ceiling_temp;
+  if (num_temp <= MAXTMP)
+    exchgpara->num_temp = num_temp;
+  else
+    {
+      cout << "setting number of temperatures exceeds MAXTMP" << endl;
+      cout << "docking exiting ..." << endl;
+      exit(1);
+    }
+
 
   mcpara->steps_total = STEPS_TOTAL;
   mcpara->steps_per_dump = STEPS_PER_DUMP;
@@ -84,7 +104,10 @@ ParseArguments (int argc, char **argv, McPara * mcpara, InputFiles * inputfiles)
   // random walk toggle
   mcpara->is_random = IS_RANDOM;
 
+
 #if IS_OUTPUT == 1
+  // create output directory
+
   // obtain the time tag
   char mystime[MAXSTRINGLENG];
   time_t mytime = time (NULL);
@@ -407,14 +430,30 @@ SetWeight (EnePara * enepara)
 */
 
 void
-SetTemperature (Temp * temp, McPara * mcpara, const ComplexSize complexsize)
+SetTemperature (Temp * temp, ExchgPara * exchgpara)
 {
-  float lowest_temp = mcpara->lowest_temp;
-  for (int i = 0; i < complexsize.n_tmp; i++) {
-    temp[i].t = lowest_temp;
-    temp[i].minus_beta = -1.0f / temp[i].t;
+  int num_temp = exchgpara->num_temp;
+  float floor_temp = exchgpara->floor_temp;
+  float ceiling_temp = exchgpara->ceiling_temp;
+  
+  float beta_high = 1.0f / floor_temp;
+  float beta_low = 1.0f / ceiling_temp;
+  const float beta_ratio = exp (log (beta_high / beta_low) / (float) (num_temp - 1));
+  // cout << "beta_ratio: " << beta_ratio << endl;
+
+  float a = beta_low;
+  for (int i = 0; i < num_temp; i++) {
     temp[i].order = i;
+    temp[i].minus_beta = 0.0f - a;
+
+    a *= beta_ratio;
   }
+
+  // for (int i = 0; i < num_temp; i++) {
+  //   temp[i].t = floor_temp;
+  //   temp[i].minus_beta = -1.0f / temp[i].t;
+  //   temp[i].order = i;
+  // }
 }
 
 // replica[n_rep]
@@ -430,13 +469,13 @@ SetReplica (Replica * replica, Ligand * lig, const ComplexSize complexsize)
   for (int i = 0; i < n_prt; ++i) {
     for (int j = 0; j < n_tmp; ++j) {
       for (int k = 0; k < n_lig; ++k) {
-	const int linear_addr = n_tmp * n_lig * i + n_lig * j + k;
-	replica[linear_addr].idx_rep = linear_addr;
-	replica[linear_addr].idx_prt = i;
-	replica[linear_addr].idx_tmp = j;
-	replica[linear_addr].idx_lig = k;
+	const int flatten_addr = n_tmp * n_lig * i + n_lig * j + k;
+	replica[flatten_addr].idx_rep = flatten_addr;
+	replica[flatten_addr].idx_prt = i;
+	replica[flatten_addr].idx_tmp = j;
+	replica[flatten_addr].idx_lig = k;
 
-	lig[linear_addr] = lig[k];	// duplicate ligand replicas
+	lig[flatten_addr] = lig[k];	// duplicate ligand replicas
       }
     }
   }
@@ -706,22 +745,22 @@ PrintRepRecord2 (const LigRecord * ligrecord, const ComplexSize complexsize,
 		 const int steps_per_dump, const int idx_prt, const int idx_lig,
 		 const int iter_begin, const int iter_end, const int arg)
 {
-  printf ("\treplicas\n");
+  printf ("temperature replicas with lig %d prt %d\n", idx_lig, idx_prt);
 
-  printf ("step|\t");
+  printf ("MC step |\t");
 
   for (int t = 0; t < complexsize.n_tmp; ++t)
     printf ("%2d\t", t);
   putchar ('\n');
 
-  printf ("----+");
+  printf ("--------+----");
 
   for (int t = 0; t < complexsize.n_tmp; ++t)
     printf ("--------");
   putchar ('\n');
 
   for (int s = iter_begin; s <= iter_end; ++s) {
-    printf ("%3d |\t", s);
+    printf ("%5d   |\t", s);
 
     for (int t = 0; t < complexsize.n_tmp; ++t) {
       const int r =
@@ -879,9 +918,6 @@ PrintSummary (const InputFiles * inputfiles, const McPara * mcpara, const Temp *
   const size_t ligrecord_sz = sizeof (LigRecord) * complexsize->n_rep;
   printf ("per dump record size:\t\t%.3f MB\n", (float) ligrecord_sz / 1048576);
 
-  printf ("lowest temperature\t\t");
-  printf ("%10.8f\n", mcpara->lowest_temp);
-
   printf ("movement scale (txyz, rxyz)\t");
   for (int i = 0; i < 6; ++i)
     printf("%.8f ", mcpara->move_scale[i]);
@@ -914,11 +950,11 @@ PrintSummary (const InputFiles * inputfiles, const McPara * mcpara, const Temp *
   for (int i = 0; i < complexsize->n_prt; ++i) {
     for (int j = 0; j < complexsize->n_tmp; ++j) {
       for (int k = 0; k < complexsize->n_lig; ++k) {
-	const int linear_addr =
+	const int flatten_addr =
 	  complexsize->n_tmp * complexsize->n_lig * i + complexsize->n_lig * j + k;
-	printf ("AR of %4d temperature[%d]=%f \t %d / %d \t%f\n", linear_addr, j, temp[j].t,
-		mclog->acs[linear_addr], mcpara->steps_total,
-		(float) mclog->acs[linear_addr] / mcpara->steps_total);
+	printf ("AR of %4d temperature[%d]=%f \t %d / %d \t%f\n", flatten_addr, j, temp[j].t,
+		mclog->acs[flatten_addr], mcpara->steps_total,
+		(float) mclog->acs[flatten_addr] / mcpara->steps_total);
       }
     }
   }

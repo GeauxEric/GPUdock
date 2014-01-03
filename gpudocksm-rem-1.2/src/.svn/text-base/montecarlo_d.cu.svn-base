@@ -68,8 +68,11 @@ MonteCarlo_d (const int rep_begin, const int rep_end, const int s1, const int s2
 	Accept_d (bidx, mylig, mybeta, myreplica);
       }
 
-      //ComputeMoveMatrix_d (bidx, myreplica, mylig);
-
+      if (bidx == 0) {
+	etotal_dc[myreplica] = mylig->energy_old.e[MAXWEI - 1];
+	for (int i = 0; i < 6; ++i)
+	  ligmovevector_dc[myreplica].ele[i] = mylig->movematrix_old[i];
+      }
     }
   }
 

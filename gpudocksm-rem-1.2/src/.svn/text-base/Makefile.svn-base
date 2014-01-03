@@ -33,7 +33,7 @@ FFLAGS := -Wall -static $(OPTFLAGS)
 
 
 
-default: $(EXE)
+default: $(EXE) analysis
 
 $(EXE): $(OBJ_CPU) $(OBJ_GPU) 
 	$(CPP) $(LINKFLAGS) $(LIBPATH) $(OBJ_CPU) $(OBJ_GPU) -o $@
