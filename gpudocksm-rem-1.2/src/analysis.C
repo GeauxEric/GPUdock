@@ -21,12 +21,18 @@ main (int argc, char **argv)
   int num_show_line = 0;
   int lig_conf_num = 0;
   int prt_conf_num = 0;
+  int show_energy = 0;
+  int show_rep = 0;
 
   for ( int i = 0; i < argc; i++ ) {
     if ( !strcmp(argv[i],"-nl")  && i < argc ) 
       num_show_line = atoi(argv[i+1]);
     if ( !strcmp(argv[i],"-l")  && i < argc ) 
       lig_conf_num = atoi(argv[i+1]);
+    if ( !strcmp(argv[i],"-e")  && i < argc ) 
+      show_energy = atoi(argv[i+1]);
+    if ( !strcmp(argv[i],"-r")  && i < argc ) 
+      show_rep = atoi(argv[i+1]);
     if ( !strcmp(argv[i],"-p")  && i < argc ) 
       prt_conf_num = atoi(argv[i+1]);
   }
@@ -51,11 +57,13 @@ main (int argc, char **argv)
   const int iter_end = minimal_int (STEPS_PER_DUMP, num_show_line) - 1;
   const int arg = 2;
 
-  PrintLigRecord (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
+  if (show_energy == 1)
+    PrintLigRecord (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
   //PrintRepRecord (ligrecord, STEPS_PER_DUMP, repp_begin, repp_end, iter_begin, iter_end, arg);
-  PrintRepRecord2 (ligrecord, complexsize, STEPS_PER_DUMP, 
-		   lig_conf_num, prt_conf_num, 
-		   iter_begin, iter_end, arg);
+  if (show_rep == 1)
+    PrintRepRecord2 (ligrecord, complexsize, STEPS_PER_DUMP, 
+		     lig_conf_num, prt_conf_num, 
+		     iter_begin, iter_end, arg);
   //PrintMoveRecord (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
 
   free (ligrecord);

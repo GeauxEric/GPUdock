@@ -14,10 +14,11 @@ echo -e "csv output path\t\t\t"$csv_path
 
 ################################################################################
 # use ./analysis to load the hdf5 record file and redirect the output to a csv format
-./analysis -nl 20 -l 1 -p 2 $hd_path > $csv_path
+./analysis -nl 20 -l 1 -p 2 -r 0 -e 1 $hd_path 
+# ./analysis -nl 20 -l 1 -p 2 $hd_path > $csv_path
 
 ################################################################################
 # use pandas to laod the csv file and remove the duplicates
 base_path=$dir_path/$base_name
 
-python removeDup.py $base_path
+# python removeDup.py $base_path
