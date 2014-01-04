@@ -680,8 +680,8 @@ PrintMoveRecord (const LigRecord * ligrecord, const int steps_per_dump, const in
 // arg = 3      print all
 
 void
-PrintLigRecord (const LigRecord * ligrecord, const int steps_per_dump, const int replica,
-		const int iter_begin, const int iter_end, const int arg)
+PrintLigRecord (LigRecord * ligrecord,  int steps_per_dump,  int replica,
+		int iter_begin,  int iter_end,  int arg)
 {
   // print title
   // PrintEnergy2 (NULL, NULL, NULL, 1);
@@ -741,9 +741,9 @@ PrintRepRecord (const LigRecord * ligrecord, const int steps_per_dump, const int
 
 // print all temperature replicas of the same lig & prt
 void
-PrintRepRecord2 (const LigRecord * ligrecord, const ComplexSize complexsize,
-		 const int steps_per_dump, const int idx_prt, const int idx_lig,
-		 const int iter_begin, const int iter_end, const int arg)
+PrintRepRecord2 (LigRecord * ligrecord,  ComplexSize complexsize,
+		 int steps_per_dump,  int idx_prt,  int idx_lig,
+		 int iter_begin,  int iter_end,  int arg)
 {
   printf ("temperature replicas with lig %d prt %d\n", idx_lig, idx_prt);
 

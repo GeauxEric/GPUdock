@@ -45,17 +45,17 @@ main (int argc, char **argv)
   complexsize.n_pos = 0; // unused, the value does not matter
 
   LigRecord *ligrecord;
-  const size_t ligrecord_sz = sizeof (LigRecord) * complexsize.n_rep;
+  size_t ligrecord_sz = sizeof (LigRecord) * complexsize.n_rep;
   ligrecord = (LigRecord *) malloc (ligrecord_sz);
   ReadLigRecord (ligrecord, complexsize.n_rep, argv[argc-1]);
 
-  const int myreplica = 0;
-  //const int repp_begin = 0;
-  //const int repp_end = 22;
-  const int iter_begin = 0;
-  //const int iter_end = STEPS_PER_DUMP - 1;
-  const int iter_end = minimal_int (STEPS_PER_DUMP, num_show_line) - 1;
-  const int arg = 2;
+  int myreplica = 0;
+  // int repp_begin = 0;
+  // int repp_end = 22;
+  int iter_begin = 0;
+  // int iter_end = STEPS_PER_DUMP - 1;
+  int iter_end = minimal_int (STEPS_PER_DUMP, num_show_line) - 1;
+  int arg = 2;
 
   if (show_energy == 1)
     PrintLigRecord (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
