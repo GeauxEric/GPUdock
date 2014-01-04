@@ -96,8 +96,8 @@
 
 
 // monte carlo steps
-#define STEPS_TOTAL 300
-#define STEPS_PER_DUMP 300
+#define STEPS_TOTAL 5000
+#define STEPS_PER_DUMP 5000
 #define STEPS_PER_EXCHANGE 1
 
 

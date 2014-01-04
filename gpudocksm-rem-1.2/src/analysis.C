@@ -30,9 +30,9 @@ main (int argc, char **argv)
     if ( !strcmp(argv[i],"-l")  && i < argc ) 
       lig_conf_num = atoi(argv[i+1]);
     if ( !strcmp(argv[i],"-e")  && i < argc ) 
-      show_energy = atoi(argv[i+1]);
+      show_energy = 1;
     if ( !strcmp(argv[i],"-r")  && i < argc ) 
-      show_rep = atoi(argv[i+1]);
+      show_rep = 1;
     if ( !strcmp(argv[i],"-p")  && i < argc ) 
       prt_conf_num = atoi(argv[i+1]);
   }
