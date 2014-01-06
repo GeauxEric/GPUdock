@@ -8,6 +8,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 df = pandas.DataFrame
+pd = pandas
 
 def plotTotalEne(dt, pdf_path):
     """line plot of the total energy
@@ -24,41 +25,49 @@ def plotTotalEne(dt, pdf_path):
     print "line plot of total energy\t", ofn
     plt.savefig(ofn)
     
-def getHdfPath(pattern=' '):
-    """get the absolute path of the hdf file
+def getCsvPaths(pattern=' '):
+    """get the absolute paths of the csv file
     
     Arguments:
     - `pattern`: regex of the hdf file path
     """
-    # pattern = './output_*/a_*'
     pattern = pattern
-    outputs = glob.glob(pattern)
-    hdf_path = outputs[0]  # in testing, only the first hdf file tested
-    hdf_path = os.path.abspath(hdf_path)
+    outputs = sorted(glob.glob(pattern))  # sorted by name
+    csv_paths = []
+    for relative_path in outputs:
+        csv_paths.append(os.path.abspath(relative_path))
     
-    return hdf_path
+    return csv_paths
     
-def main():
-    import sys
-    base = sys.argv[1]
-
-    csv_path = base + '.csv'
-    total_ener_path = base + '_total.csv'
-    pdf_path = base + '.pdf'
-
-    print "pandas loading \t\t\t", csv_path
-    dt = pandas.read_csv(csv_path)
+def loadTotalEner(csv_paths):
+    """load all the csv files and extrct the total energy
+    """
+    total_dt = df()
+    for path in csv_paths:
+        dt = pd.read_csv(path)
+        total_dt = total_dt.append(dt)
 
     print "removing duplicates ..."
-    dt = dt.drop_duplicates(cols=['total', 'vdw', 'ele', 'pmf', 'psp', 'hdb', 'hpc', 'kde', 'lhm', 'dst'])
+    total_dt = total_dt.drop_duplicates(cols=['total', 'vdw', 'ele', 'pmf', 'psp', 'hdb', 'hpc', 'kde', 'lhm', 'dst'])
+    
+    total_ener = df(total_dt['total'])
 
-    print "total enregy\t\t\t", total_ener_path
-    total = df(dt['total'])
-    total.to_csv(total_ener_path, index=False)
-
-    plotTotalEne(dt, pdf_path)
+    return total_ener
 
 
+
+def main():
+    dir_path = sys.argv[1]
+    base_name = sys.argv[2]
+
+    pattern = dir_path + '/a_*.csv'
+    csv_paths = getCsvPaths(pattern)
+    
+    total_ener = loadTotalEner(csv_paths)
+
+    pdf_path = dir_path + '/' + base_name[0] + '.pdf'
+
+    plotTotalEne(total_ener, pdf_path)
     
 if __name__ == "__main__":
     main()
