@@ -46,6 +46,7 @@ def loadTotalEner(csv_paths):
     for path in csv_paths:
         dt = pd.read_csv(path)
         total_dt = total_dt.append(dt)
+        os.remove(path)
 
     print "removing duplicates ..."
     total_dt = total_dt.drop_duplicates(cols=['total', 'vdw', 'ele', 'pmf', 'psp', 'hdb', 'hpc', 'kde', 'lhm', 'dst'])

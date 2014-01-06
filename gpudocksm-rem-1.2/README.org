@@ -192,13 +192,70 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 
 * testing
 
+** TODO simplist monte carlo implementation
+
+*** DONE testing single temperature Monte Carlo
+    - [X] subscript in bounds in accept_d.cu
+      solved
+    - [X] in perturbing the ligand, MyRand_d() is always positive
+      solved
+    - initialize the ligand away from the native pose, run single temperature Monte Carlo
+      1. track the dst energy
+	 dst energy decreases through the process, see
+	 gpudocksm-rem-1.2/src/edst_single_temp_MC_away_center.pdf
+      2. track the vdw energy
+	 vdw energy fluctuats, see
+	 gpudocksm-rem-1.2/src/evdw_single_temp_MC_away_center.pdf
+    - initialize the ligand at the native pose
+      1. track the dst energy
+	 dst energy fluctuats at a low level, indicating the ligand moveing aournd the native pose, see
+	 gpudocksm-rem-1.2/src/edst_single_temp_MC_at_center.pdf
+   
+*** TODO figure out the rotation scale
+    currently ratational scale is 2-pi, meaning that the ligand could be rotated
+    to any degrees in one perturbation
+
+*** to diagnose one replica
+    #+BEGIN_SRC C++ 
+     const int myreplica = 0; // the # of replica chosen to print
+    #+END_SRC
 
 ** TODO Replica-exchange Monte Carlo mode
    mode describes the exchanging pattern of the ligand and temperature across all the replicas
      
 *** TODO temperature exchange mode
+    
+**** TODO determine the number of replicas needed
+     As the system size increases, the enregy distributions becomes relatively narrower and farther apart.
+     Our system size has alarge variation, so it would be better 
+     if we come up with a automatic way to determinethe number of replicas needed
+
+**** TODO function to print the replica number and the corresponding temperature
+     need to find out the replica with the lowest temperature after all running done
+
+**** TODO caculate the exchange acceptance ratio
+     for replica allocating optmization
+
 **** TODO testing the parallel tempering
+     - [ ] load data from multiple dump files
      - [ ] test dst energy
+
+**** DONE set the geometric progression temperatures
+     This temperatures settings ensures that the acceptance probability could be made uniform across all of the different replicas
+     if each replica spends the same amount of simulation time at each temperature.
+     #+BEGIN_SRC C++
+    float beta_high = 1.0f / floor_temp;
+    float beta_low = 1.0f / ceiling_temp;
+    const float beta_ratio = exp (log (beta_high / beta_low) / (float) (num_temp - 1));
+
+    float a = beta_low;
+    for (int i = 0; i < num_temp; i++) {
+      temp[i].order = i;
+      temp[i].minus_beta = 0.0f - a;
+
+      a *= beta_ratio;
+    }
+     #+END_SRC
        
 *** DONE which mode supposts complete information exchange
     - mode0 and mode1 combined together provides a mechanism that can do a complete information 
@@ -225,31 +282,6 @@ for ( int i1 = 0; i1 < _lna; i1++ )
    #+BEGIN_SRC 
   complexsize.n_pos = inputfiles->lhm_file.n_pos;	// number of MCS positions
    #+END_SRC
-
-
-** DONE simplist monte carlo implementation
-
-*** to diagnose one replica
-    #+BEGIN_SRC C++ 
-     const int myreplica = 0; // the # of replica chosen to print
-    #+END_SRC
-
-*** DONE testing single temperature Monte Carlo
-    - [X] subscript in bounds in accept_d.cu
-      solved
-    - [X] in perturbing the ligand, MyRand_d() is always positive
-      solved
-    - initialize the ligand away from the native pose, run single temperature Monte Carlo
-      1. track the dst energy
-	 dst energy decreases through the process, see
-	 gpudocksm-rem-1.2/src/edst_single_temp_MC_away_center.pdf
-      2. track the vdw energy
-	 vdw energy fluctuats, see
-	 gpudocksm-rem-1.2/src/evdw_single_temp_MC_away_center.pdf
-    - initialize the ligand at the native pose
-      1. track the dst energy
-	 dst energy fluctuats at a low level, indicating the ligand moveing aournd the native pose, see
-	 gpudocksm-rem-1.2/src/edst_single_temp_MC_at_center.pdf
 
 ** DONE argument parsing
    #+BEGIN_SRC C++

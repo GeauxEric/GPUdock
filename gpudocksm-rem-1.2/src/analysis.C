@@ -23,6 +23,7 @@ main (int argc, char **argv)
   int prt_conf_num = 0;
   int show_energy = 0;
   int show_rep = 0;
+  int myreplica = 0;
 
   for ( int i = 0; i < argc; i++ ) {
     if ( !strcmp(argv[i],"-nl")  && i < argc ) 
@@ -35,6 +36,8 @@ main (int argc, char **argv)
       show_rep = 1;
     if ( !strcmp(argv[i],"-p")  && i < argc ) 
       prt_conf_num = atoi(argv[i+1]);
+    if ( !strcmp(argv[i],"-rep")  && i < argc ) 
+      myreplica = atoi(argv[i+1]);
   }
 
   ComplexSize complexsize;
@@ -49,7 +52,6 @@ main (int argc, char **argv)
   ligrecord = (LigRecord *) malloc (ligrecord_sz);
   ReadLigRecord (ligrecord, complexsize.n_rep, argv[argc-1]);
 
-  int myreplica = 0;
   // int repp_begin = 0;
   // int repp_end = 22;
   int iter_begin = 0;
