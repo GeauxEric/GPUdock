@@ -897,6 +897,10 @@ PrintSummary (const InputFiles * inputfiles, const McPara * mcpara, const Temp *
 {
   putchar ('\n');
 
+  // inputs and outputs
+  printf ("================================================================================\n");
+  printf ("Inputs and Outputs\n");
+  printf ("================================================================================\n");
   printf ("ligand file\t\t\t");
   std::cout << inputfiles->lig_file.path << std::endl;
   printf ("protein file\t\t\t");
@@ -910,16 +914,26 @@ PrintSummary (const InputFiles * inputfiles, const McPara * mcpara, const Temp *
 
   printf ("output directory\t\t%s\n", mcpara->outputdir);
   printf ("out file (HDF5)\t\t\t%s/%s_XXXX.h5\n", mcpara->outputdir, mcpara->outputfile);
-
-  printf ("steps_total\t\t\t%d\n", mcpara->steps_total);
   printf ("steps_per_dump\t\t\t%d\n", mcpara->steps_per_dump);
-  printf ("steps_per_exchange\t\t%d\n", mcpara->steps_per_exchange);
 
   const size_t ligrecord_sz = sizeof (LigRecord) * complexsize->n_rep;
   printf ("per dump record size:\t\t%.3f MB\n", (float) ligrecord_sz / 1048576);
 
-  printf ("movement scale (txyz, rxyz)\t");
-  for (int i = 0; i < 6; ++i)
+  printf ("================================================================================\n");
+
+  // Replica Exchange Monte carlo parameters
+  printf ("Replica Exchange Monte Carlo parameters\n");
+  printf ("================================================================================\n");
+  printf ("steps_total\t\t\t%d\n", mcpara->steps_total);
+  printf ("steps_per_exchange\t\t%d\n", mcpara->steps_per_exchange);
+
+  printf ("translational scale\t\t");
+  for (int i = 0; i < 3; ++i)
+    printf("%.8f ", mcpara->move_scale[i]);
+  printf ("\n");
+
+  printf ("rotational scale\t\t");
+  for (int i = 3; i < 6; ++i)
     printf("%.8f ", mcpara->move_scale[i]);
   printf ("\n");
 
@@ -966,6 +980,12 @@ PrintSummary (const InputFiles * inputfiles, const McPara * mcpara, const Temp *
 	  mcpara->steps_total / mcpara->steps_per_exchange * complexsize->n_rep,
 	  (float) mclog->ac_temp_exchg / (mcpara->steps_total / mcpara->steps_per_exchange * complexsize->n_rep));
 
+  printf ("================================================================================\n");
+
+  // performance
+  printf ("Performance\n");
+  printf ("================================================================================\n");
+
   const float mcpersec0 = mcpara->steps_total * complexsize->n_rep / mclog->t0;
   printf ("compute time\t\t\t%.3f seconds\n", mclog->t0);
   printf ("time per MC sweep per replica\t%.3f * 1e-6 seconds\n", 1e6 / mcpersec0);
@@ -977,6 +997,7 @@ PrintSummary (const InputFiles * inputfiles, const McPara * mcpara, const Temp *
   printf ("time per MC sweep per replica\t%.3f * 1e-6 seconds \n", 1e6 / mcpersec1);
   printf ("MC sweeps per second\t\t%.3f\n", mcpersec1);
   printf ("speedup over 843.75\t\t%.3f X\n", mcpersec1 / 843.75);
+  printf ("================================================================================\n");
 
 
 }
