@@ -192,53 +192,62 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 
 * testing
 
-** TODO simplist monte carlo implementation
-
-*** DONE testing single temperature Monte Carlo
-    - [X] subscript in bounds in accept_d.cu
-      solved
-    - [X] in perturbing the ligand, MyRand_d() is always positive
-      solved
-    - initialize the ligand away from the native pose, run single temperature Monte Carlo
-      1. track the dst energy
-	 dst energy decreases through the process, see
-	 gpudocksm-rem-1.2/src/edst_single_temp_MC_away_center.pdf
-      2. track the vdw energy
-	 vdw energy fluctuats, see
-	 gpudocksm-rem-1.2/src/evdw_single_temp_MC_away_center.pdf
-    - initialize the ligand at the native pose
-      1. track the dst energy
-	 dst energy fluctuats at a low level, indicating the ligand moveing aournd the native pose, see
-	 gpudocksm-rem-1.2/src/edst_single_temp_MC_at_center.pdf
-   
-*** TODO figure out the rotation scale
-    currently ratational scale is 2-pi, meaning that the ligand could be rotated
-    to any degrees in one perturbation
-    
-*** to diagnose one replica
-    #+BEGIN_SRC C++ 
-     const int myreplica = 0; // the # of replica chosen to print
-    #+END_SRC
 
 ** TODO Replica-exchange Monte Carlo mode
    mode describes the exchanging pattern of the ligand and temperature across all the replicas
-     
-*** TODO temperature exchange mode
 
-**** TODO testing the parallel tempering
-     - [X] load data from multiple dump files
-     - [ ] test dst energy
+*** TODO fix the bug if steps_per_exchange set to zero
 
-**** TODO function to print the replica number and the corresponding temperature
-     need to find out the replica with the lowest temperature after all running done
+*** TODO What would be a good AR of exchange ?
 
-**** TODO caculate the exchange acceptance ratio
+**** TODO What determines the AR of exchange ?
+     All experiments should be done based on
+     1. two replicas
+     2. same translation and rotation perturbation scale
+     3. mode1, replica 0 exchange between replica 1
+
+***** TODO temperature interval?
+
+****** TODO determine the number of replicas needed
+       As the system size increases, the enregy distributions becomes relatively narrower and farther apart.
+       Our system size has alarge variation, so it would be better 
+       if we come up with a automatic way to determinethe number of replicas needed
+
+***** TODO size of the system?
+      currently energy is averaged across all ligand atoms, 
+      so the total energy should be linear with the size of prt?
+
+***** DONE ratio of elementry MC trials and exchange trials
+      - scripts
+	stp_per_exchg.sh
+      - result
+        | stp_per_exchg | exchg_AR |
+        |---------------+----------|
+        |            10 | 0.045433 |
+        |            20 | 0.046167 |
+        |            30 | 0.051458 |
+        |            40 | 0.043978 |
+        |            50 | 0.050000 |
+        |            60 | 0.045433 |
+        |            70 | 0.052937 |
+        |            80 | 0.049156 |
+        |            90 | 0.062262 |
+        |           100 | 0.052278 |
+        |           110 | 0.050520 |
+        |           120 | 0.052633 |
+        |           130 | 0.051772 |
+        |           140 | 0.051129 |
+        |           150 | 0.051167 |
+        |           160 | 0.046756 |
+        |           170 | 0.052841 |
+        |           180 | 0.047497 |
+        |           190 | 0.053810 |
+        |           200 | 0.050778 |
+      - conclusion
+	exchg_AR is rather stable with the number of steps per exchange
+
+**** DONE caculate the exchange acceptance ratio
      for replica allocating optmization
-    
-**** TODO determine the number of replicas needed
-     As the system size increases, the enregy distributions becomes relatively narrower and farther apart.
-     Our system size has alarge variation, so it would be better 
-     if we come up with a automatic way to determinethe number of replicas needed
 
 **** DONE set the geometric progression temperatures
      This temperatures settings ensures that the acceptance probability could be made uniform across all of the different replicas
@@ -256,6 +265,10 @@ for ( int i1 = 0; i1 < _lna; i1++ )
       a *= beta_ratio;
     }
      #+END_SRC
+
+**** DONE testing the parallel tempering
+     - [X] load data from multiple dump files
+     - [X] test dst energy
 
 *** DONE to use mode0 and mode1 alternatively
     #+BEGIN_SRC C++
@@ -288,6 +301,39 @@ for ( int i1 = 0; i1 < _lna; i1++ )
    #+BEGIN_SRC 
   complexsize.n_pos = inputfiles->lhm_file.n_pos;	// number of MCS positions
    #+END_SRC
+
+
+** TODO simplist monte carlo implementation
+*** DONE testing single temperature Monte Carlo
+    - [X] subscript in bounds in accept_d.cu
+      solved
+    - [X] in perturbing the ligand, MyRand_d() is always positive
+      solved
+    - initialize the ligand away from the native pose, run single temperature Monte Carlo
+      1. track the dst energy
+	 dst energy decreases through the process, see
+	 gpudocksm-rem-1.2/src/edst_single_temp_MC_away_center.pdf
+      2. track the vdw energy
+	 vdw energy fluctuats, see
+	 gpudocksm-rem-1.2/src/evdw_single_temp_MC_away_center.pdf
+    - initialize the ligand at the native pose
+      1. track the dst energy
+	 dst energy fluctuats at a low level, indicating the ligand moveing aournd the native pose, see
+	 gpudocksm-rem-1.2/src/edst_single_temp_MC_at_center.pdf
+*** TODO temperature on the AR of MC
+    - ./dock -floor_temp 0.01f -ceiling_temp 0.01f -num_temp 1 -t 0.01f -r 0.08f -s 30000 -stp_per_exchg 100|grep "AR of MC" |awk '{print $7}'
+    - result
+      
+
+
+    
+*** TODO best perturbation scale
+    optimize later
+    
+*** to diagnose one replica
+    #+BEGIN_SRC C++ 
+     const int myreplica = 0; // the # of replica chosen to print
+    #+END_SRC
 
 ** DONE argument parsing
    #+BEGIN_SRC C++
