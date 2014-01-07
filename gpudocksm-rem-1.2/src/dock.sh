@@ -13,4 +13,4 @@ rm -rf output_*
 # rotation scale
 
 
-./dock -floor_temp 0.1f -ceiling_temp 0.15f -num_temp 9 -t 0.000f -r 0.08f
+./dock -floor_temp 0.01f -ceiling_temp 0.3f -num_temp 20 -t 0.01f -r 0.08f -s 30000 -stp_per_exchg 10 

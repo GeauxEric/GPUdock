@@ -27,7 +27,7 @@ Accept_d (const int bidx, Ligand * __restrict__ mylig, const float mybeta, const
       // printf("prob: %f\n", expf (delta_energy * mybeta));
     }
 
-    acs_dc[myreplica] += is_accept;
+    acs_mc_dc[myreplica] += is_accept;
   }
 
   __syncthreads ();

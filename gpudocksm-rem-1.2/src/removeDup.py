@@ -4,8 +4,10 @@ import glob
 import pandas
 import numpy as np
 import matplotlib
+matplotlib.use('Agg')
 
 import matplotlib.pyplot as plt
+
 
 df = pandas.DataFrame
 pd = pandas
@@ -16,10 +18,12 @@ def plotTotalEne(dt, pdf_path):
     ofn = pdf_path
 
     ener = dt['total'].values
+    # ener = dt['total'].values
 
     fig, ax = plt.subplots()
     ax.plot(ener)
     ax.set_xlabel('step', fontsize=14)
+    # ax.set_ylabel('total energy', fontsize=14)
     ax.set_ylabel('total energy', fontsize=14)
 
     print "line plot of total energy\t", ofn
@@ -52,6 +56,7 @@ def loadTotalEner(csv_paths):
     total_dt = total_dt.drop_duplicates(cols=['total', 'vdw', 'ele', 'pmf', 'psp', 'hdb', 'hpc', 'kde', 'lhm', 'dst'])
     
     total_ener = df(total_dt['total'])
+    # total_ener = df(total_dt['total'])
 
     return total_ener
 
@@ -66,7 +71,7 @@ def main():
     
     total_ener = loadTotalEner(csv_paths)
 
-    pdf_path = dir_path + '/' + base_name[0] + '.pdf'
+    pdf_path = dir_path + '/' + base_name + '.pdf'
 
     plotTotalEne(total_ener, pdf_path)
     

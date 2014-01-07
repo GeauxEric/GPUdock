@@ -29,7 +29,8 @@ __constant__ float *etotal_dc;
 __constant__ LigMoveVector *ligmovevector_dc;
 __constant__ LigRecord *ligrecord_dc;
 __constant__ TmpEnergy *tmpenergy_dc;
-__constant__ int *acs_dc;
+__constant__ int *acs_mc_dc;
+__constant__ int *acs_temp_exchg_dc;
 
 // PRNG seeds
 __constant__ int seed_dc;

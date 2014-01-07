@@ -214,7 +214,7 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 *** TODO figure out the rotation scale
     currently ratational scale is 2-pi, meaning that the ligand could be rotated
     to any degrees in one perturbation
-
+    
 *** to diagnose one replica
     #+BEGIN_SRC C++ 
      const int myreplica = 0; // the # of replica chosen to print
@@ -224,21 +224,21 @@ for ( int i1 = 0; i1 < _lna; i1++ )
    mode describes the exchanging pattern of the ligand and temperature across all the replicas
      
 *** TODO temperature exchange mode
-    
-**** TODO determine the number of replicas needed
-     As the system size increases, the enregy distributions becomes relatively narrower and farther apart.
-     Our system size has alarge variation, so it would be better 
-     if we come up with a automatic way to determinethe number of replicas needed
+
+**** TODO testing the parallel tempering
+     - [X] load data from multiple dump files
+     - [ ] test dst energy
 
 **** TODO function to print the replica number and the corresponding temperature
      need to find out the replica with the lowest temperature after all running done
 
 **** TODO caculate the exchange acceptance ratio
      for replica allocating optmization
-
-**** TODO testing the parallel tempering
-     - [ ] load data from multiple dump files
-     - [ ] test dst energy
+    
+**** TODO determine the number of replicas needed
+     As the system size increases, the enregy distributions becomes relatively narrower and farther apart.
+     Our system size has alarge variation, so it would be better 
+     if we come up with a automatic way to determinethe number of replicas needed
 
 **** DONE set the geometric progression temperatures
      This temperatures settings ensures that the acceptance probability could be made uniform across all of the different replicas
@@ -256,6 +256,11 @@ for ( int i1 = 0; i1 < _lna; i1++ )
       a *= beta_ratio;
     }
      #+END_SRC
+
+*** DONE to use mode0 and mode1 alternatively
+    #+BEGIN_SRC C++
+      const int mode_t = (s2/mc_para->steps_per_exchange) % 2; // temperature exchange mode
+    #+END_SRC
        
 *** DONE which mode supposts complete information exchange
     - mode0 and mode1 combined together provides a mechanism that can do a complete information 
@@ -264,8 +269,6 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 ** TODO search the lowest energy in the track
    to find the lowest energy and the corresponding configuration in each replica
 
-*** TODO more functions in analysis.C 
-    
 *** TODO in production version, every step has to be recorded, which generate redunancy
     1. because memory allocated for recording would be left with some unused space 
        if only the accepted configuration information is recorded
@@ -277,6 +280,9 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 **** TODO estimate hard disk requirement
      - [ ] set total steps and total temperature from cmd
 
+       
+** TODO requirement for hard drive
+   
 
 ** TODO why care about the # mcs ??
    #+BEGIN_SRC 
@@ -390,4 +396,3 @@ for ( int i1 = 0; i1 < _lna; i1++ )
    
 ** DONE What does output_20131205_105456/a_XXXX.h5's xxxx stand for ???
    to leave 4 digits
-** DONE check the temperature settings 

@@ -31,37 +31,50 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, I
 
   ////////////////////////////////////////////////////////////////////////////////
   // default settings
-  float floor_temp = 0.3f;   // lowest temperature in all replicas
-  float ceiling_temp = 0.3f;   // highest temperature in all replicas
-  int num_temp = 9;      // number of temperatures for the same ligand and protein conformations
   float t = 0.001f;  // translational scale
   float r = 3.1415f;  // rotational scale
 
+  exchgpara->floor_temp = 0.3f;
+  exchgpara->ceiling_temp = 0.3f;
+
+  mcpara->steps_total = 3000;
+  mcpara->steps_per_dump = STEPS_PER_DUMP;
+  mcpara->steps_per_exchange = 5;
+  // end of default settings
+
+
  for ( int i = 0; i < argc; i++ )
- {
-  if ( !strcmp(argv[i],"-floor_temp")  && i < argc ) {
-    floor_temp = atof(argv[i+1]);
-  }
-  if ( !strcmp(argv[i],"-ceiling_temp")  && i < argc ) {
-    ceiling_temp = atof(argv[i+1]);
-  }
-  if ( !strcmp(argv[i],"-num_temp")  && i < argc ) {
-    num_temp = atoi(argv[i+1]);
-  }
-  if ( !strcmp(argv[i],"-t")  && i < argc ) {
-    t = atof(argv[i+1]);
-  }
-  if ( !strcmp(argv[i],"-r")  && i < argc ) {
-    r = atof(argv[i+1]);
-  }
-  // if ( !strcmp(argv[i],"-l")  && i < argc ) { compounds_name = string(argv[i+1]); compounds_opt = true; }
-  // if ( !strcmp(argv[i],"-s")  && i < argc ) { lhm_name       = string(argv[i+1]); lhm_opt       = true; }
-  // if ( !strcmp(argv[i],"-o")  && i < argc ) { output_name    = string(argv[i+1]); output_opt    = true; }
-  // if ( !strcmp(argv[i],"-i")  && i < argc ) { molid          = string(argv[i+1]);                       }
-  // if ( !strcmp(argv[i],"-nr") && i < argc ) { remc_replicas  = atoi(argv[i+1]);                         }
-  // if ( !strcmp(argv[i],"-ns") && i < argc ) { remc_steps     = atoi(argv[i+1]);                         }
-  // if ( !strcmp(argv[i],"-nc") && i < argc ) { remc_cycles    = atoi(argv[i+1]);                         }
- }
+   {
+     if ( !strcmp(argv[i],"-stp_per_exchg")  && i < argc ) {
+       mcpara->steps_per_exchange = atoi(argv[i+1]);
+     }
+     if ( !strcmp(argv[i],"-s")  && i < argc ) {
+       mcpara->steps_total = atoi(argv[i+1]);
+     }
+     if ( !strcmp(argv[i],"-floor_temp")  && i < argc ) {
+       exchgpara->floor_temp = atof(argv[i+1]);
+     }
+     if ( !strcmp(argv[i],"-ceiling_temp")  && i < argc ) {
+       exchgpara->ceiling_temp = atof(argv[i+1]);
+     }
+     if ( !strcmp(argv[i],"-num_temp")  && i < argc ) {
+       int num_temp = atoi(argv[i+1]);
+       if (num_temp <= MAXTMP)
+	 exchgpara->num_temp = num_temp;
+       else
+	 {
+	   cout << "setting number of temperatures exceeds MAXTMP" << endl;
+	   cout << "docking exiting ..." << endl;
+	   exit(1);
+	 }
+     }
+     if ( !strcmp(argv[i],"-t")  && i < argc ) {
+       t = atof(argv[i+1]);
+     }
+     if ( !strcmp(argv[i],"-r")  && i < argc ) {
+       r = atof(argv[i+1]);
+     }
+   }
 
 #if 1
   inputfiles->lig_file.id = "1a07C1";
@@ -75,21 +88,8 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, I
   inputfiles->norpara_file.path_a = "../dat/nor_a";
   inputfiles->norpara_file.path_b = "../dat/nor_b";
 
-  exchgpara->floor_temp = floor_temp;
-  exchgpara->ceiling_temp = ceiling_temp;
-  if (num_temp <= MAXTMP)
-    exchgpara->num_temp = num_temp;
-  else
-    {
-      cout << "setting number of temperatures exceeds MAXTMP" << endl;
-      cout << "docking exiting ..." << endl;
-      exit(1);
-    }
 
 
-  mcpara->steps_total = STEPS_TOTAL;
-  mcpara->steps_per_dump = STEPS_PER_DUMP;
-  mcpara->steps_per_exchange = STEPS_PER_EXCHANGE;
 
   // const float t = 1.0f;
   // const float r = 5.0f;
@@ -490,10 +490,10 @@ SetMcLog (McLog * mclog)
   mclog->t0 = 0;
   mclog->t1 = 0;
   mclog->t2 = 0;
-  mclog->ac = 0;
+  mclog->ac_mc = 0;
 
   for (int i = 0; i < MAXREP; ++i)
-    mclog->acs[i] = 0;
+    mclog->acs_mc[i] = 0;
 }
 
 
@@ -929,10 +929,11 @@ PrintSummary (const InputFiles * inputfiles, const McPara * mcpara, const Temp *
   printf ("total ligand conformations\t%d\n", complexsize->n_lig);
   printf ("mcs\t\t\t\t%d\n", complexsize->n_pos);
 
-  printf ("AR of total \t\t\t%d / %d \t%f\n",
-	  mclog->ac,
+  printf ("AR of MC \t\t\t%d / %d \t%f\n",
+	  mclog->ac_mc,
 	  mcpara->steps_total * complexsize->n_rep,
-	  (float) mclog->ac / (mcpara->steps_total * complexsize->n_rep));
+	  (float) mclog->ac_mc / (mcpara->steps_total * complexsize->n_rep));
+  
 
 #if 0
   for (int t = 0; t < complexsize->n_tmp; ++t) {
@@ -940,8 +941,8 @@ PrintSummary (const InputFiles * inputfiles, const McPara * mcpara, const Temp *
     printf ("AR of temperature[%d]=%f \t %d / %d \t%f\n",
 	    t,
 	    temp[t].t,
-	    mclog->acs[myreplica],
-	    mcpara->steps_total, (float) mclog->acs[myreplica] / mcpara->steps_total);
+	    mclog->acs_mc[myreplica],
+	    mcpara->steps_total, (float) mclog->acs_mc[myreplica] / mcpara->steps_total);
   }
 #endif
 
@@ -953,13 +954,17 @@ PrintSummary (const InputFiles * inputfiles, const McPara * mcpara, const Temp *
 	const int flatten_addr =
 	  complexsize->n_tmp * complexsize->n_lig * i + complexsize->n_lig * j + k;
 	printf ("AR of %4d temperature[%d]=%f \t %d / %d \t%f\n", flatten_addr, j, temp[j].t,
-		mclog->acs[flatten_addr], mcpara->steps_total,
-		(float) mclog->acs[flatten_addr] / mcpara->steps_total);
+		mclog->acs_mc[flatten_addr], mcpara->steps_total,
+		(float) mclog->acs_mc[flatten_addr] / mcpara->steps_total);
       }
     }
   }
 #endif
 
+  printf ("AR of temp exchange \t\t%d / %d \t%f\n",
+	  mclog->ac_temp_exchg,
+	  mcpara->steps_total / mcpara->steps_per_exchange * complexsize->n_rep,
+	  (float) mclog->ac_temp_exchg / (mcpara->steps_total / mcpara->steps_per_exchange * complexsize->n_rep));
 
   const float mcpersec0 = mcpara->steps_total * complexsize->n_rep / mclog->t0;
   printf ("compute time\t\t\t%.3f seconds\n", mclog->t0);

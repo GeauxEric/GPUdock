@@ -194,7 +194,8 @@ Run (const Ligand * lig,
   const size_t etotal_sz = sizeof (float) * n_rep;
   const size_t ligmovevector_sz = sizeof (LigMoveVector) * n_rep;
   const size_t tmpenergy_sz = sizeof (TmpEnergy) * n_rep;
-  const size_t acs_sz = sizeof (int) * MAXREP; // acceptance counter
+  const size_t acs_mc_sz = sizeof (int) * MAXREP; // acceptance counter
+  const size_t acs_temp_exchg_sz = sizeof (int) * MAXREP; // acceptance counter
   //size_t etotal_sz_per_gpu[NGPU];
   //for (int i = 0; i < NGPU; ++i)
   //etotal_sz_per_gpu[i] = sizeof (float) * n_rep_per_gpu[i];
@@ -204,9 +205,11 @@ Run (const Ligand * lig,
   float *etotal_d[NGPU];
   LigMoveVector *ligmovevector_d[NGPU];
   TmpEnergy *tmpenergy_d[NGPU];
-  int *acs, *acs_d[NGPU];
+  int *acs_mc, *acs_mc_d[NGPU];
+  int *acs_temp_exchg, *acs_temp_exchg_d[NGPU];
 
-  acs = (int *) malloc (acs_sz);
+  acs_mc = (int *) malloc (acs_mc_sz);
+  acs_temp_exchg = (int *) malloc (acs_temp_exchg_sz);
 
   for (int i = 0; i < NGPU; ++i) {
     cudaSetDevice (i);
@@ -215,14 +218,16 @@ Run (const Ligand * lig,
     cudaMalloc ((void **) &etotal_d[i], etotal_sz);
     cudaMalloc ((void **) &ligmovevector_d[i], ligmovevector_sz);
     cudaMalloc ((void **) &tmpenergy_d[i], tmpenergy_sz);
-    cudaMalloc ((void **) &acs_d[i], acs_sz);
+    cudaMalloc ((void **) &acs_mc_d[i], acs_mc_sz);
+    cudaMalloc ((void **) &acs_temp_exchg_d[i], acs_temp_exchg_sz);
 
     CUDAMEMCPYTOSYMBOL (lig_dc, &lig_d[i], Ligand *);
     CUDAMEMCPYTOSYMBOL (replica_dc, &replica_d[i], Replica *);
     CUDAMEMCPYTOSYMBOL (etotal_dc, &etotal_d[i], float *);
     CUDAMEMCPYTOSYMBOL (ligmovevector_dc, &ligmovevector_d[i], LigMoveVector *);
     CUDAMEMCPYTOSYMBOL (tmpenergy_dc, &tmpenergy_d[i], TmpEnergy *);
-    CUDAMEMCPYTOSYMBOL (acs_dc, &acs_d[i], int *);
+    CUDAMEMCPYTOSYMBOL (acs_mc_dc, &acs_mc_d[i], int *);
+    CUDAMEMCPYTOSYMBOL (acs_temp_exchg_dc, &acs_temp_exchg_d[i], int *);
 
     CUDAMEMCPY (lig_d[i], lig, lig_sz, cudaMemcpyHostToDevice);
     CUDAMEMCPY (replica_d[i], replica, replica_sz, cudaMemcpyHostToDevice);
@@ -276,13 +281,16 @@ Run (const Ligand * lig,
   // calcuate acceptance counters
   for (int i = 0; i < NGPU; ++i) {
     cudaSetDevice (i);
-    CUDAMEMCPY (acs, acs_d[i], acs_sz, cudaMemcpyDeviceToHost);
+    CUDAMEMCPY (acs_mc, acs_mc_d[i], acs_mc_sz, cudaMemcpyDeviceToHost);
+    CUDAMEMCPY (acs_temp_exchg, acs_temp_exchg_d[i], acs_temp_exchg_sz, cudaMemcpyDeviceToHost);
     for (int j = 0; j < MAXREP; ++j) {
-      mclog->acs[j] += acs[j];
+      mclog->acs_mc[j] += acs_mc[j];
+      mclog->acs_temp_exchg[j] += acs_temp_exchg[j];
     }
   }
   for (int j = 0; j < MAXREP; ++j) {
-    mclog->ac += mclog->acs[j];
+    mclog->ac_mc += mclog->acs_mc[j];
+    mclog->ac_temp_exchg += mclog->acs_temp_exchg[j];
   }
 
 
@@ -308,12 +316,14 @@ Run (const Ligand * lig,
     cudaFree (etotal_d[i]);
     cudaFree (ligmovevector_d[i]);
     cudaFree (tmpenergy_d[i]);
-    cudaFree (acs_d[i]);
+    cudaFree (acs_mc_d[i]);
+    cudaFree (acs_temp_exchg_d[i]);
 
     cudaFree (ligrecord_d[i]);
   }
 
-  free (acs);
+  free (acs_mc);
+  free (acs_temp_exchg);
   free (ligrecord);
 
 

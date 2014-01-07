@@ -1,10 +1,13 @@
 #include <cstdlib>
 #include <cstdio>
+#include <iostream>
 
 #include "dock.h"
 #include "util.h"
 #include "size.h"
 #include "hdf5io.h"
+
+using namespace std;
 
 
 int
@@ -25,7 +28,17 @@ main (int argc, char **argv)
   int show_rep = 0;
   int myreplica = 0;
 
+  ComplexSize complexsize;
+  complexsize.n_prt = 3;
+  complexsize.n_tmp = MAXTMP;
+  // complexsize.n_tmp = MAXTMP;
+  complexsize.n_lig = 20;
+  complexsize.n_rep = complexsize.n_lig * complexsize.n_prt * complexsize.n_tmp;
+  complexsize.n_pos = 0; // unused, the value does not matter
+
   for ( int i = 0; i < argc; i++ ) {
+    if ( !strcmp(argv[i],"-num_temp")  && i < argc ) 
+      complexsize.n_tmp = atoi(argv[i+1]);
     if ( !strcmp(argv[i],"-nl")  && i < argc ) 
       num_show_line = atoi(argv[i+1]);
     if ( !strcmp(argv[i],"-l")  && i < argc ) 
@@ -40,12 +53,23 @@ main (int argc, char **argv)
       myreplica = atoi(argv[i+1]);
   }
 
-  ComplexSize complexsize;
-  complexsize.n_prt = 3;
-  complexsize.n_tmp = MAXTMP;
-  complexsize.n_lig = 20;
-  complexsize.n_rep = complexsize.n_lig * complexsize.n_prt * complexsize.n_tmp;
-  complexsize.n_pos = 0; // unused, the value does not matter
+
+
+  	
+
+  int lig_conf = 0;
+
+  int prt_conf = 0;
+
+  int replica_same_temp[MAXTMP];
+
+  for (int t = 0; t < complexsize.n_tmp; t++) {
+	int flatten_addr =
+	       complexsize.n_tmp * complexsize.n_lig * prt_conf + complexsize.n_lig * t + lig_conf;
+	replica_same_temp[t] = flatten_addr;
+	// cout << flatten_addr << endl;
+  }
+
 
   LigRecord *ligrecord;
   size_t ligrecord_sz = sizeof (LigRecord) * complexsize.n_rep;

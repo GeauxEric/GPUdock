@@ -19,7 +19,8 @@ InitAcs_d (const int bidx)
 {
   if (blockIdx.x == 0) {
     for (int i = bidx; i < MAXREP; i += TperB) {
-      acs_dc[i] = 0;
+      acs_mc_dc[i] = 0;
+      acs_temp_exchg_dc[i] = 0;
     }
   }
 }

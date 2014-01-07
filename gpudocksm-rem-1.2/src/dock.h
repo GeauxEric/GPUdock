@@ -457,8 +457,13 @@ struct McPara
 struct McLog
 {
   double t0, t1, t2; // time escape
-  int ac;  // acceptance counter
-  int acs[MAXREP];  // acceptance counter for all replicas
+  int ac_mc;  // MC acceptance counter
+  int acs_mc[MAXREP];   // MC acceptance counter for all replicas
+  int ac_temp_exchg;
+  int acs_temp_exchg[MAXREP]; 
+  
+  // int ac_lig_exchg;
+  // int acs_lig_exchg[MAXREP];
 };
 
 

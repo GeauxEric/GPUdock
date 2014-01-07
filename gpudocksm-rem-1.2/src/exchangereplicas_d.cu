@@ -13,7 +13,6 @@ ExchangeReplicas_d (const int mode_l, const int mode_t)
 
     // should implement a function to check if MAX_XXX is in proper size
     // eg: assert ((MAXREP > n_rep) && (not exaust the shared memory))
-
     
     //__shared__ int idx_tmp[MAXREP];
     //__shared__ int idx_lig[MAXREP];
@@ -62,6 +61,8 @@ ExchangeReplicas_d (const int mode_l, const int mode_t)
 	      if (exchange_prob > MyRand_d()) {
 		temps[o1] = temps[o2];
 		temps[o2] = tt;
+		acs_temp_exchg_dc[o1] += 1;
+		acs_temp_exchg_dc[o2] += 1;
 	      }
 	    }
 	  }

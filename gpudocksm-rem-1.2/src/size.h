@@ -34,7 +34,7 @@
 #define MAXLIG_NUM 200
 /* MAX ligand in one ligand .sdf file */
 
-#define MAXTMP 9
+#define MAXTMP 20
 /* number of temperature replicas */
 
 #define MAXREP 2048
@@ -96,9 +96,9 @@
 
 
 // monte carlo steps
-#define STEPS_TOTAL 10000
-#define STEPS_PER_DUMP 2000
-#define STEPS_PER_EXCHANGE 1
+// #define STEPS_TOTAL 30000
+#define STEPS_PER_DUMP 1000
+#define STEPS_PER_EXCHANGE 10
 
 
 #endif

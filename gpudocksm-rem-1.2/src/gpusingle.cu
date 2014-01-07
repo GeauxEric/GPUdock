@@ -14,16 +14,9 @@
     for (int s2 = 0; s2 < mcpara->steps_per_dump; s2 += mcpara->steps_per_exchange) {
       CUDAKERNEL (MonteCarlo_d, dim_grid, dim_block, rep_begin[i], rep_end[i], s1, s2);
 # if IS_EXCHANGE == 1
-      if (s2 % 2 == 0) {
-	const int mode_l = 4; // ligand exchange mode
-	const int mode_t = 1; // temperature exchange mode
-	CUDAKERNEL (ExchangeReplicas_d, dim_grid, dim_block, mode_l, mode_t);
-      }
-      else {
-	const int mode_l = 4; // ligand exchange mode
-	const int mode_t = 0; // temperature exchange mode
-	CUDAKERNEL (ExchangeReplicas_d, dim_grid, dim_block, mode_l, mode_t);
-      }
+      const int mode_l = 4; // ligand exchange mode
+      const int mode_t = (s2 / mcpara->steps_per_exchange) % 2; // change exchange mode alternatively
+      CUDAKERNEL (ExchangeReplicas_d, dim_grid, dim_block, mode_l, mode_t);
 # endif
     }
 

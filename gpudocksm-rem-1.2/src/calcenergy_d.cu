@@ -333,8 +333,8 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
     e[6] = ekde[0];
     e[7] = elhm[0];
     e[8] = edst;
-    // e[9] = etotal;
-    e[9] = edst;
+    e[9] = etotal;
+    // e[9] = edst;
   }
 }
 
