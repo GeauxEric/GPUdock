@@ -59,14 +59,22 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, I
      }
      if ( !strcmp(argv[i],"-num_temp")  && i < argc ) {
        int num_temp = atoi(argv[i+1]);
-       if (num_temp <= MAXTMP)
+       if (num_temp == 1) {
 	 exchgpara->num_temp = num_temp;
-       else
-	 {
-	   cout << "setting number of temperatures exceeds MAXTMP" << endl;
-	   cout << "docking exiting ..." << endl;
-	   exit(1);
-	 }
+	 cout << "RUNNING single temperature Monte Carlo" << endl;
+	 cout << "FLOOR temperature used in simulaition" << endl;
+       }
+       else {
+	 if (num_temp <= MAXTMP)
+	   exchgpara->num_temp = num_temp;
+	 else
+	   {
+	     cout << "setting number of temperatures exceeds MAXTMP" << endl;
+	     cout << "try modifying MAXTMP in size.h" << endl;
+	     cout << "docking exiting ..." << endl;
+	     exit(1);
+	   }
+       }
      }
      if ( !strcmp(argv[i],"-t")  && i < argc ) {
        t = atof(argv[i+1]);
@@ -439,16 +447,26 @@ SetTemperature (Temp * temp, ExchgPara * exchgpara)
   
   float beta_high = 1.0f / floor_temp;
   float beta_low = 1.0f / ceiling_temp;
-  const float beta_ratio = exp (log (beta_high / beta_low) / (float) (num_temp - 1));
-  // cout << "beta_ratio: " << beta_ratio << endl;
 
-  float a = beta_low;
-  for (int i = 0; i < num_temp; i++) {
-    temp[i].order = i;
-    temp[i].minus_beta = 0.0f - a;
-
-    a *= beta_ratio;
+  if (num_temp == 1) {
+    float a = beta_high;
+    for (int i = 0; i < num_temp; i++) {
+      temp[i].order = i;
+      temp[i].minus_beta = 0.0f - a;
+    }
   }
+  else {
+    const float beta_ratio = exp (log (beta_high / beta_low) / (float) (num_temp - 1));
+
+    float a = beta_low;
+    for (int i = 0; i < num_temp; i++) {
+      temp[i].order = i;
+      temp[i].minus_beta = 0.0f - a;
+
+      a *= beta_ratio;
+    }
+  }
+    
 
   // for (int i = 0; i < num_temp; i++) {
   //   temp[i].t = floor_temp;

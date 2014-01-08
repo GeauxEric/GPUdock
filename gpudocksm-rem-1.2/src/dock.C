@@ -9,10 +9,19 @@
 #include "util.h"
 #include "load.h"
 
+using namespace std;
 
 int
 main (int argc, char **argv)
 {
+
+  cout << "------------------------------------------------------------" << endl
+       << "                         GPU-dockSM" << endl
+       << "                         version 1.0" << endl << endl
+       << "   GPU-accelerated mixed-resolution ligand docking using" << endl
+       << "                Replica Exchange Monte Carlo" << endl
+       << "------------------------------------------------------------" << endl << endl;
+
   srand (time (0));
 
   McPara *mcpara = new McPara;

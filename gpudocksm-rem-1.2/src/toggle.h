@@ -9,7 +9,7 @@
 #define IS_RANDOM 1
 
 // replica exhcange
-#define IS_EXCHANGE 1
+#define IS_EXCHANGE 0
 
 
 #endif // TOGGLE_H
