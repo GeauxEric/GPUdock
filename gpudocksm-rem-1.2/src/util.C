@@ -443,29 +443,36 @@ SetWeight (EnePara * enepara)
 void
 SetTemperature (Temp * temp, ExchgPara * exchgpara)
 {
+  printf ("Setting up temperature replicas\n");
+  printf ("================================================================================\n");
+
   int num_temp = exchgpara->num_temp;
   float floor_temp = exchgpara->floor_temp;
   float ceiling_temp = exchgpara->ceiling_temp;
-  
-  float beta_high = 1.0f / floor_temp;
-  float beta_low = 1.0f / ceiling_temp;
 
   if (num_temp == 1) {
-    float a = beta_high;
+    float my_temp = floor_temp;
+    float beta = 1.0f / (BOLTZMANN_CONST * my_temp);
+
     for (int i = 0; i < num_temp; i++) {
+      printf ("temp # %d\t\t\t%f\n", i, my_temp);
+
       temp[i].order = i;
-      temp[i].minus_beta = 0.0f - a;
+      temp[i].minus_beta = 0.0f - beta;
     }
   }
   else {
-    const float beta_ratio = exp (log (beta_high / beta_low) / (float) (num_temp - 1));
-
-    float a = beta_low;
+    const float temp_ratio = exp (log (ceiling_temp / floor_temp) / (float) (num_temp - 1));
+    float a = floor_temp;
     for (int i = 0; i < num_temp; i++) {
-      temp[i].order = i;
-      temp[i].minus_beta = 0.0f - a;
+      float my_temp = a;
+      float my_beta = 1.0f / (BOLTZMANN_CONST * my_temp);
+      printf ("temp # %d\t\t\t%f\n", i, my_temp);
 
-      a *= beta_ratio;
+      temp[i].order = i;
+      temp[i].minus_beta = 0.0f - my_beta;
+      
+      a *= temp_ratio;
     }
   }
     

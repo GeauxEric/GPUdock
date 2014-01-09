@@ -94,6 +94,8 @@
 // if mcs equal to 728492, it is invalid
 #define MCS_INVALID_COORD 728492
 
+// boltzman constant
+#define BOLTZMANN_CONST 1.0f
 
 // monte carlo steps
 // #define STEPS_TOTAL 30000

@@ -6,7 +6,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
 
-def plotTotalEne(values, pdf_path):
+def plotTotalEne(values, temp, pdf_path):
     """line plot of the total energy
     """
     ofn = pdf_path
@@ -16,11 +16,12 @@ def plotTotalEne(values, pdf_path):
     ax.plot(ener)
     ax.set_xlabel('step', fontsize=14)
     ax.set_ylabel('total energy', fontsize=14)
+    ax.set_title("Temperature: " + temp)
 
     print "line plot of total energy\t", ofn
     plt.savefig(ofn)
     
-def histogram(values, pdf_path, normed=1, num_bins=100):
+def histogram(values, temp, pdf_path, normed=1, num_bins=100):
     """plot the histogram of the data
     
     Arguments:
@@ -43,17 +44,11 @@ def histogram(values, pdf_path, normed=1, num_bins=100):
     ax.plot(bins, y, 'r--')
     ax.set_xlabel('Totol energy')
     ax.set_ylabel('Probability')
-    ax.set_title(r'$\mu$=' + str(mu) + ', ' + r'$\sigma$=' + str(sigma))
+    ax.set_title(r'$\mu$=' + str(mu) + ', ' + 
+                 r'$\sigma$=' + str(sigma) + ',' + 
+                 "Temperature=" + temp)
 
     # Tweak spacing to prevent clipping of ylabel
     plt.subplots_adjust(left=0.15)
     print "histgram plot of total energy\t", pdf_path
     fig.savefig(pdf_path)
-
-
-
-
-
-
-
-

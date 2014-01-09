@@ -40,25 +40,44 @@ def loadTotalEner(csv_paths):
 
     return total_ener
 
+def removeCsv(csv_paths):
+    for path in csv_paths:
+        os.remove(path)
+
 
 def main():
     dir_path = sys.argv[1]
     base_name = sys.argv[2]
+    temp = sys.argv[3]
 
     pattern = dir_path + '/a_*.csv'
     csv_paths = getCsvPaths(pattern)
     
     total_ener = loadTotalEner(csv_paths)
+    
+    removeCsv(csv_paths)
 
-    line_path = dir_path + '/' + base_name + '_line.pdf'
-    hist_path = dir_path + '/' + base_name + '_hist.pdf'
+    line_path = dir_path + '/' + base_name + '_' + temp + '_line.pdf'
+    hist_path = dir_path + '/' + base_name + '_' + temp + '_hist.pdf'
     values = total_ener['total'].values
 
-    plot_analysis.plotTotalEne(values, line_path)
-    plot_analysis.histogram(values, hist_path, normed=0)
+    plot_analysis.plotTotalEne(values, temp, line_path)
+    plot_analysis.histogram(values, temp, hist_path, normed=0)
     
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
