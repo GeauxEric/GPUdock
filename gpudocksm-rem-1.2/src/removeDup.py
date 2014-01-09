@@ -1,33 +1,14 @@
 import sys, os
 import subprocess
 import glob
-import pandas
+
+import pandas as pd
 import numpy as np
-import matplotlib
-matplotlib.use('Agg')
 
-import matplotlib.pyplot as plt
+import plot_analysis
 
+df = pd.DataFrame
 
-df = pandas.DataFrame
-pd = pandas
-
-def plotTotalEne(dt, pdf_path):
-    """line plot of the total energy
-    """
-    ofn = pdf_path
-
-    ener = dt['total'].values
-    # ener = dt['total'].values
-
-    fig, ax = plt.subplots()
-    ax.plot(ener)
-    ax.set_xlabel('step', fontsize=14)
-    # ax.set_ylabel('total energy', fontsize=14)
-    ax.set_ylabel('total energy', fontsize=14)
-
-    print "line plot of total energy\t", ofn
-    plt.savefig(ofn)
     
 def getCsvPaths(pattern=' '):
     """get the absolute paths of the csv file
@@ -71,9 +52,29 @@ def main():
     
     total_ener = loadTotalEner(csv_paths)
 
-    pdf_path = dir_path + '/' + base_name + '.pdf'
+    line_path = dir_path + '/' + base_name + '_line.pdf'
+    hist_path = dir_path + '/' + base_name + '_hist.pdf'
+    values = total_ener['total'].values
 
-    plotTotalEne(total_ener, pdf_path)
+    plot_analysis.plotTotalEne(values, line_path)
+    plot_analysis.histogram(values, hist_path)
     
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
