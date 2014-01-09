@@ -31,7 +31,6 @@ def loadTotalEner(csv_paths):
     for path in csv_paths:
         dt = pd.read_csv(path)
         total_dt = total_dt.append(dt)
-        os.remove(path)
 
     print "removing duplicates ..."
     total_dt = total_dt.drop_duplicates(cols=['total', 'vdw', 'ele', 'pmf', 'psp', 'hdb', 'hpc', 'kde', 'lhm', 'dst'])
@@ -40,7 +39,6 @@ def loadTotalEner(csv_paths):
     # total_ener = df(total_dt['total'])
 
     return total_ener
-
 
 
 def main():
@@ -57,22 +55,10 @@ def main():
     values = total_ener['total'].values
 
     plot_analysis.plotTotalEne(values, line_path)
-    plot_analysis.histogram(values, hist_path)
+    plot_analysis.histogram(values, hist_path, normed=0)
     
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

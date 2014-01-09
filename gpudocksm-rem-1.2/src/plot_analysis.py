@@ -33,21 +33,27 @@ def histogram(values, pdf_path, normed=1, num_bins=100):
     x = values
     
     fig, ax = plt.subplots()
-    
-    # import ipdb; ipdb.set_trace()
 
     # the histogram of the data
     num_bins = num_bins
-    n, bins, patches = plt.hist(x, num_bins, normed=1, facecolor='green', alpha=0.5)
+    n, bins, patches = ax.hist(x, num_bins, normed=normed, facecolor='green', alpha=0.5)
 
     # add a 'best fit' line
     y = mlab.normpdf(bins, mu, sigma)
     ax.plot(bins, y, 'r--')
     ax.set_xlabel('Totol energy')
     ax.set_ylabel('Probability')
-    ax.set_title(r'Histogram of total energy')
+    ax.set_title(r'$\mu$=' + str(mu) + ', ' + r'$\sigma$=' + str(sigma))
 
     # Tweak spacing to prevent clipping of ylabel
     plt.subplots_adjust(left=0.15)
     print "histgram plot of total energy\t", pdf_path
     fig.savefig(pdf_path)
+
+
+
+
+
+
+
+

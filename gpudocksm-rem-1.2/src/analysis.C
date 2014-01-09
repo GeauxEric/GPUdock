@@ -57,6 +57,7 @@ main (int argc, char **argv)
 
   	
 
+  /*
   int lig_conf = 0;
 
   int prt_conf = 0;
@@ -66,9 +67,11 @@ main (int argc, char **argv)
   for (int t = 0; t < complexsize.n_tmp; t++) {
 	int flatten_addr =
 	       complexsize.n_tmp * complexsize.n_lig * prt_conf + complexsize.n_lig * t + lig_conf;
+	// cout << "flatten addr :" << flatten_addr << endl;
 	replica_same_temp[t] = flatten_addr;
 	// cout << flatten_addr << endl;
   }
+  */
 
 
   LigRecord *ligrecord;

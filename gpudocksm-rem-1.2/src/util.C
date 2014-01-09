@@ -178,11 +178,13 @@ void InitLigCoord (Ligand * lig, const ComplexSize complexsize){
   for (int i = 0; i < complexsize.n_lig; ++i) {
     Ligand *mylig = &lig[i];
     
+#if IS_AWAY
     ////////////////////////////////////////////////////////////////////////////////
     // debugging, move ligand far away from center
     mylig->coord_orig.center[0] += 1.5f;
     mylig->coord_orig.center[1] += 1.5f;
     mylig->coord_orig.center[2] += 1.5f;
+#endif
 
     mylig->coord_new = mylig->coord_orig;
     for (int residue = 0; residue < mylig->lna; residue++) {

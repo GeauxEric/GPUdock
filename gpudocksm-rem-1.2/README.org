@@ -192,7 +192,6 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 
 * testing
 
-
 ** TODO Replica-exchange Monte Carlo mode
    mode describes the exchanging pattern of the ligand and temperature across all the replicas
 
@@ -208,14 +207,29 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 
 ***** TODO temperature interval?
 
-****** TODO determine the number of replicas needed
-       As the system size increases, the enregy distributions becomes relatively narrower and farther apart.
-       Our system size has alarge variation, so it would be better 
-       if we come up with a automatic way to determinethe number of replicas needed
+****** TODO temperature range
+       1. without exchanging, the AR of single temperature MC
+       |         temp |       AR |
+       |--------------+----------|
+       | 0.0000000001 | 0.087856 |
+       |   0.00000001 | 0.088242 |
+       |    0.0000001 | 0.087675 |
+       |     0.000001 | 0.087775 |
+       |      0.00002 | 0.088514 |
+       |       0.0003 | 0.094300 |
+       |        0.004 | 0.257322 |
+       |         0.05 | 0.822958 |
+       |          0.6 | 0.989831 |
+       |          7.0 | 0.999111 |
+       2. 
+****** TODO number of temperatures
 
-***** TODO size of the system?
+
+***** DONE size of the system?
       currently energy is averaged across all ligand atoms, 
-      so the total energy should be linear with the size of prt?
+      however, since only short interactions are considered in calculating the energy,
+      and one ligand atom generally intearact with 20~ protein residues,
+      total energy of the system is size independent.
 
 ***** DONE ratio of elementry MC trials and exchange trials
       - scripts
@@ -270,6 +284,7 @@ for ( int i1 = 0; i1 < _lna; i1++ )
      - [X] load data from multiple dump files
      - [X] test dst energy
 
+*** DONE plot the histgram of the energy
 *** DONE to use mode0 and mode1 alternatively
     #+BEGIN_SRC C++
       const int mode_t = (s2/mc_para->steps_per_exchange) % 2; // temperature exchange mode
@@ -320,9 +335,22 @@ for ( int i1 = 0; i1 < _lna; i1++ )
       1. track the dst energy
 	 dst energy fluctuats at a low level, indicating the ligand moveing aournd the native pose, see
 	 gpudocksm-rem-1.2/src/edst_single_temp_MC_at_center.pdf
-*** TODO temperature on the AR of MC
-    - ./dock -floor_temp 0.01f -ceiling_temp 0.01f -num_temp 1 -t 0.01f -r 0.08f -s 30000 -stp_per_exchg 100|grep "AR of MC" |awk '{print $7}'
+*** DONE temperature on the AR of MC
+    - script
+      AR_MC_single_temp.sh
     - result
+      |         temp |       AR |
+      |--------------+----------|
+      | 0.0000000001 | 0.087856 |
+      |   0.00000001 | 0.088242 |
+      |    0.0000001 | 0.087675 |
+      |     0.000001 | 0.087775 |
+      |      0.00002 | 0.088514 |
+      |       0.0003 | 0.094300 |
+      |        0.004 | 0.257322 |
+      |         0.05 | 0.822958 |
+      |          0.6 | 0.989831 |
+      |          7.0 | 0.999111 |
       
 
 

@@ -11,6 +11,9 @@
 // replica exhcange
 #define IS_EXCHANGE 0
 
+// move ligand away from center
+#define IS_AWAY 1
+
 
 #endif // TOGGLE_H
 
