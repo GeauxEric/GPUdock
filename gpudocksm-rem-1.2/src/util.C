@@ -40,15 +40,39 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, I
   mcpara->steps_total = 3000;
   mcpara->steps_per_dump = STEPS_PER_DUMP;
   mcpara->steps_per_exchange = 5;
-  // end of default settings
 
+  inputfiles->weight_file.path = "../dat/08ff_opt";
+  inputfiles->norpara_file.path_a = "../dat/nor_a";
+  inputfiles->norpara_file.path_b = "../dat/nor_b";
+  inputfiles->enepara_file.path = "../dat/gpudocksm.ff";
+  inputfiles->lig_file.molid = "MOLID";
+
+  inputfiles->lig_file.path = "../test/1a07C1.sdf";
+  inputfiles->prt_file.path = "../test/1a07C.pdb";
+  inputfiles->lhm_file.path = "../test/1a07C1.ff";
+  // end of default settings
+  bool protein_opt = false;
+  bool compounds_opt = false;
+  bool lhm_opt = false;
 
  for ( int i = 0; i < argc; i++ )
    {
-     if ( !strcmp(argv[i],"-stp_per_exchg")  && i < argc ) {
-       mcpara->steps_per_exchange = atoi(argv[i+1]);
+     if ( !strcmp(argv[i],"-p")  && i < argc ) {
+       inputfiles->prt_file.path = argv[i+1];
+       protein_opt = true;
      }
      if ( !strcmp(argv[i],"-s")  && i < argc ) {
+       inputfiles->lhm_file.path = argv[i+1];
+       lhm_opt = true;
+     }
+     if ( !strcmp(argv[i],"-l")  && i < argc ) {
+       inputfiles->lig_file.id = argv[i+1];
+       compounds_opt = true;
+     }
+     if ( !strcmp(argv[i],"-nc")  && i < argc ) {
+       mcpara->steps_per_exchange = atoi(argv[i+1]);
+     }
+     if ( !strcmp(argv[i],"-ns")  && i < argc ) {
        mcpara->steps_total = atoi(argv[i+1]);
      }
      if ( !strcmp(argv[i],"-floor_temp")  && i < argc ) {
@@ -57,7 +81,7 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, I
      if ( !strcmp(argv[i],"-ceiling_temp")  && i < argc ) {
        exchgpara->ceiling_temp = atof(argv[i+1]);
      }
-     if ( !strcmp(argv[i],"-num_temp")  && i < argc ) {
+     if ( !strcmp(argv[i],"-nt")  && i < argc ) {
        int num_temp = atoi(argv[i+1]);
        if (num_temp == 1) {
 	 exchgpara->num_temp = num_temp;
@@ -70,7 +94,7 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, I
 	 else
 	   {
 	     cout << "setting number of temperatures exceeds MAXTMP" << endl;
-	     cout << "try modifying MAXTMP in size.h" << endl;
+	     cout << "try modifying MAXTMP in size.h and compile again" << endl;
 	     cout << "docking exiting ..." << endl;
 	     exit(1);
 	   }
@@ -84,23 +108,23 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, I
      }
    }
 
-#if 1
-  inputfiles->lig_file.id = "1a07C1";
-  inputfiles->lig_file.path = "../test/1a07C1.sdf";
-  inputfiles->lig_file.molid = "MOLID";
-  inputfiles->prt_file.path = "../test/1a07C.pdb";
-  inputfiles->lhm_file.path = "../test/1a07C1.ff";
-  inputfiles->lhm_file.ligand_id = "1a07C1";
-  inputfiles->enepara_file.path = "../dat/gpudocksm.ff";
-  inputfiles->weight_file.path = "../dat/08ff_opt";
-  inputfiles->norpara_file.path_a = "../dat/nor_a";
-  inputfiles->norpara_file.path_b = "../dat/nor_b";
-
-
-
-
-  // const float t = 1.0f;
-  // const float r = 5.0f;
+ if ( !protein_opt )
+   {
+     cout << "Provide target protein structure" << endl;
+     exit(EXIT_FAILURE);
+   }
+ 
+ if ( !compounds_opt )
+   {
+     cout << "Provide compound library in SD format" << endl;
+     exit(EXIT_FAILURE);
+   }
+ 
+ if ( !lhm_opt )
+   {
+     cout << "Provide LHM potentials" << endl;
+     exit(EXIT_FAILURE);
+   }
 
   mcpara->move_scale[0] = t;
   mcpara->move_scale[1] = t;
@@ -136,7 +160,6 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, I
   strcpy (mcpara->outputfile, h5file);
 #endif
 
-#endif
 
 }
 

@@ -195,7 +195,12 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 ** TODO Replica-exchange Monte Carlo mode
    mode describes the exchanging pattern of the ligand and temperature across all the replicas
 
-*** TODO fix the bug if steps_per_exchange set to zero
+*** TODO is the potential energy surface rugged?
+
+**** TODO if not rugged, will the parallel tempering help reaching the global minimum more quickly?
+     1. trun on the raplica exchange
+     2. run
+	/home/jaydy/work/dat/rem_output/output_20140112_122718/dock.sh
 
 *** TODO What would be a good AR of exchange ?
 
@@ -206,24 +211,19 @@ for ( int i1 = 0; i1 < _lna; i1++ )
      3. mode1, replica 0 exchange between replica 1
 
 ***** TODO temperature interval?
-
 ****** TODO temperature range
-       1. without exchanging, the AR of single temperature MC
-       |         temp |       AR |
-       |--------------+----------|
-       | 0.0000000001 | 0.087856 |
-       |   0.00000001 | 0.088242 |
-       |    0.0000001 | 0.087675 |
-       |     0.000001 | 0.087775 |
-       |      0.00002 | 0.088514 |
-       |       0.0003 | 0.094300 |
-       |        0.004 | 0.257322 |
-       |         0.05 | 0.822958 |
-       |          0.6 | 0.989831 |
-       |          7.0 | 0.999111 |
-       2. 
-****** TODO number of temperatures
-
+******* TODO lowest temperature
+	must be small enough to constrain the dynamics of the particle to the immediate vicinity of the nearest local minimum of the potential energy surface(PES)
+******* TODO highest temperature
+	cover essential of the PES
+       	
+****** TODO energy distribution vs temperature
+       1. temperature range
+	  [0.000032, 0.14]
+       2. script
+	  /home/jaydy/work/dat/rem_output/output_20140112_122718/dock.sh
+       3. result
+	  /home/jaydy/work/dat/rem_output/output_20140112_122718/report
 
 ***** DONE size of the system?
       currently energy is averaged across all ligand atoms, 
@@ -283,6 +283,11 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 **** DONE testing the parallel tempering
      - [X] load data from multiple dump files
      - [X] test dst energy
+	
+       
+
+
+*** TODO fix the bug if steps_per_exchange set to zero
 
 *** DONE plot the histgram of the energy
 *** DONE to use mode0 and mode1 alternatively
@@ -335,23 +340,60 @@ for ( int i1 = 0; i1 < _lna; i1++ )
       1. track the dst energy
 	 dst energy fluctuats at a low level, indicating the ligand moveing aournd the native pose, see
 	 gpudocksm-rem-1.2/src/edst_single_temp_MC_at_center.pdf
-*** DONE temperature on the AR of MC
+*** TODO temperature on the AR of MC
     - script
       AR_MC_single_temp.sh
     - result
-      |         temp |       AR |
-      |--------------+----------|
-      | 0.0000000001 | 0.087856 |
-      |   0.00000001 | 0.088242 |
-      |    0.0000001 | 0.087675 |
-      |     0.000001 | 0.087775 |
-      |      0.00002 | 0.088514 |
-      |       0.0003 | 0.094300 |
-      |        0.004 | 0.257322 |
-      |         0.05 | 0.822958 |
-      |          0.6 | 0.989831 |
-      |          7.0 | 0.999111 |
+      with BOLTZMANN_CONST = 1.0f
+    | temperature |    AR_MC |
+    |-------------+----------|
+    |    0.000001 | 0.003440 |
+    |    0.000002 | 0.003466 |
+    |    0.000004 | 0.003417 |
+    |    0.000008 | 0.003331 |
+    |    0.000016 | 0.003475 |
+    |    0.000032 | 0.003498 |
+    |    0.000064 | 0.003573 |
+    |    0.000096 | 0.003948 |
+    |    0.000128 | 0.004107 |
+    |    0.000144 | 0.004148 |
+    |    0.000216 | 0.004679 |
+    |    0.000256 | 0.005476 |
+    |    0.000324 | 0.006476 |
+    |    0.000486 | 0.010730 |
+    |    0.000512 | 0.010275 |
+    |    0.000729 | 0.020125 |
+    |    0.001024 | 0.027060 |
+    |    0.001093 | 0.033435 |
+    |    0.001639 | 0.058051 |
+    |    0.002048 | 0.073684 |
+    |    0.002458 | 0.089566 |
+    |    0.003687 | 0.147971 |
+    |    0.004096 | 0.157058 |
+    |    0.005530 | 0.212904 |
+    |    0.008192 | 0.282580 |
+    |    0.008295 | 0.288165 |
+    |    0.012442 | 0.385477 |
+    |    0.016384 | 0.440276 |
+    |    0.018663 | 0.473842 |
+    |    0.027994 | 0.556481 |
+    |    0.032768 | 0.581020 |
+    |    0.041991 | 0.625931 |
+    |    0.062986 | 0.704965 |
+    |    0.065536 | 0.706120 |
+    |    0.094479 | 0.790121 |
+    |    0.131072 | 0.866801 |
+    |    0.141718 | 0.878129 |
+    |    0.212577 | 0.942685 |
+    |    0.262144 | 0.960365 |
+    |    0.318865 | 0.971370 |
+    |    0.478297 | 0.984198 |
+    |    0.524288 | 0.985535 |
+    |    0.717445 | 0.990041 |
+    |    1.048576 | 0.993395 |
+    |    1.076167 | 0.993428 |
       
+
 
 
     

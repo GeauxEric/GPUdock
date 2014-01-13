@@ -9,7 +9,7 @@
 #define IS_RANDOM 1
 
 // replica exhcange
-#define IS_EXCHANGE 0
+#define IS_EXCHANGE 1
 
 // move ligand away from center
 #define IS_AWAY 1

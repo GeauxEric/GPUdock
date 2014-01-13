@@ -22,9 +22,11 @@ Accept_d (const int bidx, Ligand * __restrict__ mylig, const float mybeta, const
     else {
       const float delta_energy = mylig->energy_new.e[MAXWEI - 1] - mylig->energy_old.e[MAXWEI -1];
       is_accept = (MyRand_d () < expf (delta_energy * mybeta));  // mybeta is less than zero
+      // printf ("delta_energy: %.8f\n", delta_energy);
       // printf("is_accept: %d\n", is_accept);
       // printf("Myrand_d: %f\n", MyRand_d());
-      // printf("prob: %f\n", expf (delta_energy * mybeta));
+      // printf("prob: %.32f\n", expf (delta_energy * mybeta));
+      // printf("mybeta: %.20f\n", mybeta);
     }
 
     acs_mc_dc[myreplica] += is_accept;
