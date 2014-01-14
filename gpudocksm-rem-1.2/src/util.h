@@ -35,6 +35,7 @@ void PrintEnergy1 (const Energy *, const int, const int);
 void PrintCsv (const Energy *, const int, const int, const int);
 void PrintEnergy2 (const Energy *, const int, const int, const int);
 void PrintEnergy3 (const Energy *, const int, const int, const int, const int);
+void PrintTrack (LigRecord *,  int,  int,  int,  int,  int);
 void PrintLigRecord (LigRecord *,  int,  int,  int,  int,  int);
 void PrintRepRecord (const LigRecord *, const int, const int, const int, const int, const int, const int);
 void PrintRepRecord2 (LigRecord *,  ComplexSize,  int,  int,  int,  int,  int,  int);

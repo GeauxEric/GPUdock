@@ -21,39 +21,42 @@ main (int argc, char **argv)
   }
 
   // default settings
-  int num_show_line = 0;
-  int lig_conf_num = 0;
-  int prt_conf_num = 0;
+  int lig_conf = 0;
+  int prt_conf = 0;
   int show_energy = 0;
   int show_rep = 0;
   int myreplica = 0;
 
   ComplexSize complexsize;
-  complexsize.n_prt = 3;
+
+  complexsize.n_prt = 11;
   complexsize.n_tmp = MAXTMP;
-  // complexsize.n_tmp = MAXTMP;
-  complexsize.n_lig = 20;
-  complexsize.n_rep = complexsize.n_lig * complexsize.n_prt * complexsize.n_tmp;
+  complexsize.n_lig = 31;
   complexsize.n_pos = 0; // unused, the value does not matter
 
+  // ./analysis -num_temp 20 -rep 589 -nl 4500 -l 1 -p 2 -e XXX.h5
+
   for ( int i = 0; i < argc; i++ ) {
-    if ( !strcmp(argv[i],"-num_temp")  && i < argc ) 
-      complexsize.n_tmp = atoi(argv[i+1]);
-    if ( !strcmp(argv[i],"-nl")  && i < argc ) 
-      num_show_line = atoi(argv[i+1]);
     if ( !strcmp(argv[i],"-l")  && i < argc ) 
-      lig_conf_num = atoi(argv[i+1]);
+      lig_conf = atoi(argv[i+1]);
     if ( !strcmp(argv[i],"-e")  && i < argc ) 
       show_energy = 1;
     if ( !strcmp(argv[i],"-r")  && i < argc ) 
       show_rep = 1;
     if ( !strcmp(argv[i],"-p")  && i < argc ) 
-      prt_conf_num = atoi(argv[i+1]);
+      prt_conf = atoi(argv[i+1]);
+    if ( !strcmp(argv[i],"-np")  && i < argc ) 
+      complexsize.n_prt = atoi(argv[i+1]);
+    if ( !strcmp(argv[i],"-nl")  && i < argc ) 
+      complexsize.n_lig = atoi(argv[i+1]);
+    if ( !strcmp(argv[i],"-nt")  && i < argc ) 
+      complexsize.n_tmp = atoi(argv[i+1]);
     if ( !strcmp(argv[i],"-rep")  && i < argc ) 
       myreplica = atoi(argv[i+1]);
   }
 
 
+  complexsize.n_rep = complexsize.n_lig * complexsize.n_prt * complexsize.n_tmp;
 
   	
 
@@ -79,21 +82,19 @@ main (int argc, char **argv)
   ligrecord = (LigRecord *) malloc (ligrecord_sz);
   ReadLigRecord (ligrecord, complexsize.n_rep, argv[argc-1]);
 
-  // int repp_begin = 0;
-  // int repp_end = 22;
   int iter_begin = 0;
-  // int iter_end = STEPS_PER_DUMP - 1;
-  int iter_end = minimal_int (STEPS_PER_DUMP, num_show_line) - 1;
+  int iter_end = STEPS_PER_DUMP - 1;
   int arg = 2;
 
-  // if (show_energy == 1)
-  PrintLigRecord (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
-  //PrintRepRecord (ligrecord, STEPS_PER_DUMP, repp_begin, repp_end, iter_begin, iter_end, arg);
+  PrintTrack (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
+
+  if (show_energy == 1)
+    PrintLigRecord (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
+
   if (show_rep == 1)
     PrintRepRecord2 (ligrecord, complexsize, STEPS_PER_DUMP, 
-		     lig_conf_num, prt_conf_num, 
+		     lig_conf, prt_conf, 
 		     iter_begin, iter_end, arg);
-  //PrintMoveRecord (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
 
   free (ligrecord);
   return 0;

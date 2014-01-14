@@ -192,6 +192,91 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 
 * testing
 
+
+** TODO simplist monte carlo implementation
+*** TODO  calculate MCC coefficient
+*** TODO temperature on the AR of MC
+    - script
+      AR_MC_single_temp.sh
+    - result
+      with BOLTZMANN_CONST = 1.0f
+    | temperature |    AR_MC |
+    |-------------+----------|
+    |    0.000001 | 0.003440 |
+    |    0.000002 | 0.003466 |
+    |    0.000004 | 0.003417 |
+    |    0.000008 | 0.003331 |
+    |    0.000016 | 0.003475 |
+    |    0.000032 | 0.003498 |
+    |    0.000064 | 0.003573 |
+    |    0.000096 | 0.003948 |
+    |    0.000128 | 0.004107 |
+    |    0.000144 | 0.004148 |
+    |    0.000216 | 0.004679 |
+    |    0.000256 | 0.005476 |
+    |    0.000324 | 0.006476 |
+    |    0.000486 | 0.010730 |
+    |    0.000512 | 0.010275 |
+    |    0.000729 | 0.020125 |
+    |    0.001024 | 0.027060 |
+    |    0.001093 | 0.033435 |
+    |    0.001639 | 0.058051 |
+    |    0.002048 | 0.073684 |
+    |    0.002458 | 0.089566 |
+    |    0.003687 | 0.147971 |
+    |    0.004096 | 0.157058 |
+    |    0.005530 | 0.212904 |
+    |    0.008192 | 0.282580 |
+    |    0.008295 | 0.288165 |
+    |    0.012442 | 0.385477 |
+    |    0.016384 | 0.440276 |
+    |    0.018663 | 0.473842 |
+    |    0.027994 | 0.556481 |
+    |    0.032768 | 0.581020 |
+    |    0.041991 | 0.625931 |
+    |    0.062986 | 0.704965 |
+    |    0.065536 | 0.706120 |
+    |    0.094479 | 0.790121 |
+    |    0.131072 | 0.866801 |
+    |    0.141718 | 0.878129 |
+    |    0.212577 | 0.942685 |
+    |    0.262144 | 0.960365 |
+    |    0.318865 | 0.971370 |
+    |    0.478297 | 0.984198 |
+    |    0.524288 | 0.985535 |
+    |    0.717445 | 0.990041 |
+    |    1.048576 | 0.993395 |
+    |    1.076167 | 0.993428 |
+    
+*** TODO testing single temperature Monte Carlo
+    - [X] subscript in bounds in accept_d.cu
+      solved
+    - [X] in perturbing the ligand, MyRand_d() is always positive
+      solved
+    - initialize the ligand away from the native pose, run single temperature Monte Carlo
+      1. track the dst energy
+	 dst energy decreases through the process, see
+	 gpudocksm-rem-1.2/src/edst_single_temp_MC_away_center.pdf
+      2. track the vdw energy
+	 vdw energy fluctuats, see
+	 gpudocksm-rem-1.2/src/evdw_single_temp_MC_away_center.pdf
+    - initialize the ligand at the native pose
+      1. track the dst energy
+	 dst energy fluctuats at a low level, indicating the ligand moveing aournd the native pose, see
+	 gpudocksm-rem-1.2/src/edst_single_temp_MC_at_center.pdf
+      
+
+
+
+*** TODO best perturbation scale
+    optimize later
+    
+*** to diagnose one replica
+    #+BEGIN_SRC C++ 
+     const int myreplica = 0; // the # of replica chosen to print
+    #+END_SRC
+
+
 ** TODO Replica-exchange Monte Carlo mode
    mode describes the exchanging pattern of the ligand and temperature across all the replicas
 
@@ -321,89 +406,6 @@ for ( int i1 = 0; i1 < _lna; i1++ )
    #+BEGIN_SRC 
   complexsize.n_pos = inputfiles->lhm_file.n_pos;	// number of MCS positions
    #+END_SRC
-
-
-** TODO simplist monte carlo implementation
-*** DONE testing single temperature Monte Carlo
-    - [X] subscript in bounds in accept_d.cu
-      solved
-    - [X] in perturbing the ligand, MyRand_d() is always positive
-      solved
-    - initialize the ligand away from the native pose, run single temperature Monte Carlo
-      1. track the dst energy
-	 dst energy decreases through the process, see
-	 gpudocksm-rem-1.2/src/edst_single_temp_MC_away_center.pdf
-      2. track the vdw energy
-	 vdw energy fluctuats, see
-	 gpudocksm-rem-1.2/src/evdw_single_temp_MC_away_center.pdf
-    - initialize the ligand at the native pose
-      1. track the dst energy
-	 dst energy fluctuats at a low level, indicating the ligand moveing aournd the native pose, see
-	 gpudocksm-rem-1.2/src/edst_single_temp_MC_at_center.pdf
-*** TODO temperature on the AR of MC
-    - script
-      AR_MC_single_temp.sh
-    - result
-      with BOLTZMANN_CONST = 1.0f
-    | temperature |    AR_MC |
-    |-------------+----------|
-    |    0.000001 | 0.003440 |
-    |    0.000002 | 0.003466 |
-    |    0.000004 | 0.003417 |
-    |    0.000008 | 0.003331 |
-    |    0.000016 | 0.003475 |
-    |    0.000032 | 0.003498 |
-    |    0.000064 | 0.003573 |
-    |    0.000096 | 0.003948 |
-    |    0.000128 | 0.004107 |
-    |    0.000144 | 0.004148 |
-    |    0.000216 | 0.004679 |
-    |    0.000256 | 0.005476 |
-    |    0.000324 | 0.006476 |
-    |    0.000486 | 0.010730 |
-    |    0.000512 | 0.010275 |
-    |    0.000729 | 0.020125 |
-    |    0.001024 | 0.027060 |
-    |    0.001093 | 0.033435 |
-    |    0.001639 | 0.058051 |
-    |    0.002048 | 0.073684 |
-    |    0.002458 | 0.089566 |
-    |    0.003687 | 0.147971 |
-    |    0.004096 | 0.157058 |
-    |    0.005530 | 0.212904 |
-    |    0.008192 | 0.282580 |
-    |    0.008295 | 0.288165 |
-    |    0.012442 | 0.385477 |
-    |    0.016384 | 0.440276 |
-    |    0.018663 | 0.473842 |
-    |    0.027994 | 0.556481 |
-    |    0.032768 | 0.581020 |
-    |    0.041991 | 0.625931 |
-    |    0.062986 | 0.704965 |
-    |    0.065536 | 0.706120 |
-    |    0.094479 | 0.790121 |
-    |    0.131072 | 0.866801 |
-    |    0.141718 | 0.878129 |
-    |    0.212577 | 0.942685 |
-    |    0.262144 | 0.960365 |
-    |    0.318865 | 0.971370 |
-    |    0.478297 | 0.984198 |
-    |    0.524288 | 0.985535 |
-    |    0.717445 | 0.990041 |
-    |    1.048576 | 0.993395 |
-    |    1.076167 | 0.993428 |
-      
-
-
-
-    
-*** TODO best perturbation scale
-    optimize later
-    
-*** to diagnose one replica
-    #+BEGIN_SRC C++ 
-     const int myreplica = 0; // the # of replica chosen to print
-    #+END_SRC
 
 ** DONE argument parsing
    #+BEGIN_SRC C++

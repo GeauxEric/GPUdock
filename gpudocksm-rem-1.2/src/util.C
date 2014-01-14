@@ -595,6 +595,45 @@ PrintEnergy1 (const Energy * energy, const int step, const int arg)
 // arg = 2      print content
 // arg = 3      print all
 
+void
+PrintStepTrack (const LigRecordSingleStep * step_record, const int step,
+	      const int arg)
+{
+
+  char names[11][30] = {
+    "step",
+    "prt_conf",
+    "lig_conf",
+    "temp_idx",
+    "total",
+    "x",
+    "y",
+    "z",
+    "theta",
+    "gama", 
+    "fi"
+  };
+
+  int a = arg & 0x1;
+  int b = (arg >> 1) & 0x1;
+
+  if (a == 1) {
+    for (int i = 0; i < 11; ++i)
+      printf (",%s", names[i]);
+    printf ("\n");
+  }
+
+  if (b == 1) {
+    printf (",%d", step_record->step);
+    printf (",%d", step_record->replica.idx_prt);
+    printf (",%d", step_record->replica.idx_lig);
+    printf (",%d", step_record->replica.idx_tmp);
+    printf (",%f", step_record->energy.e[MAXWEI-1]);
+    for (int i = 0; i < 6; i++)
+      printf (",%f", step_record->movematrix[i]);
+    printf ("\n");
+  }
+}
 
 void
 PrintCsv (const Energy * energy, const int idx_rep, const int step,
@@ -734,6 +773,21 @@ PrintMoveRecord (const LigRecord * ligrecord, const int steps_per_dump, const in
 }
 
 
+void
+PrintTrack (LigRecord * ligrecord,  int steps_per_dump,  int replica,
+		int iter_begin,  int iter_end,  int arg)
+{
+  // print title
+  // PrintEnergy2 (NULL, NULL, NULL, 1);
+  PrintStepTrack (NULL, NULL, 1);
+
+  for (int s = iter_begin; s <= iter_end; ++s) {
+    const LigRecordSingleStep *myrecord = &ligrecord[replica].step[s];
+    // PrintEnergy2 (&myrecord->energy, replica, myrecord->step, arg);
+    PrintStepTrack (myrecord, myrecord->step, arg);
+  }
+
+}
 
 // arg = 1      print title
 // arg = 2      print content
