@@ -41,15 +41,21 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, I
   mcpara->steps_per_dump = STEPS_PER_DUMP;
   mcpara->steps_per_exchange = 5;
 
-  inputfiles->weight_file.path = "../dat/08ff_opt";
-  inputfiles->norpara_file.path_a = "../dat/nor_a";
-  inputfiles->norpara_file.path_b = "../dat/nor_b";
-  inputfiles->enepara_file.path = "../dat/gpudocksm.ff";
+  // inputfiles->weight_file.path = "../dat/08ff_opt";
+  // inputfiles->norpara_file.path_a = "../dat/nor_a";
+  // inputfiles->norpara_file.path_b = "../dat/nor_b";
+  // inputfiles->enepara_file.path = "../dat/gpudocksm.ff";
+  inputfiles->weight_file.path = "08ff_opt";
+  inputfiles->norpara_file.path_a = "nor_a";
+  inputfiles->norpara_file.path_b = "nor_b";
+  inputfiles->enepara_file.path = "gpudocksm.ff";
   inputfiles->lig_file.molid = "MOLID";
 
-  inputfiles->lig_file.path = "../test/1a07C1.sdf";
-  inputfiles->prt_file.path = "../test/1a07C.pdb";
-  inputfiles->lhm_file.path = "../test/1a07C1.ff";
+  // inputfiles->lig_file.path = "../test/1a07C1.sdf";
+  // inputfiles->prt_file.path = "../test/1a07C.pdb";
+  // inputfiles->lhm_file.path = "../test/1a07C1.ff";
+  inputfiles->lhm_file.ligand_id = "1a07C1";
+
   // end of default settings
   bool protein_opt = false;
   bool compounds_opt = false;
@@ -57,6 +63,9 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, I
 
  for ( int i = 0; i < argc; i++ )
    {
+     if ( !strcmp(argv[i],"-id")  && i < argc ) {
+       inputfiles->lhm_file.ligand_id = argv[i+1];
+     }
      if ( !strcmp(argv[i],"-p")  && i < argc ) {
        inputfiles->prt_file.path = argv[i+1];
        protein_opt = true;
@@ -66,7 +75,7 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, I
        lhm_opt = true;
      }
      if ( !strcmp(argv[i],"-l")  && i < argc ) {
-       inputfiles->lig_file.id = argv[i+1];
+       inputfiles->lig_file.path = argv[i+1];
        compounds_opt = true;
      }
      if ( !strcmp(argv[i],"-nc")  && i < argc ) {

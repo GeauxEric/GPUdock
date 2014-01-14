@@ -38,6 +38,7 @@ default: $(EXE) analysis
 $(EXE): $(OBJ_CPU) $(OBJ_GPU) 
 	$(CPP) $(LINKFLAGS) $(LIBPATH) $(OBJ_CPU) $(OBJ_GPU) -o $@
 	@cp $(EXE) ../bin/
+	@cp $(EXE) ~/bin/
 	@cp $(EXE) ../test/
 
 hdf5io.o: hdf5io.C
@@ -61,6 +62,7 @@ count: count.o load.o data.o rmsd.o
 analysis: analysis.o util.o hdf5io.o
 	$(CPP) $(LINKFLAGS) $(LIBPATH) $^ -o $@
 	@cp analysis ../bin/
+	@cp analysis ~/bin/
 	@cp analysis ../test/
 
 clean:

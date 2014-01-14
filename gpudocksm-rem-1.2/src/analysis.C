@@ -86,8 +86,8 @@ main (int argc, char **argv)
   int iter_end = minimal_int (STEPS_PER_DUMP, num_show_line) - 1;
   int arg = 2;
 
-  if (show_energy == 1)
-    PrintLigRecord (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
+  // if (show_energy == 1)
+  PrintLigRecord (ligrecord, STEPS_PER_DUMP, myreplica, iter_begin, iter_end, arg);
   //PrintRepRecord (ligrecord, STEPS_PER_DUMP, repp_begin, repp_end, iter_begin, iter_end, arg);
   if (show_rep == 1)
     PrintRepRecord2 (ligrecord, complexsize, STEPS_PER_DUMP, 
