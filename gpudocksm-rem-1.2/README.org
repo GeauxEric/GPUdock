@@ -194,8 +194,29 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 
 
 ** TODO simplist monte carlo implementation
-*** TODO  calculate MCC coefficient
-*** TODO temperature on the AR of MC
+*** TODO unknown ligand atom 'Ca'
+*** TODO calculate MCC coefficient
+      
+*** TODO best perturbation scale
+    optimize later
+    
+*** DONE testing single temperature Monte Carlo
+    - [X] subscript in bounds in accept_d.cu
+      solved
+    - [X] in perturbing the ligand, MyRand_d() is always positive
+      solved
+    - initialize the ligand away from the native pose, run single temperature Monte Carlo
+      1. track the dst energy
+	 dst energy decreases through the process, see
+	 gpudocksm-rem-1.2/src/edst_single_temp_MC_away_center.pdf
+      2. track the vdw energy
+	 vdw energy fluctuats, see
+	 gpudocksm-rem-1.2/src/evdw_single_temp_MC_away_center.pdf
+    - initialize the ligand at the native pose
+      1. track the dst energy
+	 dst energy fluctuats at a low level, indicating the ligand moveing aournd the native pose, see
+	 gpudocksm-rem-1.2/src/edst_single_temp_MC_at_center.pdf
+*** DONE temperature on the AR of MC
     - script
       AR_MC_single_temp.sh
     - result
@@ -248,29 +269,6 @@ for ( int i1 = 0; i1 < _lna; i1++ )
     |    1.048576 | 0.993395 |
     |    1.076167 | 0.993428 |
     
-*** TODO testing single temperature Monte Carlo
-    - [X] subscript in bounds in accept_d.cu
-      solved
-    - [X] in perturbing the ligand, MyRand_d() is always positive
-      solved
-    - initialize the ligand away from the native pose, run single temperature Monte Carlo
-      1. track the dst energy
-	 dst energy decreases through the process, see
-	 gpudocksm-rem-1.2/src/edst_single_temp_MC_away_center.pdf
-      2. track the vdw energy
-	 vdw energy fluctuats, see
-	 gpudocksm-rem-1.2/src/evdw_single_temp_MC_away_center.pdf
-    - initialize the ligand at the native pose
-      1. track the dst energy
-	 dst energy fluctuats at a low level, indicating the ligand moveing aournd the native pose, see
-	 gpudocksm-rem-1.2/src/edst_single_temp_MC_at_center.pdf
-      
-
-
-
-*** TODO best perturbation scale
-    optimize later
-    
 *** to diagnose one replica
     #+BEGIN_SRC C++ 
      const int myreplica = 0; // the # of replica chosen to print
@@ -278,8 +276,9 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 
 
 ** TODO Replica-exchange Monte Carlo mode
-   mode describes the exchanging pattern of the ligand and temperature across all the replicas
+   use lig and prt with only one conformation
 
+*** TODO Replica-exchange acceptance ratio large than 1 if total steps set to be less than steps_per_bump
 *** TODO is the potential energy surface rugged?
 
 **** TODO if not rugged, will the parallel tempering help reaching the global minimum more quickly?
@@ -309,6 +308,38 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 	  /home/jaydy/work/dat/rem_output/output_20140112_122718/dock.sh
        3. result
 	  /home/jaydy/work/dat/rem_output/output_20140112_122718/report
+***** DONE geometric distribution of temperature on probability of exchg_AR
+      1. turn on the exchange
+      2. set total temperature number to be 2
+      3. in case the temperature is multipled by X each time
+	 [lowest_temp, highest_temp]
+	 lowest_temp * X^(num_temp-1) = highest_temp
+      4. script 
+	 /home/jaydy/Workspace/script/Bashscripts/exchg_ar_vs_temp.sh
+      5. result
+	 1a07C1
+      | rep1_temp | rep2_temp | exchg_AR |
+      |-----------+-----------+----------|
+      |  .0004000 |  .0004800 | 0.310700 |
+      |  .0004800 |  .0005760 | 0.329890 |
+      |  .0005760 |  .0006912 | 0.325570 |
+      |  .0006912 |  .0008294 | 0.329599 |
+      |  .0008294 |  .0009952 | 0.331955 |
+      |  .0009952 |  .0011942 | 0.347842 |
+      |  .0011942 |  .0014330 | 0.334733 |
+      |  .0014330 |  .0017196 | 0.327739 |
+      |  .0017196 |  .0020635 | 0.332533 |
+      |  .0020635 |  .0024762 | 0.325794 |
+      |  .0024762 |  .0029714 | 0.337777 |
+      |  .0029714 |  .0035656 | 0.338272 |
+      |  .0035656 |  .0042787 | 0.327690 |
+      |  .0042787 |  .0051344 | 0.323564 |
+      |  .0051344 |  .0061612 | 0.326718 |
+      |  .0061612 |  .0073934 | 0.328437 |
+      |  .0073934 |  .0088720 | 0.322613 |
+      |  .0088720 |  .0106464 | 0.313994 |
+      |  .0106464 |  .0127756 | 0.330657 |
+      |  .0127756 |  .0153307 | 0.345179 |
 
 ***** DONE size of the system?
       currently energy is averaged across all ligand atoms, 
@@ -345,8 +376,6 @@ for ( int i1 = 0; i1 < _lna; i1++ )
       - conclusion
 	exchg_AR is rather stable with the number of steps per exchange
 
-**** DONE caculate the exchange acceptance ratio
-     for replica allocating optmization
 
 **** DONE set the geometric progression temperatures
      This temperatures settings ensures that the acceptance probability could be made uniform across all of the different replicas
@@ -384,6 +413,10 @@ for ( int i1 = 0; i1 < _lna; i1++ )
     - mode0 and mode1 combined together provides a mechanism that can do a complete information 
 
     
+** TODO read the track record
+   read the h5 files using h5py
+
+
 ** TODO search the lowest energy in the track
    to find the lowest energy and the corresponding configuration in each replica
 

@@ -579,8 +579,7 @@ getLigCode (std::string r_name)
   else if (r_name == "S.O2")
     return 23;
   else {
-    cout << "Unknown ligand atom: " << r_name << endl;
-    exit (EXIT_FAILURE);
+    return BADKDE;
   }
 
   exit (EXIT_FAILURE);

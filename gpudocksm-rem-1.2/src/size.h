@@ -87,6 +87,8 @@
 
 #define PI 3.1415926535f
 
+/* value used for return statement in data.C for missing atoms */
+#define BADKDE 50
 
 // maximum string length for file names
 #define MAXSTRINGLENG 128
@@ -100,6 +102,7 @@
 // monte carlo steps
 // #define STEPS_TOTAL 30000
 #define STEPS_PER_DUMP 1000
+
 
 
 #endif
