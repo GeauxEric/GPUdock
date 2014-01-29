@@ -1504,8 +1504,10 @@ int latom;
     fn1 += 1.0;
    else if ( rr1 == 0.0 && rr2 <= rr3 )
     fp1 += 1.0;
-   else
+   else if ( rr1 == 0.0 && rr2 > rr3 )
     tn1 += 1.0;
+   else
+     NULL:
   }
 
  if ( ( ( tp1 + fp1 ) * ( tp1 + fn1 ) * ( tn1 + fp1 ) * ( tn1 + fn1 ) ) != 0.0 )

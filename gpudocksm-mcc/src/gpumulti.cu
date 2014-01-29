@@ -1,3 +1,5 @@
+// ref_confusion_matrix should be copied from gpu 0 to others
+
 
 cudaStream_t stream[NGPU];
 for (int i = 0; i < NGPU; ++i)
@@ -13,7 +15,6 @@ for (int i = 0; i < NGPU; ++i)
 
 
 
-int filesequence = 0;
 for (int s1 = 0; s1 < mcpara->steps_total; s1 += mcpara->steps_per_dump) {
 
   double t0 = host_time_now ();
@@ -62,7 +63,7 @@ for (int s1 = 0; s1 < mcpara->steps_total; s1 += mcpara->steps_per_dump) {
 
   // dump ligand record from CPU memory to disk
   char myoutputfile[MAXSTRINGLENG];
-  sprintf(myoutputfile, "%s/%s_%04d.h5", mcpara->outputdir, mcpara->outputfile, filesequence++);
+  sprintf(myoutputfile, "%s/%s_%04d.h5", mcpara->outputdir, mcpara->outputfile, FILESEQUENCE);
   DumpLigRecord (ligrecord, n_rep, myoutputfile);
 #endif
   */

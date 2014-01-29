@@ -32,6 +32,9 @@ __constant__ TmpEnergy *tmpenergy_dc;
 __constant__ int *acs_mc_dc;
 __constant__ int *acs_temp_exchg_dc;
 
+
+__constant__ ConfusionMatrix *ref_matrix_dc;
+
 // PRNG seeds
 __constant__ int seed_dc;
 __constant__ curandState *curandstate_dc;
@@ -74,6 +77,7 @@ __constant__ int n_rep_dc;
 #include "exchangereplicas_d.cu"
 #include "montecarlo_d.cu"
 #include "move_d.cu"
+#include "calcmcc_d.cu"
 #include "calcenergy_d.cu"
 #include "accept_d.cu"
 #include "util_d.cu"

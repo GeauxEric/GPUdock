@@ -108,6 +108,7 @@ struct Energy
 
      9 - total
    */
+  float cmcc;
 };
 
 
@@ -129,6 +130,13 @@ struct TmpEnergy
   float rmsd_sz[TperB];
 };
 
+
+struct ConfusionMatrix
+{
+  int matrix[MAXLIG][MAXPRO];
+  int lig_conf, prt_conf;
+  int lig_sz, prt_sz;
+};
 
 
 struct LigCoord
@@ -196,6 +204,10 @@ struct Ligand
                                 // n == index???
 
   int lna;			// number of ligand atoms               used
+  
+  // confusion matrix
+  int native_confusion_matx[MAXLIG][MAXPRO];
+  int decoy_confusion_matx[MAXLIG][MAXPRO];
 };
 
 

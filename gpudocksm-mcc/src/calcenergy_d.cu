@@ -1,4 +1,3 @@
-
 /*
 #include <cmath>
 #include <cstdio>
@@ -31,8 +30,8 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
   __shared__ float ehdb[TperB]; // e[4]
 
   // reduce through only x axis
-  __shared__ float a_val[BDy][BDx]; // reused by hpc, kde, lhm
-  __shared__ float a_sz[BDy][BDx];
+  __shared__ float a_val[BDy][BDx]; // reused by hpc, kde, lhm ???????
+  __shared__ float a_sz[BDy][BDx];  // ???????
 
   __shared__ float ehpc[BDy]; // e[5]
   __shared__ float ekde[BDy]; // e[6]
@@ -52,10 +51,6 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
   }
 
   __syncthreads ();
-
-
-
-
 
   // lig loop, ~30
   for (int i = 0; i < lna_dc; i += blockDim.y) {
@@ -77,6 +72,8 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
 	  const float dst_pow2 = dx * dx + dy * dy + dz * dz;
 	  const float dst_pow4 = dst_pow2 * dst_pow2;
 	  const float dst = sqrtf (dst_pow2);
+	  
+
 
 
 	  /* hydrophobic potential */

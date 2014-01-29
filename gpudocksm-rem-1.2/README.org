@@ -193,6 +193,11 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 * testing
 
 
+** TODO GPU kernel launched too ugly
+   #+BEGIN_SRC C++
+   #include "gpusingle.cu"
+   #+END_SRC
+
 ** TODO simplist monte carlo implementation
 *** TODO unknown ligand atom 'Ca'
 *** TODO calculate MCC coefficient

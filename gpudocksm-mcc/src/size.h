@@ -19,7 +19,7 @@
 #define     NAMEMAX 40
 /* max lig aton name */
 
-#define MAXPRO 10000
+#define MAXPRO 1024
 /* protein residues */
 
 #define MAXLIG 64
@@ -95,6 +95,9 @@
 
 // if mcs equal to 728492, it is invalid
 #define MCS_INVALID_COORD 728492
+
+// if mcs equal to 728492, it is invalid
+#define CMCC_INVALID_VAL 10000.0f
 
 // boltzman constant
 #define BOLTZMANN_CONST 1.0f

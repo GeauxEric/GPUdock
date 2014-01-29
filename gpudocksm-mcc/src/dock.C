@@ -14,7 +14,6 @@ using namespace std;
 int
 main (int argc, char **argv)
 {
-
   cout << "------------------------------------------------------------" << endl
        << "                         GPU-dockSM" << endl
        << "                         version 1.0" << endl << endl
@@ -55,7 +54,6 @@ main (int argc, char **argv)
   complexsize.n_pos = inputfiles->lhm_file.n_pos;	// number of MCS positions
 
 
-
   // data structure optimizations 
   Ligand *lig = new Ligand[complexsize.n_rep];
   Protein *prt = new Protein[complexsize.n_prt];
@@ -88,21 +86,23 @@ main (int argc, char **argv)
   SetReplica (replica, lig, complexsize);
   SetMcLog (mclog);
 
+  
+
+
+
   // debug
-  //PrintDataSize (lig, prt, psp, kde, mcs, enepara);
+  // PrintDataSize (lig, prt, psp, kde, mcs, enepara);
   // PrintLigand (lig);
-  //PrintProtein (prt);
+  // PrintProtein (prt);
 
 
   // run simulation on optimized data structure
   Run (lig, prt, psp, kde, mcs, enepara, temp, replica, mcpara, mclog, complexsize);
-
-
-
   PrintSummary (inputfiles, mcpara, temp, mclog, &complexsize);
 
 
   // clean up
+
   delete[]mcpara;
   delete[]mclog;
   delete[]inputfiles;

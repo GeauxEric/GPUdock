@@ -153,6 +153,22 @@ SumReduction1D_d (const int bidx, float *a)
   }
 }
 
+__forceinline__
+__device__ void
+SumReduction_int_1D_4_d (const int bidx, int *a, int *b, int *c, int *d)
+{
+  __syncthreads ();
+
+  for (int stride = TperB / 2; stride >= 1; stride >>= 1) {
+    if (bidx < stride) {
+      a[bidx] += a[stride + bidx];
+      b[bidx] += b[stride + bidx];
+      c[bidx] += c[stride + bidx];
+      d[bidx] += d[stride + bidx];
+    }
+    __syncthreads ();
+  }
+}
 
 __forceinline__
 __device__ void

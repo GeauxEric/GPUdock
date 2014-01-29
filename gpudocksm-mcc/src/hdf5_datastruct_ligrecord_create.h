@@ -27,12 +27,14 @@ struct Replica
 struct Energy
 {
   float e[MAXWEI];
+  float cmcc;
 };
 */
 
 
 
 //hsize_t sz_MAXLIG[1] = { MAXLIG };
+  hsize_t sz_1[1] = { 1 };
   hsize_t sz_3[1] = { 3 };
   hsize_t sz_6[1] = { 6 };
   hsize_t sz_MAXWEI[1] = { MAXWEI };
@@ -40,6 +42,7 @@ struct Energy
   hsize_t sz_recsize[1] = { recsize };
 
 //hid_t sz_MAXLIG_t = H5Tarray_create (H5T_NATIVE_FLOAT, 1, sz_MAXLIG);
+  hid_t sz_1_t = H5Tarray_create (H5T_NATIVE_FLOAT, 1, sz_1);
   hid_t sz_3_t = H5Tarray_create (H5T_NATIVE_FLOAT, 1, sz_3);
   hid_t sz_6_t = H5Tarray_create (H5T_NATIVE_FLOAT, 1, sz_6);
   hid_t sz_MAXWEI_t = H5Tarray_create (H5T_NATIVE_FLOAT, 1, sz_MAXWEI);
@@ -62,6 +65,7 @@ struct Energy
 
   hid_t Energy_t = H5Tcreate (H5T_COMPOUND, sizeof (Energy));
   status = H5Tinsert (Energy_t, "e", HOFFSET (Energy, e), sz_MAXWEI_t);
+  status = H5Tinsert (Energy_t, "cmcc", HOFFSET (Energy, cmcc), sz_1_t);
 
   hid_t LigRecordSingleStep_t = H5Tcreate (H5T_COMPOUND, sizeof (LigRecordSingleStep));
   status = H5Tinsert (LigRecordSingleStep_t, "replica", HOFFSET (LigRecordSingleStep, replica), Replica_t);

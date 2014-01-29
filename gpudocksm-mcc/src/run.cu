@@ -182,7 +182,6 @@ Run (const Ligand * lig,
     CUDAMEMCPY (mcs_d[i], mcs, mcs_sz, cudaMemcpyHostToDevice);
     CUDAMEMCPY (enepara_d[i], enepara, enepara_sz, cudaMemcpyHostToDevice);
     CUDAMEMCPY (temp_d[i], temp, temp_sz, cudaMemcpyHostToDevice);
-    CUDAMEMCPY (move_scale_d[i], &mcpara->move_scale, move_scale_sz, cudaMemcpyHostToDevice);
   }
 
 
@@ -196,6 +195,7 @@ Run (const Ligand * lig,
   const size_t tmpenergy_sz = sizeof (TmpEnergy) * n_rep;
   const size_t acs_mc_sz = sizeof (int) * MAXREP; // acceptance counter
   const size_t acs_temp_exchg_sz = sizeof (int) * MAXREP; // acceptance counter
+  const size_t ref_matrix_sz = sizeof (ConfusionMatrix);
   //size_t etotal_sz_per_gpu[NGPU];
   //for (int i = 0; i < NGPU; ++i)
   //etotal_sz_per_gpu[i] = sizeof (float) * n_rep_per_gpu[i];
@@ -207,6 +207,7 @@ Run (const Ligand * lig,
   TmpEnergy *tmpenergy_d[NGPU];
   int *acs_mc, *acs_mc_d[NGPU];
   int *acs_temp_exchg, *acs_temp_exchg_d[NGPU];
+  float *ref_matrix_d[NGPU];
 
   acs_mc = (int *) malloc (acs_mc_sz);
   acs_temp_exchg = (int *) malloc (acs_temp_exchg_sz);
@@ -220,6 +221,7 @@ Run (const Ligand * lig,
     cudaMalloc ((void **) &tmpenergy_d[i], tmpenergy_sz);
     cudaMalloc ((void **) &acs_mc_d[i], acs_mc_sz);
     cudaMalloc ((void **) &acs_temp_exchg_d[i], acs_temp_exchg_sz);
+    cudaMalloc ((void **) &ref_matrix_d[i], ref_matrix_sz);
 
     CUDAMEMCPYTOSYMBOL (lig_dc, &lig_d[i], Ligand *);
     CUDAMEMCPYTOSYMBOL (replica_dc, &replica_d[i], Replica *);
@@ -228,6 +230,7 @@ Run (const Ligand * lig,
     CUDAMEMCPYTOSYMBOL (tmpenergy_dc, &tmpenergy_d[i], TmpEnergy *);
     CUDAMEMCPYTOSYMBOL (acs_mc_dc, &acs_mc_d[i], int *);
     CUDAMEMCPYTOSYMBOL (acs_temp_exchg_dc, &acs_temp_exchg_d[i], int *);
+    CUDAMEMCPYTOSYMBOL (ref_matrix_dc, &ref_matrix_d[i], ConfusionMatrix *);
 
     CUDAMEMCPY (lig_d[i], lig, lig_sz, cudaMemcpyHostToDevice);
     CUDAMEMCPY (replica_d[i], replica, replica_sz, cudaMemcpyHostToDevice);

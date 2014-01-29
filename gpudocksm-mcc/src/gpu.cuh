@@ -20,6 +20,10 @@ __device__ void Move_d (const int, Ligand * __restrict__); //, LigCoord * __rest
 
 __device__ void CalcEnergy_d (const int, Ligand * __restrict__, const Protein *);
 
+__device__ void CalcMcc_d (const int, Ligand * __restrict__, const Protein *);
+
+__device__ void InitRefMatrix_d (const int, Ligand * __restrict__, const Protein *);
+
 __forceinline__ __device__ void Accept_d (const int, Ligand * __restrict__, const float, const int);
 
 
@@ -44,6 +48,8 @@ __forceinline__ __device__ float MyRand_d ();
 __forceinline__ __device__ void SumReduction1D_d (const int, float *);
 
 __forceinline__ __device__ void SumReduction1D_5_d (const int, float *, float *, float *, float *, float *);
+
+__forceinline__ __device__ void SumReduction_int_1D_4_d (const int, int *, int *, int *, int *);
 
 __forceinline__ __device__ void SumReduction2D_d (float a[BDy][BDx]);
 

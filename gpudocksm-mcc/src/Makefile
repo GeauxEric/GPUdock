@@ -1,5 +1,5 @@
 EXE := dock
-OBJ_CPU := dock.o load.o data.o rmsd.o util.o timing.o quicksort.o hdf5io.o
+OBJ_CPU := dock.o load.o data.o rmsd.o util.o timing.o quicksort.o hdf5io.o 
 OBJ_GPU := run.o
 
 SH := sh
@@ -27,7 +27,7 @@ OPTFLAGS := -O2
 
 
 CPPFLAGS := -Wall $(HEADPATH) $(OPTFLAGS)
-CXXFLAGS := $(HEADPATH) $(OPTFLAGS) $(ARCHFLAG) #-ccbin=g++ # --ptxas-options=-v #-keep #-rdc=true
+CXXFLAGS := $(HEADPATH) $(OPTFLAGS) $(ARCHFLAG) # --ptxas-options=-v #-ccbin=g++  #-keep #-rdc=true
 FFLAGS := -Wall -static $(OPTFLAGS)
 
 

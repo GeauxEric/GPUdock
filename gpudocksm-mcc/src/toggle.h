@@ -6,10 +6,10 @@
 #define IS_OUTPUT 0
 
 // random walk toggle
-#define IS_RANDOM 1
+#define IS_RANDOM 0
 
 // replica exhcange
-#define IS_EXCHANGE 1
+#define IS_EXCHANGE 0
 
 // move ligand away from center
 #define IS_AWAY 0
