@@ -3,7 +3,7 @@
 
 
 // output toggle
-#define IS_OUTPUT 0
+#define IS_OUTPUT 1
 
 // random walk toggle
 #define IS_RANDOM 1

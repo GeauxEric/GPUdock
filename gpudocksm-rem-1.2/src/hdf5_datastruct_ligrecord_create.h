@@ -27,6 +27,7 @@ struct Replica
 struct Energy
 {
   float e[MAXWEI];
+  float cmcc;
 };
 */
 

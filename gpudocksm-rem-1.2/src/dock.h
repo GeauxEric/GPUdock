@@ -108,8 +108,15 @@ struct Energy
 
      9 - total
    */
+  float cmcc;
 };
 
+struct ConfusionMatrix
+{
+  int matrix[MAXLIG][MAXPRO];
+  int lig_conf, prt_conf;
+  int lig_sz, prt_sz;
+};
 
 
 struct TmpEnergy

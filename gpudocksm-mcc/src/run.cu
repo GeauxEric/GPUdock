@@ -182,6 +182,7 @@ Run (const Ligand * lig,
     CUDAMEMCPY (mcs_d[i], mcs, mcs_sz, cudaMemcpyHostToDevice);
     CUDAMEMCPY (enepara_d[i], enepara, enepara_sz, cudaMemcpyHostToDevice);
     CUDAMEMCPY (temp_d[i], temp, temp_sz, cudaMemcpyHostToDevice);
+    CUDAMEMCPY (move_scale_d[i], &mcpara->move_scale, move_scale_sz, cudaMemcpyHostToDevice);
   }
 
 

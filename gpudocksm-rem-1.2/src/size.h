@@ -90,6 +90,9 @@
 /* value used for return statement in data.C for missing atoms */
 #define BADKDE 50
 
+/* value used for invalid cmcc value */
+#define CMCC_INVALID_VAL 1000000.0f
+
 // maximum string length for file names
 #define MAXSTRINGLENG 128
 

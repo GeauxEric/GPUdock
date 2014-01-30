@@ -31,6 +31,7 @@ __constant__ LigRecord *ligrecord_dc;
 __constant__ TmpEnergy *tmpenergy_dc;
 __constant__ int *acs_mc_dc;
 __constant__ int *acs_temp_exchg_dc;
+__constant__ ConfusionMatrix *ref_matrix_dc;
 
 // PRNG seeds
 __constant__ int seed_dc;
@@ -77,4 +78,5 @@ __constant__ int n_rep_dc;
 #include "calcenergy_d.cu"
 #include "accept_d.cu"
 #include "util_d.cu"
+#include "calcmcc_d.cu"
 
