@@ -14,6 +14,7 @@
 
 
 #include "data.h"
+#include "size.h"
 
 using namespace std;
 
