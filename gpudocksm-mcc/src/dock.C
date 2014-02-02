@@ -51,7 +51,10 @@ main (int argc, char **argv)
   complexsize.n_tmp = exchgpara->num_temp;	// number of temperature
   complexsize.n_lig = inputfiles->lig_file.conf_total;	// number of ligand conf
   complexsize.n_rep = complexsize.n_lig * complexsize.n_prt * complexsize.n_tmp;
-  complexsize.n_pos = inputfiles->lhm_file.n_pos;	// number of MCS positions
+  complexsize.lna = inputfiles->lig_file.lna;
+  complexsize.pnp = inputfiles->prt_file.pnp;
+  complexsize.pnk = kde0->pnk;
+  complexsize.pos = inputfiles->lhm_file.pos;	// number of MCS positions
 
 
   // data structure optimizations 
@@ -59,7 +62,7 @@ main (int argc, char **argv)
   Protein *prt = new Protein[complexsize.n_prt];
   Psp *psp = new Psp;
   Kde *kde = new Kde;
-  Mcs *mcs = new Mcs[complexsize.n_pos];
+  Mcs *mcs = new Mcs[complexsize.pos];
   EnePara *enepara = new EnePara;
   Temp *temp = new Temp[complexsize.n_tmp];
   Replica *replica = new Replica[complexsize.n_rep];

@@ -25,14 +25,15 @@ Usage (char *bin)
 
 
 void
-ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, InputFiles * inputfiles)
+ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara,
+		InputFiles * inputfiles)
 {
   char mydir[MAXSTRINGLENG] = "output_default";
 
   ////////////////////////////////////////////////////////////////////////////////
   // default settings
-  float t = 0.001f;  // translational scale
-  float r = 3.1415f;  // rotational scale
+  float ts = 0.001f;		// translational scale
+  float rs = 3.1415f;		// rotational scale
 
   exchgpara->floor_temp = 0.3f;
   exchgpara->ceiling_temp = 0.3f;
@@ -41,19 +42,25 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, I
   mcpara->steps_per_dump = STEPS_PER_DUMP;
   mcpara->steps_per_exchange = 5;
 
-  // inputfiles->weight_file.path = "../dat/08ff_opt";
-  // inputfiles->norpara_file.path_a = "../dat/nor_a";
-  // inputfiles->norpara_file.path_b = "../dat/nor_b";
-  // inputfiles->enepara_file.path = "../dat/gpudocksm.ff";
+/*
+  inputfiles->weight_file.path = "../dat/08ff_opt";
+  inputfiles->norpara_file.path_a = "../dat/nor_a";
+  inputfiles->norpara_file.path_b = "../dat/nor_b";
+  inputfiles->enepara_file.path = "../dat/gpudocksm.ff";
+  inputfiles->lig_file.molid = "MOLID";
+*/
+
   inputfiles->weight_file.path = "08ff_opt";
   inputfiles->norpara_file.path_a = "nor_a";
   inputfiles->norpara_file.path_b = "nor_b";
   inputfiles->enepara_file.path = "gpudocksm.ff";
   inputfiles->lig_file.molid = "MOLID";
 
-  // inputfiles->lig_file.path = "../test/1a07C1.sdf";
-  // inputfiles->prt_file.path = "../test/1a07C.pdb";
-  // inputfiles->lhm_file.path = "../test/1a07C1.ff";
+/*
+  inputfiles->lig_file.path = "../test/1a07C1.sdf";
+  inputfiles->prt_file.path = "../test/1a07C.pdb";
+  inputfiles->lhm_file.path = "../test/1a07C1.ff";
+*/
   inputfiles->lhm_file.ligand_id = "1a07C1";
 
   // end of default settings
@@ -61,89 +68,94 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara, I
   bool compounds_opt = false;
   bool lhm_opt = false;
 
- for ( int i = 0; i < argc; i++ )
-   {
-     if ( !strcmp(argv[i],"-id")  && i < argc ) {
-       inputfiles->lhm_file.ligand_id = argv[i+1];
-     }
-     if ( !strcmp(argv[i],"-p")  && i < argc ) {
-       inputfiles->prt_file.path = argv[i+1];
-       protein_opt = true;
-     }
-     if ( !strcmp(argv[i],"-s")  && i < argc ) {
-       inputfiles->lhm_file.path = argv[i+1];
-       lhm_opt = true;
-     }
-     if ( !strcmp(argv[i],"-l")  && i < argc ) {
-       inputfiles->lig_file.path = argv[i+1];
-       compounds_opt = true;
-     }
-     if ( !strcmp(argv[i],"-nc")  && i < argc ) {
-       mcpara->steps_per_exchange = atoi(argv[i+1]);
-     }
-     if ( !strcmp(argv[i],"-ns")  && i < argc ) {
-       mcpara->steps_total = atoi(argv[i+1]);
-     }
-     if ( !strcmp(argv[i],"-floor_temp")  && i < argc ) {
-       exchgpara->floor_temp = atof(argv[i+1]);
-     }
-     if ( !strcmp(argv[i],"-ceiling_temp")  && i < argc ) {
-       exchgpara->ceiling_temp = atof(argv[i+1]);
-     }
-     if ( !strcmp(argv[i],"-nt")  && i < argc ) {
-       int num_temp = atoi(argv[i+1]);
-       if (num_temp == 1) {
-	 exchgpara->num_temp = num_temp;
-	 cout << "RUNNING single temperature Monte Carlo" << endl;
-	 cout << "FLOOR temperature used in simulaition" << endl;
-       }
-       else {
-	 if (num_temp <= MAXTMP)
-	   exchgpara->num_temp = num_temp;
-	 else
-	   {
-	     cout << "setting number of temperatures exceeds MAXTMP" << endl;
-	     cout << "try modifying MAXTMP in size.h and compile again" << endl;
-	     cout << "docking exiting ..." << endl;
-	     exit(1);
-	   }
-       }
-     }
-     if ( !strcmp(argv[i],"-t")  && i < argc ) {
-       t = atof(argv[i+1]);
-     }
-     if ( !strcmp(argv[i],"-r")  && i < argc ) {
-       r = atof(argv[i+1]);
-     }
-   }
+  for (int i = 0; i < argc; i++) {
 
- if ( !protein_opt )
-   {
-     cout << "Provide target protein structure" << endl;
-     exit(EXIT_FAILURE);
-   }
- 
- if ( !compounds_opt )
-   {
-     cout << "Provide compound library in SD format" << endl;
-     exit(EXIT_FAILURE);
-   }
- 
- if ( !lhm_opt )
-   {
-     cout << "Provide LHM potentials" << endl;
-     exit(EXIT_FAILURE);
-   }
+    // input files
 
-  mcpara->move_scale[0] = t;
-  mcpara->move_scale[1] = t;
-  mcpara->move_scale[2] = t;
-  mcpara->move_scale[3] = r;
-  mcpara->move_scale[4] = r;
-  mcpara->move_scale[5] = r;
+    if (!strcmp (argv[i], "-id") && i < argc) {
+      inputfiles->lhm_file.ligand_id = argv[i + 1];
+    }
+    if (!strcmp (argv[i], "-p") && i < argc) {
+      inputfiles->prt_file.path = argv[i + 1];
+      protein_opt = true;
+    }
+    if (!strcmp (argv[i], "-s") && i < argc) {
+      inputfiles->lhm_file.path = argv[i + 1];
+      lhm_opt = true;
+    }
+    if (!strcmp (argv[i], "-l") && i < argc) {
+      inputfiles->lig_file.path = argv[i + 1];
+      compounds_opt = true;
+    }
 
-  // random walk toggle
-  mcpara->is_random = IS_RANDOM;
+
+    // MC steps
+
+    if (!strcmp (argv[i], "-ns") && i < argc) {
+      mcpara->steps_total = atoi (argv[i + 1]);
+    }
+    if (!strcmp (argv[i], "-nc") && i < argc) {
+      mcpara->steps_per_exchange = atoi (argv[i + 1]);
+    }
+
+    // temperatures
+
+    if (!strcmp (argv[i], "-floor_temp") && i < argc) {
+      exchgpara->floor_temp = atof (argv[i + 1]);
+    }
+    if (!strcmp (argv[i], "-ceiling_temp") && i < argc) {
+      exchgpara->ceiling_temp = atof (argv[i + 1]);
+    }
+    if (!strcmp (argv[i], "-nt") && i < argc) {
+      int num_temp = atoi (argv[i + 1]);
+      if (num_temp == 1) {
+	exchgpara->num_temp = num_temp;
+	cout << "RUNNING single temperature Monte Carlo" << endl;
+	cout << "FLOOR temperature used in simulaition" << endl;
+      }
+      else {
+	if (num_temp <= MAXTMP)
+	  exchgpara->num_temp = num_temp;
+	else {
+	  cout << "setting number of temperatures exceeds MAXTMP" << endl;
+	  cout << "try modifying MAXTMP in size.h and compile again" << endl;
+	  cout << "docking exiting ..." << endl;
+	  exit (1);
+	}
+      }
+    }
+
+    // move scale
+
+    if (!strcmp (argv[i], "-t") && i < argc) {
+      ts = atof (argv[i + 1]);
+    }
+    if (!strcmp (argv[i], "-r") && i < argc) {
+      rs = atof (argv[i + 1]);
+    }
+  }
+
+  if (!protein_opt) {
+    cout << "Provide target protein structure" << endl;
+    exit (EXIT_FAILURE);
+  }
+
+  if (!compounds_opt) {
+    cout << "Provide compound library in SD format" << endl;
+    exit (EXIT_FAILURE);
+  }
+
+  if (!lhm_opt) {
+    cout << "Provide LHM potentials" << endl;
+    exit (EXIT_FAILURE);
+  }
+
+  mcpara->move_scale[0] = ts;
+  mcpara->move_scale[1] = ts;
+  mcpara->move_scale[2] = ts;
+  mcpara->move_scale[3] = rs;
+  mcpara->move_scale[4] = rs;
+  mcpara->move_scale[5] = rs;
 
 
 #if IS_OUTPUT == 1
@@ -206,10 +218,12 @@ OptimizeLigand (const Ligand0 * lig0, Ligand * lig, const ComplexSize complexsiz
 }
 
 // move the ligand to its center
-void InitLigCoord (Ligand * lig, const ComplexSize complexsize){
+void
+InitLigCoord (Ligand * lig, const ComplexSize complexsize)
+{
   for (int i = 0; i < complexsize.n_lig; ++i) {
     Ligand *mylig = &lig[i];
-    
+
 #if IS_AWAY
     ////////////////////////////////////////////////////////////////////////////////
     // debugging, move ligand far away from center
@@ -372,8 +386,8 @@ OptimizeKde (const Kde0 * kde0, Kde * kde)
 void
 OptimizeMcs (const Mcs0 * mcs0, Mcs * mcs, const ComplexSize complexsize)
 {
-  // n_pos
-  for (int i = 0; i < complexsize.n_pos; ++i) {
+  // pos
+  for (int i = 0; i < complexsize.pos; ++i) {
     mcs[i].tcc = mcs0[i].tcc;
 
     // n_mcs
@@ -503,11 +517,11 @@ SetTemperature (Temp * temp, ExchgPara * exchgpara)
 
       temp[i].order = i;
       temp[i].minus_beta = 0.0f - my_beta;
-      
+
       a *= temp_ratio;
     }
   }
-    
+
 
   // for (int i = 0; i < num_temp; i++) {
   //   temp[i].t = floor_temp;
@@ -576,17 +590,16 @@ PrintEnergy1 (const Energy * energy, const int step, const int arg)
   }
 
   if (b == 1) {
-    std::cout << step << ","
-	      << energy->e[9] << ","    // total
-	      << energy->e[7] << ","	// lhm
-	      << energy->e[6] << ","	// kde
-	      << energy->e[8] << ","	// dst
-	      << energy->e[1] << ","	// ele
-	      << energy->e[2] << ","	// pmf
-	      << energy->e[5] << ","	// hpc
-	      << energy->e[4] << ","	// hdb
-	      << energy->e[3] << ","	// psp
-	      << energy->e[0] << std::endl;	// vdw
+    std::cout << step << "," << energy->e[9] << ","	// total
+      << energy->e[7] << ","	// lhm
+      << energy->e[6] << ","	// kde
+      << energy->e[8] << ","	// dst
+      << energy->e[1] << ","	// ele
+      << energy->e[2] << ","	// pmf
+      << energy->e[5] << ","	// hpc
+      << energy->e[4] << ","	// hdb
+      << energy->e[3] << ","	// psp
+      << energy->e[0] << std::endl;	// vdw
   }
 
 }
@@ -596,8 +609,7 @@ PrintEnergy1 (const Energy * energy, const int step, const int arg)
 // arg = 3      print all
 
 void
-PrintStepTrack (const LigRecordSingleStep * step_record, const int step,
-	      const int arg)
+PrintStepTrack (const LigRecordSingleStep * step_record, const int step, const int arg)
 {
 
   char names[11][30] = {
@@ -610,7 +622,7 @@ PrintStepTrack (const LigRecordSingleStep * step_record, const int step,
     "y",
     "z",
     "theta",
-    "gama", 
+    "gama",
     "fi"
   };
 
@@ -628,7 +640,7 @@ PrintStepTrack (const LigRecordSingleStep * step_record, const int step,
     printf (",%d", step_record->replica.idx_prt);
     printf (",%d", step_record->replica.idx_lig);
     printf (",%d", step_record->replica.idx_tmp);
-    printf (",%f", step_record->energy.e[MAXWEI-1]);
+    printf (",%f", step_record->energy.e[MAXWEI - 1]);
     for (int i = 0; i < 6; i++)
       printf (",%f", step_record->movematrix[i]);
     printf ("\n");
@@ -636,8 +648,7 @@ PrintStepTrack (const LigRecordSingleStep * step_record, const int step,
 }
 
 void
-PrintCsv (const Energy * energy, const int idx_rep, const int step,
-	      const int arg)
+PrintCsv (const Energy * energy, const int idx_rep, const int step, const int arg)
 {
 
   char names[MAXWEI][8] = {
@@ -672,8 +683,7 @@ PrintCsv (const Energy * energy, const int idx_rep, const int step,
 }
 
 void
-PrintEnergy2 (const Energy * energy, const int idx_rep, const int step,
-	      const int arg)
+PrintEnergy2 (const Energy * energy, const int idx_rep, const int step, const int arg)
 {
 
   char names[MAXWEI][8] = {
@@ -756,26 +766,26 @@ PrintMoveVector (const float m[6], const int step)
   for (int i = 0; i < 6; ++i) {
     printf (" %+f\t", m[i]);
   }
-  printf("\n");
+  printf ("\n");
 }
 
 
 
 void
 PrintMoveRecord (const LigRecord * ligrecord, const int steps_per_dump, const int replica,
-		const int iter_begin, const int iter_end, const int arg)
+		 const int iter_begin, const int iter_end, const int arg)
 {
   for (int s = iter_begin; s <= iter_end; ++s) {
     const LigRecordSingleStep *myrecord = &ligrecord[replica].step[s];
     PrintMoveVector (myrecord->movematrix, myrecord->step);
   }
-  
+
 }
 
 
 void
-PrintTrack (LigRecord * ligrecord,  int steps_per_dump,  int replica,
-		int iter_begin,  int iter_end,  int arg)
+PrintTrack (LigRecord * ligrecord, int steps_per_dump, int replica,
+	    int iter_begin, int iter_end, int arg)
 {
   // print title
   // PrintEnergy2 (NULL, NULL, NULL, 1);
@@ -794,8 +804,8 @@ PrintTrack (LigRecord * ligrecord,  int steps_per_dump,  int replica,
 // arg = 3      print all
 
 void
-PrintLigRecord (LigRecord * ligrecord,  int steps_per_dump,  int replica,
-		int iter_begin,  int iter_end,  int arg)
+PrintLigRecord (LigRecord * ligrecord, int steps_per_dump, int replica,
+		int iter_begin, int iter_end, int arg)
 {
   // print title
   // PrintEnergy2 (NULL, NULL, NULL, 1);
@@ -855,9 +865,9 @@ PrintRepRecord (const LigRecord * ligrecord, const int steps_per_dump, const int
 
 // print all temperature replicas of the same lig & prt
 void
-PrintRepRecord2 (LigRecord * ligrecord,  ComplexSize complexsize,
-		 int steps_per_dump,  int idx_prt,  int idx_lig,
-		 int iter_begin,  int iter_end,  int arg)
+PrintRepRecord2 (LigRecord * ligrecord, ComplexSize complexsize,
+		 int steps_per_dump, int idx_prt, int idx_lig,
+		 int iter_begin, int iter_end, int arg)
 {
   printf ("temperature replicas with lig %d prt %d\n", idx_lig, idx_prt);
 
@@ -878,9 +888,7 @@ PrintRepRecord2 (LigRecord * ligrecord,  ComplexSize complexsize,
 
     for (int t = 0; t < complexsize.n_tmp; ++t) {
       const int r =
-	complexsize.n_tmp * complexsize.n_lig * idx_prt +
-	complexsize.n_lig * t +
-	idx_lig;
+	complexsize.n_tmp * complexsize.n_lig * idx_prt + complexsize.n_lig * t + idx_lig;
       const Replica *myrep = &ligrecord[r].step[s].replica;
       //printf ("%2d ", myrep->idx_prt);
       printf ("%2d ", myrep->idx_tmp);
@@ -934,7 +942,8 @@ PrintLigand (const Ligand * lig)
 
   // const LigCoord *mycoord = &lig->coord_new;
   const LigCoord *mycoord = &lig->coord_orig;
-  printf ("center:\t\t%+10.6f\t%+10.6f\t%+10.6f\n", mycoord->center[0], mycoord->center[1], mycoord->center[2]);
+  printf ("center:\t\t%+10.6f\t%+10.6f\t%+10.6f\n", mycoord->center[0], mycoord->center[1],
+	  mycoord->center[2]);
   printf ("lna:\t\t%d\n", lig->lna);
 
   printf ("x \t\ty \t\tz \t\tc \t\t t \t n \tindex\n");
@@ -1027,10 +1036,11 @@ PrintSummary (const InputFiles * inputfiles, const McPara * mcpara, const Temp *
 
   printf ("output directory\t\t%s\n", mcpara->outputdir);
   printf ("out file (HDF5)\t\t\t%s/%s_XXXX.h5\n", mcpara->outputdir, mcpara->outputfile);
+
   printf ("steps_per_dump\t\t\t%d\n", mcpara->steps_per_dump);
 
   const size_t ligrecord_sz = sizeof (LigRecord) * complexsize->n_rep;
-  printf ("per dump record size:\t\t%.3f MB\n", (float) ligrecord_sz / 1048576);
+  printf ("per dump record size:\t\t%.3f MB\n", (float) ligrecord_sz / 1024 / 1024);
 
   printf ("================================================================================\n");
 
@@ -1038,29 +1048,35 @@ PrintSummary (const InputFiles * inputfiles, const McPara * mcpara, const Temp *
   printf ("Replica Exchange Monte Carlo parameters\n");
   printf ("================================================================================\n");
   printf ("steps_total\t\t\t%d\n", mcpara->steps_total);
+  printf ("steps_per_dump\t\t\t%d\n", mcpara->steps_per_dump);
   printf ("steps_per_exchange\t\t%d\n", mcpara->steps_per_exchange);
 
   printf ("translational scale\t\t");
   for (int i = 0; i < 3; ++i)
-    printf("%.8f ", mcpara->move_scale[i]);
+    printf ("%.8f ", mcpara->move_scale[i]);
   printf ("\n");
 
   printf ("rotational scale\t\t");
   for (int i = 3; i < 6; ++i)
-    printf("%.8f ", mcpara->move_scale[i]);
+    printf ("%.8f ", mcpara->move_scale[i]);
   printf ("\n");
 
-  printf ("total replica\t\t\t%d\n", complexsize->n_rep);
-  printf ("total prt conformations\t\t%d\n", complexsize->n_prt);
-  printf ("total temperatures\t\t%d\n", complexsize->n_tmp);
-  printf ("total ligand conformations\t%d\n", complexsize->n_lig);
-  printf ("mcs\t\t\t\t%d\n", complexsize->n_pos);
+  printf ("ligand conformations\t\t%d\n", complexsize->n_lig);
+  printf ("prt conformations\t\t%d\n", complexsize->n_prt);
+  printf ("temperatures\t\t\t%d\n", complexsize->n_tmp);
+  printf ("replica ensembles\t\t%d\n", complexsize->n_rep);
+
+  printf ("size_lig\t\t\t%d\n", complexsize->lna);
+  printf ("size_prt\t\t\t%d\n", complexsize->pnp);
+  printf ("size_pnk\t\t\t%d\n", complexsize->pnk);
+  printf ("size_mcs\t\t\t%d\n", complexsize->pos);
+
 
   printf ("AR of MC \t\t\t%d / %d \t%f\n",
 	  mclog->ac_mc,
 	  mcpara->steps_total * complexsize->n_rep,
 	  (float) mclog->ac_mc / (mcpara->steps_total * complexsize->n_rep));
-  
+
 
 #if 0
   for (int t = 0; t < complexsize->n_tmp; ++t) {
@@ -1091,7 +1107,8 @@ PrintSummary (const InputFiles * inputfiles, const McPara * mcpara, const Temp *
   printf ("AR of temp exchange \t\t%d / %d \t%f\n",
 	  mclog->ac_temp_exchg,
 	  mcpara->steps_total / mcpara->steps_per_exchange * complexsize->n_rep,
-	  (float) mclog->ac_temp_exchg / (mcpara->steps_total / mcpara->steps_per_exchange * complexsize->n_rep));
+	  (float) mclog->ac_temp_exchg / (mcpara->steps_total / mcpara->steps_per_exchange *
+					  complexsize->n_rep));
 
   printf ("================================================================================\n");
 

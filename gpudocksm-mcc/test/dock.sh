@@ -15,4 +15,8 @@ rm -rf output_*
 
 # ./dock -floor_temp 0.000032f -ceiling_temp 0.14f -nt 20 -t 0.01f -r 0.08f -ns 200000 -nc 10 -p 1a07C.pdb -l 1a07C1.sdf -s 1a07C1.ff -id 1a07C1 > report
 # ./dock -floor_temp 0.000032f -ceiling_temp 0.14f -nt 10 -t 0.01f -r 0.08f -ns 1000 -nc 10 -p 1a07C.pdb -l 1a07C1.sdf -s 1a07C1.ff -id 1a07C1 > report
-./dock -floor_temp 0.000032f -ceiling_temp 0.000036f -nt 2 -t 0.01f -r 0.08f -ns 1000 -nc 10 -p 1a07C.pdb -l 1a07C1.sdf -s 1a07C1.ff -id 1a07C1
+# ./dock -floor_temp 0.000032f -ceiling_temp 0.000036f -nt 1 -t 0.01f -r 0.08f -ns 1000 -nc 10 -p 1a07C.pdb -l 1a07C1.sdf -s 1a07C1.ff -id 1a07C1
+#./dock -floor_temp 0.000032f -ceiling_temp 0.000036f -nt 1 -t 0.00f -r 0.00f -ns 1000 -nc 10 -p 1a07C.pdb -l 1a07C1.sdf -s 1a07C1.ff -id 1a07C1
+# ./dock -floor_temp 0.000032f -ceiling_temp 0.000036f -nt 2 -t 0.01f -r 0.08f -ns 1000 -nc 10 -p 1a07C.pdb -l 1a07C1.sdf -s 1a07C1.ff -id 1a07C1
+#./dock -floor_temp 0.000032f -ceiling_temp 0.000036f -nt 2 -t 0.01f -r 0.08f -ns 1 -nc 1 -p 1a07C.pdb -l 1a07C1.sdf -s 1a07C1.ff -id 1a07C1
+./dock -floor_temp 0.000032f -ceiling_temp 0.000036f -nt 2 -t 0.0f -r 0.0f -ns 1 -nc 1 -p 1a07C.pdb -l 1a07C1.sdf -s 1a07C1.ff -id 1a07C1

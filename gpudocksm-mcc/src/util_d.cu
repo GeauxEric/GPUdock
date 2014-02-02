@@ -103,21 +103,18 @@ __device__ float
 MyRand_d ()
 {
 
-  float randdd; 
-
-  if (is_random_dc == 0) {
-     randdd = 20.0f;
-    //randdd = 0.0f;
-  }
-  else {
-    const int gidx =
-      blockDim.x * blockDim.y * blockIdx.x +
-      blockDim.x * threadIdx.y +
-      threadIdx.x;
-    curandState myseed = curandstate_dc[gidx];
-    randdd = curand_uniform (&myseed);
-    curandstate_dc[gidx] = myseed;
-  }
+#if IS_RANDOM == 0
+  float randdd = 20.0f;
+  // float randdd = 0.0f;
+#elif IS_RANDOM == 1
+  const int gidx =
+    blockDim.x * blockDim.y * blockIdx.x +
+    blockDim.x * threadIdx.y +
+    threadIdx.x;
+  curandState myseed = curandstate_dc[gidx];
+  float randdd = curand_uniform (&myseed);
+  curandstate_dc[gidx] = myseed;
+#endif
 
   // printf("%f\n", randdd);
 

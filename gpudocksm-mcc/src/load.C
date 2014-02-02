@@ -454,7 +454,7 @@ void loadPrtConf(ProteinFile * prt_file, Protein0 * prt)
 {
 	/* load the protein */
 	std::string p1_name = prt_file->path;
-	prt_file->pnp = 0;
+	prt_file->pnp = 0; // why initialize since it is going to be overwriten
 	prt_file->pnr = 0;
 	prt_file->conf_total = 0;
 	int pnp = 0;
@@ -1142,7 +1142,7 @@ loadLHM (LhmFile * lhm_file, Psp0 * psp, Kde0 * kde, Mcs0 * mcs)
 
   h1_file.close ();
 
-  lhm_file->n_pos = num_mcs_conf;
+  lhm_file->pos = num_mcs_conf;
 
 }
 

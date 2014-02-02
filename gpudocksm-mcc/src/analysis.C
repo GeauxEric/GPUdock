@@ -32,7 +32,10 @@ main (int argc, char **argv)
   complexsize.n_prt = 11;
   complexsize.n_tmp = MAXTMP;
   complexsize.n_lig = 31;
-  complexsize.n_pos = 0; // unused, the value does not matter
+  complexsize.lna = 0; // unused, the value does not matter
+  complexsize.pnp = 0; // unused, the value does not matter
+  complexsize.pnk = 0; // unused, the value does not matter
+  complexsize.pos = 0; // unused, the value does not matter
 
   // ./analysis -num_temp 20 -rep 589 -nl 4500 -l 1 -p 2 -e XXX.h5
 

@@ -55,7 +55,6 @@ Run (const Ligand * lig,
   const int n_prt = complexsize.n_prt;
   const int n_tmp = complexsize.n_tmp;
   const int n_rep = complexsize.n_rep;
-  const int n_pos = complexsize.n_pos;
 
 
 
@@ -118,7 +117,6 @@ Run (const Ligand * lig,
     CUDAMEMCPYTOSYMBOL (steps_total_dc, &mcpara->steps_total, int);
     CUDAMEMCPYTOSYMBOL (steps_per_dump_dc, &mcpara->steps_per_dump, int);
     CUDAMEMCPYTOSYMBOL (steps_per_exchange_dc, &mcpara->steps_per_exchange, int);
-    CUDAMEMCPYTOSYMBOL (is_random_dc, &mcpara->is_random, int);
 
     CUDAMEMCPYTOSYMBOL (enepara_lj0_dc, &enepara->lj0, float);
     CUDAMEMCPYTOSYMBOL (enepara_lj1_dc, &enepara->lj1, float);
@@ -129,14 +127,14 @@ Run (const Ligand * lig,
     CUDAMEMCPYTOSYMBOL (enepara_kde2_dc, &enepara->kde2, float);
     CUDAMEMCPYTOSYMBOL (enepara_kde3_dc, &enepara->kde3, float);
 
-    CUDAMEMCPYTOSYMBOL (lna_dc, &lig[0].lna, int);
-    CUDAMEMCPYTOSYMBOL (pnp_dc, &prt[0].pnp, int);
-    CUDAMEMCPYTOSYMBOL (pnk_dc, &kde->pnk, int);
-    CUDAMEMCPYTOSYMBOL (n_pos_dc, &n_pos, int);
     CUDAMEMCPYTOSYMBOL (n_lig_dc, &n_lig, int);
     CUDAMEMCPYTOSYMBOL (n_prt_dc, &n_prt, int);
     CUDAMEMCPYTOSYMBOL (n_tmp_dc, &n_tmp, int);
     CUDAMEMCPYTOSYMBOL (n_rep_dc, &n_rep, int);
+    CUDAMEMCPYTOSYMBOL (lna_dc, &complexsize.lna, int);
+    CUDAMEMCPYTOSYMBOL (pnp_dc, &complexsize.pnp, int);
+    CUDAMEMCPYTOSYMBOL (pnk_dc, &complexsize.pnk, int);
+    CUDAMEMCPYTOSYMBOL (pos_dc, &complexsize.pos, int);
   }
 
 
@@ -145,7 +143,7 @@ Run (const Ligand * lig,
   const size_t prt_sz = sizeof (Protein) * n_prt;
   const size_t psp_sz = sizeof (Psp);
   const size_t kde_sz = sizeof (Kde);
-  const size_t mcs_sz = sizeof (Mcs) * n_pos;
+  const size_t mcs_sz = sizeof (Mcs) * complexsize.pos;
   const size_t enepara_sz = sizeof (EnePara);
   const size_t temp_sz = sizeof (Temp) * n_tmp;
   const size_t move_scale_sz = sizeof (float) * 6;
@@ -322,6 +320,7 @@ Run (const Ligand * lig,
     cudaFree (tmpenergy_d[i]);
     cudaFree (acs_mc_d[i]);
     cudaFree (acs_temp_exchg_d[i]);
+    cudaFree (ref_matrix_d[i]);
 
     cudaFree (ligrecord_d[i]);
   }

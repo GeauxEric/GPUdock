@@ -39,7 +39,7 @@ struct LhmFile
   std::string path;
   std::string ligand_id;
 
-  int n_pos; // number of mcs positions
+  int pos; // number of mcs positions
 };
 
 
@@ -76,12 +76,17 @@ struct InputFiles
 
 struct ComplexSize
 {
+  // replica numbers
   int n_lig; // number of ligand conf
   int n_prt; // number of protein conf
   int n_tmp; // number of temperature
   int n_rep; // n_rep = n_lig * n_prt * n_tmp;
 
-  int n_pos; // number of MCS positions
+  // residue numbers (of per replica)
+  int lna; // number of ligand points
+  int pnp; // number of protein points
+  int pnk; // number of kde points
+  int pos; // number of mcs positions
 };
 
 
@@ -457,8 +462,6 @@ struct McPara
   int steps_total;
   int steps_per_dump;
   int steps_per_exchange;
-
-  int is_random;    // random walk toggle
 
   float move_scale[6]; // translation x y z, rotation x y z
 

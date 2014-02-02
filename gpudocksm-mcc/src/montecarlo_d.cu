@@ -68,7 +68,10 @@ MonteCarlo_d (const int rep_begin, const int rep_end, const int s1, const int s2
 	RecordLigand_d (bidx, s1, s2 + s3, myreplica, rep_begin, mylig);
 #endif
 	Move_d (bidx, mylig);
-	CalcMcc_d (bidx, mylig, myprt);
+
+	if (myreplica == 0)
+	  CalcMcc_d (bidx, mylig, myprt);
+
 	CalcEnergy_d (bidx, mylig, myprt);
 	Accept_d (bidx, mylig, mybeta, myreplica);
       }
