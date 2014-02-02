@@ -1,5 +1,5 @@
 EXE := dock
-OBJ_CPU := dock.o load.o data.o rmsd.o util.o timing.o quicksort.o hdf5io.o
+OBJ_CPU := dock.o load.o data.o rmsd.o util.o timing.o quicksort.o hdf5io.o 
 OBJ_GPU := run.o
 
 SH := sh
@@ -27,7 +27,7 @@ OPTFLAGS := -O2
 
 
 CPPFLAGS := -Wall $(HEADPATH) $(OPTFLAGS)
-CXXFLAGS := $(HEADPATH) $(OPTFLAGS) $(ARCHFLAG) #-ccbin=g++ # --ptxas-options=-v #-keep #-rdc=true
+CXXFLAGS := $(HEADPATH) $(OPTFLAGS) $(ARCHFLAG) # --ptxas-options=-v #-ccbin=g++  #-keep #-rdc=true
 FFLAGS := -Wall -static $(OPTFLAGS)
 
 
@@ -38,7 +38,7 @@ default: $(EXE) analysis
 $(EXE): $(OBJ_CPU) $(OBJ_GPU) 
 	$(CPP) $(LINKFLAGS) $(LIBPATH) $(OBJ_CPU) $(OBJ_GPU) -o $@
 	@cp $(EXE) ../bin/
-	@cp $(EXE) ~/bin/
+#	@cp $(EXE) ~/bin/
 	@cp $(EXE) ../test/
 
 hdf5io.o: hdf5io.C
@@ -62,7 +62,7 @@ count: count.o load.o data.o rmsd.o
 analysis: analysis.o util.o hdf5io.o
 	$(CPP) $(LINKFLAGS) $(LIBPATH) $^ -o $@
 	@cp analysis ../bin/
-	@cp analysis ~/bin/
+#	@cp analysis ~/bin/
 	@cp analysis ../test/
 
 clean:

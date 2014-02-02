@@ -4,7 +4,6 @@
   cudaSetDevice (i);
   CUDAKERNEL (MonteCarlo_Init_d, dim_grid, dim_block, rep_begin[i], rep_end[i]);
 
-  int filesequence = 0;
   for (int s1 = 0; s1 < mcpara->steps_total; s1 += mcpara->steps_per_dump) {
 
     double t0 = host_time_now ();
@@ -29,7 +28,7 @@
 
     // dump ligand record from CPU memory to disk
     char myoutputfile[MAXSTRINGLENG];
-    sprintf(myoutputfile, "%s/%s_%04d.h5", mcpara->outputdir, mcpara->outputfile, filesequence++);
+    sprintf(myoutputfile, "%s/%s_%04d.h5", mcpara->outputdir, mcpara->outputfile, s1 / mcpara->steps_total);
     DumpLigRecord (ligrecord, n_rep, myoutputfile);
 #endif
     

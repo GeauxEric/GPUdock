@@ -1,4 +1,3 @@
-
 /*
 #include <cmath>
 #include <cstdio>
@@ -31,8 +30,8 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
   __shared__ float ehdb[TperB]; // e[4]
 
   // reduce through only x axis
-  __shared__ float a_val[BDy][BDx]; // reused by hpc, kde, lhm
-  __shared__ float a_sz[BDy][BDx];
+  __shared__ float a_val[BDy][BDx]; // reused by hpc, kde, lhm ???????
+  __shared__ float a_sz[BDy][BDx];  // ???????
 
   __shared__ float ehpc[BDy]; // e[5]
   __shared__ float ekde[BDy]; // e[6]
@@ -52,10 +51,6 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
   }
 
   __syncthreads ();
-
-
-
-
 
   // lig loop, ~30
   for (int i = 0; i < lna_dc; i += blockDim.y) {
@@ -77,6 +72,8 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
 	  const float dst_pow2 = dx * dx + dy * dy + dz * dz;
 	  const float dst_pow4 = dst_pow2 * dst_pow2;
 	  const float dst = sqrtf (dst_pow2);
+	  
+
 
 
 	  /* hydrophobic potential */
@@ -229,12 +226,12 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
   /* position restraints */
 
   // lhm loop, ~11
-  for (int i = 0; i < n_pos_dc; i += blockDim.y) {
+  for (int i = 0; i < pos_dc; i += blockDim.y) {
     a_val[threadIdx.y][threadIdx.x] = 0.0f;
     a_sz[threadIdx.y][threadIdx.x] = 0.0f;
     const int m = i + threadIdx.y;
 
-    if (m < n_pos_dc) {
+    if (m < pos_dc) {
 
     // lig loop, ~30
       for (int j = 0; j < lna_dc; j += blockDim.x) {
@@ -251,11 +248,11 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
 	} // if (l < lna_dc)
       } // lig loop
 
-    } // if (m < n_pos_dc)
+    } // if (m < pos_dc)
 
     SumReduction2D_2_d (a_val, a_sz);
 
-    if (threadIdx.x == 0 && m < n_pos_dc) {
+    if (threadIdx.x == 0 && m < pos_dc) {
       elhm[threadIdx.y] +=
 	mcs_dc[m].tcc *
 	sqrtf (a_val[threadIdx.y][0] / a_sz[threadIdx.y][0]);
@@ -267,8 +264,8 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
     float eelhm = 0.0f;
     for (int i = 0; i < BDy; ++i)
       eelhm += elhm[i];
-    // dropped the protection (if n_pos_dc != 0)
-    eelhm = logf (eelhm / n_pos_dc);
+    // dropped the protection (if pos_dc != 0)
+    eelhm = logf (eelhm / pos_dc);
     elhm[0] = eelhm;
   }
   __syncthreads ();

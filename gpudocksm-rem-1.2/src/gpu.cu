@@ -33,19 +33,17 @@ __constant__ int *acs_mc_dc;
 __constant__ int *acs_temp_exchg_dc;
 __constant__ ConfusionMatrix *ref_matrix_dc;
 
+
 // PRNG seeds
 __constant__ int seed_dc;
 __constant__ curandState *curandstate_dc;
-
 
 
 // monte carlo parameters
 __constant__ int steps_per_exchange_dc;
 __constant__ int steps_per_dump_dc;
 __constant__ int steps_total_dc;
-__constant__ int is_random_dc;
 __constant__ float * move_scale_dc;
-
 
 __constant__ float enepara_lj0_dc;
 __constant__ float enepara_lj1_dc;
@@ -57,26 +55,26 @@ __constant__ float enepara_kde2_dc;
 __constant__ float enepara_kde3_dc;
 
 
-
-// residue numbers (of per replica)
-__constant__ int lna_dc;
-__constant__ int pnp_dc;
-__constant__ int pnk_dc;
-__constant__ int n_pos_dc;
-
 // replica numbers
 __constant__ int n_lig_dc;
 __constant__ int n_prt_dc;
 __constant__ int n_tmp_dc;
 __constant__ int n_rep_dc;
 
+// residue numbers (of per replica)
+__constant__ int lna_dc;
+__constant__ int pnp_dc;
+__constant__ int pnk_dc;
+__constant__ int pos_dc;
+
+
 
 #include "initcurand_d.cu"
 #include "exchangereplicas_d.cu"
 #include "montecarlo_d.cu"
 #include "move_d.cu"
+#include "calcmcc_d.cu"
 #include "calcenergy_d.cu"
 #include "accept_d.cu"
 #include "util_d.cu"
-#include "calcmcc_d.cu"
 

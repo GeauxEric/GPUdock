@@ -13,8 +13,8 @@
 */
 
 
-#include "data.h"
 #include "size.h"
+#include "data.h"
 
 using namespace std;
 

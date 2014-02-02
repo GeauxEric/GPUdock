@@ -19,7 +19,7 @@
 #define     NAMEMAX 40
 /* max lig aton name */
 
-#define MAXPRO 10000
+#define MAXPRO 1024
 /* protein residues */
 
 #define MAXLIG 64
@@ -90,21 +90,21 @@
 /* value used for return statement in data.C for missing atoms */
 #define BADKDE 50
 
-/* value used for invalid cmcc value */
-#define CMCC_INVALID_VAL 1000000.0f
-
 // maximum string length for file names
 #define MAXSTRINGLENG 128
 
 // if mcs equal to 728492, it is invalid
 #define MCS_INVALID_COORD 728492
 
+// if mcs equal to 728492, it is invalid
+#define CMCC_INVALID_VAL 10000.0f
+
 // boltzman constant
 #define BOLTZMANN_CONST 1.0f
 
 // monte carlo steps
 // #define STEPS_TOTAL 30000
-#define STEPS_PER_DUMP 1000
+#define STEPS_PER_DUMP 1
 
 
 
