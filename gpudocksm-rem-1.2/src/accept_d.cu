@@ -43,6 +43,8 @@ Accept_d (const int bidx, Ligand * __restrict__ mylig, const float mybeta, const
       mylig->movematrix_old[bidx] = mylig->movematrix_new[bidx];
     if (bidx < MAXWEI)
       mylig->energy_old.e[bidx] = mylig->energy_new.e[bidx];
+    if (bidx == 0)
+	  mylig->energy_old.cmcc = mylig->energy_new.cmcc;
   }
 }
 

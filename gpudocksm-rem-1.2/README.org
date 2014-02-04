@@ -189,9 +189,18 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 ** DONE move the load weight function to load.h and load.C
 ** DONE calculation of acceptance ratio added
 
-
+   
 * testing
 
+
+** TODO move the ligand away from native pose
+   the function to move ligand away should not be implemented in InitLigCoord
+   since the native pose coord is needed for reference confusion matrix calculation
+
+    
+** TODO read the track record
+   read the h5 files using h5py
+   
 
 ** TODO GPU kernel launched too ugly
    #+BEGIN_SRC C++
@@ -199,11 +208,12 @@ for ( int i1 = 0; i1 < _lna; i1++ )
    #+END_SRC
 
 ** TODO simplist monte carlo implementation
-*** TODO unknown ligand atom 'Ca'
-*** TODO calculate MCC coefficient
       
 *** TODO best perturbation scale
-    optimize later
+    should be able to reflect the detaching of even one atom
+
+*** DONE calculate MCC coefficient
+*** DONE unknown ligand atom 'Ca'
     
 *** DONE testing single temperature Monte Carlo
     - [X] subscript in bounds in accept_d.cu
@@ -416,10 +426,6 @@ for ( int i1 = 0; i1 < _lna; i1++ )
        
 *** DONE which mode supposts complete information exchange
     - mode0 and mode1 combined together provides a mechanism that can do a complete information 
-
-    
-** TODO read the track record
-   read the h5 files using h5py
 
 
 ** TODO search the lowest energy in the track

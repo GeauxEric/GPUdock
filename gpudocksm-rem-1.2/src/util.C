@@ -108,13 +108,18 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara,
     }
     if (!strcmp (argv[i], "-nt") && i < argc) {
       int num_temp = atoi (argv[i + 1]);
-      if (num_temp == 1) {
+      if (num_temp == 0) {
+	cout << "number of temperature cannot set to be zero" << endl;
+	cout << "docking exiting ..." << endl;
+	exit (1);
+      }
+      else if (num_temp == 1) {
 	exchgpara->num_temp = num_temp;
 	cout << "RUNNING single temperature Monte Carlo" << endl;
 	cout << "FLOOR temperature used in simulaition" << endl;
       }
       else {
-	if (num_temp <= MAXTMP)
+	if ((num_temp <= MAXTMP) && (num_temp > 1))
 	  exchgpara->num_temp = num_temp;
 	else {
 	  cout << "setting number of temperatures exceeds MAXTMP" << endl;
@@ -224,15 +229,8 @@ InitLigCoord (Ligand * lig, const ComplexSize complexsize)
   for (int i = 0; i < complexsize.n_lig; ++i) {
     Ligand *mylig = &lig[i];
 
-#if IS_AWAY
-    ////////////////////////////////////////////////////////////////////////////////
-    // debugging, move ligand far away from center
-    mylig->coord_orig.center[0] += 1.5f;
-    mylig->coord_orig.center[1] += 1.5f;
-    mylig->coord_orig.center[2] += 1.5f;
-#endif
-
     mylig->coord_new = mylig->coord_orig;
+
     for (int residue = 0; residue < mylig->lna; residue++) {
       mylig->coord_new.x[residue] += mylig->coord_new.center[0];
       mylig->coord_new.y[residue] += mylig->coord_new.center[1];

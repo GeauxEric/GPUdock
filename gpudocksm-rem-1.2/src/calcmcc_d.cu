@@ -8,7 +8,7 @@
   #include "gpu.cuh"
 */
 
-
+/*
 
 __device__ void
 serial_InitRefMatrix_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt)
@@ -42,11 +42,13 @@ serial_InitRefMatrix_d (const int bidx, Ligand * __restrict__ mylig, const Prote
       }			// prt loop
   }				// lig loop
 
-  printf ("init lna %d pnp %d pnk %d pos %d\n", lna_dc, pnp_dc, pnk_dc, pos_dc);
+    // printf ("init lna %d pnp %d pnk %d pos %d\n", lna_dc, pnp_dc, pnk_dc, pos_dc);
 
   }
 
 }
+
+*/
 
 
 
@@ -73,6 +75,7 @@ InitRefMatrix_d (const int bidx, Ligand * __restrict__ mylig, const Protein * my
 	  const float dst = sqrtf (dx * dx + dy * dy + dz * dz);
 
 	  const float pmf0 = enepara_dc->pmf0[lig_t][prt_t];
+	  ref_matrix_dc->matrix[l][p] = (dst <= pmf0);
 	}
       }				// prt loop
     }
@@ -81,6 +84,7 @@ InitRefMatrix_d (const int bidx, Ligand * __restrict__ mylig, const Protein * my
 
 
 
+/*
 
 __device__ void
 serial_CalcMcc_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt)
@@ -137,6 +141,7 @@ serial_CalcMcc_d (const int bidx, Ligand * __restrict__ mylig, const Protein * m
   }
 
 }
+*/
 
 
 
@@ -200,8 +205,8 @@ CalcMcc_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt)
     else
       mylig->energy_new.cmcc = CMCC_INVALID_VAL;
 
-    printf("%f %f %f %f %f\n", tp0, fn0, fp0, tn0, dividend);
-    printf("cmcc %f\n", mylig->energy_new.cmcc);
+    // printf("%f %f %f %f %f\n", tp0, fn0, fp0, tn0, dividend);
+    // printf("cmcc %f\n", mylig->energy_new.cmcc);
 
   }
 

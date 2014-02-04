@@ -15,6 +15,7 @@ for (int i = 0; i < NGPU; ++i)
 
 
 
+int filesequence = 0;
 for (int s1 = 0; s1 < mcpara->steps_total; s1 += mcpara->steps_per_dump) {
 
   double t0 = host_time_now ();
@@ -63,7 +64,7 @@ for (int s1 = 0; s1 < mcpara->steps_total; s1 += mcpara->steps_per_dump) {
 
   // dump ligand record from CPU memory to disk
   char myoutputfile[MAXSTRINGLENG];
-  sprintf(myoutputfile, "%s/%s_%04d.h5", mcpara->outputdir, mcpara->outputfile, FILESEQUENCE);
+  sprintf(myoutputfile, "%s/%s_%04d.h5", mcpara->outputdir, mcpara->outputfile, filesequence++);
   DumpLigRecord (ligrecord, n_rep, myoutputfile);
 #endif
   */

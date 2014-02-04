@@ -12,7 +12,10 @@
 #define IS_EXCHANGE 0
 
 // move ligand away from center
-#define IS_AWAY 0
+#define IS_AWAY 1
+
+// calculate mcc
+#define IS_CALCU_MCC 1
 
 
 #endif // TOGGLE_H

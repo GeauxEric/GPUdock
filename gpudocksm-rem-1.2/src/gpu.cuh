@@ -17,6 +17,7 @@ __global__ void MonteCarlo_d (const int, const int, const int, const int);
 
 
 __device__ void Move_d (const int, Ligand * __restrict__); //, LigCoord * __restrict__);
+__device__ void MoveAway_d (const int, Ligand * __restrict__); //, LigCoord * __restrict__);
 
 __device__ void CalcEnergy_d (const int, Ligand * __restrict__, const Protein *);
 

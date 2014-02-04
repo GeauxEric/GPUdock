@@ -22,14 +22,32 @@ MonteCarlo_Init_d (const int rep_begin, const int rep_end)
       const Protein *myprt = &prt_dc[replica_dc[myreplica].idx_prt];
 
       if (myreplica == 0)
-	InitRefMatrix_d (bidx, mylig, myprt);
+	InitRefMatrix_d (bidx, mylig, myprt);  // mcc ref matrix generated from the first replica
+      
+
+#if IS_AWAY == 1
+	MoveAway_d (bidx, mylig);
+#endif 
+
 
       CalcEnergy_d (bidx, mylig, myprt);
 
-      // InitLigRecord_d (bidx, myreplica, rep_begin);  // set all entries of lig record to zero
+#if IS_CALCU_MCC == 1
+      CalcMcc_d (bidx, mylig, myprt);
+#endif
 
       if (bidx <= MAXWEI)
 	mylig->energy_old.e[bidx] = mylig->energy_new.e[bidx];
+
+      if (bidx == 0)
+	mylig->energy_old.cmcc = mylig->energy_new.cmcc;
+      
+#if IS_AWAY
+      // force to accept, set mybeta to be zero
+	Accept_d (bidx, mylig, 0.000000f, myreplica);
+#endif
+
+      
     }
   }
 
@@ -69,10 +87,12 @@ MonteCarlo_d (const int rep_begin, const int rep_end, const int s1, const int s2
 #endif
 	Move_d (bidx, mylig);
 
-	if (myreplica == 0)
-	  CalcMcc_d (bidx, mylig, myprt);
+#if IS_CALCU_MCC == 1
+	CalcMcc_d (bidx, mylig, myprt);
+#endif 
 
 	CalcEnergy_d (bidx, mylig, myprt);
+
 	Accept_d (bidx, mylig, mybeta, myreplica);
       }
 

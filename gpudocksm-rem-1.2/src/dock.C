@@ -16,7 +16,7 @@ main (int argc, char **argv)
 {
   cout << "------------------------------------------------------------" << endl
        << "                         GPU-dockSM" << endl
-       << "                         version 1.0" << endl << endl
+       << "                         version 1.2" << endl << endl
        << "   GPU-accelerated mixed-resolution ligand docking using" << endl
        << "                Replica Exchange Monte Carlo" << endl
        << "------------------------------------------------------------" << endl << endl;
