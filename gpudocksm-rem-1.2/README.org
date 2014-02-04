@@ -190,12 +190,10 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 ** DONE calculation of acceptance ratio added
 
    
+** DONE column
+   _evdw, _eele, _epmf, _ehpc, _ehdb, _edst, _epsp, _ekde, _elhm
+   
 * testing
-
-
-** TODO move the ligand away from native pose
-   the function to move ligand away should not be implemented in InitLigCoord
-   since the native pose coord is needed for reference confusion matrix calculation
 
     
 ** TODO read the track record
@@ -450,6 +448,8 @@ for ( int i1 = 0; i1 < _lna; i1++ )
    #+BEGIN_SRC 
   complexsize.n_pos = inputfiles->lhm_file.n_pos;	// number of MCS positions
    #+END_SRC
+
+** DONE move the ligand away from native pose
 
 ** DONE argument parsing
    #+BEGIN_SRC C++
