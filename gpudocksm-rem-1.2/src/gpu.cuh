@@ -58,5 +58,15 @@ __forceinline__ __device__ void SumReduction2D_2_d (float a[BDy][BDx], float b[B
 
 
 
+__forceinline__ __device__ float NormPdf(float x, float loc, float scale);
+
+__forceinline__ __device__ float CauchyPdf(float x, float loc, float scale);
+
+__forceinline__ __device__ float LogisticPdf(float x, float loc, float scale);
+
+__forceinline__ __device__ float WaldPdf(float x, float loc, float scale);
+
+__forceinline__ __device__ float LaplacePdf(float x, float loc, float scale);
+
 
 #endif

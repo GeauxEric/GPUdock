@@ -17,6 +17,9 @@
 // calculate mcc
 #define IS_CALCU_MCC 1
 
+// use bayesian force field
+#define IS_BAYE 0
+
 
 #endif // TOGGLE_H
 

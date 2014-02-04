@@ -10,8 +10,8 @@
 #include "toggle.h"
 #include "include_cuda/cutil_inline.h"
 #include "gpu.cuh"
+#include "distribution.h"
 #include "size_gpu.cuh"
-
 
 // _dc stands for gpu constant memory
 

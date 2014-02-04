@@ -42,17 +42,16 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara,
   mcpara->steps_per_dump = STEPS_PER_DUMP;
   mcpara->steps_per_exchange = 5;
 
-/*
-  inputfiles->weight_file.path = "../dat/08ff_opt";
-  inputfiles->norpara_file.path_a = "../dat/nor_a";
-  inputfiles->norpara_file.path_b = "../dat/nor_b";
-  inputfiles->enepara_file.path = "../dat/gpudocksm.ff";
-  inputfiles->lig_file.molid = "MOLID";
-*/
-
   inputfiles->weight_file.path = "08ff_opt";
+
+#if IS_BAYE == 1
+  inputfiles->norpara_file.path_a = "baye_nor_a";
+  inputfiles->norpara_file.path_b = "baye_nor_b";
+#elif IS_BAYE == 0
   inputfiles->norpara_file.path_a = "nor_a";
   inputfiles->norpara_file.path_b = "nor_b";
+#endif
+
   inputfiles->enepara_file.path = "gpudocksm.ff";
   inputfiles->lig_file.molid = "MOLID";
 

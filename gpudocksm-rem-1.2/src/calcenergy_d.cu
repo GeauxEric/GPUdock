@@ -308,6 +308,45 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
     ekde[0] = enepara_dc->a_para[7] * ekde[0] + enepara_dc->b_para[7];
     elhm[0] = enepara_dc->a_para[8] * elhm[0] + enepara_dc->b_para[8];
 
+#if IS_BAYE == 1
+    // calculate conditional prob belonging to high decoy
+    const float evdw_h = NormPdf(evdw[0], VDW_NORM_HIGH_LOC, VDW_NORM_HIGH_SCALE);
+    const float evdw_l = NormPdf(evdw[0], VDW_NORM_LOW_LOC, VDW_NORM_LOW_SCALE);
+
+    const float eele_h = CauchyPdf(eele[0], ELE_CAUCHY_HIGH_LOC, ELE_CAUCHY_HIGH_SCALE);
+    const float eele_l = CauchyPdf(eele[0], ELE_CAUCHY_LOW_LOC, ELE_CAUCHY_LOW_SCALE);
+    
+    const float epmf_h = LogisticPdf(epmf[0], PMF_LOGISTIC_HIGH_LOC, PMF_LOGISTIC_HIGH_SCALE);
+    const float epmf_l = LogisticPdf(epmf[0], PMF_LOGISTIC_LOW_LOC, PMF_LOGISTIC_LOW_SCALE);
+    
+    const float ehpc_h = WaldPdf(ehpc[0], HPC_WALD_HIGH_LOC, HPC_WALD_HIGH_SCALE);
+    const float ehpc_l = WaldPdf(ehpc[0], HPC_WALD_LOW_LOC, HPC_WALD_LOW_SCALE);
+    
+    const float ehdb_h = NormPdf(ehdb[0], HDB_NORM_HIGH_LOC, HDB_NORM_HIGH_SCALE);
+    const float ehdb_l = NormPdf(ehdb[0], HDB_LOGISTIC_LOW_LOC, HDB_LOGISTIC_LOW_SCALE);
+    
+    const float edst_h = LogisticPdf(edst, DST_LOGISTIC_HIGH_LOC, DST_LOGISTIC_HIGH_SCALE);
+    const float edst_l = LogisticPdf(edst, DST_LOGISTIC_LOW_LOC, DST_LOGISTIC_LOW_SCALE);
+    
+    const float epsp_h = LogisticPdf(epsp[0], PSP_LOGISTIC_HIGH_LOC, PSP_LOGISTIC_HIGH_SCALE);
+    const float epsp_l = LogisticPdf(epsp[0], PSP_LAPLACE_LOW_LOC, PSP_LAPLACE_LOW_SCALE);
+    
+    const float ekde_h = WaldPdf(ekde[0], KDE_WALD_HIGH_LOC, KDE_WALD_HIGH_SCALE);
+    const float ekde_l = WaldPdf(ekde[0], KDE_WALD_LOW_LOC, KDE_WALD_LOW_SCALE);
+    
+    const float elhm_h = LogisticPdf(elhm[0], LHM_LOGISTIC_HIGH_LOC, LHM_LOGISTIC_HIGH_SCALE);
+    const float elhm_l = LogisticPdf(elhm[0], LHM_LOGISTIC_LOW_LOC, LHM_LOGISTIC_LOW_SCALE);
+    
+    // calculate conditional prob
+    const float prob_h = log10f(evdw_h) + log10f(eele_h) + log10f(epmf_h) + log10f(ehpc_h) + log10f(ehdb_h)
+      + log10f(edst_h) + log10f(epsp_h) + log10f(ekde_h) + log10f(elhm_h);
+    const float prob_l = log10f(evdw_l) + log10f(eele_l) + log10f(epmf_l) + log10f(ehpc_l) + log10f(ehdb_l)
+      + log10f(edst_l) + log10f(epsp_l) + log10f(ekde_l) + log10f(elhm_l);
+    
+    const float etotal = prob_l - prob_h;
+
+#elif IS_BAYE == 0
+
     // calculate the total energy using linear combination
     const float etotal =
       enepara_dc->w[0] * evdw[0] +
@@ -319,6 +358,7 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
       enepara_dc->w[6] * epsp[0] +
       enepara_dc->w[7] * ekde[0] +
       enepara_dc->w[8] * elhm[0];
+#endif
 
     float * e = &mylig->energy_new.e[0];
     e[0] = evdw[0];
