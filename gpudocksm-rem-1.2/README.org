@@ -5,6 +5,38 @@
 
 
 * Developers' log
+** DONE develope bayesian force field
+
+*** DONE verify the calculation of conditional probability
+    1. original C code to calculate pdf
+       ../test/distribution.C
+
+*** DONE normalize energy value for bayesian force field
+    - applying the linear transformation normalized_df = a*df + b
+    | a:    |           |
+    |-------+-----------|
+    | _evdw |  0.653797 |
+    | _eele |  3.789781 |
+    | _epmf |  0.144446 |
+    | _ehpc |  0.091069 |
+    | _ehdb |  1.074801 |
+    | _edst |  0.187670 |
+    | _epsp |  0.216229 |
+    | _ekde | 22.495897 |
+    | _elhm |  0.472555 |
+    |-------+-----------|
+    | b:    |           |
+    |-------+-----------|
+    | _evdw |  1.032007 |
+    | _eele | -0.364693 |
+    | _epmf |  0.153934 |
+    | _ehpc | -1.005087 |
+    | _ehdb |  1.000000 |
+    | _edst | -1.000000 |
+    | _epsp | -0.202412 |
+    | _ekde | -1.000000 |
+    | _elhm | -0.426394 |
+
 ** DONE Data structure from array of structure (AoS) to structure of array (SoA)
 
 ** DONE Energy calculation and Metropolis Monte Carlo
@@ -192,18 +224,49 @@ for ( int i1 = 0; i1 < _lna; i1++ )
    
 ** DONE column
    _evdw, _eele, _epmf, _ehpc, _ehdb, _edst, _epsp, _ekde, _elhm
-   
-* testing
-
     
-** TODO read the track record
-   read the h5 files using h5py
-   
+** DONE normalize energy calculation for linear force field
+   - weight abtained from using /home/jaydy/work/dat/output/output/FF_opt/0.8.ff
+   - applying the linear transformation normalized_df = a*df + b
+     #+BEGIN_SRC c++
+     inputfiles->norpara_file.path_a = "../dat/linear_a";
+     inputfiles->norpara_file.path_b = "../dat/linear_b";
+     #+END_SRC
+    | a:    |            |
+    |-------+------------|
+    | _evdw |   0.746595 |
+    | _eele |  18.289225 |
+    | _epmf |   0.282088 |
+    | _ehpc |   0.427256 |
+    | _ehdb |   2.147791 |
+    | _edst |   0.497450 |
+    | _epsp |   0.572314 |
+    | _ekde | 233.329020 |
+    | _elhm |   0.726683 |
+    |-------+------------|
+    | b:    |            |
+    |-------+------------|
+    | _evdw |   1.036550 |
+    | _eele |  -0.028357 |
+    | _epmf |   0.256679 |
+    | _ehpc |  -1.023866 |
+    | _ehdb |   1.000000 |
+    | _edst |  -1.000000 |
+    | _epsp |   0.001993 |
+    | _ekde |  -1.000000 |
+    | _elhm |  -0.294676 |
+   - [X] 18 more float number from normalization parameter in the device constant
+     
+   - [X] abort to optimize calculat combination due to its low cost
+
+
+* testing
 
 ** TODO GPU kernel launched too ugly
    #+BEGIN_SRC C++
    #include "gpusingle.cu"
    #+END_SRC
+
 
 ** TODO simplist monte carlo implementation
       
@@ -449,47 +512,29 @@ for ( int i1 = 0; i1 < _lna; i1++ )
   complexsize.n_pos = inputfiles->lhm_file.n_pos;	// number of MCS positions
    #+END_SRC
 
+    
+** DONE read the track record
+   1. script
+      /home/jaydy/Workspace/script/Pyscripts/readH5.py
+      /home/jaydy/Workspace/script/Pyscripts/docking_analy.py
+
 ** DONE move the ligand away from native pose
+   #+BEGIN_SRC C++
+    #if IS_AWAY == 1
+	    MoveAway_d (bidx, mylig);
+    #endif 
+    #if IS_AWAY
+	  // force to accept, set mybeta to be zero
+	    Accept_d (bidx, mylig, 0.000000f, myreplica);
+    #endif
+   #+END_SRC
+
 
 ** DONE argument parsing
    #+BEGIN_SRC C++
      void
      ParseArguments (int argc, char **argv, McPara * mcpara, InputFiles * inputfiles);
    #+END_SRC
-
-** DONE modify energy calculation if needed
-   - weight abtained from using /home/jaydy/work/dat/output/output/FF_opt/0.8.ff
-   - applying the linear transformation normalized_df = a*df + b
-     #+BEGIN_SRC c++
-     inputfiles->norpara_file.path_a = "../dat/linear_a";
-     inputfiles->norpara_file.path_b = "../dat/linear_b";
-     #+END_SRC
-    | a:    |            |
-    |-------+------------|
-    | _evdw |   0.746595 |
-    | _eele |  18.289225 |
-    | _epmf |   0.282088 |
-    | _ehpc |   0.427256 |
-    | _ehdb |   2.147791 |
-    | _edst |   0.497450 |
-    | _epsp |   0.572314 |
-    | _ekde | 233.329020 |
-    | _elhm |   0.726683 |
-    |-------+------------|
-    | b:    |            |
-    |-------+------------|
-    | _evdw |   1.036550 |
-    | _eele |  -0.028357 |
-    | _epmf |   0.256679 |
-    | _ehpc |  -1.023866 |
-    | _ehdb |   1.000000 |
-    | _edst |  -1.000000 |
-    | _epsp |   0.001993 |
-    | _ekde |  -1.000000 |
-    | _elhm |  -0.294676 |
-   - [X] 18 more float number from normalization parameter in the device constant
-     
-   - [X] abort to optimize calculat combination due to its low cost
 
 ** DONE introduce the toggle of random walk
    #+BEGIN_SRC 
