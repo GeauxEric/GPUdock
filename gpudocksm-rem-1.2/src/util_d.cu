@@ -270,7 +270,7 @@ WaldPdf(float x, float loc, float scale){
   prob = exp(-pow(normed_x-1, 2)/(2*normed_x));
 
   if (normed_x < 0) 
-    pdf_val = 0.0f;
+    pdf_val = 0.00000001f;
   else
     pdf_val = norm_para * prob;
 
