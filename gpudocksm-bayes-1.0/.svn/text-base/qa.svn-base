@@ -1,0 +1,191 @@
+1. what are loaded into the complex?25. what are the so-called protein residues?
+
+	
+	# of ligand atom: 34
+	# of ligand bond: 34
+	# of residue number in 1a07C.pdb is 104
+	# of effective residue point in 1a07C.pdb is 344, this is also the size of the _protein_xyz vector 
+
+	loading Protein data from: 1a07C.pdb
+	so this is the data of one protein in one conformation?
+
+	loading Params data from: ../dat/gpudocksm.ff
+	setting the parameters in the force field
+
+	loading Ligand data from: MOLID ?????
+
+	loading LHM from: 1a07C1.ff
+   
+2. what is the KDE method?
+	KDE stands for Kernel Density Estimation. A way to estimate the probability den    sity function of a random
+	variable. KDE is a fundamental data smoothing problem where inferences about       the  population are made,
+	based on a finite data sample.
+	http://en.wikipedia.org/wiki/Kernel_density_estimation
+
+3. what are the pocket centers? 
+	It is a hole predicted by Q-Dock/Screen-LHM programm, where the ligand can  site.
+
+4. what are the smiles?
+
+5. what are the maccs?
+	Compare the docking ligand with other similar docked ligand and try to predict its behavior.
+
+6. what does Complex::getAcceptanceENE( int ) do?
+	Right now it has never been called.
+	
+
+7. what is LHM?
+	Ligand Homology Modeling.
+	see
+	http://brylinski.cct.lsu.edu/content/2010-j-comput-chem-315-1093-1105
+
+10. Why do we normalize hydrophobic scale?
+
+11. what does the protEnsemble do?
+
+12. what is Matthew correlation coefficient?
+	For each pair of amino acid i and ligand functinal group j, a unique contact shell was defined. hte limiting values for the pair-specific S_ij were calculated for the protein-ligand complexes present in the dataset using Matthew correlatin cofficient, MCC.
+	
+13. How we compare our calculated result with the experimental result?
+
+14. what does 
+	u3b_(&weights, &mob_xyz, &ref_xyz, &ens3, &mode, &rms1, &u, &t, &ier) 
+	do?
+
+15. How you determine those const parameters in the size.h? 
+
+16. why do we need to set the trial coordinates back to the previous coordinates instead of go on the MC with it?
+
+	double check, calful
+
+17. What is mc_t? Temperature
+	to rescale translation 
+	what is mc_r?
+	to rescale rotation
+
+18.	 sth wrong with the following two:
+  mc_complex->getConfCoordsPerm(m_conf1);
+  coordinates of ligand initialized?
+  but here the m_conf1 has not been modified....
+
+  mc_complex->getConfParams(m_conf2);
+  get ligand conformation parameters?
+  but here the m_confi2 not modified either... smae problem with m_confi1
+
+  mc_complex->restoreCoords(1);
+  //void Complex::restoreCoords (int kbb ) 
+  the kbb has never been used, we define the function in this way for future use?
+  
+  mc_complex->clearMoves();
+  mc_complex->createTrialCoords(); 
+  mc_complex->calculateEnergy();
+
+
+20. what is ibrary cmps?
+
+21. explain
+    vector<CoordsProtein>      _protein_xyz;          // protein effective points coords
+    vector<CoordsKDE>          _kde_xyz;              // kde coords
+    
+    double                     _pocket_center[3];     // pocket center		
+	//3D coords of the center
+    
+    int                        _pnp;                  // number of protein effective points
+    int                        _pnr;                  // number of protein residues
+	//why these two are the same
+
+    int                        _pnk;                  // total number of kde points
+    
+    int                        _pns[MAXTP2];          // number of specific kde points
+	
+	_pnk is the number of all kde points, and since we have 24 atom types in this model, for each atom type we have specific numbers
+    
+    std::string                _protein_seq1;         // aa sequence
+    char                       _protein_seq2[MAXPRO]; // aa sequence
+    int                        _protein_seq3[MAXPRO]; // aa sequence numbering
+    // amino acid
+
+    int                        _pens_total;           // total ensemble conformations
+    int                        _pens_current;         // current conformation
+    int                        _pens_best;            // best conformation
+
+22. number of replicas equals total protein ensemble conformations?
+	this may not be what we want right now, this is the Hamitonian REM thing.
+
+	number of swapping pairs equals total ligand  ensemble conformations?
+
+23. Explian: 
+    
+    /* LIGAND */
+    
+    vector<CoordsLigand> _ligand_xyz;         // ligand heavy-atom coordinates
+    
+    double               _ligand_center[3];   // ligand geometric center
+    
+    int                  _lna;                // number of ligand atoms
+    int                  _lnb;                // number of ligand bonds
+ _pnp = ap;
+ _pnr = ap;
+ _lna = al;
+ _lnb = al;
+
+    int                  _lens_total;         // total ligand  ensemble conformations
+    int                  _lens_current;       // current conformation
+    int                  _lens_best;          // best conformation
+    
+    double               _lens_rmsd[MAXEN2];  // ensemble rmsd
+    
+    std::string          _ligand_id;          // ligand id
+    std::string          _ligand_smiles;      // ligand smiles
+    
+    bitset<MAXFP1>       _ligand_fpt_smiles;  // fingerprint smiles
+    bitset<MAXFP2>       _ligand_fpt_maccs;   // fingerprint maccs
+	//what are these two??????????
+    
+    double               _ligand_prop_mw;     // ligand molecular weight
+    double               _ligand_prop_logp;   // ligand water/octanol partition coeff
+    double               _ligand_prop_psa;    // ligand polar surface area
+    double               _ligand_prop_mr;     // ligand molar refractivity
+    
+    int                  _ligand_prop_hbd;    // ligand hydrogen bond donors
+    int                  _ligand_prop_hba;    // ligand hydrogen bond acceptors
+    
+    double               _ligand_tra[3];      // ligand translation
+    double               _ligand_rot[3];      // ligand rotation
+    
+    double               _ligand_tra_best[3]; // best ligand translation
+    double               _ligand_rot_best[3]; // best ligand rotation
+    
+24. 
+    list<double> rmsd1[MAXPOS];
+	array of list containinig double 
+
+26. ligand group - side-chain repulsion shell S_ij, defined as the minimum distance between effective  points of the side chain center of mass of amino acid i and ligand functional group j.
+	backbone repulsion defined as the minimum observed distance from any C_alpha atom in crystal structures of protein-ligand complexes.
+
+27. a residue and a ligand functional group are defined to be in contact if any of their heavy atoms were found to contact as reported by the LPC algorithm.
+
+28. the conformations are not genertated dynamically. They are pre-gnerated and stored in the data file.
+
+29. When reading the protein data in complex.C, why starts from the "CA"?
+	In the low-resolution Protein structure, the protein points are divided into groups of 4 points. Here the "CA" is the center of the first group. We may conclude that for another type of input data, we need to modify the loading method.
+
+30. Why sometimes we need to do the _protein_xyz.pushbach() twice?
+	There are side chains attached to the backbone of the protein. For small side chains we are describing it by one point, while for large ones we use two points. So when it comes to two sidechains we pushback twice.
+
+31. In the original data loading (version gpudocksm-1.0), loading the point types and point coordinates are two separate steps, shall we combine them into one step?
+	two steps or one is not a big deal. Since the data loading is not a very big overhead in the whole program. The original way is more generic and easy to understand. (first to establish the index, and then load the coordinates by the indice).
+
+32. what is the use of tn1 in protein loading in complex.C ?
+	since we want to find the midpoint of the residue, which is composed of 3 or 4 effective points, we need to accumulate their coords and then divided by the times the coords have been accumulated, tn1.
+
+33. what is the use of _ligand_fpt_maccs and _ligand_fpt_smiles? they are never used.
+
+
+
+why not split lhm file into separated psp/kde/mcs/ files?
+
+why not call elhm emcs ????
+
+what is mcs0.total, mcs0.tcc ???		I would rather use n_pos, n_mcs
+

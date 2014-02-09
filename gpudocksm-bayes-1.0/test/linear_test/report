@@ -1,0 +1,56 @@
+------------------------------------------------------------
+                         GPU-dockSM
+                         version 1.2
+
+   GPU-accelerated mixed-resolution ligand docking using
+                Replica Exchange Monte Carlo
+------------------------------------------------------------
+
+RUNNING single temperature Monte Carlo
+FLOOR temperature used in simulaition
+Setting up temperature replicas
+================================================================================
+temp # 0			0.024000
+	0 / 2000 	1000 / 2000 
+================================================================================
+Inputs and Outputs
+================================================================================
+ligand file			1a07C1.sdf
+protein file			1a07C.pdb
+lhm file			1a07C1.ff
+enepara file			gpudocksm.ff
+weight file			08ff_opt
+output directory		
+out file (HDF5)			/_XXXX.h5
+steps_per_dump			1000
+per dump record size:		0.084 MB
+================================================================================
+Replica Exchange Monte Carlo parameters
+================================================================================
+steps_total			2000
+steps_per_dump			1000
+steps_per_exchange		1
+translational scale		0.01000000 0.01000000 0.01000000 
+rotational scale		0.08000000 0.08000000 0.08000000 
+ligand conformations		1
+prt conformations		1
+temperatures			1
+replica ensembles		1
+size_lig			34
+size_prt			344
+size_pnk			454
+size_mcs			11
+AR of MC 			1080 / 2000 	0.540000
+AR of temp exchange 		0 / 2000 	0.000000
+================================================================================
+Performance
+================================================================================
+compute time			0.611 seconds
+time per MC sweep per replica	305.703 * 1e-6 seconds
+MC sweeps per second		3271.153
+speedup over 843.75		3.877 X
+wall time			0.611 seconds
+time per MC sweep per replica	305.703 * 1e-6 seconds 
+MC sweeps per second		3271.153
+speedup over 843.75		3.877 X
+================================================================================

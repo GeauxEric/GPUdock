@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/repos/ClassicalMC/!svn/ver/171/biology/trunk/gpudocksm-rem-1.2/test
+END
+1a07C.pdb
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/test/1a07C.pdb
+END
+1a07C-efindsite.templates.pdb
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/test/1a07C-efindsite.templates.pdb
+END
+1a07C1.ff
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/test/1a07C1.ff
+END
+pcoords.txt
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/test/pcoords.txt
+END
+count
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/repos/ClassicalMC/!svn/ver/171/biology/trunk/gpudocksm-rem-1.2/test/count
+END
+1a07C-efindsite.alignments.dat
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/test/1a07C-efindsite.alignments.dat
+END
+MCcoefs.txt
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/test/MCcoefs.txt
+END
+1a07C-efindsite.pockets.pdb
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/test/1a07C-efindsite.pockets.pdb
+END
+1a07C-efindsite.pockets.dat
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/test/1a07C-efindsite.pockets.dat
+END
+1a07C-efindsite.log
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/test/1a07C-efindsite.log
+END
+gpu.sh
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/test/gpu.sh
+END
+env.bash
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/test/env.bash
+END
+decoys.txt
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/test/decoys.txt
+END
+1a07C1.sdf
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/test/1a07C1.sdf
+END
+test1.sdf
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/test/test1.sdf
+END
+run.sh
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/test/run.sh
+END
+1a07C-efindsite.ligands.sdf
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/repos/ClassicalMC/!svn/ver/153/biology/trunk/gpudocksm-rem-1.2/test/1a07C-efindsite.ligands.sdf
+END

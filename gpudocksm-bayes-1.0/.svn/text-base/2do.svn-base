@@ -1,0 +1,51 @@
+
+sort in bad order
+
+make sure multi-GPU code also work for the case of NGPU=1
+
+NGPU=1 print evergy, but NGPU=2 does not print anything
+
+
+sort lig by n[]
+sort prt by t[]
+
+
+
+figure out the value range of lig_t and prt_t
+
+
+
+empf is wrong since SVN r155
+src vs src.bk: empf does not agree
+src vs src.bk: ephc does not agree
+
+
+32KB registers per SM
+512 T per SM, 16 Per T
+
+
+cmem[0] kernel arguments
+cmem[2] user defined __constant__ objects
+cmem[16] compiler generated constants
+
+
+
+
+MonteCarlo_diii
+	160 bytes stack frame, 136 bytes spill stores, 132 bytes spill loads
+	ptxas info    : Used 63 registers, 21052+0 bytes smem, 44 bytes cmem[0], 51404 bytes cmem[2], 112 bytes cmem[14], 100 bytes cmem[16]
+ExchangeReplicas_dii
+	0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+	ptxas info    : Used 14 registers, 16384+0 bytes smem, 40 bytes cmem[0], 51404 bytes cmem[2], 112 bytes cmem[14]
+InitSeedv
+	0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+	ptxas info    : Used 2 registers, 32 bytes cmem[0], 51404 bytes cmem[2], 112 bytes cmem[14]
+MonteCarlo_Init_dii
+	0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+	ptxas info    : Used 45 registers, 20620+0 bytes smem, 40 bytes cmem[0], 51404 bytes cmem[2], 112 bytes cmem[14], 60 bytes cmem[16]
+
+
+
+45 regs, 0 stack frame, 0 spill
+
+

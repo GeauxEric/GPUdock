@@ -1,0 +1,10 @@
+------------------------------------------------------------
+                         GPU-dockSM
+                         version 1.2
+
+   GPU-accelerated mixed-resolution ligand docking using
+                Replica Exchange Monte Carlo
+------------------------------------------------------------
+
+RUNNING single temperature Monte Carlo
+FLOOR temperature used in simulaition
