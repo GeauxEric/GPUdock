@@ -15,7 +15,7 @@ int
 main (int argc, char **argv)
 {
   cout << "------------------------------------------------------------" << endl
-       << "                         GPU-dockSM" << endl
+       << "                         GPU-dockSM-linear" << endl
        << "                         version 1.2" << endl << endl
        << "   GPU-accelerated mixed-resolution ligand docking using" << endl
        << "                Replica Exchange Monte Carlo" << endl
@@ -100,8 +100,8 @@ main (int argc, char **argv)
 
 
   // run simulation on optimized data structure
-  Run (lig, prt, psp, kde, mcs, enepara, temp, replica, mcpara, mclog, complexsize);
-  PrintSummary (inputfiles, mcpara, temp, mclog, &complexsize);
+  // Run (lig, prt, psp, kde, mcs, enepara, temp, replica, mcpara, mclog, complexsize);
+  // PrintSummary (inputfiles, mcpara, temp, mclog, &complexsize);
 
 
   // clean up

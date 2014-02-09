@@ -1,5 +1,3 @@
-//Daniel Case 11-16-12
-//This program calculates the cross MCCs for a set of ligand coords
 
 #include <iostream>
 #include <fstream>
@@ -11,27 +9,15 @@
 
 using namespace std;
 
-//std::fstream& GotoLine(std::fstream&, unsigned int);
 
 int main(int argc, char *argv[])
 {
 
 	string molid = "MOLID";
 
-	if (argc < 4) {
+	if (argc < 2) {
 		cout << " gpudocksm -p  <target protein structure, PDB>" << endl
-		    << "           -l  <compound library in SD format>" << endl
-		    // << "           -s  <LHM potentials>" << endl
-		    << "           -o  <docked compounds in SD format>" << endl << endl;
-/*
-       << " additional options:" << endl
-       << "           -i  <molecule id keyword (default MOLID)>" << endl << endl
-
-       << " remc options:" << endl
-       << "           -nr <number of replicas (default 6)>" << endl
-       << "           -ns <number of iterations for each replica (default 50)>" << endl
-       << "           -nc <number of replica swaps (default 50)>" << endl << endl;
-*/
+		     << "           -l  <compound library in SD format>" << endl;
 		exit(EXIT_SUCCESS);
 	}
 
@@ -55,15 +41,10 @@ int main(int argc, char *argv[])
 			compounds_name = string(argv[i + 1]);
 			compounds_opt = true;
 		}
-//  if ( !strcmp(argv[i],"-s")  && i < argc ) { lhm_name       = string(argv[i+1]); lhm_opt       = true; }
 		if (!strcmp(argv[i], "-o") && i < argc) {
 			output_name = string(argv[i + 1]);
 			output_opt = true;
 		}
-//  if ( !strcmp(argv[i],"-i")  && i < argc ) { molid          = string(argv[i+1]);                       }
-//  if ( !strcmp(argv[i],"-nr") && i < argc ) { remc_replicas  = atoi(argv[i+1]);                         }
-//  if ( !strcmp(argv[i],"-ns") && i < argc ) { remc_steps     = atoi(argv[i+1]);                         }
-//  if ( !strcmp(argv[i],"-nc") && i < argc ) { remc_cycles    = atoi(argv[i+1]);                         }
 		if (!strcmp(argv[i], "-d") && i < argc) {
 			data_name = string(argv[i + 1]);
 		}
@@ -90,7 +71,6 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	} else {
 		ofstream outprot(output_name.c_str());
-		//cout<<"test3"<<endl;
 		outprot.close();
 	}
 
@@ -108,7 +88,6 @@ int main(int argc, char *argv[])
 
 	while (getline(compounds_file, line1)) {
 		l1_sdf.push_back(line1);
-//cout<<"test4"<<endl;
 	}
 	compounds_file.close();
 
@@ -118,22 +97,16 @@ int main(int argc, char *argv[])
 	int lib2 = 0;
 
 	Complex *gpu_complex[MAXLIB];
-//cout<<"test5"<<endl;
 	for (i1_sdf = l1_sdf.begin(); i1_sdf != l1_sdf.end(); i1_sdf++) {
 		//cout<<"test5.5"; 
 		lib1[lib2++] = (*i1_sdf);
 		//cout< cout<endl;
 		//cout<<lib1[lib2]<<endl;
-//cout<<"test6";
 		if ((*i1_sdf) == "$$$$") {
-			//cout<<"test7";
 			if (lib2 > 10) {
 				gpu_complex[gpu_n] = new Complex(0, 0);
-				// gpu_complex[gpu_n]->clearMoves();
-				//cout<<"test8";
 
 				bool load1 = gpu_complex[gpu_n]->loadProtein(protein_name);
-				//cout<<"test9";
 				if (load1) {
 					cout << "Cannot read target protein structure" << endl;
 					exit(EXIT_FAILURE);
@@ -141,32 +114,36 @@ int main(int argc, char *argv[])
 
 				bool load2 = false;
 				load2 = gpu_complex[gpu_n]->loadParams(data_path);
-				//cout<<"test10";
 				if (load2) {
 					cout << "Cannot read parameter file" << endl;
 					exit(EXIT_FAILURE);
 				}
 
 				bool load3 = gpu_complex[gpu_n]->loadLigand(lib1, lib2, molid);
-				//cout<<"test11";
 				if (load3) {
 					cout << "Cannot load ligand data" << endl;
 					exit(EXIT_FAILURE);
 				}
-				// cout<<"test12";
 				gpu_n++;
 			}
 
 			lib2 = 0;
 
 		}
-// cout<<"test5.75";
 	}
-//cout<<"test100"<<endl;
 
+	// gpu_n = 1
 	for (int in = 0; in < gpu_n; in++) {
 		// gpu_complex[in]->createContactMatrix();
-		Decoy(gpu_complex[in], data_name.c_str(), output_name.c_str());
+		// Decoy(gpu_complex[in], data_name.c_str(), output_name.c_str());
+	  string ligand_id = gpu_complex[in]->getLigandID();
+	  int pnp = gpu_complex[in]->getProteinPointsTotal();
+	  int pnr = gpu_complex[in]->getProteinResiduesTotal();
+	  int pens_total = gpu_complex[in]->getProteinEnsembleTotal();
+	  int lna = gpu_complex[in]->getLigandAtomsTotal();
+	  int lnb = gpu_complex[in]->getLigandBondsTotal();
+	  int lens_total = gpu_complex[in]->getLigandEnsembleTotal();
+	  printf("%s\t%d\t%d\t%d\t%d\t%d\t%d\n", ligand_id, pnp, pnr, pens_total, lna, lnb, lens_total);
 
 	}
 

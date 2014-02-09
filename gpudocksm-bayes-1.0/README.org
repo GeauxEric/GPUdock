@@ -262,6 +262,21 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 
 * testing
    
+** DONE size
+   1. scipts
+      /work/jaydy/working/docking/size_count_sub.sh
+      /work/jaydy/working/docking/size_count.sh
+   2. results
+      /work/jaydy/src/GPUdock/gpudocksm-bayes-1.0/dat/size.out
+	| type |  max | min |
+	|------+------+-----|
+	| pnp  | 1828 | 293 |
+	| pnr  |  571 |  88 |
+	| pens |   11 |  11 |
+	| lna  |   62 |   6 |
+	| lnb  |   70 |   5 |
+	| lens |   51 |   1 |
+
 ** TODO test mcc 
 
 *** TODO nan in the pearson coefficient between mcc and probability difference

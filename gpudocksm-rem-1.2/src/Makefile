@@ -1,4 +1,4 @@
-EXE := dock
+EXE := linear_dock
 OBJ_CPU := dock.o load.o data.o rmsd.o util.o timing.o quicksort.o hdf5io.o 
 OBJ_GPU := run.o
 
@@ -38,7 +38,7 @@ default: $(EXE) analysis
 $(EXE): $(OBJ_CPU) $(OBJ_GPU) 
 	$(CPP) $(LINKFLAGS) $(LIBPATH) $(OBJ_CPU) $(OBJ_GPU) -o $@
 	@cp $(EXE) ../bin/
-#	@cp $(EXE) ~/bin/
+	@cp $(EXE) ~/bin/
 	@cp $(EXE) ../test/
 
 hdf5io.o: hdf5io.C

@@ -80,7 +80,6 @@
 /* mcs fields, number of field in a mcs */
 
 
-
 #define INITTEMP 10000.0f
 /* temperature in the first replica */
 
