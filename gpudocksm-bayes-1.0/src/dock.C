@@ -14,12 +14,12 @@ using namespace std;
 int
 main (int argc, char **argv)
 {
-  cout << "------------------------------------------------------------" << endl
-       << "                         GPU-dockSM-bayes" << endl
-       << "                         version 1.0" << endl << endl
-       << "   GPU-accelerated mixed-resolution ligand docking using" << endl
-       << "                Replica Exchange Monte Carlo" << endl
-       << "------------------------------------------------------------" << endl << endl;
+  // cout << "------------------------------------------------------------" << endl
+  //      << "                         GPU-dockSM-bayes" << endl
+  //      << "                         version 1.0" << endl << endl
+  //      << "   GPU-accelerated mixed-resolution ligand docking using" << endl
+  //      << "                Replica Exchange Monte Carlo" << endl
+  //      << "------------------------------------------------------------" << endl << endl;
 
   srand (time (0));
 
@@ -56,6 +56,7 @@ main (int argc, char **argv)
   complexsize.pnk = kde0->pnk;
   complexsize.pos = inputfiles->lhm_file.pos;	// number of MCS positions
 
+  cout << lig0->id << "\t" << complexsize.pnp << "\t"  <<  complexsize.n_prt << "\t" <<  complexsize.n_lig << "\t" <<  complexsize.lna << endl;
 
   // data structure optimizations 
   // Ligand *lig = new Ligand[complexsize.n_rep];

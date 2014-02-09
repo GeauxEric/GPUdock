@@ -16,19 +16,19 @@
 #ifndef __SIZE_H_
 #define __SIZE_H_
 
-#define     NAMEMAX 40
+#define     NAMEMAX 64
 /* max lig aton name */
 
-#define MAXPRO 1024
+#define MAXPRO 10000
 /* protein residues */
 
-#define MAXLIG 64
+#define MAXLIG 100
 /* ligand heavy atoms */
 
-#define MAXEN1  16
+#define MAXEN1  20
 /* protein confs */
 
-#define MAXEN2 32
+#define MAXEN2 70
 /* ligand confs */
 
 #define MAXLIG_NUM 200
@@ -46,7 +46,7 @@
 #define  MAXLIB 100
 /* library cmps */
 
-#define  MAXSDF  1000
+#define  MAXSDF  500
 /* sdf length */
 
 #define MAXTP1 30
@@ -73,11 +73,12 @@
 #define MAXKDE 10000
 /* kde points */
 
-#define MAXPOS 32
+#define MAXPOS 1000
 /* position restraints, number of mcs */
 
 #define MAXMCS 256
 /* mcs fields, number of field in a mcs */
+
 
 
 #define INITTEMP 10000.0f

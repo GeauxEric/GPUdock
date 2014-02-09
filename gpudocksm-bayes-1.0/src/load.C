@@ -416,15 +416,7 @@ loadLigand( LigandFile * lig_file, Ligand0 * lig)
 	    break;
 
 	}
-	lig_file->conf_total = *conf_ip - 1;
-				
-
-#if 0
-#endif
-
-	// load the rest confs coords
-	// copy the effective confs to the lig
-
+	lig_file->conf_total = *conf_ip;
 
 }
 
