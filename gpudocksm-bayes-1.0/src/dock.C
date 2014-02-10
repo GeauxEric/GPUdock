@@ -14,12 +14,12 @@ using namespace std;
 int
 main (int argc, char **argv)
 {
-  // cout << "------------------------------------------------------------" << endl
-  //      << "                         GPU-dockSM-bayes" << endl
-  //      << "                         version 1.0" << endl << endl
-  //      << "   GPU-accelerated mixed-resolution ligand docking using" << endl
-  //      << "                Replica Exchange Monte Carlo" << endl
-  //      << "------------------------------------------------------------" << endl << endl;
+  cout << "------------------------------------------------------------" << endl
+       << "                         GPU-dockSM-bayes" << endl
+       << "                         version 1.0" << endl << endl
+       << "   GPU-accelerated mixed-resolution ligand docking using" << endl
+       << "                Replica Exchange Monte Carlo" << endl
+       << "------------------------------------------------------------" << endl << endl;
 
   srand (time (0));
 
@@ -56,24 +56,22 @@ main (int argc, char **argv)
   complexsize.pnk = kde0->pnk;
   complexsize.pos = inputfiles->lhm_file.pos;	// number of MCS positions
 
-  cout << lig0->id << "\t" << complexsize.pnp << "\t"  <<  complexsize.n_prt << "\t" <<  complexsize.n_lig << "\t" <<  complexsize.lna << endl;
-
   // data structure optimizations 
-  // Ligand *lig = new Ligand[complexsize.n_rep];
-  // Protein *prt = new Protein[complexsize.n_prt];
-  // Psp *psp = new Psp;
-  // Kde *kde = new Kde;
-  // Mcs *mcs = new Mcs[complexsize.pos];
-  // EnePara *enepara = new EnePara;
-  // Temp *temp = new Temp[complexsize.n_tmp];
-  // Replica *replica = new Replica[complexsize.n_rep];
+  Ligand *lig = new Ligand[complexsize.n_rep];
+  Protein *prt = new Protein[complexsize.n_prt];
+  Psp *psp = new Psp;
+  Kde *kde = new Kde;
+  Mcs *mcs = new Mcs[complexsize.pos];
+  EnePara *enepara = new EnePara;
+  Temp *temp = new Temp[complexsize.n_tmp];
+  Replica *replica = new Replica[complexsize.n_rep];
 
-  // OptimizeLigand (lig0, lig, complexsize);
-  // OptimizeProtein (prt0, prt, enepara0, lig0, complexsize);
-  // OptimizePsp (psp0, psp, lig, prt);
-  // OptimizeKde (kde0, kde);
-  // OptimizeMcs (mcs0, mcs, complexsize);
-  // OptimizeEnepara (enepara0, enepara);
+  OptimizeLigand (lig0, lig, complexsize);
+  OptimizeProtein (prt0, prt, enepara0, lig0, complexsize);
+  OptimizePsp (psp0, psp, lig, prt);
+  OptimizeKde (kde0, kde);
+  OptimizeMcs (mcs0, mcs, complexsize);
+  OptimizeEnepara (enepara0, enepara);
 
   delete[]lig0;
   delete[]prt0;
@@ -84,11 +82,10 @@ main (int argc, char **argv)
 
 
   // initialize system
-  // InitLigCoord (lig, complexsize);
-  // SetTemperature (temp, exchgpara);
-  // // SetTemperature (temp, mcpara, complexsize);
-  // SetReplica (replica, lig, complexsize);
-  // SetMcLog (mclog);
+  InitLigCoord (lig, complexsize);
+  SetTemperature (temp, exchgpara);
+  SetReplica (replica, lig, complexsize);
+  SetMcLog (mclog);
 
   
 
@@ -101,24 +98,24 @@ main (int argc, char **argv)
 
 
   // run simulation on optimized data structure
-  // Run (lig, prt, psp, kde, mcs, enepara, temp, replica, mcpara, mclog, complexsize);
-  // PrintSummary (inputfiles, mcpara, temp, mclog, &complexsize);
+  Run (lig, prt, psp, kde, mcs, enepara, temp, replica, mcpara, mclog, complexsize);
+  PrintSummary (inputfiles, mcpara, temp, mclog, &complexsize);
 
 
   // clean up
 
-  // delete[]mcpara;
-  // delete[]mclog;
-  // delete[]inputfiles;
-  // delete[]lig;
-  // delete[]prt;
-  // delete[]psp;
-  // delete[]kde;
-  // delete[]mcs;
-  // delete[]enepara;
-  // delete[]temp;
-  // delete[]replica;
-  // delete[]exchgpara;
+  delete[]mcpara;
+  delete[]mclog;
+  delete[]inputfiles;
+  delete[]lig;
+  delete[]prt;
+  delete[]psp;
+  delete[]kde;
+  delete[]mcs;
+  delete[]enepara;
+  delete[]temp;
+  delete[]replica;
+  delete[]exchgpara;
 
   return 0;
 }

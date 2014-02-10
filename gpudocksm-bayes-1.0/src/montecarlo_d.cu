@@ -30,7 +30,7 @@ MonteCarlo_Init_d (const int rep_begin, const int rep_end)
 #endif 
 
 
-      CalcEnergy_d (bidx, mylig, myprt);
+	CalcEnergy_d (bidx, mylig, myprt);
 
 #if IS_CALCU_MCC == 1
       CalcMcc_d (bidx, mylig, myprt);

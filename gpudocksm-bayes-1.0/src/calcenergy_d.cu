@@ -17,6 +17,7 @@
 #define sqrtf(a) (a)
 */
 
+#include <assert.h>
 
 
 __device__ void
@@ -308,6 +309,9 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
     ekde[0] = enepara_dc->a_para[7] * ekde[0] + enepara_dc->b_para[7];
     elhm[0] = enepara_dc->a_para[8] * elhm[0] + enepara_dc->b_para[8];
 
+    // printf("lhm: %f\n", elhm[0]);
+    
+
 #if IS_BAYE == 1
     // calculate conditional prob belonging to high decoy
     const float evdw_h = NormPdf(evdw[0], VDW_NORM_HIGH_LOC, VDW_NORM_HIGH_SCALE);
@@ -336,6 +340,25 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
     
     const float elhm_h = LogisticPdf(elhm[0], LHM_LOGISTIC_HIGH_LOC, LHM_LOGISTIC_HIGH_SCALE);
     const float elhm_l = LogisticPdf(elhm[0], LHM_LOGISTIC_LOW_LOC, LHM_LOGISTIC_LOW_SCALE);
+
+    // assert (evdw_h != 0 );
+    // assert (evdw_l != 0 );
+    // assert (eele_h != 0 );
+    // assert (eele_l != 0 );
+    // assert (epmf_h != 0 );
+    // assert (epmf_l != 0 );
+    // assert (ehpc_h != 0 );
+    // assert (ehpc_l != 0 );
+    // assert (ehdb_h != 0 );
+    // assert (ehdb_l != 0 );
+    // assert (edst_h != 0 );
+    // assert (edst_l != 0 );
+    // assert (epsp_h != 0 );
+    // assert (epsp_l != 0 );
+    // assert (ekde_h != 0 );
+    // assert (ekde_l != 0 );
+    // assert (elhm_h != 0 );
+    // assert (elhm_l != 0 );
     
     // calculate conditional prob
     const float prob_h = log10f(evdw_h) + log10f(eele_h) + log10f(epmf_h) + log10f(ehpc_h) + log10f(ehdb_h)

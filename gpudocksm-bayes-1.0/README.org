@@ -279,8 +279,12 @@ for ( int i1 = 0; i1 < _lna; i1++ )
 
 ** TODO test mcc 
 
-*** TODO nan in the pearson coefficient between mcc and probability difference
-*** TODO nan in the pearson coefficient between mcc and energy ?
+*** DONE nan in the pearson coefficient between mcc and probability difference
+    if the acceptance ratio is too low, then the dimension of mcc and energy are both one, from which the pearsonR
+    program will return nan
+
+*** TODO what if the divident in calculating mcc is zero?
+
 
 ** TODO GPU kernel launched too ugly
    #+BEGIN_SRC C++

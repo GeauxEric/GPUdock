@@ -227,8 +227,11 @@ NormPdf(float x, float loc, float scale){
   prob = exp (0.f - (x - loc) * (x - loc) / (2 * scale * scale));
   
   pdf_val = norm_para * prob;
-  
-  return pdf_val;
+
+  if (pdf_val == 0.f)
+    return 0.00000001f;
+  else
+    return pdf_val;
 }
 
 __forceinline__
@@ -241,7 +244,10 @@ CauchyPdf(float x, float loc, float scale){
   
   pdf_val = norm_para * prob;
   
-  return pdf_val;
+  if (pdf_val == 0.f)
+    return 0.00000001f;
+  else
+    return pdf_val;
 }
 
 
@@ -255,8 +261,10 @@ LogisticPdf(float x, float loc, float scale){
   prob = e_power / powf(1+e_power, 2.0);
   
   pdf_val = norm_para * prob;
-  
-  return pdf_val;
+  if (pdf_val == 0.f)
+    return 0.00000001f;
+  else
+    return pdf_val;
 }
 
 __forceinline__
@@ -269,12 +277,14 @@ WaldPdf(float x, float loc, float scale){
   norm_para = 1/(sqrt( 2 * PI * powf(normed_x, 3.0) ) * scale);
   prob = exp(-powf(normed_x-1, 2)/(2*normed_x));
 
-  if (normed_x <= 0) 
+  if ( normed_x <= 0) 
     pdf_val = 0.00000001f;
   else
     pdf_val = norm_para * prob;
-
-  return pdf_val;
+    if (pdf_val == 0.f)
+      return 0.00000001f;
+    else
+      return pdf_val;
 }
 
 __forceinline__
@@ -285,6 +295,9 @@ LaplacePdf(float x, float loc, float scale){
   normed_x = fabs(x-loc) / scale;
 
   pdf_val = (1/(2 * scale)) * expf(- normed_x);
-  
-  return pdf_val;
+
+  if (pdf_val == 0.f)
+    return 0.00000001f;
+  else
+    return pdf_val;
 }
