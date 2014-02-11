@@ -281,10 +281,10 @@ loadLigand( LigandFile * lig_file, Ligand0 * lig)
 	// DEBUG_1_("raw_conf: ", lig_file->raw_conf);
 	// copy the shared properties to its rest ensemble
 	
-	for (int i = 1; i < tmp7; i++) {
-		mylig = &lig[i];
-		mylig->lna = lig_file->lna;
-		mylig->lnb = lig_file->lnb;
+	for (int i = 0; i < tmp7; i++) {
+	  mylig = &lig[(i+1)];
+	  mylig->lna = lig_file->lna;
+	  mylig->lnb = lig_file->lnb;
 		for (int i1 = 4 + mylig->lna + mylig->lnb; i1 < llib2 - 1; i1++) {
 			if (llib1[i1].find(llib3) != string::npos) {
 				mylig->id = llib1[i1 + 1];
@@ -330,8 +330,6 @@ loadLigand( LigandFile * lig_file, Ligand0 * lig)
 			   DEBUG_1_("tmp2 ", tmp2[i1-4]);
 			 */
 		}
-#if 0
-#endif 
 	}
 	
 	// exclude those confs with rmsd less than 0.1
@@ -352,9 +350,9 @@ loadLigand( LigandFile * lig_file, Ligand0 * lig)
 	    weights[i7] = 1.0;
 
 	    for (int i5 = 0; i5 < 3; i5++) {
-	      ref_xyz[i7][i5] = tmp8[i7][i5];
+	      ref_xyz[i7][i5] = tmp8[i7][i5];  // native pose as the ref
 
-	      mob_xyz[i7][i5] = tmp1[i6][i7][i5];
+	      mob_xyz[i7][i5] = tmp1[i6][i7][i5];  // containing ensemble coords 
 	    }
 	  }
 
@@ -416,16 +414,7 @@ loadLigand( LigandFile * lig_file, Ligand0 * lig)
 	    break;
 
 	}
-	lig_file->conf_total = *conf_ip - 1;
-				
-
-#if 0
-#endif
-
-	// load the rest confs coords
-	// copy the effective confs to the lig
-
-
+	lig_file->conf_total = *conf_ip;
 }
 
 
@@ -996,16 +985,6 @@ void loadProtein(ProteinFile * prt_file, Protein0 * prt)
 
 
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
