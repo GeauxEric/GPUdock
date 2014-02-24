@@ -1,0 +1,317 @@
+/*
+==============================================================================================
+     __________________ ____ ___              .___             __      _________   _____   
+    /  _____/\______   \    |   \           __| _/____   ____ |  | __ /   _____/  /     \  
+   /   \  ___ |     ___/    |   /  ______  / __ |/  _ \_/ ___\|  |/ / \_____  \  /  \ /  \ 
+   \    \_\  \|    |   |    |  /  /_____/ / /_/ (  <_> )  \___|    <  /        \/    Y    \
+    \______  /|____|   |______/           \____ |\____/ \___  >__|_ \/_______  /\____|__  /
+           \/                                  \/           \/     \/        \/         \/ 
+
+      GPU-accelerated hybrid-resolution ligand docking using Replica Exchange Monte Carlo
+
+==============================================================================================
+*/
+
+
+#include "coords.h"
+
+using namespace std;
+
+// ==================================================================================   CoordsProtein
+
+CoordsProtein::CoordsProtein( int ar, int an, int at, int ad, int ac )
+{
+ _r = ar;
+ _n = an;
+ _t = at;
+ _d = ad;
+ _c = ac;
+ 
+ for ( int ai = 0; ai < MAXEN1; ai++ )
+ {
+  _x[ai] = 0.0;
+  _y[ai] = 0.0;
+  _z[ai] = 0.0;
+ }
+}
+
+CoordsProtein::CoordsProtein( void )
+{
+ _r = 0;
+ _n = 0;
+ _t = 0;
+ _d = 0;
+ _c = 0;
+ 
+ for ( int ai = 0; ai < MAXEN1; ai++ )
+ {
+  _x[ai] = 0.0;
+  _y[ai] = 0.0;
+  _z[ai] = 0.0;
+ }
+}
+
+CoordsProtein::~CoordsProtein() {}
+
+int CoordsProtein::getPointNumber( void )
+{
+ return _n;
+}
+
+int CoordsProtein::getResidueNumber( void )
+{
+ return _r;
+}
+
+int CoordsProtein::getResidueCode( void )
+{
+ return _d;
+}
+
+double CoordsProtein::getCoords( int an, int ai )
+{
+ switch ( an )
+ {
+  case  1  :  return _x[ai];
+  case  2  :  return _y[ai];
+  case  3  :  return _z[ai];
+
+  default  :  return 0;
+ }
+}
+
+void CoordsProtein::setCoords( double ax, double ay, double az, int ai)
+{
+ _x[ai] = ax;
+ _y[ai] = ay;
+ _z[ai] = az;
+}
+
+int CoordsProtein::getPointType( void )
+{
+ return _t;
+}
+
+int CoordsProtein::getPointClass( void )
+{
+ return _c;
+}
+//////////////////////////DANIEL/////////////////////////////
+
+CoordsLigandTrial::CoordsLigandTrial( int an, string aa, int at, double ac )
+{
+ _n = an;
+ _a = aa;
+ _t = at;
+ _c = ac;
+
+ for ( int ai = 0; ai < MAXEN2; ai++ )
+ {
+  _x[ai] = 0.0;
+  _y[ai] = 0.0;
+  _z[ai] = 0.0;
+ }
+}
+
+CoordsLigandTrial::CoordsLigandTrial( void )
+{
+ _n = 0;
+ _a = "";
+ _t = 0;
+ _c = 0.0;
+
+ for ( int ai = 0; ai < MAXEN2; ai++ )
+ {
+  _x[ai] = 0.0;
+  _y[ai] = 0.0;
+  _z[ai] = 0.0;
+ }
+}
+
+CoordsLigandTrial::~CoordsLigandTrial() {}
+
+int CoordsLigandTrial::getAtomNumber( void )
+{
+ return _n;
+}
+
+double CoordsLigandTrial::getCoords( int an, int ai )
+{
+ switch ( an )
+ {
+  case  1  :  return _x[ai];
+  case  2  :  return _y[ai];
+  case  3  :  return _z[ai];
+
+  default  :  return 0;
+ }
+}
+
+void CoordsLigandTrial::setCoords( double ax, double ay, double az, int ai)
+{
+ _x[ai] = ax;
+ _y[ai] = ay;
+ _z[ai] = az;
+}
+
+string CoordsLigandTrial::getAtomName( void )
+{
+ return _a;
+}
+
+int CoordsLigandTrial::getAtomType( void )
+{
+ return _t;
+}
+
+void CoordsLigandTrial::setAtomType( int at )
+{
+ _t = at;
+}
+
+double CoordsLigandTrial::getAtomCharge( void )
+{
+ return _c;
+}
+
+void CoordsLigandTrial::setAtomCharge( double ac )
+{
+ _c = ac;
+}
+
+
+// ==================================================================================   CoordsLigand
+
+CoordsLigand::CoordsLigand( int an, string aa, int at, double ac )
+{
+ _n = an;
+ _a = aa;
+ _t = at;
+ _c = ac;
+ 
+ for ( int ai = 0; ai < MAXEN2; ai++ )
+ {
+  _x[ai] = 0.0;
+  _y[ai] = 0.0;
+  _z[ai] = 0.0;
+ }
+}
+
+CoordsLigand::CoordsLigand( void )
+{
+ _n = 0;
+ _a = "";
+ _t = 0;
+ _c = 0.0;
+ 
+ for ( int ai = 0; ai < MAXEN2; ai++ )
+ {
+  _x[ai] = 0.0;
+  _y[ai] = 0.0;
+  _z[ai] = 0.0;
+ }
+}
+
+CoordsLigand::~CoordsLigand() {}
+
+int CoordsLigand::getAtomNumber( void )
+{
+ return _n;
+}
+
+double CoordsLigand::getCoords( int an, int ai )
+{
+ switch ( an )
+ {
+  case  1  :  return _x[ai];
+  case  2  :  return _y[ai];
+  case  3  :  return _z[ai];
+
+  default  :  return 0;
+ }
+}
+
+void CoordsLigand::setCoords( double ax, double ay, double az, int ai)
+{
+ _x[ai] = ax;
+ _y[ai] = ay;
+ _z[ai] = az;
+}
+
+string CoordsLigand::getAtomName( void )
+{
+ return _a;
+}
+
+int CoordsLigand::getAtomType( void )
+{
+ return _t;
+}
+
+void CoordsLigand::setAtomType( int at )
+{
+ _t = at;
+}
+
+double CoordsLigand::getAtomCharge( void )
+{
+ return _c;
+}
+
+void CoordsLigand::setAtomCharge( double ac )
+{
+ _c = ac;
+}
+
+// ==================================================================================   CoordsKDE
+
+CoordsKDE::CoordsKDE( int an, int at, double ax, double ay, double az )
+{
+ _n = an;
+ _t = at;
+ 
+ _x = ax;
+ _y = ay;
+ _z = az;
+}
+
+CoordsKDE::CoordsKDE( void )
+{
+ _n = 0;
+ _t = 0;
+ 
+ _x = 0.0;
+ _y = 0.0;
+ _z = 0.0;
+}
+
+CoordsKDE::~CoordsKDE() {}
+
+int CoordsKDE::getPointNumber( void )
+{
+ return _n;
+}
+
+double CoordsKDE::getCoords( int an )
+{
+ switch ( an )
+ {
+  case  1  :  return _x;
+  case  2  :  return _y;
+  case  3  :  return _z;
+
+  default  :  return 0;
+ }
+}
+
+void CoordsKDE::setCoords( double ax, double ay, double az)
+{
+ _x = ax;
+ _y = ay;
+ _z = az;
+}
+
+int CoordsKDE::getPointType( void )
+{
+ return _t;
+}

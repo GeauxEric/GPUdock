@@ -1,0 +1,304 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+1	rmsd.f	/^    1 r(i,j) = zero$/;"	l	subroutine:u3b	file:
+10	rmsd.f	/^   10 do 15 l = 1, 3, 2$/;"	l	subroutine:u3b	file:
+11	rmsd.f	/^   11 j = 3$/;"	l	subroutine:u3b	file:
+12	rmsd.f	/^   12 if (dabs(ss1) .lt. dabs(ss6)) goto 11$/;"	l	subroutine:u3b	file:
+13	rmsd.f	/^   13 d = zero$/;"	l	subroutine:u3b	file:
+14	rmsd.f	/^   14 d = d + (ss(k) * ss(k))$/;"	l	subroutine:u3b	file:
+15	rmsd.f	/^   15 a(i,l) = a(i,l) * d$/;"	l	subroutine:u3b	file:
+16	rmsd.f	/^   16 p = zero$/;"	l	subroutine:u3b	file:
+17	rmsd.f	/^   17 p = p + (a(i,m1) ** 2)$/;"	l	subroutine:u3b	file:
+18	rmsd.f	/^   18 a(i,m1) = a(i,m1) * p$/;"	l	subroutine:u3b	file:
+19	rmsd.f	/^   19 p = one$/;"	l	subroutine:u3b	file:
+2	rmsd.f	/^    2 yc(i) = yc(i) + (w(m) * y(i,m))$/;"	l	subroutine:u3b	file:
+20	rmsd.f	/^   20 continue$/;"	l	subroutine:u3b	file:
+21	rmsd.f	/^   21 a(1,2) = (a(2,3) * a(3,1)) - (a(2,1) * a(3,3))$/;"	l	subroutine:u3b	file:
+3	rmsd.f	/^    3 yc(i) = yc(i) \/ wc$/;"	l	subroutine:u3b	file:
+30	rmsd.f	/^   30 do 32 l = 1, 2$/;"	l	subroutine:u3b	file:
+31	rmsd.f	/^   31 d = d + (b(i,l) ** 2)$/;"	l	subroutine:u3b	file:
+32	rmsd.f	/^   32 b(i,l) = b(i,l) * d$/;"	l	subroutine:u3b	file:
+33	rmsd.f	/^   33 p = p + (b(i,2) ** 2)$/;"	l	subroutine:u3b	file:
+34	rmsd.f	/^   34 b(i,2) = b(i,2) * p$/;"	l	subroutine:u3b	file:
+35	rmsd.f	/^   35 p = one$/;"	l	subroutine:u3b	file:
+36	rmsd.f	/^   36 continue$/;"	l	subroutine:u3b	file:
+37	rmsd.f	/^   37 b(1,3) = (b(2,1) * b(3,2)) - (b(2,2) * b(3,1))$/;"	l	subroutine:u3b	file:
+39	rmsd.f	/^   39 u(i,j) = ((b(i,1) * a(j,1)) + (b(i,2) * a(j,2))) + (b(i,3) * a(j,3$/;"	l	subroutine:u3b	file:
+4	rmsd.f	/^    4 r(i,j) = r(i,j) + (d * (x(j,m) - xc(j)))$/;"	l	subroutine:u3b	file:
+40	rmsd.f	/^   40 do 41 i = 1, 3$/;"	l	subroutine:u3b	file:
+41	rmsd.f	/^   41 t(i) = ((yc(i) - (u(i,1) * xc(1))) - (u(i,2) * xc(2))) - (u(i,3)$/;"	l	subroutine:u3b	file:
+5	rmsd.f	/^    5 rr(m) = ((r(1,i) * r(1,j)) + (r(2,i) * r(2,j))) + (r(3,i) * r(3,j)$/;"	l	subroutine:u3b	file:
+50	rmsd.f	/^   50 do 51 i = 1, 3$/;"	l	subroutine:u3b	file:
+51	rmsd.f	/^   51 e(i) = dsqrt(e(i))$/;"	l	subroutine:u3b	file:
+52	rmsd.f	/^   52 d = (d + e2) + e1$/;"	l	subroutine:u3b	file:
+6	rmsd.f	/^    6 e(i) = spur$/;"	l	subroutine:u3b	file:
+8	rmsd.f	/^    8 if (mode) 30, 50, 30$/;"	l	subroutine:u3b	file:
+BADKDE	size.h	37;"	d
+CFLAGS	Makefile	/^CFLAGS = -O2 -Wall -I\/project\/michal\/apps\/gsl\/include\/ -I.$/;"	m
+CPP	Makefile	/^CPP = g++$/;"	m
+Complex	complex.C	/^Complex::Complex( int ap, int al )$/;"	f	class:Complex
+Complex	complex.C	/^Complex::Complex( void )$/;"	f	class:Complex
+Complex	complex.h	/^class Complex {$/;"	c
+CoordsKDE	coords.C	/^CoordsKDE::CoordsKDE( int an, int at, double ax, double ay, double az )$/;"	f	class:CoordsKDE
+CoordsKDE	coords.C	/^CoordsKDE::CoordsKDE( void )$/;"	f	class:CoordsKDE
+CoordsKDE	coords.h	/^class CoordsKDE {$/;"	c
+CoordsLigand	coords.C	/^CoordsLigand::CoordsLigand( int an, string aa, int at, double ac )$/;"	f	class:CoordsLigand
+CoordsLigand	coords.C	/^CoordsLigand::CoordsLigand( void )$/;"	f	class:CoordsLigand
+CoordsLigand	coords.h	/^class CoordsLigand {$/;"	c
+CoordsLigandTrial	coords.C	/^CoordsLigandTrial::CoordsLigandTrial( int an, string aa, int at, double ac )$/;"	f	class:CoordsLigandTrial
+CoordsLigandTrial	coords.C	/^CoordsLigandTrial::CoordsLigandTrial( void )$/;"	f	class:CoordsLigandTrial
+CoordsLigandTrial	coords.h	/^class CoordsLigandTrial {$/;"	c
+CoordsProtein	coords.C	/^CoordsProtein::CoordsProtein( int ar, int an, int at, int ad, int ac )$/;"	f	class:CoordsProtein
+CoordsProtein	coords.C	/^CoordsProtein::CoordsProtein( void )$/;"	f	class:CoordsProtein
+CoordsProtein	coords.h	/^class CoordsProtein {$/;"	c
+DEBUG_1_	debug.h	5;"	d
+DEBUG_2_	debug.h	6;"	d
+DEBUG_3_	debug.h	7;"	d
+DEBUG_4_	debug.h	8;"	d
+DEBUG_H	debug.h	2;"	d
+DEBUG_TEST	debug.h	9;"	d
+EXE	Makefile	/^EXE = decoy_gen$/;"	m
+FC	Makefile	/^FC = gfortran$/;"	m
+FFLAGS	Makefile	/^FFLAGS = -O2 -Wall -static$/;"	m
+H_MCcoef	complex.h	/^    ofstream H_MCcoef;$/;"	m	struct:OutStream
+H_decoyenergies	complex.h	/^    ofstream H_decoyenergies;$/;"	m	struct:OutStream
+H_decoys	complex.h	/^    ofstream H_decoys;$/;"	m	struct:OutStream
+LDFLAGS	Makefile	/^LDFLAGS = -lm -lgsl -lgslcblas -L\/project\/michal\/apps\/gsl\/lib\/$/;"	m
+L_MCcoef	complex.h	/^    ofstream L_MCcoef;$/;"	m	struct:OutStream
+L_decoyenergies	complex.h	/^    ofstream L_decoyenergies;$/;"	m	struct:OutStream
+L_decoys	complex.h	/^    ofstream L_decoys;$/;"	m	struct:OutStream
+MAXEN1	size.h	20;"	d
+MAXEN2	size.h	21;"	d
+MAXFP1	size.h	28;"	d
+MAXFP2	size.h	29;"	d
+MAXKDE	size.h	31;"	d
+MAXLIB	size.h	22;"	d
+MAXLIG	size.h	19;"	d
+MAXMCS	size.h	32;"	d
+MAXPOS	size.h	33;"	d
+MAXPRM	size.h	38;"	d
+MAXPRO	size.h	18;"	d
+MAXREP	size.h	36;"	d
+MAXSDF	size.h	23;"	d
+MAXTP1	size.h	24;"	d
+MAXTP2	size.h	25;"	d
+MAXTP3	size.h	26;"	d
+MAXTP4	size.h	27;"	d
+MAXWEI	size.h	30;"	d
+MonteCarlo	montecarlo.C	/^double MonteCarlo(gsl_rng * &r, Complex * mc_complex, int mc_steps, double mc_t, double mc_r, double mc_d, double mc_b,$/;"	f
+OBJ	Makefile	/^OBJ = decoy_gen.o coords.o data.o complex.o walltime.o rmsd.o remc.o montecarlo.o$/;"	m
+OutStream	complex.h	/^struct OutStream{$/;"	s
+PI	size.h	41;"	d
+REMC	remc.C	/^void REMC(Complex * re_complex, int re_replicas, int re_steps, int re_cycles, double re_t, double re_r, double re_d,$/;"	f
+__COMPLEX_H_	complex.h	17;"	d
+__COORDS_H_	coords.h	17;"	d
+__DATA_H_	data.h	17;"	d
+__DECOYGEN_H_	decoy_gen.h	15;"	d
+__MONTECARLO_H_	montecarlo.h	17;"	d
+__REMC_H_	remc.h	17;"	d
+__SIZE_H_	size.h	16;"	d
+__WALLTIME_H_	walltime.h	17;"	d
+__WRMSD_H_	rmsd.h	17;"	d
+_a	coords.h	/^    string _a;         \/\/ atom name$/;"	m	class:CoordsLigand
+_a	coords.h	/^    string _a;         \/\/ atom name$/;"	m	class:CoordsLigandTrial
+_acc_ene	complex.h	/^    double    		 _acc_ene[MAXREP][2];\/\/ MC acceptance Ratio$/;"	m	class:Complex
+_acc_swp	complex.h	/^    double 		 _acc_swp[2]; 	     \/\/ swap acceptance ratio$/;"	m	class:Complex
+_c	coords.h	/^    double _c;         \/\/ atom charge$/;"	m	class:CoordsLigand
+_c	coords.h	/^    double _c;         \/\/ atom charge$/;"	m	class:CoordsLigandTrial
+_c	coords.h	/^    int    _c;         \/\/ effective point class$/;"	m	class:CoordsProtein
+_cbest	complex.h	/^    double   	 	 _cbest;		    	\/\/ best ensemble number$/;"	m	class:Complex
+_cdist	complex.h	/^    double     		 _cdist;             		\/\/ distance between geom centers$/;"	m	class:Complex
+_cmcc	complex.h	/^    double		 _cmcc;		     		\/\/ MCC$/;"	m	class:Complex
+_complex_ele	complex.h	/^    double _complex_ele[MAXTP3];            \/\/ electrostatic potential$/;"	m	class:Complex
+_complex_hdb	complex.h	/^    double _complex_hdb[MAXTP1][MAXTP2][2]; \/\/ ligand hydrophobicity$/;"	m	class:Complex
+_complex_hpl	complex.h	/^    double _complex_hpl[MAXTP2][2];         \/\/ ligand hydrophobicity$/;"	m	class:Complex
+_complex_hpp	complex.h	/^    double _complex_hpp[MAXTP4];            \/\/ protein hydrophobicity$/;"	m	class:Complex
+_complex_pmf	complex.h	/^    double _complex_pmf[MAXTP1][MAXTP2][2]; \/\/ contact potential$/;"	m	class:Complex
+_complex_psp	complex.h	/^    map<pair<int,int>, double> _complex_psp;          \/\/ pocket-specific potential$/;"	m	class:Complex
+_complex_vdw	complex.h	/^    double _complex_vdw[MAXTP1][MAXTP2][2]; \/\/ L-J potential$/;"	m	class:Complex
+_crmsd	complex.h	/^    double		 _crmsd;	     		\/\/ RMSD$/;"	m	class:Complex
+_d	coords.h	/^    int    _d;         \/\/ residue code$/;"	m	class:CoordsProtein
+_ebest	complex.h	/^    double		 _ebest;		    	\/\/ best energy$/;"	m	class:Complex
+_edst	complex.h	/^    double _edst;                           \/\/ distance restraints$/;"	m	class:Complex
+_eele	complex.h	/^    double _eele;                           \/\/ soft electrostatic potential$/;"	m	class:Complex
+_ehdb	complex.h	/^    double _ehdb;                           \/\/ hydrogen bond potential$/;"	m	class:Complex
+_ehpc	complex.h	/^    double _ehpc;                           \/\/ hydrophobic potential$/;"	m	class:Complex
+_ekde	complex.h	/^    double _ekde;                           \/\/ kde potential$/;"	m	class:Complex
+_elhm	complex.h	/^    double _elhm;                           \/\/ position restraints$/;"	m	class:Complex
+_epmf	complex.h	/^    double _epmf;                           \/\/ contact potential$/;"	m	class:Complex
+_epsp	complex.h	/^    double _epsp;                           \/\/ pocket-specific potential$/;"	m	class:Complex
+_etot	complex.h	/^    double _etot;                           \/\/ total energy$/;"	m	class:Complex
+_evdw	complex.h	/^    double _evdw;                           \/\/ soft L-J potential$/;"	m	class:Complex
+_kde_xyz	complex.h	/^    vector<CoordsKDE>          _kde_xyz;              \/\/ kde coords$/;"	m	class:Complex
+_lens_current	complex.h	/^    int                  _lens_current;      \/\/ current conformation$/;"	m	class:Complex
+_lens_rmsd	complex.h	/^    double               _lens_rmsd[MAXEN2]; \/\/ ensemble rmsd$/;"	m	class:Complex
+_lens_total	complex.h	/^    int                  _lens_total;        \/\/ total ensemble conformations$/;"	m	class:Complex
+_ligand_best	complex.h	/^    vector<CoordsLigand> _ligand_best;              	\/\/ lowest-energy coordinates$/;"	m	class:Complex
+_ligand_bkp	complex.h	/^    vector<CoordsLigand> _ligand_bkp[2];            	\/\/ backup coordinates$/;"	m	class:Complex
+_ligand_center	complex.h	/^    double               _ligand_center[3];  \/\/ ligand geometric center$/;"	m	class:Complex
+_ligand_fpt_maccs	complex.h	/^    bitset<MAXFP2>       _ligand_fpt_maccs;  \/\/ fingerprint maccs$/;"	m	class:Complex
+_ligand_fpt_smiles	complex.h	/^    bitset<MAXFP1>       _ligand_fpt_smiles; \/\/ fingerprint smiles$/;"	m	class:Complex
+_ligand_id	complex.h	/^    std::string          _ligand_id;         \/\/ ligand id$/;"	m	class:Complex
+_ligand_mcs	complex.h	/^    list<mcs_restraints> _ligand_mcs;        \/\/ lhm position restraints$/;"	m	class:Complex
+_ligand_prop_hba	complex.h	/^    int                  _ligand_prop_hba;   \/\/ ligand hydrogen bond acceptors$/;"	m	class:Complex
+_ligand_prop_hbd	complex.h	/^    int                  _ligand_prop_hbd;   \/\/ ligand hydrogen bond donors$/;"	m	class:Complex
+_ligand_prop_logp	complex.h	/^    double               _ligand_prop_logp;  \/\/ ligand water\/octanol partition coeff$/;"	m	class:Complex
+_ligand_prop_mr	complex.h	/^    double               _ligand_prop_mr;    \/\/ ligand molar refractivity$/;"	m	class:Complex
+_ligand_prop_mw	complex.h	/^    double               _ligand_prop_mw;    \/\/ ligand molecular weight$/;"	m	class:Complex
+_ligand_prop_psa	complex.h	/^    double               _ligand_prop_psa;   \/\/ ligand polar surface area$/;"	m	class:Complex
+_ligand_rot	complex.h	/^    double               _ligand_rot[3];     \/\/ ligand rotation$/;"	m	class:Complex
+_ligand_smiles	complex.h	/^    std::string          _ligand_smiles;     \/\/ ligand smiles$/;"	m	class:Complex
+_ligand_tmatrix	complex.h	/^    double               _ligand_tmatrix[3][3];     	\/\/ Matrix which holds the change in coordinates due to a rotation$/;"	m	class:Complex
+_ligand_tra	complex.h	/^    double               _ligand_tra[3];     \/\/ ligand translation$/;"	m	class:Complex
+_ligand_trial	complex.h	/^    vector<CoordsLigandTrial> _ligand_trial;        	\/\/ A set of trial coordinates, to be used for energy calculation$/;"	m	class:Complex
+_ligand_xyz	complex.h	/^    vector<CoordsLigand> _ligand_xyz;        		\/\/ ligand heavy-atom coordinates$/;"	m	class:Complex
+_lna	complex.h	/^    int                  _lna;               \/\/ number of ligand atoms$/;"	m	class:Complex
+_lnb	complex.h	/^    int                  _lnb;               \/\/ number of ligand bonds$/;"	m	class:Complex
+_n	coords.h	/^    int    _n;         \/\/ atom number$/;"	m	class:CoordsLigand
+_n	coords.h	/^    int    _n;         \/\/ atom number$/;"	m	class:CoordsLigandTrial
+_n	coords.h	/^    int    _n;         \/\/ effective point number$/;"	m	class:CoordsProtein
+_n	coords.h	/^    int    _n; \/\/ point number$/;"	m	class:CoordsKDE
+_par_el	complex.h	/^    double _par_el[2];                      \/\/ electrostatic params$/;"	m	class:Complex
+_par_kde	complex.h	/^    double _par_kde;                        \/\/ kde bandwidth$/;"	m	class:Complex
+_par_lj	complex.h	/^    double _par_lj[3];                      \/\/ L-J params$/;"	m	class:Complex
+_pens_current	complex.h	/^    int                        _pens_current;         \/\/ current conformation$/;"	m	class:Complex
+_pens_total	complex.h	/^    int                        _pens_total;           \/\/ total ensemble conformations$/;"	m	class:Complex
+_perturb_delta	complex.h	/^    double               _perturb_delta[MAXLIG][3]; 	\/\/ Holds the changes in coords due to a perturbation  $/;"	m	class:Complex
+_pnk	complex.h	/^    int                        _pnk;                  \/\/ total number of kde points$/;"	m	class:Complex
+_pnp	complex.h	/^    int                        _pnp;                  \/\/ number of protein effective points$/;"	m	class:Complex
+_pnr	complex.h	/^    int                        _pnr;                  \/\/ number of protein residues$/;"	m	class:Complex
+_pns	complex.h	/^    int                        _pns[MAXTP2];          \/\/ number of specific kde points$/;"	m	class:Complex
+_pocket_center	complex.h	/^    double                     _pocket_center[3];     \/\/ pocket center$/;"	m	class:Complex
+_protein_seq1	complex.h	/^    std::string                _protein_seq1;         \/\/ aa sequence$/;"	m	class:Complex
+_protein_seq2	complex.h	/^    char                       _protein_seq2[MAXPRO]; \/\/ aa sequence$/;"	m	class:Complex
+_protein_seq3	complex.h	/^    int                        _protein_seq3[MAXPRO]; \/\/ aa sequence numbering$/;"	m	class:Complex
+_protein_xyz	complex.h	/^    vector<CoordsProtein>      _protein_xyz;          \/\/ protein effective points coords$/;"	m	class:Complex
+_r	coords.h	/^    int    _r;         \/\/ residue number$/;"	m	class:CoordsProtein
+_ref_coords	complex.h	/^    double               _ref_coords[MAXLIG][3][MAXEN2];\/\/ Original conformation coordinates    $/;"	m	class:Complex
+_t	coords.h	/^    int    _t;         \/\/ atom type$/;"	m	class:CoordsLigand
+_t	coords.h	/^    int    _t;         \/\/ atom type$/;"	m	class:CoordsLigandTrial
+_t	coords.h	/^    int    _t;         \/\/ effective point type$/;"	m	class:CoordsProtein
+_t	coords.h	/^    int    _t; \/\/ atom type$/;"	m	class:CoordsKDE
+_temp	complex.h	/^    double		 _temp;              \/\/ temperature               $/;"	m	class:Complex
+_weights	complex.h	/^    double _weights[MAXWEI];                \/\/ weights for energy terms$/;"	m	class:Complex
+_x	coords.h	/^    double _x; \/\/ x coords (ensemble)$/;"	m	class:CoordsKDE
+_x	coords.h	/^    double _x[MAXEN1]; \/\/ x coords (ensemble)$/;"	m	class:CoordsProtein
+_x	coords.h	/^    double _x[MAXEN2]; \/\/ x coords (ensemble)$/;"	m	class:CoordsLigand
+_x	coords.h	/^    double _x[MAXEN2]; \/\/ x coords (ensemble)$/;"	m	class:CoordsLigandTrial
+_y	coords.h	/^    double _y; \/\/ y coords (ensemble)$/;"	m	class:CoordsKDE
+_y	coords.h	/^    double _y[MAXEN1]; \/\/ y coords (ensemble)$/;"	m	class:CoordsProtein
+_y	coords.h	/^    double _y[MAXEN2]; \/\/ y coords (ensemble)$/;"	m	class:CoordsLigand
+_y	coords.h	/^    double _y[MAXEN2]; \/\/ y coords (ensemble)$/;"	m	class:CoordsLigandTrial
+_z	coords.h	/^    double _z; \/\/ z coords (ensemble)$/;"	m	class:CoordsKDE
+_z	coords.h	/^    double _z[MAXEN1]; \/\/ z coords (ensemble)$/;"	m	class:CoordsProtein
+_z	coords.h	/^    double _z[MAXEN2]; \/\/ z coords (ensemble)$/;"	m	class:CoordsLigand
+_z	coords.h	/^    double _z[MAXEN2]; \/\/ z coords (ensemble)$/;"	m	class:CoordsLigandTrial
+addAcceptanceENE	complex.C	/^void Complex::addAcceptanceENE( int acc1, bool acc2 )$/;"	f	class:Complex
+addAcceptanceSWP	complex.C	/^void Complex::addAcceptanceSWP( bool acc1 )$/;"	f	class:Complex
+all	complex.h	/^    int all;	    \/\/ number of points in gapless data set$/;"	m	struct:OutStream
+all_MCcoef	complex.h	/^    ofstream all_MCcoef;$/;"	m	struct:OutStream
+all_decoyenergies	complex.h	/^    ofstream all_decoyenergies;$/;"	m	struct:OutStream
+all_decoys	complex.h	/^    ofstream all_decoys;$/;"	m	struct:OutStream
+calculateEnergy	complex.C	/^void Complex::calculateEnergy( void )$/;"	f	class:Complex
+clearMoves	complex.C	/^void Complex::clearMoves( void ){$/;"	f	class:Complex
+closeOutStream	complex.C	/^void closeOutStream(OutStream *outfiles){$/;"	f
+conf1	remc.h	/^ double conf1[MAXLIG][3];$/;"	m	struct:replica
+conf2	remc.h	/^ double conf2[22];$/;"	m	struct:replica
+createTrialCoords	complex.C	/^void Complex::createTrialCoords( void )$/;"	f	class:Complex
+getAcceptanceENE	complex.C	/^double Complex::getAcceptanceENE( int acc1 )$/;"	f	class:Complex
+getAcceptanceSWP	complex.C	/^double Complex::getAcceptanceSWP( void )$/;"	f	class:Complex
+getAtomCharge	coords.C	/^double CoordsLigand::getAtomCharge( void )$/;"	f	class:CoordsLigand
+getAtomCharge	coords.C	/^double CoordsLigandTrial::getAtomCharge( void )$/;"	f	class:CoordsLigandTrial
+getAtomName	coords.C	/^string CoordsLigand::getAtomName( void )$/;"	f	class:CoordsLigand
+getAtomName	coords.C	/^string CoordsLigandTrial::getAtomName( void )$/;"	f	class:CoordsLigandTrial
+getAtomNumber	coords.C	/^int CoordsLigand::getAtomNumber( void )$/;"	f	class:CoordsLigand
+getAtomNumber	coords.C	/^int CoordsLigandTrial::getAtomNumber( void )$/;"	f	class:CoordsLigandTrial
+getAtomType	coords.C	/^int CoordsLigand::getAtomType( void )$/;"	f	class:CoordsLigand
+getAtomType	coords.C	/^int CoordsLigandTrial::getAtomType( void )$/;"	f	class:CoordsLigandTrial
+getConfCoords	complex.C	/^ void Complex::getConfCoords( double iconf1[][3] )$/;"	f	class:Complex
+getConfCoordsPerm	complex.C	/^void Complex::getConfCoordsPerm( double iconf1[][3] )$/;"	f	class:Complex
+getConfParams	complex.C	/^void Complex::getConfParams( double iconf1[] )$/;"	f	class:Complex
+getCoords	coords.C	/^double CoordsKDE::getCoords( int an )$/;"	f	class:CoordsKDE
+getCoords	coords.C	/^double CoordsLigand::getCoords( int an, int ai )$/;"	f	class:CoordsLigand
+getCoords	coords.C	/^double CoordsLigandTrial::getCoords( int an, int ai )$/;"	f	class:CoordsLigandTrial
+getCoords	coords.C	/^double CoordsProtein::getCoords( int an, int ai )$/;"	f	class:CoordsProtein
+getDistance	complex.C	/^double Complex::getDistance( int in )$/;"	f	class:Complex
+getEnergy	complex.C	/^double Complex::getEnergy( int ei )$/;"	f	class:Complex
+getLigCode	data.C	/^int getLigCode( std::string r_name )$/;"	f
+getLigName	data.C	/^std::string getLigName( int r_code )$/;"	f
+getLigandAtomsTotal	complex.C	/^int Complex::getLigandAtomsTotal( void )$/;"	f	class:Complex
+getLigandBondsTotal	complex.C	/^int Complex::getLigandBondsTotal( void )$/;"	f	class:Complex
+getLigandEnsembleCurrent	complex.C	/^int Complex::getLigandEnsembleCurrent( void )$/;"	f	class:Complex
+getLigandEnsembleTotal	complex.C	/^int Complex::getLigandEnsembleTotal( void )$/;"	f	class:Complex
+getLigandID	complex.C	/^std::string Complex::getLigandID( void )$/;"	f	class:Complex
+getMCC	complex.C	/^double Complex::getMCC(void)$/;"	f	class:Complex
+getPntCode	data.C	/^int getPntCode( std::string r_name )$/;"	f
+getPntName	data.C	/^std::string getPntName( int r_code )$/;"	f
+getPointClass	coords.C	/^int CoordsProtein::getPointClass( void )$/;"	f	class:CoordsProtein
+getPointNumber	coords.C	/^int CoordsKDE::getPointNumber( void )$/;"	f	class:CoordsKDE
+getPointNumber	coords.C	/^int CoordsProtein::getPointNumber( void )$/;"	f	class:CoordsProtein
+getPointType	coords.C	/^int CoordsKDE::getPointType( void )$/;"	f	class:CoordsKDE
+getPointType	coords.C	/^int CoordsProtein::getPointType( void )$/;"	f	class:CoordsProtein
+getProteinEnsembleCurrent	complex.C	/^int Complex::getProteinEnsembleCurrent( void )$/;"	f	class:Complex
+getProteinEnsembleTotal	complex.C	/^int Complex::getProteinEnsembleTotal( void )$/;"	f	class:Complex
+getProteinPointsTotal	complex.C	/^int Complex::getProteinPointsTotal( void )$/;"	f	class:Complex
+getProteinResiduesTotal	complex.C	/^int Complex::getProteinResiduesTotal( void )$/;"	f	class:Complex
+getProteinSequence	complex.C	/^std::string Complex::getProteinSequence( void )$/;"	f	class:Complex
+getResCode	data.C	/^int getResCode( std::string r_name )$/;"	f
+getResCodeOne	data.C	/^int getResCodeOne( std::string r_name )$/;"	f
+getResName	data.C	/^std::string getResName( int r_code )$/;"	f
+getResidueCode	coords.C	/^int CoordsProtein::getResidueCode( void )$/;"	f	class:CoordsProtein
+getResidueNumber	coords.C	/^int CoordsProtein::getResidueNumber( void )$/;"	f	class:CoordsProtein
+getTemperature	complex.C	/^double Complex::getTemperature ( void )$/;"	f	class:Complex
+high	complex.h	/^    int high;	    \/\/ number of points in high data set$/;"	m	struct:OutStream
+initOutStream	complex.C	/^void initOutStream( OutStream *outfiles, std::string id ){$/;"	f
+ligPerturb	complex.C	/^void Complex::ligPerturb ( int ens1 )$/;"	f	class:Complex
+ligRotate	complex.C	/^void Complex::ligRotate( double xvalue, double yvalue, double zvalue)$/;"	f	class:Complex
+ligTranslate	complex.C	/^void Complex::ligTranslate( int axis, double value)$/;"	f	class:Complex
+loadLHM	complex.C	/^bool Complex::loadLHM( std::string h1_name )$/;"	f	class:Complex
+loadLigand	complex.C	/^bool Complex::loadLigand( std::string llib1[], int llib2, std::string llib3 )$/;"	f	class:Complex
+loadParams	complex.C	/^bool Complex::loadParams( std::string d1_name )$/;"	f	class:Complex
+loadProtein	complex.C	/^bool Complex::loadProtein( std::string p1_name )$/;"	f	class:Complex
+low	complex.h	/^    int low;	    \/\/ number of points in low data set$/;"	m	struct:OutStream
+main	decoy_gen.C	/^int main(int argc, char *argv[])$/;"	f
+mcs_restraints	complex.h	/^struct mcs_restraints$/;"	s
+num	remc.h	/^ int num;$/;"	m	struct:replica
+one2three	data.C	/^std::string one2three( std::string resnam1 )$/;"	f
+printLigandInfo	complex.C	/^void Complex::printLigandInfo(ofstream &fout, ofstream &Coefout, ofstream &eout)$/;"	f	class:Complex
+printProteinInfo	complex.C	/^void Complex::printProteinInfo(ofstream &fout)$/;"	f	class:Complex
+printTime	walltime.C	/^void printTime( double dif1 )$/;"	f
+protEnsemble	complex.C	/^void Complex::protEnsemble (int ens1 )$/;"	f	class:Complex
+replica	remc.h	/^struct replica$/;"	s
+restoreCoords	complex.C	/^void Complex::restoreCoords ( int nbkp )	\/\/ what is nbkp here? unused ! ???$/;"	f	class:Complex
+setAtomCharge	coords.C	/^void CoordsLigand::setAtomCharge( double ac )$/;"	f	class:CoordsLigand
+setAtomCharge	coords.C	/^void CoordsLigandTrial::setAtomCharge( double ac )$/;"	f	class:CoordsLigandTrial
+setAtomType	coords.C	/^void CoordsLigand::setAtomType( int at )$/;"	f	class:CoordsLigand
+setAtomType	coords.C	/^void CoordsLigandTrial::setAtomType( int at )$/;"	f	class:CoordsLigandTrial
+setBest	complex.C	/^void Complex::setBest( void )$/;"	f	class:Complex
+setConfCoords	complex.C	/^ void Complex::setConfCoords( double iconf1[][3] )$/;"	f	class:Complex
+setConfCoordsPerm	complex.C	/^void Complex::setConfCoordsPerm( double iconf1[][3] )$/;"	f	class:Complex
+setConfParams	complex.C	/^void Complex::setConfParams( double iconf1[] )$/;"	f	class:Complex
+setCoords	coords.C	/^void CoordsKDE::setCoords( double ax, double ay, double az)$/;"	f	class:CoordsKDE
+setCoords	coords.C	/^void CoordsLigand::setCoords( double ax, double ay, double az, int ai)$/;"	f	class:CoordsLigand
+setCoords	coords.C	/^void CoordsLigandTrial::setCoords( double ax, double ay, double az, int ai)$/;"	f	class:CoordsLigandTrial
+setCoords	coords.C	/^void CoordsProtein::setCoords( double ax, double ay, double az, int ai)$/;"	f	class:CoordsProtein
+setLigandEnsembleCurrent	complex.C	/^void Complex::setLigandEnsembleCurrent( int newEns )$/;"	f	class:Complex
+setProteinEnsembleCurrent	complex.C	/^void Complex::setProteinEnsembleCurrent( int newEns )$/;"	f	class:Complex
+setTemperature	complex.C	/^void Complex::setTemperature (double temp)$/;"	f	class:Complex
+tcc	complex.h	/^ double          tcc;$/;"	m	struct:mcs_restraints
+three2oneC	data.C	/^char three2oneC( std::string resnam1 )$/;"	f
+three2oneS	data.C	/^std::string three2oneS( std::string resnam1 )$/;"	f
+total	complex.h	/^ int             total;$/;"	m	struct:mcs_restraints
+u3b	rmsd.f	/^      subroutine u3b(/;"	s
+xcoord	complex.h	/^ map<int,double> xcoord;$/;"	m	struct:mcs_restraints
+ycoord	complex.h	/^ map<int,double> ycoord;$/;"	m	struct:mcs_restraints
+zcoord	complex.h	/^ map<int,double> zcoord;$/;"	m	struct:mcs_restraints
+~Complex	complex.C	/^Complex::~Complex() {}$/;"	f	class:Complex
+~CoordsKDE	coords.C	/^CoordsKDE::~CoordsKDE() {}$/;"	f	class:CoordsKDE
+~CoordsLigand	coords.C	/^CoordsLigand::~CoordsLigand() {}$/;"	f	class:CoordsLigand
+~CoordsLigandTrial	coords.C	/^CoordsLigandTrial::~CoordsLigandTrial() {}$/;"	f	class:CoordsLigandTrial
+~CoordsProtein	coords.C	/^CoordsProtein::~CoordsProtein() {}$/;"	f	class:CoordsProtein

@@ -1,0 +1,43 @@
+/*
+==============================================================================================
+     __________________ ____ ___              .___             __      _________   _____   
+    /  _____/\______   \    |   \           __| _/____   ____ |  | __ /   _____/  /     \  
+   /   \  ___ |     ___/    |   /  ______  / __ |/  _ \_/ ___\|  |/ / \_____  \  /  \ /  \ 
+   \    \_\  \|    |   |    |  /  /_____/ / /_/ (  <_> )  \___|    <  /        \/    Y    \
+    \______  /|____|   |______/           \____ |\____/ \___  >__|_ \/_______  /\____|__  /
+           \/                                  \/           \/     \/        \/         \/ 
+
+      GPU-accelerated hybrid-resolution ligand docking using Replica Exchange Monte Carlo
+
+==============================================================================================
+*/
+
+#ifndef __SIZE_H_
+#define __SIZE_H_
+
+#define	MAXPRO  10000		/* protein residues */
+#define	MAXLIG  100		/* ligand heavy atoms */
+#define	MAXEN1  20		/* protein confs */
+#define	MAXEN2  70		/* ligand confs */
+#define	MAXLIB  100		/* library cmps */
+#define	MAXSDF  1000		/* sdf length */
+#define	MAXTP1  30		/* point types */
+#define	MAXTP2  24		/* atom types */
+#define	MAXTP3  50		/* point types (for ele) */
+#define	MAXTP4  20		/* residue types */
+#define	MAXFP1  1024		/* smiles */
+#define	MAXFP2  168		/* maccs */
+#define	MAXWEI  9		/* energy terms */
+#define	MAXKDE  10000		/* kde points */
+#define	MAXMCS  500		/* mcs fields */
+#define	MAXPOS  1000		/* position restraints */
+
+////DANIEL
+#define MAXREP  32
+#define BADKDE  50		/* value used for return statement in data.C for missing atoms */
+#define MAXPRM  22		// max number of parameter describing the system, e.g. temperature, coords, energies ...
+///////////////////
+
+#define PI  3.14159265
+
+#endif

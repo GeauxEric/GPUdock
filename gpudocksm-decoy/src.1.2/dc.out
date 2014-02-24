@@ -1,0 +1,28 @@
+------------------------------------------------------------
+                         Decoys Generator
+		    Generating decoys in the mcc space 
+		by running Replica Exchange Monte Carlo 
+
+------------------------------------------------------------
+
+Ligand ID: 1a07C1
+MC steps: 14800
+remc cycles: 1
+remc replicas: 1
+MC temperatures: 1.1
+boltzmann constant: 0.7
+
+preparing output files ...
+
+1a07C1-A-MCcoefs.txt... done 
+1a07C1-A-Decoys.txt... done 
+1a07C1-A-DecoyEner.txt... done 
+
+Creating replicas ..... done
+Replica   1 acceptance ratio:  0.688919
+Docking time: 64 s
+total decoys points generated:	10196
+
+------------------------------------------------------------
+Walltime: 0 h 1 m 7 s  (67 s)
+------------------------------------------------------------

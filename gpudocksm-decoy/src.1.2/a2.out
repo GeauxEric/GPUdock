@@ -1,0 +1,29 @@
+------------------------------------------------------------
+                         Decoys Generator
+		    Generating decoys in the mcc space 
+		by running Replica Exchange Monte Carlo 
+
+------------------------------------------------------------
+
+Ligand ID: 1eldA1
+MC steps: 148000
+remc cycles: 1
+remc replicas: 1
+MC temperatures: 1.1
+constant: 0.7
+maximum data points: 10000000
+preparing output files ...
+
+1eldA1-A-MCcoefs.txt... done 
+1eldA1-A-Decoys.txt... done 
+1eldA1-A-DecoyEner.txt... done 
+
+1eldA1-L-MCcoefs.txt... done 
+1eldA1-L-Decoys.txt... done 
+1eldA1-L-DecoyEner.txt... done 
+
+1eldA1-H-MCcoefs.txt... done 
+1eldA1-H-Decoys.txt... done 
+1eldA1-H-DecoyEner.txt... done 
+
+Creating replicas ..... 1 1 1 

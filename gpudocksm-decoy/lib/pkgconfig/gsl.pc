@@ -1,0 +1,11 @@
+prefix=/home/dcase1/gpudocksm
+exec_prefix=/home/dcase1/gpudocksm
+libdir=/home/dcase1/gpudocksm/lib
+includedir=/home/dcase1/gpudocksm/include
+GSL_CBLAS_LIB=-lgslcblas
+
+Name: GSL
+Description: GNU Scientific Library
+Version: 1.15
+Libs: -L/home/dcase1/gpudocksm/lib -lgsl ${GSL_CBLAS_LIB} -lm -lm 
+Cflags: -I/home/dcase1/gpudocksm/include

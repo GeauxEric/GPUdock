@@ -1,0 +1,19 @@
+#####################
+
+
+ decoy_gen 
+ 
+ Generate high and low decoys for clustering and machine learning
+ Unlike the verson in src_gen and src, this version does not have the gap between the low and high decoys
+ all the information of the accepted conformation are recorded
+
+
+
+
+
+
+
+
+
+#####################
+

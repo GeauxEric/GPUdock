@@ -1,0 +1,318 @@
+
+/home/jaydy/Workspace/gpudocksm-1.3.1-Daniel/src.1.2/data.h,53
+#define __DATA_H_17,860
+using namespace std;24,952
+
+/home/jaydy/Workspace/gpudocksm-1.3.1-Daniel/src.1.2/walltime.h,57
+#define __WALLTIME_H_17,864
+using namespace std;23,942
+
+/home/jaydy/Workspace/gpudocksm-1.3.1-Daniel/src.1.2/complex.h,5554
+#define __COMPLEX_H_17,863
+using namespace std;40,1230
+struct Param{Param43,1253
+	int remc_steps;44,1267
+	int remc_cycles;45,1284
+	int remc_replicas;46,1307
+	double mc_temp;47,1356
+	double step_t;48,1408
+	double step_r;49,1424
+	double dsphere;50,1440
+	double boltzmann;51,1457
+	int data_pt_total;53,1477
+struct mcs_restraints56,1501
+ double          tcc;58,1525
+ int             total;59,1547
+ map<int,int60,1571
+ map<int,double> xcoord;60,1571
+ map<int,int61,1596
+ map<int,double> ycoord;61,1596
+ map<int,int62,1621
+ map<int,double> zcoord;62,1621
+class Complex 65,1650
+    vector<CoordsProtein>      _protein_xyz;Complex::_protein_xyz71,1715
+    vector<CoordsKDE>          _kde_xyz;Complex::_kde_xyz72,1804
+    double                     _pocket_center[Complex::_pocket_center74,1877
+    int                        _pnp;Complex::_pnp76,1953
+    int                        _pnr;Complex::_pnr77,2045
+    int                        _pnk;Complex::_pnk78,2129
+    int                        _pns[Complex::_pns80,2218
+    std::string                _protein_seq1;Complex::_protein_seq182,2310
+    char                       _protein_seq2[Complex::_protein_seq283,2379
+    int                        _protein_seq3[Complex::_protein_seq384,2448
+    int                        _pens_total;Complex::_pens_total86,2532
+    int                        _pens_current;Complex::_pens_current87,2618
+    map<Complex::map89,2701
+    map<pair<int,int>, double> _complex_psp;Complex::_complex_psp89,2701
+    vector<CoordsLigand> _ligand_xyz;Complex::_ligand_xyz99,2842
+    vector<CoordsLigand> _ligand_bkp[Complex::_ligand_bkp101,3024
+    vector<CoordsLigandTrial> _ligand_trial;Complex::_ligand_trial102,3099
+    vector<CoordsLigand> _ligand_best;Complex::_ligand_best103,3217
+    double               _ligand_tmatrix[Complex::_ligand_tmatrix104,3299
+    double               _perturb_delta[Complex::_perturb_delta105,3418
+    double               _ref_coords[Complex::_ref_coords106,3526
+    double		 _ebest;Complex::_ebest107,3623
+    double   	 	 _cbest;Complex::_cbest108,3665
+    double     		 _cdist;Complex::_cdist110,3725
+    double		 _crmsd;Complex::_crmsd111,3798
+    double		 _cmcc;Complex::_cmcc112,3834
+    double               _ligand_center[Complex::_ligand_center115,3973
+    int                  _lna;Complex::_lna117,4050
+    int                  _lnb;Complex::_lnb118,4121
+    double		 _temp;Complex::_temp119,4192
+    int                  _lens_total;Complex::_lens_total120,4255
+    int                  _lens_current;Complex::_lens_current121,4332
+    double               _lens_rmsd[Complex::_lens_rmsd123,4406
+    std::string          _ligand_id;Complex::_ligand_id125,4473
+    std::string          _ligand_smiles;Complex::_ligand_smiles126,4531
+    bitset<MAXFP1>       _ligand_fpt_smiles;Complex::_ligand_fpt_smiles128,4598
+    bitset<MAXFP2>       _ligand_fpt_maccs;Complex::_ligand_fpt_maccs129,4665
+    double               _ligand_prop_mw;Complex::_ligand_prop_mw131,4736
+    double               _ligand_prop_logp;Complex::_ligand_prop_logp132,4808
+    double               _ligand_prop_psa;Complex::_ligand_prop_psa133,4893
+    double               _ligand_prop_mr;Complex::_ligand_prop_mr134,4967
+    int                  _ligand_prop_hbd;Complex::_ligand_prop_hbd136,5046
+    int                  _ligand_prop_hba;Complex::_ligand_prop_hba137,5122
+    double               _ligand_tra[Complex::_ligand_tra139,5206
+    double               _ligand_rot[Complex::_ligand_rot140,5273
+    list<mcs_restraints> _ligand_mcs;Complex::_ligand_mcs142,5342
+    double    		 _acc_ene[Complex::_acc_ene144,5505
+    double 		 _acc_swp[Complex::_acc_swp145,5565
+    double _complex_vdw[Complex::_complex_vdw156,5768
+    double _complex_ele[Complex::_complex_ele157,5829
+    double _complex_pmf[Complex::_complex_pmf158,5900
+    double _complex_hpp[Complex::_complex_hpp159,5965
+    double _complex_hpl[Complex::_complex_hpl160,6035
+    double _complex_hdb[Complex::_complex_hdb161,6104
+    double _weights[Complex::_weights163,6178
+    double _etot;Complex::_etot165,6255
+    double _evdw;Complex::_evdw166,6315
+    double _eele;Complex::_eele167,6381
+    double _epmf;Complex::_epmf168,6457
+    double _ehpc;Complex::_ehpc169,6522
+    double _ehdb;Complex::_ehdb170,6591
+    double _edst;Complex::_edst171,6662
+    double _epsp;Complex::_epsp172,6729
+    double _ekde;Complex::_ekde173,6802
+    double _elhm;Complex::_elhm174,6863
+    double _par_lj[Complex::_par_lj176,6932
+    double _par_el[Complex::_par_el177,6990
+    double _par_kde;Complex::_par_kde178,7058
+struct OutStream{OutStream316,9681
+    int all;OutStream::all317,9699
+    int low;OutStream::low318,9756
+    int high;OutStream::high319,9809
+    bool all_stop;OutStream::all_stop321,9865
+    bool low_stop;OutStream::low_stop322,9884
+    bool high_stop;OutStream::high_stop323,9903
+    ofstream all_decoys;OutStream::all_decoys325,9924
+    ofstream all_MCcoef;OutStream::all_MCcoef326,9949
+    ofstream all_decoyenergies;OutStream::all_decoyenergies327,9974
+    ofstream L_decoys;OutStream::L_decoys329,10007
+    ofstream L_MCcoef;OutStream::L_MCcoef330,10030
+    ofstream L_decoyenergies;OutStream::L_decoyenergies331,10053
+    ofstream H_decoys;OutStream::H_decoys333,10084
+    ofstream H_MCcoef;OutStream::H_MCcoef334,10107
+    ofstream H_decoyenergies;OutStream::H_decoyenergies335,10130
+
+/home/jaydy/Workspace/gpudocksm-1.3.1-Daniel/src.1.2/decoy_gen.h,29
+#define __DECOYGEN_H_15,862
+
+/home/jaydy/Workspace/gpudocksm-1.3.1-Daniel/src.1.2/remc.C,19
+void REMC(24,1081
+
+/home/jaydy/Workspace/gpudocksm-1.3.1-Daniel/src.1.2/decoy_gen.C,18
+int main(36,1279
+
+/home/jaydy/Workspace/gpudocksm-1.3.1-Daniel/src.1.2/remc.h,153
+#define __REMC_H_17,860
+using namespace std;32,1095
+struct replica35,1194
+ double conf1[conf137,1212
+ double conf2[conf238,1238
+ int num;39,1257
+
+/home/jaydy/Workspace/gpudocksm-1.3.1-Daniel/src.1.2/complex.C,1897
+Complex::Complex(28,1659
+Complex::Complex(123,3281
+Complex::~Complex(212,4843
+int Complex::getProteinPointsTotal(218,4979
+int Complex::getProteinResiduesTotal(225,5152
+int Complex::getProteinEnsembleTotal(232,5327
+int Complex::getProteinEnsembleCurrent(239,5511
+std::string Complex::getProteinSequence(246,5692
+int Complex::getLigandAtomsTotal(253,5875
+int Complex::getLigandBondsTotal(260,6042
+int Complex::getLigandEnsembleTotal(267,6212
+int Complex::getLigandEnsembleCurrent(274,6394
+void Complex::addAcceptanceENE(280,6571
+void Complex::addAcceptanceSWP(290,6817
+double Complex::getAcceptanceENE(299,7030
+double Complex::getAcceptanceSWP(309,7339
+bool Complex::loadProtein(319,7589
+bool Complex::loadLHM(536,14106
+bool Complex::loadParams(620,16180
+bool Complex::loadLigand(786,19942
+std::string Complex::getLigandID(1033,26484
+void Complex::ligTranslate(1039,26649
+void Complex::ligRotate(1045,26835
+void Complex::protEnsemble(1064,27751
+void Complex::ligPerturb(1071,27916
+void Complex::createTrialCoords(1128,29603
+void Complex::calculateEnergy(1200,31721
+double Complex::getEnergy(1473,40552
+void Complex::restoreCoords(1505,41039
+void Complex::getConfCoords(1518,41562
+void Complex::getConfCoordsPerm(1529,41962
+void Complex::getConfParams(1542,42355
+void Complex::setConfParams(1573,43038
+void Complex::setConfCoords(1593,43547
+void Complex::setConfCoordsPerm(1605,43942
+double Complex::getTemperature(1617,44319
+void Complex::setTemperature(1624,44482
+void Complex::setProteinEnsembleCurrent(1630,44658
+void Complex::setLigandEnsembleCurrent(1636,44853
+void Complex::printLigandInfo(1642,45038
+void Complex::printProteinInfo(1661,45682
+void Complex::clearMoves(1740,47979
+double Complex::getDistance(1761,48435
+double Complex::getMCC(1775,48699
+void Complex::setBest(1782,48845
+void initOutStream(1796,49328
+void closeOutStream(1851,51815
+
+/home/jaydy/Workspace/gpudocksm-1.3.1-Daniel/src.1.2/montecarlo.C,20
+MonteCarlo(25,1053
+
+/home/jaydy/Workspace/gpudocksm-1.3.1-Daniel/src.1.2/montecarlo.h,60
+#define __MONTECARLO_H_17,866
+using namespace std;30,1072
+
+/home/jaydy/Workspace/gpudocksm-1.3.1-Daniel/src.1.2/rmsd.h,54
+#define __WRMSD_H_17,861
+using namespace std;21,900
+
+/home/jaydy/Workspace/gpudocksm-1.3.1-Daniel/src.1.2/debug.h,241
+#define  DEBUG_H2,17
+#define     DEBUG_1_(5,36
+#define     DEBUG_2_(6,117
+#define     DEBUG_3_(7,198
+#define     DEBUG_4_(8,279
+#define     DEBUG_TEST	9,360
+#define	    FLAG	11,412
+#define	    WRITE	12,431
+#define	    UNFLAG	13,451
+
+/home/jaydy/Workspace/gpudocksm-1.3.1-Daniel/src.1.2/size.h,498
+#define __SIZE_H_16,859
+#define	MAXPRO 18,878
+#define	MAXLIG 19,924
+#define	MAXEN1 20,970
+#define	MAXEN2 21,1010
+#define	MAXLIB 22,1049
+#define	MAXSDF 23,1089
+#define	MAXTP1 24,1128
+#define	MAXTP2 25,1166
+#define	MAXTP3 26,1203
+#define	MAXTP4 27,1251
+#define	MAXFP1 28,1291
+#define	MAXFP2 29,1326
+#define	MAXWEI 30,1359
+#define	MAXKDE 31,1397
+#define	MAXMCS 32,1437
+#define	MAXPOS 33,1475
+#define MAXREP 36,1535
+#define BADKDE 37,1554
+#define MAXPRM 38,1640
+#define PI 41,1770
+
+/home/jaydy/Workspace/gpudocksm-1.3.1-Daniel/src.1.2/coords.h,1292
+#define __COORDS_H_17,862
+using namespace std;25,954
+class CoordsProtein 29,1079
+    int    _r;CoordsProtein::_r33,1126
+    int    _n;CoordsProtein::_n34,1167
+    double _x[CoordsProtein::_x35,1216
+    double _y[CoordsProtein::_y36,1262
+    double _z[CoordsProtein::_z37,1308
+    int    _t;CoordsProtein::_t38,1354
+    int    _c;CoordsProtein::_c39,1401
+    int    _d;CoordsProtein::_d40,1449
+class CoordsLigandTrial 65,1999
+    int    _n;CoordsLigandTrial::_n69,2038
+    double _x[CoordsLigandTrial::_x70,2076
+    double _y[CoordsLigandTrial::_y71,2122
+    double _z[CoordsLigandTrial::_z72,2168
+    string _a;CoordsLigandTrial::_a73,2214
+    int    _t;CoordsLigandTrial::_t74,2250
+    double _c;CoordsLigandTrial::_c75,2286
+class CoordsLigand 104,2840
+    int    _n;CoordsLigand::_n108,2886
+    double _x[CoordsLigand::_x109,2924
+    double _y[CoordsLigand::_y110,2970
+    double _z[CoordsLigand::_z111,3016
+    string _a;CoordsLigand::_a112,3062
+    int    _t;CoordsLigand::_t113,3098
+    double _c;CoordsLigand::_c114,3134
+class CoordsKDE 143,3714
+    int    _n;CoordsKDE::_n147,3757
+    double _x;CoordsKDE::_x148,3788
+    double _y;CoordsKDE::_y149,3826
+    double _z;CoordsKDE::_z150,3864
+    int    _t;CoordsKDE::_t151,3902
+
+/home/jaydy/Workspace/gpudocksm-1.3.1-Daniel/src.1.2/coords.C,1616
+CoordsProtein::CoordsProtein(22,988
+CoordsProtein::CoordsProtein(38,1209
+CoordsProtein::~CoordsProtein(54,1391
+int CoordsProtein::getPointNumber(56,1427
+int CoordsProtein::getResidueNumber(61,1486
+int CoordsProtein::getResidueCode(66,1547
+double CoordsProtein::getCoords(71,1606
+void CoordsProtein::setCoords(83,1794
+int CoordsProtein::getPointType(90,1913
+int CoordsProtein::getPointClass(95,1970
+CoordsLigandTrial::CoordsLigandTrial(101,2090
+CoordsLigandTrial::CoordsLigandTrial(116,2306
+CoordsLigandTrial::~CoordsLigandTrial(131,2489
+int CoordsLigandTrial::getAtomNumber(133,2533
+double CoordsLigandTrial::getCoords(138,2595
+void CoordsLigandTrial::setCoords(150,2787
+string CoordsLigandTrial::getAtomName(157,2910
+int CoordsLigandTrial::getAtomType(162,2973
+void CoordsLigandTrial::setAtomType(167,3033
+double CoordsLigandTrial::getAtomCharge(172,3094
+void CoordsLigandTrial::setAtomCharge(177,3159
+CoordsLigand::CoordsLigand(185,3328
+CoordsLigand::CoordsLigand(200,3535
+CoordsLigand::~CoordsLigand(215,3709
+int CoordsLigand::getAtomNumber(217,3743
+double CoordsLigand::getCoords(222,3800
+void CoordsLigand::setCoords(234,3987
+string CoordsLigand::getAtomName(241,4105
+int CoordsLigand::getAtomType(246,4163
+void CoordsLigand::setAtomType(251,4218
+double CoordsLigand::getAtomCharge(256,4274
+void CoordsLigand::setAtomCharge(261,4334
+CoordsKDE::CoordsKDE(268,4494
+CoordsKDE::CoordsKDE(278,4623
+CoordsKDE::~CoordsKDE(288,4710
+int CoordsKDE::getPointNumber(290,4738
+double CoordsKDE::getCoords(295,4793
+void CoordsKDE::setCoords(307,4957
+int CoordsKDE::getPointType(314,5052
+
+/home/jaydy/Workspace/gpudocksm-1.3.1-Daniel/src.1.2/data.C,290
+std::string three2oneS(20,883
+char three2oneC(52,1991
+std::string one2three(84,3092
+int getResCode(116,4199
+int getResCodeOne(143,5164
+std::string getResName(170,6092
+int getPntCode(197,7062
+std::string getPntName(234,8415
+int getLigCode(271,9773
+std::string getLigName(303,10980
+
+/home/jaydy/Workspace/gpudocksm-1.3.1-Daniel/src.1.2/walltime.C,23
+void printTime(20,887
