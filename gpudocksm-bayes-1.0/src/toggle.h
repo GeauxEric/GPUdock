@@ -12,10 +12,13 @@
 #define IS_EXCHANGE 0
 
 // move ligand away from center
-#define IS_AWAY 1
+#define IS_AWAY 0
 
 // calculate mcc
 #define IS_CALCU_MCC 1
+
+// calulate replica 0 mcc
+#define ZERO_REP_MCC 0
 
 // use bayesian force field
 #define IS_BAYE 1

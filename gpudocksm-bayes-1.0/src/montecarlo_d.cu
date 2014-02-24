@@ -33,7 +33,10 @@ MonteCarlo_Init_d (const int rep_begin, const int rep_end)
 	CalcEnergy_d (bidx, mylig, myprt);
 
 #if IS_CALCU_MCC == 1
-      CalcMcc_d (bidx, mylig, myprt);
+#if ZERO_REP_MCC == 1
+	if (myreplica == 0)
+#endif
+	  CalcMcc_d (bidx, mylig, myprt);
 #endif
 
       if (bidx <= MAXWEI)
@@ -88,7 +91,10 @@ MonteCarlo_d (const int rep_begin, const int rep_end, const int s1, const int s2
 	Move_d (bidx, mylig);
 
 #if IS_CALCU_MCC == 1
-	CalcMcc_d (bidx, mylig, myprt);
+#if ZERO_REP_MCC == 1
+	if (myreplica == 0)
+#endif
+	  CalcMcc_d (bidx, mylig, myprt);
 #endif 
 
 	CalcEnergy_d (bidx, mylig, myprt);

@@ -62,7 +62,7 @@ count: count.o load.o data.o rmsd.o
 analysis: analysis.o util.o hdf5io.o
 	$(CPP) $(LINKFLAGS) $(LIBPATH) $^ -o $@
 	@cp analysis ../bin/
-#	@cp analysis ~/bin/
+	@cp analysis ~/bin/
 	@cp analysis ../test/
 
 clean:

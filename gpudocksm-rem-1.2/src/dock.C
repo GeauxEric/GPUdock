@@ -100,8 +100,8 @@ main (int argc, char **argv)
 
 
   // run simulation on optimized data structure
-  // Run (lig, prt, psp, kde, mcs, enepara, temp, replica, mcpara, mclog, complexsize);
-  // PrintSummary (inputfiles, mcpara, temp, mclog, &complexsize);
+  Run (lig, prt, psp, kde, mcs, enepara, temp, replica, mcpara, mclog, complexsize);
+  PrintSummary (inputfiles, mcpara, temp, mclog, &complexsize);
 
 
   // clean up

@@ -5,6 +5,12 @@
 
 
 * Developers' log
+  
+** TODO clustering in the ligand purterbation space
+   1. [ ] the number of clusters should not be assumed?
+   2. [ ] the symmetry of the rotational perturbation should be considered
+   3. 
+
 ** DONE develope bayesian force field
 
 *** DONE verify the calculation of conditional probability
@@ -283,7 +289,6 @@ for ( int i1 = 0; i1 < _lna; i1++ )
     if the acceptance ratio is too low, then the dimension of mcc and energy are both one, from which the pearsonR
     program will return nan
 
-*** TODO what if the divident in calculating mcc is zero?
 
 
 ** TODO GPU kernel launched too ugly

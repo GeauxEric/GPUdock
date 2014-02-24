@@ -15,7 +15,7 @@ MoveAway_d (const int bidx, Ligand * __restrict__ mylig)
   __shared__ float rot[3][3]; // rot_z rot_y rot_x
 
   if (bidx < 6) {
-    float perturbation = 44.5f;
+    float perturbation = 34.5f;
     movematrix_new[bidx] = move_scale_dc[bidx] * perturbation + mylig->movematrix_old[bidx];
     mylig->movematrix_new[bidx] = movematrix_new[bidx];
   }

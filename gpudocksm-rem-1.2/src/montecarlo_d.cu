@@ -23,7 +23,6 @@ MonteCarlo_Init_d (const int rep_begin, const int rep_end)
 
       if (myreplica == 0)
 	InitRefMatrix_d (bidx, mylig, myprt);  // mcc ref matrix generated from the first replica
-      
 
 #if IS_AWAY == 1
 	MoveAway_d (bidx, mylig);
