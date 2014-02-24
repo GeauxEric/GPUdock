@@ -565,6 +565,8 @@ bool Complex::loadParams( std::string d1_name )
 {
  string line1;
  
+ cout << "parameter file\t\t" << d1_name << endl;
+ 
  ifstream d1_file( d1_name.c_str() );
  
  if ( !d1_file.is_open() )  { cout << "Cannot open " << d1_name << endl; exit(EXIT_FAILURE); }
@@ -1199,7 +1201,9 @@ void Complex::calculateEnergy( void )
  _edst = sqrt( pow( _ligand_center[0] - _pocket_center[0], 2 ) +
                pow( _ligand_center[1] - _pocket_center[1], 2 ) +
                pow( _ligand_center[2] - _pocket_center[2], 2 )   );
- 
+
+
+
  _evdw = _weights[0] * ( _evdw / (double) _lna );
  _eele = _weights[1] * ( _eele / (double) _lna );
  _epmf = _weights[2] * ( _epmf / (double) _lna );
