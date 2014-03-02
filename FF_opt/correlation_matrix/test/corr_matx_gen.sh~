@@ -1,0 +1,56 @@
+#!/bin/bash
+
+#PBS -q gpu
+##PBS -A hpc_docking
+##PBS -q hpc_lasigma
+
+#PBS -j oe
+
+## user specified
+#PBS -l nodes=1:ppn=16
+#PBS -l walltime=24:00:00
+#send an email after job aborts or ends
+#PBS -M yding8@lsu.edu
+#PBS -m ae
+
+
+date
+
+complex=1abeA2
+# complex=1abfA1
+# complex=1a07C1
+# complex=$var1
+echo $complex
+
+pdb=$(echo ${complex:0:5}).pdb
+ff=${complex}-0.4.ff
+sdf=${complex}.sdf
+
+working_dir=~/work/working/ff_test/${complex}/
+ff_dir=/work/jaydy/dat/astex/${complex}/
+
+parameter_dir=~/dat/
+bin=/home/jaydy/bin/gpu_decoy_gen
+
+mkdir -p ${working_dir}
+
+cp ${ff_dir}{${pdb},${ff},${sdf}} ${working_dir}
+cp ${parameter_dir}{08ff_opt,gpudocksm.ff,nor_a,nor_b,baye_nor_a,baye_nor_b} $working_dir
+
+# running
+cd $working_dir
+
+echo "running decoy generation using un-optimized force field"
+
+temp=0.0044f
+
+rm -rf output_*
+
+${bin} -floor_temp ${temp}f -ceiling_temp 0.036f -nt 1 -t 0.02f -r 0.08f -ns 20000 -nc 1 -p ${pdb} -l ${sdf} -s ${ff} -id ${complex} > report
+
+
+##mark the finish time
+date
+
+##and we are out'a here
+exit 0

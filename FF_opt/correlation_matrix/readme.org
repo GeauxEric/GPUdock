@@ -1,0 +1,26 @@
+* Preface
+  decoy generation using gpu accelerated docking program
+  
+* Code development
+  1. [X] energies does not need to be normalized
+  2. [X] total energy equals the vdw plus the dst energy
+  3. [X] ligand initialized at the native pose
+  4. [X] calculate mcc along the monte carlo
+      
+
+
+* Simulation running
+  1. single temperature
+  2. no replica exchange
+
+     
+* Force field training
+  1. /home/jaydy/Workspace/script/Pyscripts/gpu_decoy_class.py
+  2. /home/jaydy/Workspace/script/Pyscripts/gpu_decoy.py
+  
+* Force field testing
+  1. [ ] use test weight to combine the energies
+  2. [ ] use test normalization parameters
+  3. [ ] 
+
+

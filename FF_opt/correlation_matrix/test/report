@@ -1,0 +1,56 @@
+------------------------------------------------------------
+                         GPU-dockSM-linear
+                         version 1.2
+
+   GPU-accelerated mixed-resolution ligand docking using
+                Replica Exchange Monte Carlo
+------------------------------------------------------------
+
+RUNNING single temperature Monte Carlo
+FLOOR temperature used in simulaition
+Setting up temperature replicas
+================================================================================
+temp # 0			0.004400
+	0 / 20000 	1000 / 20000 	2000 / 20000 	3000 / 20000 	4000 / 20000 	5000 / 20000 	6000 / 20000 	7000 / 20000 	8000 / 20000 	9000 / 20000 	10000 / 20000 	11000 / 20000 	12000 / 20000 	13000 / 20000 	14000 / 20000 	15000 / 20000 	16000 / 20000 	17000 / 20000 	18000 / 20000 	19000 / 20000 
+================================================================================
+Inputs and Outputs
+================================================================================
+ligand file			1abeA2.sdf
+protein file			1abeA.pdb
+lhm file			1abeA2-0.4.ff
+enepara file			gpudocksm.ff
+weight file			08ff_opt
+output directory		output_20140228_080814
+out file (HDF5)			output_20140228_080814/a_XXXX.h5
+steps_per_dump			1000
+per dump record size:		1.846 MB
+================================================================================
+Replica Exchange Monte Carlo parameters
+================================================================================
+steps_total			20000
+steps_per_dump			1000
+steps_per_exchange		1
+translational scale		0.02000000 0.02000000 0.02000000 
+rotational scale		0.08000000 0.08000000 0.08000000 
+ligand conformations		2
+prt conformations		11
+temperatures			1
+replica ensembles		22
+size_lig			10
+size_prt			989
+size_pnk			1178
+size_mcs			76
+AR of MC 			113355 / 440000 	0.257625
+AR of temp exchange 		0 / 440000 	0.000000
+================================================================================
+Performance
+================================================================================
+compute time			12.828 seconds
+time per MC sweep per replica	29.156 * 1e-6 seconds
+MC sweeps per second		34298.797
+speedup over 843.75		40.650 X
+wall time			12.985 seconds
+time per MC sweep per replica	29.511 * 1e-6 seconds 
+MC sweeps per second		33885.598
+speedup over 843.75		40.161 X
+================================================================================
