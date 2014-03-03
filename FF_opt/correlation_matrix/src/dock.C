@@ -41,7 +41,7 @@ main (int argc, char **argv)
   int total_rows = inputfiles->track_file.total_rows;
   int total_cols = TOTAL_COL;
   float *track_mat = new float[total_rows * total_cols];
-  int *correlation_mat = new int[total_rows * total_rows];
+  float *correlation_mat = new float[total_rows * total_rows];
 
   // loading
   loadTrack(&inputfiles->track_file, track_mat);
@@ -97,7 +97,7 @@ main (int argc, char **argv)
 
   
   // generate correllation matrix
-  GenCorrMat (correlation_mat, track_mat, total_rows, lig, prt);
+  GenCorrMat (correlation_mat, track_mat, total_rows, lig, prt, enepara);
 
 
 

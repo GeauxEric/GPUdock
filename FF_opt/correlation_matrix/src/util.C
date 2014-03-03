@@ -1176,8 +1176,57 @@ MakeDir (const char *mydir)
 }
 
 
+void
+MoveLig (Ligand * lig, float vect[6]) {
+  float movematrix_new[6];
+  float rot[3][3];
+  
+  for (int i =0; i < 6; i++) 
+    movematrix_new[i] = vect[i];
+
+  const float s1 = sinf (movematrix_new[3]);
+  const float c1 = cosf (movematrix_new[3]);
+  const float s2 = sinf (movematrix_new[4]);
+  const float c2 = cosf (movematrix_new[4]);
+  const float s3 = sinf (movematrix_new[5]);
+  const float c3 = cosf (movematrix_new[5]);
+
+  rot[0][0] = c1 * c2;
+  rot[0][1] = c1 * s2 * s3 - c3 * s1;
+  rot[0][2] = s1 * s3 + c1 * c3 * s2;
+  rot[1][0] = c2 * s1;
+  rot[1][1] = c1 * c3 + s1 * s2 * s3;
+  rot[1][2] = c3 * s1 * s2 - c1 * s3;
+  rot[2][0] = -1 * s2;
+  rot[2][1] = c2 * s3;
+  rot[2][2] = c2 * c3;
+
+  LigCoord *coord_new = &lig->coord_new;
+  LigCoord *coord_orig = &lig->coord_orig;
+
+  const float cx = coord_orig->center[0];
+  const float cy = coord_orig->center[1];
+  const float cz = coord_orig->center[2];
+  
+  // iterate through all ligand residues
+  // rotation and translation, and apply coordinate system transformation
+  int lna = lig->lna;
+  for (int l = 0; l < lna; l += 1) {
+    float x = coord_orig->x[l];
+    float y = coord_orig->y[l];
+    float z = coord_orig->z[l];
+    coord_new->x[l] = rot[0][0] * x + rot[0][1] * y + rot[0][2] * z + movematrix_new[0] + cx;
+    coord_new->y[l] = rot[1][0] * x + rot[1][1] * y + rot[1][2] * z + movematrix_new[1] + cy;
+    coord_new->z[l] = rot[2][0] * x + rot[2][1] * y + rot[2][2] * z + movematrix_new[2] + cz;
+  }
+  
+  for (int i = 0; i < 3; ++i) { 
+    coord_new->center[i] = coord_orig->center[i] + movematrix_new[i];
+  }
+}
+
 void 
-GenCorrMat (int * corr_mat, float * track_mat, int total_rows, Ligand * lig, Protein * prt){
+GenCorrMat (float * corr_mat, float * track_mat, int total_rows, Ligand * lig, Protein * prt, EnePara * enepara){
   // test
   // for (int i = 0; i < total_rows; i++) {
   //   float move_vect0[6];
@@ -1196,35 +1245,109 @@ GenCorrMat (int * corr_mat, float * track_mat, int total_rows, Ligand * lig, Pro
   // }
 
 
-  for (int i = 0; i < total_row; i++) {
+  for (int i = 0; i < total_rows; i++) {
     // load ith row from track matrix
     float move_vect0[6];
     int lig0_conf, prt0_conf;
 
     float *init0 = &track_mat[i*TOTAL_COL];
 
-    for (int i = 0; i < 6; i++){
-      move_vect0[i] = init0[i];
+    for (int k = 0; k < 6; k++){
+      move_vect0[k] = init0[k];
     }
 
     lig0_conf = (int) init0[7];
     prt0_conf = (int) init0[8];
 
-    // apply the move vector to the corresponding confs
-    Ligand mylig = &lig[lig0_conf];
+    Ligand * mylig = &lig[lig0_conf];
+    Protein * myprt = &prt[prt0_conf];
 
-    // generate contact matrix
-      
+    // apply the move vector to the corresponding confs
+    MoveLig(lig, move_vect0);
+    
+
+    // init the contact matrix
+    int lna = lig->lna;
+    int pnp = prt->pnp;
+    int contact_ref_size = lna * pnp;
+    int * contact_matx_ref = new int[contact_ref_size];
+
+    // fill the ref contact matrix
+    for (int l = 0; l < lna; l++) {
+      const int lig_t = mylig->t[l];
+      for (int p = 0; p < pnp; p++) {
+	const int prt_t = myprt->t[p];
+
+	const float dx = mylig->coord_new.x[l] - myprt->x[p];
+	const float dy = mylig->coord_new.y[l] - myprt->y[p];
+	const float dz = mylig->coord_new.z[l] - myprt->z[p];
+	const float dst = sqrtf (dx * dx + dy * dy + dz * dz);
+
+	const float pmf0 = enepara->pmf0[lig_t][prt_t];
+	contact_matx_ref[l*pnp + p] = (dst <= pmf0);
+      }
+    }
 
     for (int j = i; j < total_rows; j++) {
+      float move_vect1[6];
+      int lig1_conf, prt1_conf;
 
-      // load jth row from track matrix
+      float *init1 = &track_mat[j*TOTAL_COL];
+
+      for (int k = 0; k < 6; k++){
+	move_vect1[k] = init1[k];
+      }
+
+      lig1_conf = (int) init1[7];
+      prt1_conf = (int) init1[8];
+
+      Ligand * mylig = &lig[lig1_conf];
+      Protein * myprt = &prt[prt1_conf];
 
       // apply the move vector to the corresponding confs
+      MoveLig(lig, move_vect1);
+
+      // init the contact matrix
+      int lna = lig->lna;
+      int pnp = prt->pnp;
+
+      float tp = 0;
+      float fn = 0;
+      float fp = 0;
+      float tn = 0;
+      // fill the ref contact matrix
+      for (int l = 0; l < lna; l++) {
+	const int lig_t = mylig->t[l];
+	for (int p = 0; p < pnp; p++) {
+	  const int prt_t = myprt->t[p];
+
+	  const float dx = mylig->coord_new.x[l] - myprt->x[p];
+	  const float dy = mylig->coord_new.y[l] - myprt->y[p];
+	  const float dz = mylig->coord_new.z[l] - myprt->z[p];
+	  const float dst = sqrtf (dx * dx + dy * dy + dz * dz);
+
+	  const float pmf0 = enepara->pmf0[lig_t][prt_t];
+	  const int ref_val = contact_matx_ref[l*pnp + p];
+
+	  
+	  tp += (float) (ref_val == 1 && dst <= pmf0);
+	  fn += (float) (ref_val == 1 && dst > pmf0);
+	  fp += (float) (ref_val == 0 && dst <= pmf0);
+	  tn += (float) (ref_val == 0 && dst > pmf0);
+	}
+      }
       
-      // generate contact matrix
+      const float dividend = sqrt ((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn));
+      // cout << tp << ' ' << fp << ' ' << fn << ' ' << tn  << ' ' << dividend << endl;
+
+      if (dividend != 0)
+	corr_mat[i*total_rows + j] = (tp * tn - fp * fn) / dividend;
+      else
+	corr_mat[i*total_rows + j] = CMCC_INVALID_VAL;
       
-      // diff the contact matrices and get the cmcc
+      // cout << corr_mat[i*total_rows + j] << endl;
     }
+    
+    delete[]contact_matx_ref;
   }
 }

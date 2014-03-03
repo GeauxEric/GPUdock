@@ -53,8 +53,10 @@ void DumpLigRecord (const LigRecord *, const int, const char*);
 int minimal_int (const int, const int);
 void MakeDir (const char *);
 
-void GenCorrMat (int * corr_mat, float * track_mat, int total_rows, Ligand * lig, Protein * prt);
 
+void MoveLig (Ligand * lig, float vect[6]);
+
+void GenCorrMat (float * corr_mat, float * track_mat, int total_rows, Ligand * lig, Protein * prt, EnePara * enepara);
 
 
 #endif // UTIL_H
