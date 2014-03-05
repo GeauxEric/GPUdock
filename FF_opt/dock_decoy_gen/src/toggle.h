@@ -20,6 +20,13 @@
 // use bayesian force field
 #define IS_BAYE 0
 
+// normalize the energy value
+#define IS_NORM 0
+
+// combine energy values
+#define IS_OPT 0
+
+
 
 #endif // TOGGLE_H
 

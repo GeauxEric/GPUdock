@@ -56,7 +56,7 @@ void MakeDir (const char *);
 
 
 
-void GenCorrMat (float * corr_mat, const float * track_mat, const int total_rows, Ligand * lig, const Protein * prt, const EnePara * enepara);
+void GenCorrMat (float * corr_mat, const float * track_mat, const int total_rows, Ligand * lig, const Protein * prt, const EnePara * enepara, ComplexSize complexsize);
 
 #endif // UTIL_H
 

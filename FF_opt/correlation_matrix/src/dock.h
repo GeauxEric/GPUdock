@@ -78,6 +78,10 @@ struct InputFiles
 };
 
 
+struct OutputFiles
+{
+  std::string corr_mat_path;
+};
 
 
 

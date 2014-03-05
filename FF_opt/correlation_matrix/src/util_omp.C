@@ -1301,7 +1301,7 @@ CalcCorrMat (const int * contact_matx_ref, const Ligand * mylig, const Protein *
 // }
 
 void 
-GenCorrMat (float * corr_mat, const float * track_mat, const int total_rows, Ligand * lig, const Protein * prt, const EnePara * enepara)
+GenCorrMat (float * corr_mat, const float * track_mat, const int total_rows, Ligand * lig, const Protein * prt, const EnePara * enepara, ComplexSize complexsize)
 {
   // for (int i = 0; i < total_rows; i++) {
   //   float move_vect0[6];
@@ -1320,12 +1320,23 @@ GenCorrMat (float * corr_mat, const float * track_mat, const int total_rows, Lig
   // }
 
   Ligand * lig0;
-  Ligand * lig1;
   const Protein * prt0; 
-  const Protein * prt1;
   
   const int contact_ref_size = lig->lna * prt->pnp;
   int * contact_matx_ref = new int[contact_ref_size];
+
+  const int num_threads = 2;
+  // t = omp_get_num_procs();
+  omp_set_num_threads(num_threads);
+
+  const int n_lig = complexsize.n_lig;
+
+  Ligand ** ligs;
+  ligs = new Ligand * [num_threads];
+  for (int i = 0; i < num_threads; i++) {
+    ligs[i] = new Ligand[n_lig];
+    memcpy(ligs[i], lig, sizeof(Ligand) * n_lig);
+  }
 
   for (int i = 0; i < total_rows; i++) {
     // load ith row from track matrix
@@ -1344,11 +1355,7 @@ GenCorrMat (float * corr_mat, const float * track_mat, const int total_rows, Lig
     
     InitRefMat(contact_matx_ref, lig0, prt0, enepara);
 
-    // const int num_threads = 2;
-    // t = omp_get_num_procs();
-    // omp_set_num_threads(num_threads);
-      
-    // #pragma omp parallel for private (lig1, prt1, lig, prt, move_vect1, lig1_conf, prt1_conf, track_addr1) 
+#pragma omp parallel for firstprivate(ligs)
     for (int j = i; j < total_rows; j++) {
 
       float move_vect1[6];
@@ -1360,13 +1367,21 @@ GenCorrMat (float * corr_mat, const float * track_mat, const int total_rows, Lig
       lig1_conf = (int) track_addr1[6];
       prt1_conf = (int) track_addr1[7];
 
-      lig1 = &lig[lig1_conf];
-      prt1 = &prt[prt1_conf];
+      const int thread_id = omp_get_thread_num();
+
+      Ligand * lig1 = &ligs[thread_id][lig1_conf];
+      const Protein * prt1 = &prt[prt1_conf];
 
       MoveLig(lig1, move_vect1);
 
       corr_mat[i*total_rows + j] = CalcCorrMat(contact_matx_ref, lig1, prt1, enepara);
     }
   }
+
+  for (int i = 0; i < num_threads; i++)
+    delete [] ligs[i];
+
+  delete [] ligs;
+    
   delete[]contact_matx_ref;
 }

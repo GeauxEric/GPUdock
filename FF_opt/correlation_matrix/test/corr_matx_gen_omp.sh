@@ -5,7 +5,7 @@ echo $complex
 
 #track=${complex}.high_bk
 track=1abeA2.high_bk
-corr_mat_ofn=${track}.mat
+corr_mat_ofn=${track}.mat_omp
 total_row=$(wc -l ${track}|awk '{print $1}')
 pdb=$(echo ${complex:0:5}).pdb
 ff=${complex}-0.4.ff
@@ -15,7 +15,7 @@ working_dir=./
 ff_dir=/work/jaydy/dat/astex/${complex}/
 
 parameter_dir=~/dat/
-bin=/home/jaydy/bin/corr_matx_gen
+bin=/home/jaydy/bin/corr_matx_gen_omp
 
 mkdir -p ${working_dir}
 

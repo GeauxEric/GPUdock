@@ -9,7 +9,7 @@
 #include "size.h"
 #include "dock.h"
 #include "run.h"
-#include "util.h"
+#include "util_omp.h"
 #include "load.h"
 #include "corr_matx_gen.h"
 
@@ -115,7 +115,7 @@ main (int argc, char **argv)
   begin = clock();
 
   // generate correllation matrix
-  GenCorrMat (correlation_mat, track_mat, total_rows, lig, prt, enepara);
+  GenCorrMat (correlation_mat, track_mat, total_rows, lig, prt, enepara, complexsize);
   
   end = clock();
   time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
