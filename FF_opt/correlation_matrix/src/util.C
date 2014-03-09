@@ -33,17 +33,24 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara,
 
   ////////////////////////////////////////////////////////////////////////////////
   // default settings
-  float ts = 0.001f;		// translational scale
-  float rs = 3.1415f;		// rotational scale
+  float ts = 0.02f;		// translational scale
+  float rs = 0.08f;		// rotational scale
 
-  exchgpara->floor_temp = 0.3f;
-  exchgpara->ceiling_temp = 0.3f;
+  exchgpara->floor_temp = 0.0044f;
+  exchgpara->ceiling_temp = 0.036f;
 
   mcpara->steps_total = 3000;
   mcpara->steps_per_dump = STEPS_PER_DUMP;
   mcpara->steps_per_exchange = 5;
 
   inputfiles->weight_file.path = "08ff_opt";
+  inputfiles->lhm_file.ligand_id = "1a42A1";
+  inputfiles->prt_file.path = "1a42A.pdb";
+  inputfiles->lhm_file.path = "1a42A1-0.4.ff";
+  inputfiles->lig_file.path = "1a42A1.sdf";
+  inputfiles->track_file.path = "1a42A1_0.trace";
+  outputfile->corr_mat_path = "1a42A1_0.trace.mat";
+  inputfiles->track_file.total_rows = 10000;
 
 #if IS_BAYE == 1
   inputfiles->norpara_file.path_a = "baye_nor_a";
@@ -149,20 +156,20 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara,
     }
   }
 
-  if (!protein_opt) {
-    cout << "Provide target protein structure" << endl;
-    exit (EXIT_FAILURE);
-  }
+  // if (!protein_opt) {
+  //   cout << "Provide target protein structure" << endl;
+  //   exit (EXIT_FAILURE);
+  // }
 
-  if (!compounds_opt) {
-    cout << "Provide compound library in SD format" << endl;
-    exit (EXIT_FAILURE);
-  }
+  // if (!compounds_opt) {
+  //   cout << "Provide compound library in SD format" << endl;
+  //   exit (EXIT_FAILURE);
+  // }
 
-  if (!lhm_opt) {
-    cout << "Provide LHM potentials" << endl;
-    exit (EXIT_FAILURE);
-  }
+  // if (!lhm_opt) {
+  //   cout << "Provide LHM potentials" << endl;
+  //   exit (EXIT_FAILURE);
+  // }
 
   mcpara->move_scale[0] = ts;
   mcpara->move_scale[1] = ts;
@@ -1303,22 +1310,6 @@ CalcCorrMat (const int * contact_matx_ref, const Ligand * mylig, const Protein *
 void 
 GenCorrMat (float * corr_mat, const float * track_mat, const int total_rows, Ligand * lig, const Protein * prt, const EnePara * enepara)
 {
-  // for (int i = 0; i < total_rows; i++) {
-  //   float move_vect0[6];
-  //   int lig0_conf, prt0_conf;
-
-  //   const float *init0 = &track_mat[i*TOTAL_COL];
-
-  //   for (int i = 0; i < 6; i++){
-  //     move_vect0[i] = init0[i];
-  //     cout << move_vect0[i] << " ";
-  //   }
-
-  //   lig0_conf = (int) init0[6];
-  //   prt0_conf = (int) init0[7];
-  //   cout << lig0_conf << " " << prt0_conf << endl;  
-  // }
-
   Ligand * lig0;
   Ligand * lig1;
   const Protein * prt0; 
@@ -1328,14 +1319,14 @@ GenCorrMat (float * corr_mat, const float * track_mat, const int total_rows, Lig
   int * contact_matx_ref = new int[contact_ref_size];
 
   for (int i = 0; i < total_rows; i++) {
-    // load ith row from track matrix
+    // load ith row 
     float move_vect0[6];
     int lig0_conf, prt0_conf;
 
     const float *track_addr0 = &track_mat[i*TOTAL_COL];
     memcpy (move_vect0, track_addr0, sizeof(float) * 6);
-    lig0_conf = (int) track_addr0[6];
-    prt0_conf = (int) track_addr0[7];
+    prt0_conf = (int) track_addr0[6];
+    lig0_conf = (int) track_addr0[7];
 
     lig0 = &lig[lig0_conf];
     prt0 = &prt[prt0_conf];
@@ -1344,21 +1335,16 @@ GenCorrMat (float * corr_mat, const float * track_mat, const int total_rows, Lig
     
     InitRefMat(contact_matx_ref, lig0, prt0, enepara);
 
-    // const int num_threads = 2;
-    // t = omp_get_num_procs();
-    // omp_set_num_threads(num_threads);
-      
-    // #pragma omp parallel for private (lig1, prt1, lig, prt, move_vect1, lig1_conf, prt1_conf, track_addr1) 
+    // load jth row ;
     for (int j = i; j < total_rows; j++) {
-
       float move_vect1[6];
       int lig1_conf, prt1_conf;
       const float *track_addr1;
 
       track_addr1 = &track_mat[j*TOTAL_COL];
       memcpy(move_vect1, track_addr1, sizeof(float) * 6);
-      lig1_conf = (int) track_addr1[6];
-      prt1_conf = (int) track_addr1[7];
+      prt1_conf = (int) track_addr1[6];
+      lig1_conf = (int) track_addr1[7];
 
       lig1 = &lig[lig1_conf];
       prt1 = &prt[prt1_conf];
