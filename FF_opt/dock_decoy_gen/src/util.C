@@ -32,17 +32,21 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara,
 
   ////////////////////////////////////////////////////////////////////////////////
   // default settings
-  float ts = 0.001f;		// translational scale
-  float rs = 3.1415f;		// rotational scale
+  float ts = 0.02f;		// translational scale
+  float rs = 0.08f;		// rotational scale
 
-  exchgpara->floor_temp = 0.3f;
-  exchgpara->ceiling_temp = 0.3f;
+  exchgpara->floor_temp = 0.0044f;
+  exchgpara->ceiling_temp = 0.036f;
 
   mcpara->steps_total = 3000;
   mcpara->steps_per_dump = STEPS_PER_DUMP;
   mcpara->steps_per_exchange = 5;
 
   inputfiles->weight_file.path = "08ff_opt";
+  inputfiles->lhm_file.ligand_id = "1a42A1";
+  inputfiles->prt_file.path = "1a42A.pdb";
+  inputfiles->lhm_file.path = "1a42A1-0.4.ff";
+  inputfiles->lig_file.path = "1a42A1.sdf";
 
 #if IS_BAYE == 1
   inputfiles->norpara_file.path_a = "baye_nor_a";
@@ -139,20 +143,20 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara,
     }
   }
 
-  if (!protein_opt) {
-    cout << "Provide target protein structure" << endl;
-    exit (EXIT_FAILURE);
-  }
+  // if (!protein_opt) {
+  //   cout << "Provide target protein structure" << endl;
+  //   exit (EXIT_FAILURE);
+  // }
 
-  if (!compounds_opt) {
-    cout << "Provide compound library in SD format" << endl;
-    exit (EXIT_FAILURE);
-  }
+  // if (!compounds_opt) {
+  //   cout << "Provide compound library in SD format" << endl;
+  //   exit (EXIT_FAILURE);
+  // }
 
-  if (!lhm_opt) {
-    cout << "Provide LHM potentials" << endl;
-    exit (EXIT_FAILURE);
-  }
+  // if (!lhm_opt) {
+  //   cout << "Provide LHM potentials" << endl;
+  //   exit (EXIT_FAILURE);
+  // }
 
   mcpara->move_scale[0] = ts;
   mcpara->move_scale[1] = ts;

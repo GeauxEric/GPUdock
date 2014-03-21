@@ -296,7 +296,7 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
     ehpc[0] = ehpc[0] / lna_dc;
     ekde[0] = ekde[0] / lna_dc;
     
-
+#if IS_NORM == 1
     // calculate normalized energy
     evdw[0] = enepara_dc->a_para[0] * evdw[0] + enepara_dc->b_para[0];
     eele[0] = enepara_dc->a_para[1] * eele[0] + enepara_dc->b_para[1];
@@ -307,6 +307,7 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
     epsp[0] = enepara_dc->a_para[6] * epsp[0] + enepara_dc->b_para[6];
     ekde[0] = enepara_dc->a_para[7] * ekde[0] + enepara_dc->b_para[7];
     elhm[0] = enepara_dc->a_para[8] * elhm[0] + enepara_dc->b_para[8];
+#endif
 
 #if IS_BAYE == 1
     // calculate conditional prob belonging to high decoy
@@ -346,7 +347,7 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
     const float etotal = prob_l - prob_h;
 
 #elif IS_BAYE == 0
-
+#if IS_OPT == 1
     const float etotal =
       enepara_dc->w[0] * evdw[0] +
       enepara_dc->w[1] * eele[0] +
@@ -357,6 +358,9 @@ CalcEnergy_d (const int bidx, Ligand * __restrict__ mylig, const Protein * myprt
       enepara_dc->w[6] * ekde[0] +
       enepara_dc->w[7] * elhm[0] +
       enepara_dc->w[8] * edst;
+#elif IS_OPT == 0
+    const float etotal = evdw[0] + edst;
+#endif
 #endif
 
     float * e = &mylig->energy_new.e[0];

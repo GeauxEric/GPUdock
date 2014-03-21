@@ -42,9 +42,11 @@ $(EXE): $(OBJ_CPU) $(OBJ_GPU)
 	@cp $(EXE) ../bin/
 	@cp $(EXE) ~/bin/
 	@cp $(EXE) ../test/
+	@cp $(EXE) ~/work/bin/
 	@echo "cp $(EXE) ../bin/"
 	@echo "cp $(EXE) ~/bin/"
 	@echo "cp $(EXE) ../test/"
+	@echo "@cp $(EXE) ~/work/bin/"
 
 hdf5io.o: hdf5io.C
 	h5c++ -c $<
