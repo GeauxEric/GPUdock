@@ -221,10 +221,6 @@ struct Ligand
                                 // n == index???
 
   int lna;			// number of ligand atoms               used
-  
-  // confusion matrix
-  int native_confusion_matx[MAXLIG][MAXPRO];
-  int decoy_confusion_matx[MAXLIG][MAXPRO];
 };
 
 

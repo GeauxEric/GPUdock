@@ -1,8 +1,0 @@
-* Preface
-  corellation marix calculation using gpu accelerated docking program
-  
-* Code development
-  1. [ ] load the track file
-  2. [ ] 
-      
-

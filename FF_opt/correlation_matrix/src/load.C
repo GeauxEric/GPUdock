@@ -1428,11 +1428,16 @@ loadTrack(TrackFile * track_file, float * mat){
 
   FILE *file;
   file=fopen(ifn.c_str(), "r");
+
+  cout << ifn << endl;
+  cout << total_rows << endl;
+  cout << total_cols << endl;
+
   
   for (int i = 0; i < total_rows; i++){
     for (int j = 0; j < total_cols; j++){
       if (!fscanf(file, "%f", &mat[i*total_cols + j]))
-	break;
+      	break;
     }
   }
 }

@@ -27,6 +27,7 @@ main (int argc, char **argv)
 
   srand (time (0));
 
+
   McPara *mcpara = new McPara;
   McLog *mclog = new McLog;
   ExchgPara *exchgpara = new ExchgPara;
@@ -37,6 +38,7 @@ main (int argc, char **argv)
   
   ofstream of;
   of.open(outfile->corr_mat_path.c_str());
+
 
   // load into preliminary data structures
   Ligand0 *lig0 = new Ligand0[MAXEN2];
@@ -51,6 +53,7 @@ main (int argc, char **argv)
   int total_cols = TOTAL_COL;
   float *track_mat = new float[total_rows * total_cols];
   float *correlation_mat = new float[total_rows * total_rows];
+  
 
   // loading
   loadTrack(&inputfiles->track_file, track_mat);
@@ -60,6 +63,7 @@ main (int argc, char **argv)
   loadEnePara (&inputfiles->enepara_file, enepara0);
   loadWeight(&inputfiles->weight_file, enepara0);
   loadNorPara(&inputfiles->norpara_file, enepara0);
+
 
   // sizes
   ComplexSize complexsize;
@@ -82,12 +86,16 @@ main (int argc, char **argv)
   Temp *temp = new Temp[complexsize.n_tmp];
   Replica *replica = new Replica[complexsize.n_rep];
 
+
   OptimizeLigand (lig0, lig, complexsize);
+
   OptimizeProtein (prt0, prt, enepara0, lig0, complexsize);
+
   OptimizePsp (psp0, psp, lig, prt);
   OptimizeKde (kde0, kde);
   OptimizeMcs (mcs0, mcs, complexsize);
   OptimizeEnepara (enepara0, enepara);
+
 
   delete[]lig0;
   delete[]prt0;
@@ -114,12 +122,13 @@ main (int argc, char **argv)
   double time_spent;
   begin = clock();
 
+  cout << "begin correlation matrix generation" << endl;
+
   // generate correllation matrix
   GenCorrMat (correlation_mat, track_mat, total_rows, lig, prt, enepara);
   
   end = clock();
   time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-  cout << "execution time:\t" << time_spent << endl;
 
   // flip the matrix
   for (int i = 0; i < total_rows; i++)
