@@ -21,6 +21,9 @@ Accept_d (const int bidx, Ligand * __restrict__ mylig, const float mybeta, const
 #elif IS_RANDOM == 1
       const float delta_energy = mylig->energy_new.e[MAXWEI - 1] - mylig->energy_old.e[MAXWEI -1];
       is_accept = (MyRand_d () < expf (delta_energy * mybeta));  // mybeta is less than zero
+#if IS_REVERSE == 1
+      is_accept = (MyRand_d () < expf (- delta_energy * mybeta));
+#endif
       // printf ("delta_energy: %.8f\n", delta_energy);
       // printf("is_accept: %d\n", is_accept);
       // printf("Myrand_d: %f\n", MyRand_d());

@@ -12,8 +12,9 @@ HEADPATH := -I. -Iinclude_cuda -Ih5
 #LIBPATH := -L/usr/local/cuda-4.2/lib64
 #LIBPATH := -L/usr/local/cuda-4.2.9/lib64
 #LIBPATH := -L/usr/local/cuda-5.5/lib64
-#LIBPATH := -L/usr/local/packages/cuda/5.0/lib64 -L/usr/local/packages/hdf5/1.8.10/gcc-4.4.6-openmpi-1.6.2/lib
+# LIBPATH := -L/usr/local/packages/cuda/5.0/lib64 -L/usr/local/packages/hdf5/1.8.10/gcc-4.4.6-openmpi-1.6.2/lib
 LIBPATH := -L/usr/local/packages/cuda/4.2.9/cuda/lib64 -L/usr/local/packages/hdf5/1.8.10/gcc-4.4.6-openmpi-1.6.2/lib
+#LIBPATH := -L/usr/local/packages/cuda/4.2.9/cuda/lib64 -L/home/jaydy/.local/lib
 LINKFLAGS := -lm -lcudart -lhdf5 #-lcudadevrt
 
 ARCHFLAG := -gencode arch=compute_20,code=sm_20
@@ -40,6 +41,7 @@ $(EXE): $(OBJ_CPU) $(OBJ_GPU)
 	@cp $(EXE) ../bin/
 	@cp $(EXE) ~/bin/
 	@cp $(EXE) ../test/
+	@cp $(EXE) ~/work/bin/
 
 hdf5io.o: hdf5io.C
 	h5c++ -c $<

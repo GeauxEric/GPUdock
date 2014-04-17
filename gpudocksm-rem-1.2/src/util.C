@@ -42,14 +42,15 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara,
   mcpara->steps_per_dump = STEPS_PER_DUMP;
   mcpara->steps_per_exchange = 5;
 
-  inputfiles->weight_file.path = "08ff_opt";
 
 #if IS_BAYE == 1
   inputfiles->norpara_file.path_a = "baye_nor_a";
   inputfiles->norpara_file.path_b = "baye_nor_b";
 #elif IS_BAYE == 0
-  inputfiles->norpara_file.path_a = "nor_a";
-  inputfiles->norpara_file.path_b = "nor_b";
+  inputfiles->norpara_file.path_a = "08_nor_a";
+  inputfiles->norpara_file.path_b = "08_nor_b";
+  // inputfiles->norpara_file.path_a = "08_nor_a";
+  // inputfiles->norpara_file.path_b = "08_nor_b";
 #endif
 
   inputfiles->enepara_file.path = "gpudocksm.ff";
@@ -81,6 +82,9 @@ ParseArguments (int argc, char **argv, McPara * mcpara, ExchgPara * exchgpara,
     if (!strcmp (argv[i], "-s") && i < argc) {
       inputfiles->lhm_file.path = argv[i + 1];
       lhm_opt = true;
+    }
+    if (!strcmp (argv[i], "-opt_fn") && i < argc) {
+      inputfiles->weight_file.path = argv[i + 1];
     }
     if (!strcmp (argv[i], "-l") && i < argc) {
       inputfiles->lig_file.path = argv[i + 1];
