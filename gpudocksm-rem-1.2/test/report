@@ -1,0 +1,17 @@
+Mon May 12 16:40:45 CDT 2014
+1a07C1
+generate ligand conf on the fly
+------------------------------------------------------------
+                         GPU-dockSM-linear
+                         version 1.2
+
+   GPU-accelerated mixed-resolution ligand docking using
+                Replica Exchange Monte Carlo
+------------------------------------------------------------
+
+RUNNING single temperature Monte Carlo
+FLOOR temperature used in simulaition
+Setting up temperature replicas
+================================================================================
+temp # 0			0.044000
+Mon May 12 16:40:50 CDT 2014
