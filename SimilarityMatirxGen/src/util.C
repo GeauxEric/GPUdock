@@ -128,9 +128,10 @@ void
 SaveSimilarityMatrix (float * similarity_matrix, int sz, string simi_path) 
 {
   ofstream of (simi_path.c_str());
+  of << sz << endl;
   for (int i = 0; i < sz; i++) {
     for (int j = 0; j < sz; j++) {
-      of << " " << similarity_matrix[i * sz + j];
+      of << similarity_matrix[i * sz + j] << " ";
     }
     of << endl;
   }

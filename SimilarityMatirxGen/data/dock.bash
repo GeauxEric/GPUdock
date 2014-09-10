@@ -19,8 +19,8 @@ nor_a_file=${parameters_dir}/08_nor_a
 nor_b_file=${parameters_dir}/08_nor_b
 para_file=${parameters_dir}/paras
 
-near_native_trace_file=/work/jaydy/GitHub/GPUdock/SimilarityMatirxGen/data/test_matrix.txt
-near_native_simi_file=/work/jaydy/GitHub/GPUdock/SimilarityMatirxGen/data/test_simi_matrix.txt
+near_native_trace_file=/work/jaydy/GitHub/GPUdock/SimilarityMatirxGen/data/1a07C1.tr
+near_native_simi_file=/work/jaydy/GitHub/GPUdock/SimilarityMatirxGen/data/1a07C1_simi.txt
 
 
 cmd="\
