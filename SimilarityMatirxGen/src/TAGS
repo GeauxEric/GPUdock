@@ -1,0 +1,2343 @@
+
+/work/jaydy/working/SimilarityMatrix/release/src/run.cu,12
+Run 33,455
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/analysis.C,13
+main 11,118
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/cpu_mic/dock_cpu.h,1540
+#define  DOCK_CPU_H2,20
+struct LigPoint7,44
+  int t;9,62
+  float c;10,117
+  int n;11,174
+struct Ligand16,235
+  LigCoord coord_orig;21,396
+  LigCoord coord_new;22,419
+  LigPoint lig_point[lig_point25,443
+  float movematrix_old[movematrix_old30,515
+  float movematrix_new[movematrix_new31,562
+  Energy energy_old;33,612
+  Energy energy_new;34,679
+  int lna;35,746
+struct PrtPoint41,811
+  float x;43,829
+  float y;44,860
+  float z;45,891
+  int t;47,923
+  int c;48,957
+  float ele;51,994
+  int seq3r;54,1124
+  int c0_and_d12_or_c2;55,1190
+  float hpp;56,1262
+struct Protein62,1320
+  PrtPoint prt_point[prt_point64,1337
+  int pnp;65,1367
+  float pocket_center[pocket_center66,1418
+struct Psp72,1451
+  float psp[psp74,1464
+struct KdePoint80,1638
+  float x;82,1656
+  float y;83,1713
+  float z;84,1770
+  int t;85,1827
+struct Kde89,1887
+  KdePoint kde_point[kde_point91,1900
+  int pnk;92,1930
+struct McsPoint97,1994
+  float x;99,2012
+  float y;100,2083
+  float z;101,2139
+struct Mcs105,2200
+  McsPoint mcs_point[mcs_point107,2213
+  float tcc;108,2243
+struct EnePara113,2313
+  float pa[pa116,2339
+  float lj0,117,2370
+  float lj0, lj1;117,2370
+  float el0;120,2408
+  float el1;121,2421
+  float ele[ele122,2434
+  float a1;123,2455
+  float b1;124,2489
+  float pmf[pmf127,2537
+  float hdb[hdb128,2599
+  float hpp[hpp131,2679
+  float hpl[hpl132,2700
+  float kde2;135,2734
+  float kde3;136,2771
+  float a_para[a_para140,2857
+  float b_para[b_para141,2925
+  float w[w142,2993
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/cpu_mic/move_cpu.C,15
+Move_d 14,150
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/cpu_mic/util_cpu.h,21
+#define  UTIL_H2,16
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/cpu_mic/cpu.h,22
+#define  GPU_CUH2,17
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/cpu_mic/cpu.C,999
+Protein *prt_dc;prt_dc14,195
+Psp *psp_dc;psp_dc15,212
+Kde *kde_dc;kde_dc16,225
+Mcs *mcs_dc;mcs_dc17,238
+EnePara *enepara_dc;enepara_dc18,251
+Temp *temp_dc;temp_dc19,272
+Ligand *lig_dc;lig_dc21,288
+Replica *replica_dc;replica_dc22,304
+float *etotal_dc;etotal_dc23,325
+LigMoveVector *ligmovevector_dc;ligmovevector_dc24,343
+LigRecord *ligrecord_dc;ligrecord_dc25,376
+TmpEnergy *tmpenergy_dc;tmpenergy_dc26,401
+int *acs_dc;acs_dc27,426
+int steps_per_exchange_dc;33,469
+int steps_per_dump_dc;34,496
+int steps_total_dc;35,519
+int is_random_dc;36,539
+float * move_scale_dc;37,557
+float enepara_lj0_dc;40,582
+float enepara_lj1_dc;41,604
+float enepara_el0_dc;42,626
+float enepara_el1_dc;43,648
+float enepara_a1_dc;44,670
+float enepara_b1_dc;45,691
+float enepara_kde2_dc;46,712
+float enepara_kde3_dc;47,735
+int lna_dc;52,797
+int pnp_dc;53,809
+int pnk_dc;54,821
+int n_pos_dc;55,833
+int n_lig_dc;58,867
+int n_prt_dc;59,881
+int n_tmp_dc;60,895
+int n_rep_dc;61,909
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/cpu_mic/calcenergy_cpu.C,21
+CalcEnergy_d 25,202
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/cpu_mic/accept_cpu.C,17
+Accept_d 14,124
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/cpu_mic/montecarlo_cpu.C,46
+MonteCarlo_Init_d 13,89
+MonteCarlo_d 29,492
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/cpu_mic/util_cpu.C,674
+Usage 22,307
+ParseArguments 30,398
+OptimizeLigand 143,3970
+void InitLigCoord 171,4716
+CopyProteinResidue 198,5522
+OptimizeProtein 223,6380
+OptimizePsp 281,7658
+OptimizeKde 321,8453
+OptimizeMcs 333,8723
+OptimizeEnepara 350,9092
+SetTemperature 436,11369
+SetReplica 466,12131
+SetMcLog 490,12744
+PrintEnergy1 508,12993
+PrintCsv 543,13892
+PrintEnergy2 579,14479
+PrintEnergy3 618,15130
+PrintMoveVector 657,15813
+PrintMoveRecord 669,15991
+PrintLigRecord 686,16425
+PrintRepRecord 706,16907
+PrintRepRecord2 747,17799
+PrintLigCoord 791,18795
+PrintLigand 821,19621
+PrintProtein 845,20378
+PrintDataSize 864,20899
+PrintSummary 897,21862
+minimal_int 992,25179
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/cpu_mic/util_d_cpu.C,83
+InitAcs_d 18,157
+InitLigRecord_d 26,240
+RecordLigand_d 49,768
+MyRand_d 62,1175
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/cpu_mic/run_cpu.C,118
+const int myreplica 45,494
+const int iter_begin 48,575
+const int iter_end 49,601
+const int arg 50,660
+Run 57,695
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/count.C,13
+main 17,197
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/2dto1d.c,52
+#define LIGRECORD(2,82
+#define LIGRECORD_DC(3,146
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/old_cpu/move.cu,13
+Move 11,141
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/old_cpu/simulate.cu,41
+  double  t0 9,128
+  double  t1 11,218
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/old_cpu/montecarlo.cu,41
+MonteCarlo_Init 9,46
+MonteCarlo 27,381
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/old_cpu/calcenergy.cu,18
+CalcEnergy 11,81
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/old_cpu/accept.cu,15
+Accept 13,119
+
+/work/jaydy/working/SimilarityMatrix/release/src/util.C,812
+Usage 29,384
+Banner 41,479
+read2D(53,1027
+ParseArguments 77,1354
+OptimizeLigand 268,6056
+InitLigCoord 298,6778
+PlaceLigand 318,7314
+PrintLigCoord2File(366,8826
+CopyProteinResidue 393,9340
+OptimizeProtein 418,10108
+OptimizePsp 476,11386
+OptimizeKde 516,12181
+OptimizeMcs 528,12411
+OptimizeEnepara 545,12746
+SetTemperature 631,15051
+SetReplica 678,16277
+SetMcLog 702,16890
+PrintEnergy1 720,17145
+PrintStepTrack 753,18024
+PrintCsv 792,18808
+PrintEnergy2 828,19429
+PrintEnergy3 866,20073
+PrintMoveVector 905,20756
+PrintMoveRecord 917,20935
+PrintTrack 929,21282
+PrintLigRecord 949,21830
+PrintRepRecord 969,22310
+PrintRepRecord2 1010,23202
+PrintLigCoord 1052,24191
+PrintLigand 1082,25017
+PrintProtein 1107,25747
+PrintDataSize 1126,26218
+PrintSummary 1159,27181
+minimal_int 1288,32002
+
+/work/jaydy/working/SimilarityMatrix/release/src/hdf5io.h,45
+#define  HDF5IO_H2,18
+#define DATASET 5,38
+
+/work/jaydy/working/SimilarityMatrix/release/src/toggle.h,481
+#define  TOGGLE_H2,18
+#define USE_GPU 7,117
+#define USE_CPU 8,135
+#define USE_MIC 9,153
+#define COMPUTE_DEVICE 10,171
+#define IS_OUTPUT 15,222
+#define IS_FORCE_TO_ACCEPT 18,285
+#define IS_EXCHANGE 21,335
+#define IS_AWAY 24,390
+#define IS_CONTROL_MOVE 27,445
+#define IS_CALCU_MCC 30,489
+#define IS_CALCU_RMSD 33,531
+#define IS_LINEAR 36,611
+#define IS_BAYE 39,660
+#define IS_CALCU_TRACE 42,698
+#define IS_CALCU_DOCK 45,745
+#define IS_CALCU_SIMILARITY_MATRIX 48,801
+
+/work/jaydy/working/SimilarityMatrix/release/src/calcenergy_d.cu,21
+CalcEnergy_d 24,212
+
+/work/jaydy/working/SimilarityMatrix/release/src/data.h,25
+#define __DATA_H_17,860
+
+/work/jaydy/working/SimilarityMatrix/release/src/dock.C,101
+InitConfMatrix 20,249
+PrintInitConfMatrix 46,968
+CalculateContactModeScore 62,1329
+main 102,2444
+
+/work/jaydy/working/SimilarityMatrix/release/src/data.C,271
+std::string three2oneS 21,901
+three2oneC 94,2120
+std::string one2three 166,3322
+getResCode 239,4539
+getResCodeOne 290,5538
+std::string getResName 340,6496
+getPntCode 391,7504
+std::string getPntName 461,8907
+getLigCode 532,10323
+std::string getLigName 589,11437
+
+/work/jaydy/working/SimilarityMatrix/release/src/debug.h,222
+#define  DEBUG_H2,17
+#define     DEBUG_1_(5,36
+#define     DEBUG_2_(6,117
+#define     DEBUG_3_(7,198
+#define     DEBUG_4_(8,279
+#define     DEBUG_TEST	9,360
+#define     UN_COMPILE 11,412
+#define     COMPILE 12,440
+
+/work/jaydy/working/SimilarityMatrix/release/src/gpusingle.cu,76
+  int i 3,2
+  for (int s1 = 0; s1 < mcpara->steps_total;steps_total7,122
+
+/work/jaydy/working/SimilarityMatrix/release/src/calcmcc_d.cu,45
+InitRefMatrix_d 58,1049
+CalcMcc_d 149,3369
+
+/work/jaydy/working/SimilarityMatrix/release/src/load.h,21
+#define  LOAD_H2,16
+
+/work/jaydy/working/SimilarityMatrix/release/src/distribution.h,1389
+#define __DISTRIBUTION_H_16,867
+#define VDW_NORM_HIGH_LOC 21,1021
+#define VDW_NORM_HIGH_SCALE 22,1068
+#define ELE_CAUCHY_HIGH_LOC 24,1116
+#define ELE_CAUCHY_HIGH_SCALE 25,1163
+#define PMF_LOGISTIC_HIGH_LOC 27,1211
+#define PMF_LOGISTIC_HIGH_SCALE 28,1259
+#define HPC_WALD_HIGH_LOC 30,1307
+#define HPC_WALD_HIGH_SCALE 31,1354
+#define HDB_NORM_HIGH_LOC 33,1401
+#define HDB_NORM_HIGH_SCALE 34,1448
+#define DST_LOGISTIC_HIGH_LOC 36,1496
+#define DST_LOGISTIC_HIGH_SCALE 37,1543
+#define PSP_LOGISTIC_HIGH_LOC 39,1591
+#define PSP_LOGISTIC_HIGH_SCALE 40,1638
+#define KDE_WALD_HIGH_LOC 42,1686
+#define KDE_WALD_HIGH_SCALE 43,1733
+#define LHM_LOGISTIC_HIGH_LOC 45,1781
+#define LHM_LOGISTIC_HIGH_SCALE 46,1828
+#define VDW_NORM_LOW_LOC 52,2003
+#define VDW_NORM_LOW_SCALE 53,2050
+#define ELE_CAUCHY_LOW_LOC 55,2098
+#define ELE_CAUCHY_LOW_SCALE 56,2145
+#define PMF_LOGISTIC_LOW_LOC 58,2193
+#define PMF_LOGISTIC_LOW_SCALE 59,2240
+#define HPC_WALD_LOW_LOC 61,2288
+#define HPC_WALD_LOW_SCALE 62,2335
+#define HDB_LOGISTIC_LOW_LOC 64,2383
+#define HDB_LOGISTIC_LOW_SCALE 65,2430
+#define DST_LOGISTIC_LOW_LOC 67,2478
+#define DST_LOGISTIC_LOW_SCALE 68,2525
+#define PSP_LAPLACE_LOW_LOC 70,2573
+#define PSP_LAPLACE_LOW_SCALE 71,2620
+#define KDE_WALD_LOW_LOC 73,2668
+#define KDE_WALD_LOW_SCALE 74,2714
+#define LHM_LOGISTIC_LOW_LOC 76,2762
+#define LHM_LOGISTIC_LOW_SCALE 77,2809
+
+/work/jaydy/working/SimilarityMatrix/release/src/combineenergy_d.cu,24
+CombineEnergy_d 24,212
+
+/work/jaydy/working/SimilarityMatrix/release/src/run.h,20
+#define  RUN_H2,15
+
+/work/jaydy/working/SimilarityMatrix/release/src/gpumulti.cu,373
+for (int i = 0; i < NGPU;7,28
+for (int s1 = 0; s1 < mcpara->steps_total;steps_total12,172
+cudaStream_t stream[stream52,1192
+for (int i = 0; i < NGPU;53,1219
+  cudaStreamCreate (&stream[stream54,1250
+for (int i = 0; i < NGPU;56,1284
+for (int i = 0; i < NGPU;61,1447
+for (int s1 = 0; s1 < mcpara->steps_total;steps_total66,1518
+for (int i = 0; i < NGPU;126,3252
+
+/work/jaydy/working/SimilarityMatrix/release/src/size.h,778
+#define __SIZE_H_17,860
+#define     NAMEMAX 19,879
+#define MAXPRO 22,927
+#define MAXLIG 25,972
+#define MAXEN1 28,1017
+#define MAXEN2 31,1057
+#define MAXLIG_NUM 34,1095
+#define MAXTMP 37,1160
+#define MAXREP 40,1216
+#define  MAXSWP 43,1256
+#define  MAXLIB 46,1303
+#define  MAXSDF 49,1343
+#define MAXTP1 52,1382
+#define MAXTP2 55,1419
+#define MAXTP3 58,1455
+#define MAXTP4 61,1502
+#define MAXFP1 64,1541
+#define  MAXFP2 67,1575
+#define  MAXWEI 70,1608
+#define MAXKDE 73,1647
+#define MAXPOS 76,1686
+#define MAXMCS 79,1748
+#define INITTEMP 84,1813
+#define PI 88,1880
+#define BADKDE 91,1972
+#define MAXSTRINGLENG 94,2031
+#define MCS_INVALID_COORD 97,2099
+#define CMCC_INVALID_VAL 100,2174
+#define BOLTZMANN_CONST 103,2230
+#define STEPS_PER_DUMP 106,2281
+
+/work/jaydy/working/SimilarityMatrix/release/src/dock.h,6303
+#define  DOCK_H2,16
+struct TraceFile12,117
+  std::string path;TraceFile::path14,136
+struct LigandFile17,182
+  std::string path;LigandFile::path19,202
+  std::string id;LigandFile::id20,239
+  std::string molid;LigandFile::molid21,272
+  int conf_total;LigandFile::conf_total23,304
+  int raw_conf;LigandFile::raw_conf24,360
+  int lna;LigandFile::lna26,436
+  int lnb;LigandFile::lnb27,477
+struct ProteinFile33,575
+  std::string path;ProteinFile::path35,596
+  std::string id;ProteinFile::id36,634
+  int conf_total;ProteinFile::conf_total38,668
+  int pnp;ProteinFile::pnp39,725
+  int pnr;ProteinFile::pnr40,766
+struct LhmFile44,804
+  std::string path;LhmFile::path46,821
+  std::string ligand_id;LhmFile::ligand_id47,841
+  int pos;LhmFile::pos49,867
+struct EneParaFile53,910
+  std::string path;EneParaFile::path55,931
+struct NorParaFile58,955
+  std::string path_a;NorParaFile::path_a60,976
+  std::string path_b;NorParaFile::path_b61,998
+struct WeightFile64,1024
+  std::string path;WeightFile::path66,1044
+struct InputFiles69,1068
+  LigandFile lig_file;InputFiles::lig_file71,1088
+  ProteinFile prt_file;InputFiles::prt_file72,1111
+  LhmFile lhm_file;InputFiles::lhm_file73,1135
+  EneParaFile enepara_file;InputFiles::enepara_file74,1155
+  WeightFile weight_file;InputFiles::weight_file75,1183
+  NorParaFile norpara_file;InputFiles::norpara_file76,1209
+  TraceFile trace_file;InputFiles::trace_file77,1237
+struct ComplexSize85,1270
+  int n_lig;ComplexSize::n_lig88,1312
+  int n_prt;ComplexSize::n_prt89,1350
+  int n_tmp;ComplexSize::n_tmp90,1389
+  int n_rep;ComplexSize::n_rep91,1427
+  int lna;ComplexSize::lna94,1513
+  int pnp;ComplexSize::pnp95,1551
+  int pnk;ComplexSize::pnk96,1590
+  int pos;ComplexSize::pos97,1625
+struct Energy106,1673
+  float e[Energy::e108,1689
+  float cmcc;Energy::cmcc124,1854
+  float rmsd;Energy::rmsd125,1868
+struct TmpEnergy130,1888
+  float vdw[TmpEnergy::vdw132,1907
+  float ele[TmpEnergy::ele133,1927
+  float pmf[TmpEnergy::pmf134,1947
+  float psp[TmpEnergy::psp135,1967
+  float hdb[TmpEnergy::hdb136,1987
+  float hpc_val[TmpEnergy::hpc_val138,2008
+  float kde_val[TmpEnergy::kde_val140,2033
+  float kde_sz[TmpEnergy::kde_sz141,2057
+  float rmsd_val[TmpEnergy::rmsd_val143,2081
+  float rmsd_sz[TmpEnergy::rmsd_sz144,2106
+struct ConfusionMatrix148,2135
+  int matrix[ConfusionMatrix::matrix150,2160
+  int lig_conf,ConfusionMatrix::lig_conf151,2190
+  int lig_conf, prt_conf;ConfusionMatrix::prt_conf151,2190
+  int lig_sz,ConfusionMatrix::lig_sz152,2216
+  int lig_sz, prt_sz;ConfusionMatrix::prt_sz152,2216
+struct LigCoord156,2243
+  float x[LigCoord::x158,2261
+  float y[LigCoord::y159,2300
+  float z[LigCoord::z160,2339
+  float center[LigCoord::center161,2378
+struct Ligand0179,2581
+  LigCoord coord_orig;Ligand0::coord_orig181,2598
+  int t[Ligand0::t183,2677
+  float c[Ligand0::c184,2740
+  int n[Ligand0::n185,2805
+  int lna;Ligand0::lna187,2869
+  int lnb;Ligand0::lnb188,2927
+  float pocket_center[Ligand0::pocket_center190,2990
+  float lens_rmsd;Ligand0::lens_rmsd194,3135
+  float mw;Ligand0::mw196,3205
+  float logp;Ligand0::logp197,3268
+  float psa;Ligand0::psa198,3333
+  float mr;Ligand0::mr199,3397
+  int hbd;Ligand0::hbd201,3461
+  int hba;Ligand0::hba202,3523
+  std::string a[Ligand0::a204,3586
+  std::string id;Ligand0::id205,3660
+  std::string smiles;Ligand0::smiles206,3728
+struct Protein0211,3806
+  float x[Protein0::x213,3824
+  float y[Protein0::y214,3889
+  float z[Protein0::z215,3954
+  int n[Protein0::n216,4019
+  int t[Protein0::t217,4086
+  int c[Protein0::c218,4149
+  int d[Protein0::d219,4212
+  int pnp;Protein0::pnp221,4276
+  int pnr;Protein0::pnr222,4334
+  int r[Protein0::r224,4397
+  int seq3[Protein0::seq3225,4464
+struct Psp0235,4635
+  float psp[Psp0::psp237,4649
+  int n;Psp0::n238,4732
+struct Kde0243,4797
+  float x[Kde0::x245,4811
+  float y[Kde0::y246,4876
+  float z[Kde0::z247,4941
+  int n[Kde0::n248,5006
+  int t[Kde0::t249,5073
+  int pnk;Kde0::pnk251,5137
+  int pns[Kde0::pns252,5195
+struct Mcs0261,5274
+  float x[Mcs0::x263,5288
+  float y[Mcs0::y264,5365
+  float z[Mcs0::z265,5442
+  int total;Mcs0::total267,5520
+  float tcc;Mcs0::tcc268,5601
+struct EnePara0273,5684
+  float vdw[EnePara0::vdw275,5702
+  float ele[EnePara0::ele276,5794
+  float pmf[EnePara0::pmf277,5884
+  float hpp[EnePara0::hpp278,5976
+  float hpl[EnePara0::hpl279,6049
+  float hdb[EnePara0::hdb280,6127
+  float lj[EnePara0::lj282,6220
+  float el[EnePara0::el283,6251
+  float kde;EnePara0::kde284,6292
+  float w[EnePara0::w286,6325
+  float a_para[EnePara0::a_para287,6373
+  float b_para[EnePara0::b_para288,6441
+struct Temp305,6527
+  float t;Temp::t307,6541
+  float minus_beta;Temp::minus_beta308,6552
+  int order;Temp::order309,6572
+struct Replica319,6644
+  int idx_rep;Replica::idx_rep321,6661
+  int idx_prt;Replica::idx_prt323,6695
+  int idx_tmp;Replica::idx_tmp324,6728
+  int idx_lig;Replica::idx_lig325,6765
+struct ExchgPara329,6802
+  float floor_temp;ExchgPara::floor_temp331,6821
+  float ceiling_temp;ExchgPara::ceiling_temp332,6881
+  int num_temp;ExchgPara::num_temp333,6944
+struct McPara337,7042
+  int steps_total;McPara::steps_total339,7058
+  int steps_per_dump;McPara::steps_per_dump340,7077
+  int steps_per_exchange;McPara::steps_per_exchange341,7099
+  float move_scale[McPara::move_scale343,7126
+  char outputdir[McPara::outputdir345,7187
+  char outputfile[McPara::outputfile346,7220
+struct McLog349,7258
+  double t0,McLog::t0351,7273
+  double t0, t1,McLog::t1351,7273
+  double t0, t1, t2;McLog::t2351,7273
+  int ac_mc;McLog::ac_mc352,7309
+  int acs_mc[McLog::acs_mc353,7348
+  int ac_temp_exchg;McLog::ac_temp_exchg354,7414
+  int acs_temp_exchg[McLog::acs_temp_exchg355,7435
+struct LigRecordSingleStep364,7531
+  Replica replica;LigRecordSingleStep::replica366,7560
+  Energy energy;LigRecordSingleStep::energy367,7579
+  float movematrix[LigRecordSingleStep::movematrix368,7596
+  int step;LigRecordSingleStep::step369,7659
+struct LigRecord375,7678
+  LigRecordSingleStep step[LigRecord::step377,7697
+struct LigMoveVector380,7745
+  float ele[LigMoveVector::ele382,7768
+
+/work/jaydy/working/SimilarityMatrix/release/src/util_d.cu,330
+InitAcs_d 18,168
+InitLigRecord_d 29,356
+RecordLigand_d 73,1306
+MyRand_d 103,2075
+SumReduction1D_d 134,2486
+SumReduction_int_1D_4_d 147,2732
+SumReduction1D_5_d 164,3120
+SumReduction2D_d 183,3557
+SumReduction2D_2_d 198,3850
+NormPdf(214,4240
+CauchyPdf(228,4514
+LogisticPdf(242,4770
+WaldPdf(256,5054
+LaplacePdf(274,5426
+
+/work/jaydy/working/SimilarityMatrix/release/src/gpu.cu,1648
+__constant__ Protein *prt_dc;prt_dc22,269
+__constant__ Psp *psp_dc;psp_dc23,299
+__constant__ Kde *kde_dc;kde_dc24,325
+__constant__ Mcs *mcs_dc;mcs_dc25,351
+__constant__ EnePara *enepara_dc;enepara_dc26,377
+__constant__ Temp *temp_dc;temp_dc27,411
+__constant__ Ligand *lig_dc;lig_dc29,440
+__constant__ Replica *replica_dc;replica_dc30,469
+__constant__ float *etotal_dc;etotal_dc31,503
+__constant__ LigMoveVector *ligmovevector_dc;ligmovevector_dc32,534
+__constant__ LigRecord *ligrecord_dc;ligrecord_dc33,580
+__constant__ TmpEnergy *tmpenergy_dc;tmpenergy_dc34,618
+__constant__ int *acs_mc_dc;acs_mc_dc35,656
+__constant__ int *acs_temp_exchg_dc;acs_temp_exchg_dc36,685
+__constant__ ConfusionMatrix *ref_matrix_dc;ref_matrix_dc37,722
+__constant__ int seed_dc;41,783
+__constant__ curandState *curandstate_dc;curandstate_dc42,809
+__constant__ int steps_per_exchange_dc;47,880
+__constant__ int steps_per_dump_dc;48,920
+__constant__ int steps_total_dc;49,956
+__constant__ float * move_scale_dc;50,989
+__constant__ float enepara_lj0_dc;52,1026
+__constant__ float enepara_lj1_dc;53,1061
+__constant__ float enepara_el0_dc;54,1096
+__constant__ float enepara_el1_dc;55,1131
+__constant__ float enepara_a1_dc;56,1166
+__constant__ float enepara_b1_dc;57,1200
+__constant__ float enepara_kde2_dc;58,1234
+__constant__ float enepara_kde3_dc;59,1270
+__constant__ int n_lig_dc;63,1327
+__constant__ int n_prt_dc;64,1354
+__constant__ int n_tmp_dc;65,1381
+__constant__ int n_rep_dc;66,1408
+__constant__ int lna_dc;69,1472
+__constant__ int pnp_dc;70,1497
+__constant__ int pnk_dc;71,1522
+__constant__ int pos_dc;72,1547
+
+/work/jaydy/working/SimilarityMatrix/release/src/exchangereplicas_d.cu,26
+ExchangeReplicas_d 8,149
+
+/work/jaydy/working/SimilarityMatrix/release/src/initcurand_d.cu,19
+InitCurand_d 5,73
+
+/work/jaydy/working/SimilarityMatrix/release/src/hdf5_datastruct_ligrecord_close.h,132
+  status 6,125
+  status 7,155
+  status 8,185
+  status 9,220
+  status 11,261
+  status 13,328
+  status 14,360
+  status 15,405
+
+/work/jaydy/working/SimilarityMatrix/release/src/hdf5io.C,44
+DumpLigRecord 11,119
+ReadLigRecord 37,771
+
+/work/jaydy/working/SimilarityMatrix/release/src/calcrmsd_d.cu,17
+CalcRmsd_d 2,16
+
+/work/jaydy/working/SimilarityMatrix/release/src/rmsd.h,25
+#define __RMSD_H_17,860
+
+/work/jaydy/working/SimilarityMatrix/release/src/hdf5_datastruct_ligrecord_create.h,683
+  hsize_t sz_1[sz_138,571
+  hsize_t sz_3[sz_339,598
+  hsize_t sz_6[sz_640,625
+  hsize_t sz_MAXWEI[sz_MAXWEI41,652
+  hsize_t sz_STEPS_PER_DUMP[sz_STEPS_PER_DUMP42,689
+  hsize_t sz_recsize[sz_recsize43,742
+  hid_t sz_1_t 46,854
+  hid_t sz_3_t 47,916
+  hid_t sz_6_t 48,978
+  hid_t sz_MAXWEI_t 49,1040
+  hid_t Replica_t 53,1143
+  status 54,1207
+  status 55,1296
+  status 56,1385
+  status 57,1474
+  hid_t Energy_t 67,1946
+  status 68,2008
+  status 69,2080
+  status 70,2153
+  hid_t LigRecordSingleStep_t 72,2227
+  status 73,2315
+  status 74,2423
+  status 76,2633
+  status 77,2744
+  hid_t sz_LigRecord_t 82,2855
+  hid_t LigRecord_t 83,2943
+  status 84,3011
+
+/work/jaydy/working/SimilarityMatrix/release/src/montecarlo_d.cu,48
+MonteCarlo_Init_d 13,100
+MonteCarlo_d 63,1261
+
+/work/jaydy/working/SimilarityMatrix/release/src/accept_d.cu,17
+Accept_d 14,150
+
+/work/jaydy/working/SimilarityMatrix/release/src/dock_gpu.h,1606
+#define  DOCK_GPU_H2,20
+struct Ligand6,43
+  LigCoord coord_orig;11,204
+  LigCoord coord_new;12,227
+  float movematrix_old[movematrix_old15,289
+  float movematrix_new[movematrix_new16,336
+  Energy energy_old;18,386
+  Energy energy_new;19,453
+  int t[t21,521
+  float c[c22,584
+  int n[n23,649
+  int lna;26,762
+  int native_confusion_matx[native_confusion_matx30,844
+  int decoy_confusion_matx[decoy_confusion_matx31,889
+struct Protein38,941
+  float x[x40,958
+  float y[y41,997
+  float z[z42,1036
+  int t[t44,1076
+  int c[c45,1118
+  float ele[ele48,1163
+  int seq3r[seq3r51,1301
+  int c0_and_d12_or_c2[c0_and_d12_or_c252,1375
+  float hpp[hpp53,1455
+  int pnp;55,1515
+  float pocket_center[pocket_center57,1567
+struct Psp63,1600
+  float psp[psp65,1613
+struct Kde72,1788
+  float x[x74,1801
+  float y[y75,1866
+  float z[z76,1931
+  int t[t77,1996
+  int pnk;79,2060
+struct Mcs85,2125
+  float x[x87,2138
+  float y[y88,2217
+  float z[z89,2281
+  float tcc;91,2346
+struct EnePara96,2416
+  float p1a[p1a99,2442
+  float p2a[p2a100,2471
+  float lj0,101,2500
+  float lj0, lj1;101,2500
+  float el0;104,2538
+  float el1;105,2551
+  float ele[ele106,2564
+  float a1;107,2585
+  float b1;108,2619
+  float pmf0[pmf0111,2667
+  float pmf1[pmf1112,2727
+  float hdb0[hdb0113,2787
+  float hdb1[hdb1114,2847
+  float hpp[hpp118,2987
+  float hpl0[hpl0119,3008
+  float hpl1[hpl1120,3030
+  float hpl2[hpl2121,3052
+  float kde2;124,3084
+  float kde3;125,3121
+  float w[w128,3206
+  float a_para[a_para129,3225
+  float b_para[b_para130,3293
+
+/work/jaydy/working/SimilarityMatrix/release/src/load.C,303
+pushLigandPoint 39,1149
+loadLigConf(53,1414
+loadLigand(101,2629
+pushProteinPoint 426,11732
+void loadPrtConf(444,11985
+void loadProtein(598,16296
+pushKDEpoint 997,27774
+loadLHM 1015,27980
+loadEnePara 1144,30733
+void loadNorPara(1332,34709
+void loadTrace(1397,36176
+void loadWeight(1430,37106
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/yeah/quicksort.h,29
+Swap 8,94
+QuickSort 19,177
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/yeah/cudautil_cpu.h,276
+#define _CUDAUTIL_CPU_8,121
+#define cudaFuncSetCacheConfig(12,147
+#define cudaSetDevice(15,190
+#define cudaGetLastError(18,224
+#define CUDAMALLOC(23,260
+#define CUDAFREE(26,324
+#define CUDAMEMCPY(29,371
+#define CUDAMEMCPYTOSYMBOL(32,443
+#define CUDAKERNELSYNC(35,502
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/yeah/mkdir.h,16
+MakeDir 10,111
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/yeah/cudautil.h,399
+#define _CUDAUTIL_47,771
+#define CUDAVERSION 49,791
+inline void CE1(62,964
+inline void CE2(72,1153
+#define CUDAMALLOC(86,1360
+#define CUDAFREE(89,1431
+#define CUDAMEMCPY(92,1481
+#define CUDAMEMCPYTOSYMBOL(97,1601
+#define CUDAMEMCPYTOSYMBOL(100,1756
+#define CUDAKERNELSYNC(109,2015
+#define CUDAKERNELASYNC(113,2186
+#define CUDAKERNELSTREAMSYNC(116,2302
+#define CUDAKERNELSTREAM(120,2501
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/yeah/timing.h,162
+  double start;14,127
+  double span;15,163
+  double avrg;16,203
+  int n;17,239
+} Timing;18,269
+HostTimeNow 24,290
+HostTimingInit 49,666
+HostTiming 59,806
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/cutil_inline.h,101
+#define _CUTIL_INLINE_H_13,426
+inline void print_NVCC_min_spec(23,626
+#define ALIGN_OFFSET(31,994
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/nvGlutWidgets.h,342
+#define NV_GLUT_WIDGETS_H27,1012
+class GlutUIContext 35,1103
+    bool _ownPainter;39,1157
+    GlutUIContext(48,1343
+    GlutUIContext(59,1612
+    ~GlutUIContext(70,1871
+    virtual void mouse(80,2203
+    void specialKeyboard(GlutUIContext::specialKeyboard101,3078
+    unsigned char translateKey(GlutUIContext::translateKey106,3308
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/stopwatch_base.h,306
+#define _STOPWATCH_BASE_H_15,456
+class StopWatchBase 22,570
+    typedef StopWatchBase<OSPolicy>   SelfType;StopWatchBase::SelfType27,653
+    typedef StopWatchBase<OSPolicy>*  SelfTypePtr;StopWatchBase::SelfTypePtr29,742
+    static  std::vector< SelfTypePtr > swatches;StopWatchBase::swatches32,836
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/helper_cuda_gl.h,182
+#define CUDA_GL_HELPER_H14,577
+    inline int gpuGLDeviceInit(19,727
+    inline int findCudaGLDevice(52,2068
+    sdkCheckErrorGL(80,3140
+    #define SDK_CHECK_ERROR_GL(102,3902
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/cudaHelper.h,335
+#define CUDA_HELPER_H13,422
+#define MAX(22,541
+    #define checkCudaErrors(29,805
+    inline void __checkCudaErrors(31,893
+    #define getLastCudaError(41,1273
+    inline void __getLastCudaError(43,1358
+    inline int gpuDeviceInit(54,1799
+    inline int gpuGetMaxGflopsDeviceId(93,3053
+    inline int findCudaDevice(153,5178
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/stopwatch_linux.h,563
+#define _STOPWATCH_LINUX_H_15,456
+class StopWatchLinux22,594
+    struct timeval  start_time;StopWatchLinux::start_time64,1567
+    float  diff_time;StopWatchLinux::diff_time67,1656
+    float  total_time;StopWatchLinux::total_time70,1734
+    bool running;StopWatchLinux::running73,1800
+    int clock_sessions;StopWatchLinux::clock_sessions77,1905
+StopWatchLinux::start(86,2157
+StopWatchLinux::stop(97,2565
+StopWatchLinux::reset(110,3016
+StopWatchLinux::getTime(126,3584
+StopWatchLinux::getAverageTime(143,4054
+StopWatchLinux::getDiffTime(154,4346
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/helper_image.h,706
+#define HELPER_IMAGE_H15,640
+#define MIN(28,835
+#define MAX(31,889
+namespace 35,964
+	#define FOPEN(105,2748
+	#define FOPEN_FAIL(108,2854
+	#define SSCANF 111,2926
+	#define FOPEN(115,2986
+	#define FOPEN_FAIL(118,3092
+	#define SSCANF 121,3167
+__loadPPM(126,3221
+sdkLoadPGM(210,5434
+sdkLoadPPM4(238,6058
+__savePPM(268,6788
+sdkSavePGM(314,7776
+sdkSavePPM4ub(332,8182
+sdkWriteFile(362,9142
+compareData(411,10599
+#define __MIN_EPSILON_ERROR 448,11604
+compareDataAsFloatThreshold(462,12266
+void sdkDumpBin(506,13663
+bool sdkCompareBin2BinUint(517,13896
+bool sdkCompareBin2BinFloat(583,16314
+sdkCompareL2fe(651,18690
+sdkLoadPPMub(688,19530
+sdkLoadPPM4ub(696,19728
+sdkComparePPM(727,20499
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/cutil_inline_drvapi.h,1025
+#define _CUTIL_INLINE_FUNCTIONS_DRVAPI_H_13,443
+#define cutilDrvSafeCallNoSync(24,781
+#define cutilDrvSafeCall(25,867
+#define cutilDrvCtxSync(26,953
+#define cutilDrvCheckMsg(27,1034
+#define cutilDrvAlignOffset(28,1120
+inline void __cuSafeCallNoSync(31,1290
+inline void __cuSafeCall(39,1597
+inline void __cuCtxSync(44,1720
+#define MIN(54,2039
+#define MAX(55,2074
+inline int _ConvertSMVer2CoresDrvApi(58,2155
+		int SM;62,2330
+		int Cores;63,2419
+	} sSMtoCores;64,2432
+inline int cutilDrvGetMaxGflopsDeviceId(90,3274
+inline int cutilDrvGetMaxGflopsGraphicsDeviceId(146,5389
+inline void __cuCheckMsg(224,8294
+inline int cutilDeviceInitDrv(236,8699
+inline CUdevice cutilChooseCudaDeviceDrv(267,9806
+inline void cutilDrvCudaCheckCtxLost(293,10647
+#define STRCASECMP 311,11202
+#define STRCASECMP 313,11237
+#define STRNCASECMP 319,11317
+#define STRNCASECMP 321,11353
+inline void __cutilDrvQAFinish(325,11400
+inline bool cutilDrvCudaDevCapabilities(345,12022
+inline bool cutilDrvCudaCapabilities(368,12811
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/drvapi_error_string.h,263
+#define _DRVAPI_ERROR_STRING_H_13,433
+    char const *error_string;error_string22,581
+    int  error_id;23,611
+} s_CudaErrorStr;24,630
+static s_CudaErrorStr sCudaDrvErrorString[sCudaDrvErrorString29,672
+inline const char * getCudaDrvErrorString(320,10506
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/cutil_inline_bankchecker.h,116
+#define _CUTIL_INLINE_BANKCHECKER_H_13,438
+#define cutilBankChecker(15,476
+inline void __cutilBankChecker(18,568
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/paramgl.h,1523
+#define PARAMGL_H19,543
+class ParamListGL 34,863
+    void SetFont(ParamListGL::SetFont43,1156
+    void SetSelectedColor(ParamListGL::SetSelectedColor45,1236
+    void SetUnSelectedColor(ParamListGL::SetUnSelectedColor46,1333
+    void SetBarColorInner(ParamListGL::SetBarColorInner47,1434
+    void SetBarColorOuter(ParamListGL::SetBarColorOuter48,1527
+    void *m_font;ParamListGL::m_font51,1630
+    int m_font_h;ParamListGL::m_font_h52,1648
+    int m_bar_x;ParamListGL::m_bar_x54,1688
+    int m_bar_w;ParamListGL::m_bar_w55,1736
+    int m_bar_h;ParamListGL::m_bar_h56,1773
+    int m_text_x;ParamListGL::m_text_x57,1811
+    int m_separation;ParamListGL::m_separation58,1860
+    int m_value_x;ParamListGL::m_value_x59,1907
+    int m_bar_offset;ParamListGL::m_bar_offset60,1956
+    int m_start_x,ParamListGL::m_start_x62,2000
+    int m_start_x, m_start_y;ParamListGL::m_start_y62,2000
+    struct Color ParamListGL::Color64,2031
+        Color(ParamListGL::Color::Color65,2050
+        float r,ParamListGL::Color::r66,2122
+        float r, g,ParamListGL::Color::g66,2122
+        float r, g, b;ParamListGL::Color::b66,2122
+    Color m_text_color_selected;ParamListGL::m_text_color_selected69,2153
+    Color m_text_color_unselected;ParamListGL::m_text_color_unselected70,2186
+    Color m_text_color_shadow;ParamListGL::m_text_color_shadow71,2221
+    Color m_bar_color_outer;ParamListGL::m_bar_color_outer72,2252
+    Color m_bar_color_inner;ParamListGL::m_bar_color_inner73,2281
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/nvMath.h,318
+#define NV_MATH_H61,2381
+#define NV_PI 69,2490
+typedef vec2<float> vec2f;73,2564
+typedef vec3<float> vec3f;74,2591
+typedef vec3<int> vec3i;75,2618
+typedef vec3<unsigned int> vec3ui;76,2643
+typedef vec4<float> vec4f;77,2678
+typedef matrix4<float> matrix4f;78,2705
+typedef quaternion<float> quaternionf;79,2738
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/cutil_gl_error.h,388
+#define CUTIL_GL_ERROR24,816
+#  define WINDOWS_LEAN_AND_MEAN30,902
+#  undef min33,979
+#  undef max34,992
+cutCheckErrorGL(55,1626
+#define CUT_CHECK_ERROR_GL(79,2335
+#define CUT_GL_HAS_ERROR 84,2608
+#define CUT_CHECK_ERROR_GL2(86,2708
+#define CUT_CHECK_ERROR_GL2(93,2897
+#define CUT_CHECK_ERROR_GL(104,3046
+#define CUT_CHECK_ERROR_GL2(105,3075
+#define CUT_GL_HAS_ERROR 106,3105
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/nvShaderUtils.h,272
+#define NV_SHADER_UTILS_H21,652
+namespace nv28,741
+inline GLuint CompileGLSLShaderFromFile(69,1538
+inline GLuint LinkGLSLProgram(109,2560
+inline GLuint LinkGLSLProgram(142,3442
+inline GLuint CompileASMShader(180,4668
+inline GLuint CompileASMShaderFromFile(203,5421
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/cuda_drvapi_dynlink.c,13440
+tcuInit                               *_cuInit;_cuInit26,891
+tcuDriverGetVersion                   *cuDriverGetVersion;cuDriverGetVersion27,939
+tcuDeviceGet                          *cuDeviceGet;cuDeviceGet28,998
+tcuDeviceGetCount                     *cuDeviceGetCount;cuDeviceGetCount29,1050
+tcuDeviceGetName                      *cuDeviceGetName;cuDeviceGetName30,1107
+tcuDeviceComputeCapability            *cuDeviceComputeCapability;cuDeviceComputeCapability31,1163
+tcuDeviceTotalMem                     *cuDeviceTotalMem;cuDeviceTotalMem32,1229
+tcuDeviceGetProperties                *cuDeviceGetProperties;cuDeviceGetProperties33,1286
+tcuDeviceGetAttribute                 *cuDeviceGetAttribute;cuDeviceGetAttribute34,1348
+tcuCtxCreate                          *cuCtxCreate;cuCtxCreate35,1409
+tcuCtxDestroy                         *cuCtxDestroy;cuCtxDestroy36,1461
+tcuCtxAttach                          *cuCtxAttach;cuCtxAttach37,1514
+tcuCtxDetach                          *cuCtxDetach;cuCtxDetach38,1566
+tcuCtxPushCurrent                     *cuCtxPushCurrent;cuCtxPushCurrent39,1618
+tcuCtxPopCurrent                      *cuCtxPopCurrent;cuCtxPopCurrent40,1675
+tcuCtxGetCurrent                      *cuCtxGetCurrent;cuCtxGetCurrent41,1731
+tcuCtxSetCurrent                      *cuCtxSetCurrent;cuCtxSetCurrent42,1787
+tcuCtxGetDevice                       *cuCtxGetDevice;cuCtxGetDevice43,1843
+tcuCtxSynchronize                     *cuCtxSynchronize;cuCtxSynchronize44,1898
+tcuModuleLoad                         *cuModuleLoad;cuModuleLoad45,1955
+tcuModuleLoadData                     *cuModuleLoadData;cuModuleLoadData46,2008
+tcuModuleLoadDataEx                   *cuModuleLoadDataEx;cuModuleLoadDataEx47,2065
+tcuModuleLoadFatBinary                *cuModuleLoadFatBinary;cuModuleLoadFatBinary48,2124
+tcuModuleUnload                       *cuModuleUnload;cuModuleUnload49,2186
+tcuModuleGetFunction                  *cuModuleGetFunction;cuModuleGetFunction50,2241
+tcuModuleGetGlobal                    *cuModuleGetGlobal;cuModuleGetGlobal51,2301
+tcuModuleGetTexRef                    *cuModuleGetTexRef;cuModuleGetTexRef52,2359
+tcuModuleGetSurfRef                   *cuModuleGetSurfRef;cuModuleGetSurfRef53,2417
+tcuMemGetInfo                         *cuMemGetInfo;cuMemGetInfo54,2476
+tcuMemAlloc                           *cuMemAlloc;cuMemAlloc55,2529
+tcuMemAllocPitch                      *cuMemAllocPitch;cuMemAllocPitch56,2580
+tcuMemFree                            *cuMemFree;cuMemFree57,2636
+tcuMemGetAddressRange                 *cuMemGetAddressRange;cuMemGetAddressRange58,2686
+tcuMemAllocHost                       *cuMemAllocHost;cuMemAllocHost59,2747
+tcuMemFreeHost                        *cuMemFreeHost;cuMemFreeHost60,2802
+tcuMemHostAlloc                       *cuMemHostAlloc;cuMemHostAlloc61,2856
+tcuMemHostGetDevicePointer            *cuMemHostGetDevicePointer;cuMemHostGetDevicePointer62,2911
+tcuMemHostRegister                    *cuMemHostRegister;cuMemHostRegister63,2977
+tcuMemHostUnregister                  *cuMemHostUnregister;cuMemHostUnregister64,3035
+tcuMemcpyHtoD                         *cuMemcpyHtoD;cuMemcpyHtoD65,3095
+tcuMemcpyDtoH                         *cuMemcpyDtoH;cuMemcpyDtoH66,3148
+tcuMemcpyDtoD                         *cuMemcpyDtoD;cuMemcpyDtoD67,3201
+tcuMemcpyDtoA                         *cuMemcpyDtoA;cuMemcpyDtoA68,3254
+tcuMemcpyAtoD                         *cuMemcpyAtoD;cuMemcpyAtoD69,3307
+tcuMemcpyHtoA                         *cuMemcpyHtoA;cuMemcpyHtoA70,3360
+tcuMemcpyAtoH                         *cuMemcpyAtoH;cuMemcpyAtoH71,3413
+tcuMemcpyAtoA                         *cuMemcpyAtoA;cuMemcpyAtoA72,3466
+tcuMemcpy2D                           *cuMemcpy2D;cuMemcpy2D73,3519
+tcuMemcpy2DUnaligned                  *cuMemcpy2DUnaligned;cuMemcpy2DUnaligned74,3570
+tcuMemcpy3D                           *cuMemcpy3D;cuMemcpy3D75,3630
+tcuMemcpyHtoDAsync                    *cuMemcpyHtoDAsync;cuMemcpyHtoDAsync76,3681
+tcuMemcpyDtoHAsync                    *cuMemcpyDtoHAsync;cuMemcpyDtoHAsync77,3739
+tcuMemcpyDtoDAsync                    *cuMemcpyDtoDAsync;cuMemcpyDtoDAsync78,3797
+tcuMemcpyHtoAAsync                    *cuMemcpyHtoAAsync;cuMemcpyHtoAAsync79,3855
+tcuMemcpyAtoHAsync                    *cuMemcpyAtoHAsync;cuMemcpyAtoHAsync80,3913
+tcuMemcpy2DAsync                      *cuMemcpy2DAsync;cuMemcpy2DAsync81,3971
+tcuMemcpy3DAsync                      *cuMemcpy3DAsync;cuMemcpy3DAsync82,4027
+tcuMemcpy                             *cuMemcpy;cuMemcpy83,4083
+tcuMemcpyPeer                         *cuMemcpyPeer;cuMemcpyPeer84,4132
+tcuMemsetD8                           *cuMemsetD8;cuMemsetD885,4185
+tcuMemsetD16                          *cuMemsetD16;cuMemsetD1686,4236
+tcuMemsetD32                          *cuMemsetD32;cuMemsetD3287,4288
+tcuMemsetD2D8                         *cuMemsetD2D8;cuMemsetD2D888,4340
+tcuMemsetD2D16                        *cuMemsetD2D16;cuMemsetD2D1689,4393
+tcuMemsetD2D32                        *cuMemsetD2D32;cuMemsetD2D3290,4447
+tcuFuncSetBlockShape                  *cuFuncSetBlockShape;cuFuncSetBlockShape91,4501
+tcuFuncSetSharedSize                  *cuFuncSetSharedSize;cuFuncSetSharedSize92,4561
+tcuFuncGetAttribute                   *cuFuncGetAttribute;cuFuncGetAttribute93,4621
+tcuFuncSetCacheConfig                 *cuFuncSetCacheConfig;cuFuncSetCacheConfig94,4680
+tcuLaunchKernel                       *cuLaunchKernel;cuLaunchKernel95,4741
+tcuArrayCreate                        *cuArrayCreate;cuArrayCreate96,4796
+tcuArrayGetDescriptor                 *cuArrayGetDescriptor;cuArrayGetDescriptor97,4850
+tcuArrayDestroy                       *cuArrayDestroy;cuArrayDestroy98,4911
+tcuArray3DCreate                      *cuArray3DCreate;cuArray3DCreate99,4966
+tcuArray3DGetDescriptor               *cuArray3DGetDescriptor;cuArray3DGetDescriptor100,5022
+tcuTexRefCreate                       *cuTexRefCreate;cuTexRefCreate101,5085
+tcuTexRefDestroy                      *cuTexRefDestroy;cuTexRefDestroy102,5140
+tcuTexRefSetArray                     *cuTexRefSetArray;cuTexRefSetArray103,5196
+tcuTexRefSetAddress                   *cuTexRefSetAddress;cuTexRefSetAddress104,5253
+tcuTexRefSetAddress2D                 *cuTexRefSetAddress2D;cuTexRefSetAddress2D105,5312
+tcuTexRefSetFormat                    *cuTexRefSetFormat;cuTexRefSetFormat106,5373
+tcuTexRefSetAddressMode               *cuTexRefSetAddressMode;cuTexRefSetAddressMode107,5431
+tcuTexRefSetFilterMode                *cuTexRefSetFilterMode;cuTexRefSetFilterMode108,5494
+tcuTexRefSetFlags                     *cuTexRefSetFlags;cuTexRefSetFlags109,5556
+tcuTexRefGetAddress                   *cuTexRefGetAddress;cuTexRefGetAddress110,5613
+tcuTexRefGetArray                     *cuTexRefGetArray;cuTexRefGetArray111,5672
+tcuTexRefGetAddressMode               *cuTexRefGetAddressMode;cuTexRefGetAddressMode112,5729
+tcuTexRefGetFilterMode                *cuTexRefGetFilterMode;cuTexRefGetFilterMode113,5792
+tcuTexRefGetFormat                    *cuTexRefGetFormat;cuTexRefGetFormat114,5854
+tcuTexRefGetFlags                     *cuTexRefGetFlags;cuTexRefGetFlags115,5912
+tcuSurfRefSetArray                    *cuSurfRefSetArray;cuSurfRefSetArray116,5969
+tcuSurfRefGetArray                    *cuSurfRefGetArray;cuSurfRefGetArray117,6027
+tcuParamSetSize                       *cuParamSetSize;cuParamSetSize118,6085
+tcuParamSeti                          *cuParamSeti;cuParamSeti119,6140
+tcuParamSetf                          *cuParamSetf;cuParamSetf120,6192
+tcuParamSetv                          *cuParamSetv;cuParamSetv121,6244
+tcuParamSetTexRef                     *cuParamSetTexRef;cuParamSetTexRef122,6296
+tcuLaunch                             *cuLaunch;cuLaunch123,6353
+tcuLaunchGrid                         *cuLaunchGrid;cuLaunchGrid124,6402
+tcuLaunchGridAsync                    *cuLaunchGridAsync;cuLaunchGridAsync125,6455
+tcuEventCreate                        *cuEventCreate;cuEventCreate126,6513
+tcuEventRecord                        *cuEventRecord;cuEventRecord127,6567
+tcuEventQuery                         *cuEventQuery;cuEventQuery128,6621
+tcuEventSynchronize                   *cuEventSynchronize;cuEventSynchronize129,6674
+tcuEventDestroy                       *cuEventDestroy;cuEventDestroy130,6733
+tcuEventElapsedTime                   *cuEventElapsedTime;cuEventElapsedTime131,6788
+tcuStreamCreate                       *cuStreamCreate;cuStreamCreate132,6847
+tcuStreamQuery                        *cuStreamQuery;cuStreamQuery133,6902
+tcuStreamSynchronize                  *cuStreamSynchronize;cuStreamSynchronize134,6956
+tcuStreamDestroy                      *cuStreamDestroy;cuStreamDestroy135,7016
+tcuGraphicsUnregisterResource         *cuGraphicsUnregisterResource;cuGraphicsUnregisterResource136,7072
+tcuGraphicsSubResourceGetMappedArray  *cuGraphicsSubResourceGetMappedArray;cuGraphicsSubResourceGetMappedArray137,7141
+tcuGraphicsResourceGetMappedPointer   *cuGraphicsResourceGetMappedPointer;cuGraphicsResourceGetMappedPointer138,7217
+tcuGraphicsResourceSetMapFlags        *cuGraphicsResourceSetMapFlags;cuGraphicsResourceSetMapFlags139,7292
+tcuGraphicsMapResources               *cuGraphicsMapResources;cuGraphicsMapResources140,7362
+tcuGraphicsUnmapResources             *cuGraphicsUnmapResources;cuGraphicsUnmapResources141,7425
+tcuGetExportTable                     *cuGetExportTable;cuGetExportTable142,7490
+tcuCtxSetLimit                        *cuCtxSetLimit;cuCtxSetLimit143,7547
+tcuCtxGetLimit                        *cuCtxGetLimit;cuCtxGetLimit144,7601
+tcuMemHostGetFlags                    *cuMemHostGetFlags;cuMemHostGetFlags145,7655
+tcuD3D9Begin                          *cuD3D9Begin;cuD3D9Begin150,7845
+tcuD3D9End                            *cuD3DEnd;cuD3DEnd151,7897
+tcuD3D9RegisterVertexBuffer           *cuD3D9RegisterVertexBuffer;cuD3D9RegisterVertexBuffer152,7946
+tcuD3D9MapVertexBuffer                *cuD3D9MapVertexBuffer;cuD3D9MapVertexBuffer153,8013
+tcuD3D9UnmapVertexBuffer              *cuD3D9UnmapVertexBuffer;cuD3D9UnmapVertexBuffer154,8075
+tcuD3D9UnregisterVertexBuffer         *cuD3D9UnregisterVertexBuffer;cuD3D9UnregisterVertexBuffer155,8139
+tcuD3D9GetDirect3DDevice              *cuD3D9GetDirect3DDevice;cuD3D9GetDirect3DDevice158,8252
+tcuD3D9RegisterResource               *cuD3D9RegisterResource;cuD3D9RegisterResource159,8316
+tcuD3D9UnregisterResource             *cuD3D9UnregisterResource;cuD3D9UnregisterResource160,8379
+tcuD3D9MapResources                   *cuD3D9MapResources;cuD3D9MapResources161,8444
+tcuD3D9UnmapResources                 *cuD3D9UnmapResources;cuD3D9UnmapResources162,8503
+tcuD3D9ResourceSetMapFlags            *cuD3D9ResourceSetMapFlags;cuD3D9ResourceSetMapFlags163,8564
+tcuD3D9ResourceGetSurfaceDimensions   *cuD3D9ResourceGetSurfaceDimensions;cuD3D9ResourceGetSurfaceDimensions164,8630
+tcuD3D9ResourceGetMappedArray         *cuD3D9ResourceGetMappedArray;cuD3D9ResourceGetMappedArray165,8705
+tcuD3D9ResourceGetMappedPointer       *cuD3D9ResourceGetMappedPointer;cuD3D9ResourceGetMappedPointer166,8774
+tcuD3D9ResourceGetMappedSize          *cuD3D9ResourceGetMappedSize;cuD3D9ResourceGetMappedSize167,8845
+tcuD3D9ResourceGetMappedPitch         *cuD3D9ResourceGetMappedPitch;cuD3D9ResourceGetMappedPitch168,8913
+tcuD3D9GetDevice                      *cuD3D9GetDevice;cuD3D9GetDevice171,9016
+tcuD3D9CtxCreate                      *cuD3D9CtxCreate;cuD3D9CtxCreate172,9072
+tcuGraphicsD3D9RegisterResource       *cuGraphicsD3D9RegisterResource;cuGraphicsD3D9RegisterResource173,9128
+tcuD3D10GetDevice                     *cuD3D10GetDevice;cuD3D10GetDevice178,9264
+tcuD3D10CtxCreate                     *cuD3D10CtxCreate;cuD3D10CtxCreate179,9321
+tcuGraphicsD3D10RegisterResource      *cuGraphicsD3D10RegisterResource;cuGraphicsD3D10RegisterResource180,9378
+tcuD3D11GetDevice                     *cuD3D11GetDevice;cuD3D11GetDevice186,9516
+tcuD3D11CtxCreate                     *cuD3D11CtxCreate;cuD3D11CtxCreate187,9573
+tcuGraphicsD3D11RegisterResource      *cuGraphicsD3D11RegisterResource;cuGraphicsD3D11RegisterResource188,9630
+tcuGLCtxCreate                        *cuGLCtxCreate;cuGLCtxCreate193,9753
+tcuGraphicsGLRegisterBuffer           *cuGraphicsGLRegisterBuffer;cuGraphicsGLRegisterBuffer194,9807
+tcuGraphicsGLRegisterImage            *cuGraphicsGLRegisterImage;cuGraphicsGLRegisterImage195,9874
+tcuWGLGetDevice                       *cuWGLGetDevice;cuWGLGetDevice197,9954
+#define STRINGIFY(201,10024
+    static LPCWSTR __CudaLibName 207,10108
+    static LPCSTR __CudaLibName 209,10168
+    typedef HMODULE CUDADRIVER;212,10228
+    static CUresult LOAD_LIBRARY(214,10261
+    #define GET_PROC_EX(225,10566
+    #define GET_PROC_EX_V2(233,11021
+    static char __CudaLibName[__CudaLibName246,11629
+    static char __CudaLibName[__CudaLibName248,11710
+    typedef void * CUDADRIVER;251,11770
+    static CUresult LOAD_LIBRARY(253,11802
+    #define GET_PROC_EX(264,12107
+    #define GET_PROC_EX_V2(272,12571
+#define CHECKED_CALL(284,13080
+#define GET_PROC_REQUIRED(292,13348
+#define GET_PROC_OPTIONAL(293,13405
+#define GET_PROC(294,13462
+#define GET_PROC_V2(295,13518
+CUresult CUDAAPI cuInit(297,13579
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/cutil.h,1096
+#define _CUTIL_H_27,840
+#    define DLL_MAPPING 43,1102
+#    define DLL_MAPPING 45,1157
+#  define DLL_MAPPING 48,1220
+    #define CUTIL_API 52,1265
+    #define CUTIL_API54,1303
+    enum CUTBoolean 60,1517
+        CUTFalse 62,1544
+        CUTTrue 63,1566
+#define CUT_DEVICE_SYNCHRONIZE(740,35836
+#define CUT_DEVICE_SYNCHRONIZE(742,35903
+#define CUT_DEVICE_RESET(746,35999
+#define CUT_DEVICE_RESET(748,36054
+#define CUT_BANK_CHECKER(752,36148
+#  define CU_SAFE_CALL_NO_SYNC(754,36203
+#  define CU_SAFE_CALL(762,36686
+#  define CU_SAFE_CTX_SYNC(764,36752
+#  define CUDA_SAFE_CALL_NO_SYNC(772,37235
+#  define CUDA_SAFE_CALL(780,37718
+#  define CUDA_SAFE_THREAD_SYNC(782,37830
+#  define CUFFT_SAFE_CALL(789,38235
+#  define CUT_SAFE_CALL(797,38718
+#  define CUT_CHECK_ERROR(806,39164
+#  define CUT_CHECK_ERROR(821,40204
+#  define CUT_SAFE_MALLOC(832,40802
+#  define CUT_CONDITION(840,41268
+#  define CUT_DEVICE_INIT(845,41512
+#  define CUDA_CHECK_CTX_LOST(865,42815
+#  define CU_CHECK_CTX_LOST(880,43805
+#  define CUT_DEVICE_INIT_DRV(894,44763
+#define CUT_EXIT(915,46266
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/nvMatrix.h,1419
+#define NV_MATRIX_H63,2423
+class matrix477,2751
+    matrix4(82,2777
+    matrix4(84,2813
+    matrix4(87,2856
+    matrix4(90,2906
+    void get_value(101,3242
+    const T * get_value(108,3415
+    void set_value(112,3479
+    void set_value(119,3645
+    void make_identity(125,3784
+    void set_scale(148,4300
+    void set_scale(154,4413
+    void set_translate(159,4520
+    void set_row(163,4630
+    void set_column(167,4739
+    vec4<T> get_row(171,4851
+    vec4<T> get_column(177,4987
+    friend matrix4 inverse(183,5126
+    friend matrix4 transpose(277,7696
+    friend matrix4 operator 297,8213
+    vec4<T> operator 308,8532
+    friend vec4<T> operator 317,8826
+    T & operator 325,9136
+    const T & operator 329,9217
+    T & element 333,9310
+    const T & element 337,9393
+            T _11,378,10499
+            T _11, _12,378,10499
+            T _11, _12, _13,378,10499
+            T _11, _12, _13, _14;378,10499
+            T _21,379,10568
+            T _21, _22,379,10568
+            T _21, _22, _23,379,10568
+            T _21, _22, _23, _24;379,10568
+            T _31,380,10637
+            T _31, _32,380,10637
+            T _31, _32, _33,380,10637
+            T _31, _32, _33, _34;380,10637
+            T _41,381,10706
+            T _41, _42,381,10706
+            T _41, _42, _43,381,10706
+            T _41, _42, _43, _44;381,10706
+        T _array[_array383,10786
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/nvVector.h,4595
+#define NV_VECTOR_H62,2458
+class vec2 76,2803
+    typedef T value_type;79,2825
+    int size(80,2851
+    vec2(89,3078
+    vec2(94,3198
+    vec2(99,3327
+    explicit vec2(104,3402
+    explicit vec2(108,3513
+    const T * get_value(112,3628
+    vec2<T> & set_value(116,3696
+    T & operator 122,3858
+    const T & operator 126,3927
+    operator T 131,4031
+    operator const T 135,4083
+    friend vec2<T> operator 202,6089
+    friend vec2<T> operator 208,6232
+    friend vec2<T> operator 214,6390
+            T x,256,7552
+            T x,y;256,7552
+            T s,259,7641
+            T s,t;259,7641
+        T _array[_array261,7713
+class vec3 271,7976
+    typedef T value_type;vec3::value_type274,7998
+    int size(vec3::size275,8024
+    vec3(vec3::vec3284,8251
+    vec3(vec3::vec3289,8371
+    vec3(vec3::vec3294,8500
+    explicit vec3(vec3::vec3300,8603
+    explicit vec3(vec3::vec3304,8714
+    const T * get_value(vec3::get_value310,8820
+    vec3<T> & set_value(vec3::set_value314,8888
+    T & operator [] vec3::operator []320,9050
+    const T & operator [] vec3::operator []324,9119
+    operator T vec3::operator T329,9223
+    operator const vec3::operator const333,9275
+    friend vec3<T> & operator *= vec3::operator *=344,9529
+    friend vec3<T> & operator *= vec3::operator *=350,9722
+    friend vec3<T> & operator /= vec3::operator /=356,9918
+    friend vec3<T> & operator /= vec3::operator /=363,10140
+    friend vec3<T> & operator += vec3::operator +=369,10356
+    friend vec3<T> & operator -= vec3::operator -=375,10577
+    friend vec3<T> operator - vec3::operator -381,10773
+    friend vec3<T> operator + vec3::operator +388,10966
+    friend vec3<T> operator - vec3::operator -394,11124
+    friend vec3<T> operator * vec3::operator *400,11281
+    friend vec3<T> operator * vec3::operator *406,11424
+    friend vec3<T> operator * vec3::operator *412,11582
+    friend vec3<T> operator / vec3::operator /418,11738
+    friend vec3<T> operator / vec3::operator /424,11896
+    friend bool operator == vec3::operator ==436,12211
+    friend bool operator != vec3::operator !=444,12444
+            T x,vec3::x471,13238
+            T x, y,vec3::y471,13238
+            T x, y, z;vec3::z471,13238
+            T s,vec3::s474,13331
+            T s, t,vec3::t474,13331
+            T s, t, r;vec3::r474,13331
+        T _array[vec3::_array476,13407
+class vec4 486,13670
+    typedef T value_type;vec4::value_type489,13692
+    int size(vec4::size490,13718
+    vec4(vec4::vec4499,13945
+    vec4(vec4::vec4504,14065
+    vec4(vec4::vec4509,14194
+    explicit vec4(vec4::vec4516,14325
+    explicit vec4(vec4::vec4523,14444
+    const T * get_value(vec4::get_value530,14572
+    vec4<T> & set_value(vec4::set_value534,14640
+    T & operator [] vec4::operator []540,14802
+    const T & operator [] vec4::operator []544,14871
+    operator T vec4::operator T549,14975
+    operator const vec4::operator const553,15027
+    friend vec4<T> & operator *= vec4::operator *=564,15281
+    friend vec4<T> & operator *= vec4::operator *=570,15474
+    friend vec4<T> & operator /= vec4::operator /=576,15670
+    friend vec4<T> & operator /= vec4::operator /=583,15892
+    friend vec4<T> & operator += vec4::operator +=589,16108
+    friend vec4<T> & operator -= vec4::operator -=595,16329
+    friend vec4<T> operator - vec4::operator -601,16525
+    friend vec4<T> operator + vec4::operator +608,16718
+    friend vec4<T> operator - vec4::operator -614,16876
+    friend vec4<T> operator * vec4::operator *620,17033
+    friend vec4<T> operator * vec4::operator *626,17176
+    friend vec4<T> operator * vec4::operator *632,17334
+    friend vec4<T> operator / vec4::operator /638,17490
+    friend vec4<T> operator / vec4::operator /644,17648
+    friend bool operator == vec4::operator ==656,17963
+    friend bool operator != vec4::operator !=664,18196
+            T x,vec4::x674,18496
+            T x, y,vec4::y674,18496
+            T x, y, z,vec4::z674,18496
+            T x, y, z, w;vec4::w674,18496
+            T s,vec4::s677,18592
+            T s, t,vec4::t677,18592
+            T s, t, r,vec4::r677,18592
+            T s, t, r, q;vec4::q677,18592
+        T _array[vec4::_array679,18671
+inline typename T::value_type dot(691,18981
+inline typename T::value_type length(699,19240
+inline typename T::value_type square_norm(707,19497
+inline T normalize(715,19749
+#undef min729,20160
+#undef max732,20189
+inline T min(736,20246
+inline T max(744,20458
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/cudaGLHelper.h,182
+#define CUDA_GL_HELPER_H13,425
+    inline int gpuGLDeviceInit(18,575
+    inline int findCudaGLDevice(51,1916
+    sdkCheckErrorGL(79,2988
+    #define SDK_CHECK_ERROR_GL(101,3750
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/helper_timer.h,2023
+#define HELPER_TIMER_H16,633
+class StopWatchInterface26,888
+    StopWatchInterface(StopWatchInterface::StopWatchInterface29,923
+    virtual ~StopWatchInterface(StopWatchInterface::~StopWatchInterface30,952
+    #define WINDOWS_LEAN_AND_MEAN58,1878
+    #undef min60,1937
+    #undef max61,1952
+    class StopWatchWin 64,2021
+        StopWatchWin(StopWatchWin::StopWatchWin68,2123
+        ~StopWatchWin(StopWatchWin::~StopWatchWin89,2778
+        LARGE_INTEGER  start_time;StopWatchWin::start_time114,3559
+        LARGE_INTEGER  end_time;StopWatchWin::end_time116,3625
+        float  diff_time;StopWatchWin::diff_time119,3719
+        float  total_time;StopWatchWin::total_time122,3805
+        bool running;StopWatchWin::running125,3879
+        int clock_sessions;StopWatchWin::clock_sessions129,3996
+        double  freq;StopWatchWin::freq132,4052
+        bool  freq_set;StopWatchWin::freq_set135,4122
+    StopWatchWin::start(144,4398
+    StopWatchWin::stop(155,4872
+    StopWatchWin::reset(171,5515
+    StopWatchWin::getTime(188,6172
+    StopWatchWin::getAverageTime(208,6852
+    class StopWatchLinux 219,7159
+        StopWatchLinux(StopWatchLinux::StopWatchLinux223,7263
+        virtual ~StopWatchLinux(StopWatchLinux::~StopWatchLinux229,7431
+        struct timeval  start_time;StopWatchLinux::start_time263,8380
+        float  diff_time;StopWatchLinux::diff_time266,8477
+        float  total_time;StopWatchLinux::total_time269,8563
+        bool running;StopWatchLinux::running272,8637
+        int clock_sessions;StopWatchLinux::clock_sessions276,8754
+    StopWatchLinux::start(285,9034
+    StopWatchLinux::stop(295,9477
+    StopWatchLinux::reset(307,9971
+    StopWatchLinux::getTime(323,10593
+    StopWatchLinux::getAverageTime(339,11105
+    StopWatchLinux::getDiffTime(347,11416
+sdkCreateTimer(367,12161
+sdkDeleteTimer(385,12809
+sdkStartTimer(397,13272
+sdkStopTimer(409,13752
+sdkResetTimer(421,14211
+sdkGetAverageTimerValue(436,14886
+sdkGetTimerValue(451,15482
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/error_checker.h,92
+#define _ERRORCHECKER_H_15,453
+class ErrorChecker 28,706
+ErrorChecker::condition(50,1540
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/helper_cuda.h,862
+#define HELPER_CUDA_H17,729
+static const char* _cudaGetErrorEnum(40,1100
+static const char* _cudaGetErrorEnum(112,6836
+static const char* _cudaGetErrorEnum(168,11429
+static const char* _cudaGetErrorEnum(185,12311
+static const char* _cudaGetErrorEnum(204,13289
+static const char* _cudaGetErrorEnum(222,14297
+static const char* _cudaGetErrorEnum(244,15676
+void check(291,19176
+    #define checkCudaErrors(315,19836
+    inline void __checkCudaErrors(317,19922
+    #define getLastCudaError(327,20308
+    inline void __getLastCudaError(329,20393
+#define MAX(340,20800
+    inline int _ConvertSMVer2Cores(344,20890
+            int SM;::SM348,21081
+            int Cores;::Cores349,21180
+        } sSMtoCores;350,21203
+    inline int gpuDeviceInit(376,22253
+    inline int gpuGetMaxGflopsDeviceId(415,23507
+    inline int findCudaDevice(475,25624
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/cutil_gl_inline.h,157
+#define _CUTIL_GL_INLINE_H_13,429
+inline int cutilGLDeviceInit(26,635
+inline int cutilGLDeviceInitDrv(57,1799
+inline int cutilChooseCudaGLDevice(90,2949
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/cmd_arg_reader.h,1910
+#define _CMDARGREADER_H_26,846
+class CmdArgReader 55,1911
+    static  CmdArgReader*  self;CmdArgReader::self62,2059
+    typedef std::pair< const std::type_info*CmdArgReader::std::type_info148,5224
+    typedef std::pair< const std::type_info*, void*>  ValType;CmdArgReader::ValType148,5224
+    typedef std::map< std::string,CmdArgReader::std::string150,5327
+    typedef std::map< std::string, ValType >          ArgsMap;CmdArgReader::ArgsMap150,5327
+    typedef ArgsMap::iterator                         ArgsMapIter;CmdArgReader::ArgsMapIter152,5447
+    typedef ArgsMap::const_iterator                   ConstArgsMapIter;CmdArgReader::ConstArgsMapIter153,5514
+    typedef std::map< std::string,CmdArgReader::std::string156,5652
+    typedef std::map< std::string, std::string>            UnpMap;CmdArgReader::UnpMap156,5652
+    typedef std::map< std::string,CmdArgReader::std::string158,5801
+    typedef std::map< std::string, std::string>::iterator  UnpMapIter;CmdArgReader::UnpMapIter158,5801
+    static  int  rargc;CmdArgReader::rargc167,5976
+    static char**  rargv;CmdArgReader::rargv170,6061
+    ArgsMap     args;CmdArgReader::args173,6156
+    UnpMap     unprocessed;CmdArgReader::unprocessed176,6255
+    ArgsMapIter iter;CmdArgReader::iter180,6406
+    UnpMapIter iter_unprocessed;CmdArgReader::iter_unprocessed184,6545
+CmdArgReader::convertToT(211,7333
+CmdArgReader::convertToT<CmdArgReader::convertToT254,8687
+CmdArgReader::convertToT<CmdArgReader::convertToT273,9171
+CmdArgReader::convertToT<CmdArgReader::convertToT292,9660
+CmdArgReader::convertToT<CmdArgReader::convertToT311,10151
+CmdArgReader::convertToT<CmdArgReader::convertToT323,10565
+CmdArgReader::getArg(367,11784
+CmdArgReader::existArg(385,12426
+CmdArgReader::getArgHelper(405,13150
+CmdArgReader::existArgHelper(447,14526
+CmdArgReader::getRArgc(473,15205
+CmdArgReader::getRArgv(487,15607
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/cutil_inline_runtime.h,1750
+#define _CUTIL_INLINE_FUNCTIONS_RUNTIME_H_13,444
+#  define WINDOWS_LEAN_AND_MEAN17,549
+#  undef min20,626
+#  undef max21,639
+#define cutilSafeCallNoSync(34,941
+#define cutilSafeCall(35,1024
+#define cutilSafeThreadSync(36,1107
+#define cufftSafeCall(37,1185
+#define curandSafeCall(38,1268
+#define cutilCheckError(39,1351
+#define cutilCheckMsg(40,1434
+#define cutilCheckMsgAndSync(41,1517
+#define cutilSafeMalloc(42,1607
+#define cutilCondition(43,1699
+#define cutilExit(44,1782
+inline cudaError cutilDeviceSynchronize(46,1853
+inline cudaError cutilDeviceReset(55,2006
+inline void __cutilCondition(64,2140
+inline void __cutilExit(71,2301
+#define MIN(82,2573
+#define MAX(83,2608
+inline int _ConvertSMVer2Cores_local(86,2689
+		int SM;90,2864
+		int Cores;91,2953
+	} sSMtoCores;92,2966
+inline int cutGetMaxGflopsDeviceId(118,3809
+inline int cutGetMaxGflopsGraphicsDeviceId(165,5349
+	inline void VSPrintf(236,7552
+#	define FPRINTF(252,7951
+#	define FPRINTF(254,7998
+#	define FPRINTF(259,8149
+#	define FPRINTF(262,8211
+inline void __cudaSafeCallNoSync(268,8440
+inline void __cudaSafeCall(277,8738
+inline void __cudaSafeThreadSync(286,9017
+inline void __cufftSafeCall(296,9349
+inline void __curandSafeCall(317,10446
+inline void __cutilCheckError(344,12204
+inline void __cutilGetLastError(353,12428
+inline void __cutilGetLastErrorAndSync(363,12793
+inline void __cutilSafeMalloc(380,13431
+inline int cutilDeviceInit(389,13668
+inline int cutilChooseCudaDevice(421,14816
+inline void cutilCudaCheckCtxLost(444,15605
+#define STRCASECMP 462,16212
+#define STRCASECMP 464,16247
+#define STRNCASECMP 470,16327
+#define STRNCASECMP 472,16363
+inline void __cutilQAFinish(476,16410
+inline bool cutilCudaCapabilities(496,17005
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/cutil_math.h,9270
+#define CUTIL_MATH_H24,752
+typedef unsigned int uint;28,801
+typedef unsigned short ushort;29,828
+inline float fminf(38,1103
+inline float fmaxf(43,1169
+inline int max(48,1235
+inline int min(53,1293
+inline float rsqrtf(58,1351
+inline __host__ __device__ float2 make_float2(68,1599
+inline __host__ __device__ float2 make_float2(72,1688
+inline __host__ __device__ float2 make_float2(76,1782
+inline __host__ __device__ float2 make_float2(80,1888
+inline __host__ __device__ int2 make_int2(85,1996
+inline __host__ __device__ int2 make_int2(89,2077
+inline __host__ __device__ int2 make_int2(93,2163
+inline __host__ __device__ int2 make_int2(97,2260
+inline __host__ __device__ uint2 make_uint2(102,2359
+inline __host__ __device__ uint2 make_uint2(106,2444
+inline __host__ __device__ uint2 make_uint2(110,2534
+inline __host__ __device__ float3 make_float3(115,2636
+inline __host__ __device__ float3 make_float3(119,2728
+inline __host__ __device__ float3 make_float3(123,2828
+inline __host__ __device__ float3 make_float3(127,2934
+inline __host__ __device__ float3 make_float3(131,3033
+inline __host__ __device__ float3 make_float3(135,3151
+inline __host__ __device__ int3 make_int3(140,3271
+inline __host__ __device__ int3 make_int3(144,3355
+inline __host__ __device__ int3 make_int3(148,3444
+inline __host__ __device__ int3 make_int3(152,3540
+inline __host__ __device__ int3 make_int3(156,3647
+inline __host__ __device__ uint3 make_uint3(161,3756
+inline __host__ __device__ uint3 make_uint3(165,3844
+inline __host__ __device__ uint3 make_uint3(169,3937
+inline __host__ __device__ uint3 make_uint3(173,4038
+inline __host__ __device__ uint3 make_uint3(177,4133
+inline __host__ __device__ float4 make_float4(182,4246
+inline __host__ __device__ float4 make_float4(186,4341
+inline __host__ __device__ float4 make_float4(190,4446
+inline __host__ __device__ float4 make_float4(194,4557
+inline __host__ __device__ float4 make_float4(198,4687
+inline __host__ __device__ int4 make_int4(203,4819
+inline __host__ __device__ int4 make_int4(207,4906
+inline __host__ __device__ int4 make_int4(211,5000
+inline __host__ __device__ int4 make_int4(215,5101
+inline __host__ __device__ int4 make_int4(219,5218
+inline __host__ __device__ uint4 make_uint4(225,5338
+inline __host__ __device__ uint4 make_uint4(229,5429
+inline __host__ __device__ uint4 make_uint4(233,5527
+inline __host__ __device__ uint4 make_uint4(237,5633
+inline __host__ __device__ float2 operator*operator659,16922
+inline __host__ __device__ void operator*operator663,17036
+inline __host__ __device__ float2 operator*operator667,17132
+inline __host__ __device__ float2 operator*operator671,17241
+inline __host__ __device__ void operator*operator675,17350
+inline __host__ __device__ int2 operator*operator680,17442
+inline __host__ __device__ void operator*operator684,17548
+inline __host__ __device__ int2 operator*operator688,17640
+inline __host__ __device__ int2 operator*operator692,17741
+inline __host__ __device__ void operator*operator696,17842
+inline __host__ __device__ uint2 operator*operator701,17930
+inline __host__ __device__ void operator*operator705,18040
+inline __host__ __device__ uint2 operator*operator709,18134
+inline __host__ __device__ uint2 operator*operator713,18239
+inline __host__ __device__ void operator*operator717,18344
+inline __host__ __device__ float3 operator*operator722,18434
+inline __host__ __device__ void operator*operator726,18559
+inline __host__ __device__ float3 operator*operator730,18667
+inline __host__ __device__ float3 operator*operator734,18785
+inline __host__ __device__ void operator*operator738,18903
+inline __host__ __device__ int3 operator*operator743,19005
+inline __host__ __device__ void operator*operator747,19122
+inline __host__ __device__ int3 operator*operator751,19226
+inline __host__ __device__ int3 operator*operator755,19336
+inline __host__ __device__ void operator*operator759,19446
+inline __host__ __device__ uint3 operator*operator764,19544
+inline __host__ __device__ void operator*operator768,19665
+inline __host__ __device__ uint3 operator*operator772,19771
+inline __host__ __device__ uint3 operator*operator776,19885
+inline __host__ __device__ void operator*operator780,19999
+inline __host__ __device__ float4 operator*operator785,20099
+inline __host__ __device__ void operator*operator789,20236
+inline __host__ __device__ float4 operator*operator793,20356
+inline __host__ __device__ float4 operator*operator797,20484
+inline __host__ __device__ void operator*operator801,20611
+inline __host__ __device__ int4 operator*operator806,20723
+inline __host__ __device__ void operator*operator810,20852
+inline __host__ __device__ int4 operator*operator814,20968
+inline __host__ __device__ int4 operator*operator818,21088
+inline __host__ __device__ void operator*operator822,21207
+inline __host__ __device__ uint4 operator*operator827,21315
+inline __host__ __device__ void operator*operator831,21448
+inline __host__ __device__ uint4 operator*operator835,21566
+inline __host__ __device__ uint4 operator*operator839,21690
+inline __host__ __device__ void operator*operator843,21813
+inline  __host__ __device__ float2 fminf(918,23980
+inline __host__ __device__ float3 fminf(922,24098
+inline  __host__ __device__ float4 fminf(926,24231
+inline __host__ __device__ int2 min(931,24382
+inline __host__ __device__ int3 min(935,24488
+inline __host__ __device__ int4 min(939,24608
+inline __host__ __device__ uint2 min(944,24743
+inline __host__ __device__ uint3 min(948,24853
+inline __host__ __device__ uint4 min(952,24977
+inline __host__ __device__ float2 fmaxf(961,25286
+inline __host__ __device__ float3 fmaxf(965,25403
+inline __host__ __device__ float4 fmaxf(969,25536
+inline __host__ __device__ int2 max(974,25686
+inline __host__ __device__ int3 max(978,25792
+inline __host__ __device__ int4 max(982,25912
+inline __host__ __device__ uint2 max(987,26047
+inline __host__ __device__ uint3 max(991,26157
+inline __host__ __device__ uint4 max(995,26281
+inline __device__ __host__ float lerp(1005,26667
+inline __device__ __host__ float2 lerp(1009,26760
+inline __device__ __host__ float3 lerp(1013,26856
+inline __device__ __host__ float4 lerp(1017,26952
+inline __device__ __host__ float clamp(1027,27270
+inline __device__ __host__ int clamp(1031,27374
+inline __device__ __host__ uint clamp(1035,27466
+inline __device__ __host__ float2 clamp(1040,27563
+inline __device__ __host__ float2 clamp(1044,27695
+inline __device__ __host__ float3 clamp(1048,27837
+inline __device__ __host__ float3 clamp(1052,27987
+inline __device__ __host__ float4 clamp(1056,28151
+inline __device__ __host__ float4 clamp(1060,28319
+inline __device__ __host__ int2 clamp(1065,28506
+inline __device__ __host__ int2 clamp(1069,28628
+inline __device__ __host__ int3 clamp(1073,28760
+inline __device__ __host__ int3 clamp(1077,28900
+inline __device__ __host__ int4 clamp(1081,29054
+inline __device__ __host__ int4 clamp(1085,29212
+inline __device__ __host__ uint2 clamp(1090,29389
+inline __device__ __host__ uint2 clamp(1094,29516
+inline __device__ __host__ uint3 clamp(1098,29653
+inline __device__ __host__ uint3 clamp(1102,29798
+inline __device__ __host__ uint4 clamp(1106,29957
+inline __device__ __host__ uint4 clamp(1110,30120
+inline __host__ __device__ float dot(1119,30480
+inline __host__ __device__ float dot(1123,30576
+inline __host__ __device__ float dot(1127,30684
+inline __host__ __device__ int dot(1132,30805
+inline __host__ __device__ int dot(1136,30895
+inline __host__ __device__ int dot(1140,30997
+inline __host__ __device__ uint dot(1145,31112
+inline __host__ __device__ uint dot(1149,31205
+inline __host__ __device__ uint dot(1153,31310
+inline __host__ __device__ float length(1162,31601
+inline __host__ __device__ float length(1166,31684
+inline __host__ __device__ float length(1170,31767
+inline __host__ __device__ float2 normalize(1179,32027
+inline __host__ __device__ float3 normalize(1184,32146
+inline __host__ __device__ float4 normalize(1189,32265
+inline __host__ __device__ float2 floorf(1199,32557
+inline __host__ __device__ float3 floorf(1203,32662
+inline __host__ __device__ float4 floorf(1207,32780
+inline __host__ __device__ float fracf(1216,33153
+inline __host__ __device__ float2 fracf(1220,33231
+inline __host__ __device__ float3 fracf(1224,33333
+inline __host__ __device__ float4 fracf(1228,33447
+inline __host__ __device__ float2 fmodf(1237,33745
+inline __host__ __device__ float3 fmodf(1241,33867
+inline __host__ __device__ float4 fmodf(1245,34006
+inline __host__ __device__ float2 fabs(1254,34344
+inline __host__ __device__ float3 fabs(1258,34440
+inline __host__ __device__ float4 fabs(1262,34547
+inline __host__ __device__ int2 abs(1267,34666
+inline __host__ __device__ int3 abs(1271,34753
+inline __host__ __device__ int4 abs(1275,34850
+inline __host__ __device__ float3 reflect(1286,35277
+inline __host__ __device__ float3 cross(1295,35557
+inline __device__ __host__ float smoothstep(1307,36001
+inline __device__ __host__ float2 smoothstep(1312,36158
+inline __device__ __host__ float3 smoothstep(1317,36346
+inline __device__ __host__ float4 smoothstep(1322,36534
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/rendercheck_d3d10.h,128
+#define _RENDERCHECK_D3D10_H_15,444
+class CheckRenderD3D1024,594
+	CheckRenderD3D10(CheckRenderD3D10::CheckRenderD3D1028,628
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/helper_string.h,583
+#define STRING_HELPER_H15,656
+   #define STRCASECMP 24,794
+   #define STRNCASECMP 27,859
+   #define STRCPY(30,920
+   #define FOPEN(34,1029
+   #define FOPEN_FAIL(37,1135
+   #define SSCANF 40,1207
+   #define STRCASECMP 48,1321
+   #define STRNCASECMP 51,1388
+   #define STRCPY(54,1451
+   #define FOPEN(58,1549
+   #define FOPEN_FAIL(61,1655
+   #define SSCANF 64,1730
+inline int stringRemoveDelimiter(69,1806
+inline int checkCmdLineFlag(81,2075
+inline int getCmdLineArgumentInt(98,2609
+inline bool getCmdLineArgumentString(126,3495
+inline char* sdkFindFilePath(156,4613
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/helper_functions.h,34
+#define HELPER_FUNCTIONS_H15,674
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/stopwatch_functions.h,1829
+#define STOPWATCH_FUNCTIONS_H15,525
+class StopWatchInterface25,787
+	StopWatchInterface(StopWatchInterface::StopWatchInterface28,822
+	virtual	~StopWatchInterface(StopWatchInterface::~StopWatchInterface29,848
+    #define WINDOWS_LEAN_AND_MEAN57,1772
+    #undef min59,1831
+    #undef max60,1846
+	class StopWatchWin 63,1915
+        StopWatchWin(StopWatchWin::StopWatchWin67,2014
+        ~StopWatchWin(StopWatchWin::~StopWatchWin88,2657
+        LARGE_INTEGER  start_time;StopWatchWin::start_time113,3438
+        LARGE_INTEGER  end_time;StopWatchWin::end_time115,3504
+        float  diff_time;StopWatchWin::diff_time118,3598
+        float  total_time;StopWatchWin::total_time121,3684
+        bool running;StopWatchWin::running124,3758
+        int clock_sessions;StopWatchWin::clock_sessions128,3875
+        double  freq;StopWatchWin::freq131,3931
+        bool  freq_set;StopWatchWin::freq_set134,4001
+    StopWatchWin::start(143,4277
+    StopWatchWin::stop(154,4751
+    StopWatchWin::reset(170,5394
+    StopWatchWin::getTime(187,6051
+    StopWatchWin::getAverageTime(207,6731
+	class StopWatchLinux 218,7035
+        StopWatchLinux(StopWatchLinux::StopWatchLinux222,7136
+        virtual ~StopWatchLinux(StopWatchLinux::~StopWatchLinux228,7304
+        struct timeval  start_time;StopWatchLinux::start_time262,8253
+        float  diff_time;StopWatchLinux::diff_time265,8350
+        float  total_time;StopWatchLinux::total_time268,8436
+        bool running;StopWatchLinux::running271,8510
+        int clock_sessions;StopWatchLinux::clock_sessions275,8627
+    StopWatchLinux::start(284,8907
+    StopWatchLinux::stop(294,9350
+    StopWatchLinux::reset(306,9844
+    StopWatchLinux::getTime(322,10466
+    StopWatchLinux::getAverageTime(338,10978
+    StopWatchLinux::getDiffTime(346,11289
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/exception.h,387
+#define _EXCEPTION_H_14,440
+class Exception 25,692
+handleException(67,2158
+#define RUNTIME_EXCEPTION(77,2372
+#define LOGIC_EXCEPTION(81,2531
+#define RANGE_EXCEPTION(85,2659
+throw_it(101,3251
+throw_it(120,3949
+Exception<Std_Exception>::Exception(Exception129,4291
+Exception<Std_Exception>::Exception(Exception138,4631
+Exception<Std_Exception>::~Exception(~Exception146,4926
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/sdkHelper.h,1010
+#define SDK_HELPER_H14,501
+#define MIN(38,885
+#define MAX(41,939
+inline int _ConvertSMVer2Cores(45,1027
+       int SM;49,1202
+       int Cores;50,1296
+    } sSMtoCores;51,1314
+namespace 77,2210
+	#define FOPEN(146,3976
+	#define FOPEN_FAIL(147,4048
+	#define SSCANF 148,4090
+	#define FOPEN(150,4121
+	#define FOPEN_FAIL(151,4193
+	#define SSCANF 152,4238
+__loadPPM(156,4281
+sdkLoadPGM(240,6494
+sdkLoadPPM4(268,7118
+__savePPM(298,7848
+sdkSavePGM(344,8836
+sdkSavePPM4ub(362,9242
+sdkWriteFile(392,10202
+compareData(441,11659
+#define __MIN_EPSILON_ERROR 478,12664
+compareDataAsFloatThreshold(492,13326
+void sdkDumpBin(536,14723
+bool sdkCompareBin2BinUint(546,14952
+bool sdkCompareBin2BinFloat(610,17349
+sdkCompareL2fe(676,19704
+sdkLoadPPMub(713,20544
+sdkLoadPPM4ub(721,20742
+sdkComparePPM(752,21513
+sdkCreateTimer(815,23705
+sdkDeleteTimer(832,24265
+sdkStartTimer(843,24646
+sdkStopTimer(854,25045
+sdkResetTimer(865,25423
+sdkGetAverageTimerValue(879,26016
+sdkGetTimerValue(893,26508
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/stopwatch.h,170
+#define _STOPWATCH_H_15,451
+typedef StopWatchWin  OSStopWatch;23,600
+typedef StopWatchLinux  OSStopWatch;26,671
+typedef StopWatchBase<OSStopWatch>  StopWatchC;30,744
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/rendercheck_gl.h,4057
+#define _RENDERCHECK_GL_H_13,427
+using std::vector;33,744
+using std::map;34,763
+using std::string;35,779
+#define BUFFER_OFFSET(37,799
+#define CHECK_FBO 40,857
+#define CHECK_FBO 42,923
+class CheckRender47,960
+    virtual void setExecPath(CheckRender::setExecPath58,1312
+    virtual void EnableQAReadback(CheckRender::EnableQAReadback61,1395
+    virtual bool IsQAReadback(CheckRender::IsQAReadback62,1472
+    virtual bool IsFBO(CheckRender::IsFBO63,1530
+    virtual bool IsPBO(CheckRender::IsPBO64,1584
+    virtual void * imageData(CheckRender::imageData65,1638
+    virtual void setPixelFormat(CheckRender::setPixelFormat68,1737
+    virtual int  getPixelFormat(CheckRender::getPixelFormat69,1812
+    void    setThresholdCompare(CheckRender::setThresholdCompare84,2663
+    unsigned int  m_Width,CheckRender::m_Width91,3133
+    unsigned int  m_Width, m_Height,CheckRender::m_Height91,3133
+    unsigned int  m_Width, m_Height, m_Bpp;CheckRender::m_Bpp91,3133
+    unsigned char *m_pImageData;CheckRender::m_pImageData92,3177
+    bool          m_bQAReadback,CheckRender::m_bQAReadback93,3261
+    bool          m_bQAReadback, m_bUseFBO,CheckRender::m_bUseFBO93,3261
+    bool          m_bQAReadback, m_bUseFBO, m_bUsePBO;CheckRender::m_bUsePBO93,3261
+    GLuint        m_pboReadback;CheckRender::m_pboReadback94,3316
+    GLenum        m_PixelFormat;CheckRender::m_PixelFormat95,3349
+    float         m_fThresholdCompare;CheckRender::m_fThresholdCompare96,3382
+    char          m_ExecPath[CheckRender::m_ExecPath97,3421
+class CheckBackBuffer 101,3461
+    virtual void bindFragmentProgram(CheckBackBuffer::bindFragmentProgram113,3948
+    virtual void bindRenderPath(CheckBackBuffer::bindRenderPath114,3992
+    virtual void unbindRenderPath(CheckBackBuffer::unbindRenderPath115,4030
+    virtual void bindTexture(CheckBackBuffer::bindTexture118,4112
+    virtual void unbindTexture(CheckBackBuffer::unbindTexture121,4174
+struct bufferConfig 126,4273
+    string name;bufferConfig::name127,4295
+    GLenum format;bufferConfig::format128,4312
+    int bits;bufferConfig::bits129,4331
+struct fboConfig 133,4393
+    string name;fboConfig::name134,4412
+    GLenum colorFormat;fboConfig::colorFormat135,4429
+    GLenum depthFormat;fboConfig::depthFormat136,4453
+    int redbits;fboConfig::redbits137,4477
+    int depthBits;fboConfig::depthBits138,4494
+    int depthSamples;fboConfig::depthSamples139,4513
+    int coverageSamples;fboConfig::coverageSamples140,4535
+struct fboData 143,4564
+    GLuint colorTex;fboData::colorTex144,4581
+    GLuint depthTex;fboData::depthTex145,4618
+    GLuint fb;fboData::fb146,4655
+    GLuint resolveFB;fboData::resolveFB147,4697
+    GLuint colorRB;fboData::colorRB148,4748
+    GLuint depthRB;fboData::depthRB149,4790
+class CFrameBufferObject 153,4838
+    void bindFragmentProgram(CFrameBufferObject::bindFragmentProgram178,5970
+    void bindRenderPath(CFrameBufferObject::bindRenderPath184,6158
+    void unbindRenderPath(CFrameBufferObject::unbindRenderPath189,6301
+    void bindTexture(CFrameBufferObject::bindTexture194,6427
+    void unbindTexture(CFrameBufferObject::unbindTexture199,6542
+    GLuint getFbo(CFrameBufferObject::getFbo203,6617
+    GLuint getTex(CFrameBufferObject::getTex204,6667
+    GLuint getDepthTex(CFrameBufferObject::getDepthTex205,6723
+    GLuint    m_Width,CFrameBufferObject::m_Width208,6789
+    GLuint    m_Width, m_Height;CFrameBufferObject::m_Height208,6789
+    fboData   m_fboData;CFrameBufferObject::m_fboData209,6822
+    fboConfig m_fboConfig;CFrameBufferObject::m_fboConfig210,6847
+    GLuint    m_textureProgram;CFrameBufferObject::m_textureProgram212,6875
+    GLuint    m_overlayProgram;CFrameBufferObject::m_overlayProgram213,6907
+    bool      m_bUseFloat;CFrameBufferObject::m_bUseFloat215,6940
+    GLenum    m_eGLTarget;CFrameBufferObject::m_eGLTarget216,6967
+class CheckFBO:CheckFBO221,7051
+	CFrameBufferObject *m_pFrameBufferObject;CheckFBO::m_pFrameBufferObject235,7585
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/multithreading.h,387
+#define MULTITHREADING_H13,425
+    typedef HANDLE CUTThread;22,547
+    typedef unsigned (WINAPI *CUT_THREADROUTINE)CUT_THREADROUTINE23,577
+    #define CUT_THREADPROC 25,636
+    #define  CUT_THREADEND 26,679
+    typedef pthread_t CUTThread;32,769
+    typedef void *(*CUT_THREADROUTINE)CUT_THREADROUTINE33,802
+    #define CUT_THREADPROC 35,851
+    #define  CUT_THREADEND 36,883
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/string_helper.h,356
+#define STRING_HELPER_H3,104
+   #define STRCASECMP 12,242
+   #define STRNCASECMP 15,307
+   #define STRCASECMP 22,426
+   #define STRNCASECMP 25,493
+inline int stringRemoveDelimiter(30,579
+inline int checkCmdLineFlag(42,848
+inline int getCmdLineArgumentInt(59,1382
+inline bool getCmdLineArgumentString(87,2268
+inline char* sdkFindFilePath(117,3386
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/nvGLWidgets.h,987
+#define NV_GL_WIDGETS_H22,705
+    class GLUIPainter 30,869
+        NVSDKENTRY GLUIPainter(34,929
+        NVSDKENTRY virtual void begin(36,964
+        NVSDKENTRY virtual void end(37,1025
+        NVSDKENTRY virtual void drawFrame(40,1125
+        NVSDKENTRY virtual Rect getLabelRect(42,1208
+        enum Color106,6606
+            cBase 108,6635
+            cBool 109,6658
+            cOutline 110,6681
+            cFont 111,6708
+            cFontBack 112,6732
+            cTranslucent 113,6760
+            cNbColors 114,6791
+        GLuint m_setupStateDL;119,6845
+        GLuint m_restoreStateDL;120,6876
+		GLuint m_textListBase;121,6909
+        GLuint m_foregroundDL;122,6934
+        GLuint m_widgetProgram;124,6966
+        GLuint m_originUniform;125,6998
+        GLuint m_sizeUniform;126,7030
+        GLuint m_fillColorUniform;127,7060
+        GLuint m_borderColorUniform;128,7095
+        GLuint m_zonesUniform;129,7132
+        vec4f m_colors[m_colors131,7173
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/param.h,2626
+#define PARAM_H18,478
+class ParamBase 28,639
+    ParamBase(ParamBase::ParamBase30,665
+    virtual ~ParamBase(ParamBase::~ParamBase31,716
+    std::string &GetName(ParamBase::GetName33,746
+    std::string m_name;ParamBase::m_name52,1241
+template<class T> class Param 56,1314
+    Param(Param::Param58,1373
+    ~Param(Param::~Param73,1735
+    T GetValue(Param::GetValue75,1753
+    T SetValue(Param::SetValue76,1795
+    float GetFloatValue(Param::GetFloatValue78,1846
+    int GetIntValue(Param::GetIntValue79,1899
+    std::string GetValueString(Param::GetValueString81,1947
+    void SetPrecision(Param::SetPrecision89,2129
+    float GetPercentage(Param::GetPercentage91,2180
+    void SetPercentage(Param::SetPercentage96,2278
+    void Reset(Param::Reset101,2374
+    void Increment(Param::Increment103,2416
+    void Decrement(Param::Decrement110,2533
+    void Write(Param::Write117,2649
+    void Read(Param::Read118,2733
+    bool IsList(Param::IsList120,2802
+    T m_value;Param::m_value123,2848
+    T *m_ptr;Param::m_ptr124,2863
+    T m_default,Param::m_default125,2924
+    T m_default, m_min,Param::m_min125,2924
+    T m_default, m_min, m_max,Param::m_max125,2924
+    T m_default, m_min, m_max, m_step;Param::m_step125,2924
+    int m_precision;Param::m_precision126,2963
+class ParamList 133,3101
+    ParamList(ParamList::ParamList135,3146
+    ~ParamList(ParamList::~ParamList140,3244
+    float GetFloatValue(ParamList::GetFloatValue142,3266
+    int GetIntValue(ParamList::GetIntValue143,3309
+    void AddParam(ParamList::AddParam145,3346
+    ParamBase *GetParam(ParamList::GetParam153,3550
+    ParamBase *GetParam(ParamList::GetParam163,3727
+    ParamBase *GetCurrent(ParamList::GetCurrent168,3799
+    int GetSize(ParamList::GetSize173,3867
+    std::string GetValueString(ParamList::GetValueString175,3919
+    void Reset(ParamList::Reset181,4022
+    void Increment(ParamList::Increment186,4090
+    void Decrement(ParamList::Decrement193,4228
+    float GetPercentage(ParamList::GetPercentage202,4386
+    void SetPercentage(ParamList::SetPercentage203,4429
+    void Write(ParamList::Write205,4469
+    void Read(ParamList::Read213,4700
+    bool IsList(ParamList::IsList221,4920
+    void ResetAll(ParamList::ResetAll223,4956
+    bool active;ParamList::active231,5140
+    std::vector<ParamBase *> m_params;ParamList::m_params232,5157
+    std::map<ParamList::std::map233,5196
+    std::map<std::string, ParamBase *> m_map;ParamList::m_map233,5196
+    std::vector<ParamBase *>::const_iterator m_current;ParamList::m_current234,5242
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/helper_cuda_drvapi.h,269
+#define HELPER_CUDA_DRVAPI_H15,636
+#define MAX(27,818
+#define checkCudaErrors(34,1078
+    inline void __checkCudaErrors(37,1226
+    inline int gpuDeviceInitDRV(47,1615
+    inline int getMaxGflopsDeviceIdDRV(78,2833
+    inline CUdevice findCudaDeviceDRV(134,5055
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/nvQuaternion.h,1082
+#define NV_QUATERNION_H62,2450
+class quaternion77,2788
+    quaternion(81,2816
+    quaternion(85,2879
+    quaternion(91,2948
+    quaternion(97,3040
+    quaternion(103,3117
+    quaternion(109,3216
+    quaternion(114,3341
+    const T * get_value(120,3531
+    void get_value(125,3604
+    quaternion & set_value(133,3768
+    void get_value(142,3952
+    void get_value(156,4314
+    quaternion & set_value(196,5376
+    quaternion & set_value(203,5511
+    quaternion & set_value(246,6557
+    quaternion & set_value(271,7155
+    quaternion & set_value(310,8059
+    friend quaternion normalize(336,8881
+    friend quaternion<T> conjugate(346,9153
+    friend quaternion<T> inverse(354,9365
+    void mult_vec(362,9555
+    void mult_vec(373,10116
+    void scale_angle(378,10230
+    friend quaternion<T> slerp(387,10419
+    T & operator 420,11423
+    const T & operator 424,11487
+    friend quaternion<T> operator 443,12010
+            T x;454,12222
+            T y;455,12239
+            T z;456,12256
+            T w;457,12273
+        T _array[_array459,12301
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/rendercheck_d3d11.h,128
+#define _RENDERCHECK_D3D11_H_16,446
+class CheckRenderD3D1125,596
+	CheckRenderD3D11(CheckRenderD3D11::CheckRenderD3D1129,630
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/bank_checker.h,3812
+#define _BANK_CHECKER_H_15,467
+class BankChecker 25,649
+    static BankChecker  bank_checker;BankChecker::bank_checker29,713
+    class AccessLocation BankChecker::AccessLocation67,2032
+        typedef  std::string  KeyType;BankChecker::AccessLocation::KeyType72,2161
+        const std::string&  getFile(BankChecker::AccessLocation::getFile113,3431
+        const unsigned int&  getLine(BankChecker::AccessLocation::getLine119,3572
+        const unsigned int&  getNumAccessLine(BankChecker::AccessLocation::getNumAccessLine125,3716
+        std::string  file;BankChecker::AccessLocation::file135,3918
+        unsigned int line;BankChecker::AccessLocation::line138,3992
+        unsigned int num_access_line;BankChecker::AccessLocation::num_access_line141,4061
+        std::string array_name;BankChecker::AccessLocation::array_name144,4148
+        KeyType  key;BankChecker::AccessLocation::key147,4216
+        static const unsigned int invalid;BankChecker::AccessLocation::invalid150,4278
+        typedef std::map<std::string,BankChecker::AccessLocation::std::string157,4491
+        typedef std::map<std::string, unsigned int>  LineAccessCounter;BankChecker::AccessLocation::LineAccessCounter157,4491
+        static  std::map<BankChecker::AccessLocation::std::map167,5059
+        static  std::map< unsigned int, LineAccessCounter > thread_access;BankChecker::AccessLocation::thread_access167,5059
+    struct AccessLocationComparator BankChecker::AccessLocationComparator174,5347
+    class AccessInfo BankChecker::AccessInfo186,5760
+        unsigned int  ltid;BankChecker::AccessInfo::ltid224,6832
+        unsigned int  tidx;BankChecker::AccessInfo::tidx227,6906
+        unsigned int  tidy;BankChecker::AccessInfo::tidy228,6934
+        unsigned int  tidz;BankChecker::AccessInfo::tidz229,6962
+        unsigned int index;BankChecker::AccessInfo::index232,7037
+        static const unsigned int invalid;BankChecker::AccessInfo::invalid235,7105
+    typedef std::vector<AccessInfo>           AccessInfoList;BankChecker::AccessInfoList244,7228
+    typedef AccessInfoList::iterator          AccessInfoListIter;BankChecker::AccessInfoListIter245,7290
+    typedef AccessInfoList::const_iterator    AccessInfoListCIter;BankChecker::AccessInfoListCIter246,7356
+    typedef  std::map< unsigned int,BankChecker::int251,7598
+    typedef  std::map< unsigned int, AccessInfoList >  IndexAInfoList;BankChecker::IndexAInfoList251,7598
+    typedef  IndexAInfoList::iterator                  IndexAInfoListIter;BankChecker::IndexAInfoListIter252,7669
+    typedef  IndexAInfoList::const_iterator            IndexAInfoListCIter;BankChecker::IndexAInfoListCIter253,7744
+    typedef  std::map< AccessLocation,BankChecker::AccessLocation255,7825
+                       IndexAInfoList,BankChecker::IndexAInfoList256,7864
+                       AccessLocationComparator >  AccessData;BankChecker::AccessData257,7904
+    typedef  AccessData::iterator                  AccessDataIter;BankChecker::AccessDataIter258,7967
+    typedef  AccessData::const_iterator            AccessDataCIter;BankChecker::AccessDataCIter259,8034
+    AccessData  access_data;BankChecker::access_data262,8146
+    unsigned int  last_ltid;BankChecker::last_ltid265,8230
+    unsigned int total_num_conflicts;BankChecker::total_num_conflicts268,8299
+    bool is_active;BankChecker::is_active271,8374
+    static const unsigned int warp_size BankChecker::warp_size300,9205
+AccessLocation(317,9848
+AccessLocation(349,10841
+operator=(operator=361,11284
+operator==(operator==379,11735
+getKey(393,12335
+BankChecker::AccessLocationComparator::operator()(BankChecker::AccessLocationComparator::operator()402,12586
+AccessInfo(418,13265
+AccessInfo(434,13724
+operator=(operator=446,14120
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/nvWidgets.h,12496
+#define NV_WIDGETS_H22,700
+#define NVSDKENTRY 30,831
+#define NVSDKENTRY 32,878
+    struct Point39,950
+        NVSDKENTRY Point(41,973
+        NVSDKENTRY Point(42,1016
+        NVSDKENTRY Point(43,1075
+        int x,47,1247
+        int x, y;47,1247
+    struct Rect50,1273
+        NVSDKENTRY Rect(52,1295
+        NVSDKENTRY Rect(53,1349
+        NVSDKENTRY Rect(54,1422
+        NVSDKENTRY Rect(55,1518
+        int x,59,1732
+        int x, y;59,1732
+        int w,60,1750
+        int w, h;60,1750
+        NVSDKENTRY static const Rect null;62,1769
+    enum ButtonFlags65,1820
+        ButtonFlags_Off 67,1847
+        ButtonFlags_Off = 0x0,x067,1847
+        ButtonFlags_On 68,1878
+        ButtonFlags_On = 0x1,x168,1878
+        ButtonFlags_Begin 69,1908
+        ButtonFlags_Begin = 0x2,x269,1908
+        ButtonFlags_End 70,1941
+        ButtonFlags_End = 0x4,x470,1941
+        ButtonFlags_Shift 71,1972
+        ButtonFlags_Shift = 0x8,x871,1972
+        ButtonFlags_Alt 72,2005
+        ButtonFlags_Alt = 0x10,x1072,2005
+        ButtonFlags_Ctrl 73,2037
+        ButtonFlags_Ctrl = 0x20,x2073,2037
+    struct ButtonState76,2078
+        int state;78,2107
+        time_t time;79,2126
+        Point cursor;80,2147
+    enum MouseButton84,2222
+        MouseButton_Left,86,2249
+        MouseButton_Middle,87,2275
+        MouseButton_Right,88,2303
+    enum Key92,2421
+        Key_F1 94,2440
+        Key_F2,95,2462
+        Key_F3,96,2478
+        Key_F4,97,2494
+        Key_F5,98,2510
+        Key_F6,99,2526
+        Key_F7,100,2542
+        Key_F8,101,2558
+        Key_F9,102,2574
+        Key_F10,103,2590
+        Key_F11,104,2607
+        Key_F12,105,2624
+        Key_Left,107,2642
+        Key_Up,108,2660
+        Key_Right,109,2676
+        Key_Down,110,2695
+        Key_PageUp,111,2713
+        Key_PageDown,112,2733
+        Key_Home,113,2755
+        Key_End,114,2773
+        Key_Insert,115,2790
+    enum GroupFlags119,2884
+        GroupFlags_LayoutNone 122,2943
+        GroupFlags_LayoutNone = 0x01,x01122,2943
+        GroupFlags_LayoutVertical 123,2981
+        GroupFlags_LayoutVertical = 0x02,x02123,2981
+        GroupFlags_LayoutHorizontal 124,3023
+        GroupFlags_LayoutHorizontal = 0x04,x04124,3023
+        GroupFlags_LayoutMask 125,3067
+        GroupFlags_LayoutMask = 0x07,x07125,3067
+        GroupFlags_LayoutXMask 126,3105
+        GroupFlags_LayoutXMask = 0xffff xffff126,3105
+        GroupFlags_LayoutXMask = 0xffff ^ GroupFlags_LayoutMask,126,3105
+        GroupFlags_AlignLeft 129,3236
+        GroupFlags_AlignLeft = 0x10,x10129,3236
+        GroupFlags_AlignRight 130,3273
+        GroupFlags_AlignRight = 0x20,x20130,3273
+        GroupFlags_AlignTop 131,3311
+        GroupFlags_AlignTop = 0x40,x40131,3311
+        GroupFlags_AlignBottom 132,3347
+        GroupFlags_AlignBottom = 0x80,x80132,3347
+        GroupFlags_AlignMask 133,3386
+        GroupFlags_AlignMask = 0xf0,xf0133,3386
+        GroupFlags_AlignXMask 134,3423
+        GroupFlags_AlignXMask = 0xffff xffff134,3423
+        GroupFlags_AlignXMask = 0xffff ^ GroupFlags_AlignMask,134,3423
+        GroupFlags_StartLeft 137,3552
+        GroupFlags_StartLeft = 0x100,x100137,3552
+        GroupFlags_StartRight 138,3590
+        GroupFlags_StartRight = 0x200,x200138,3590
+        GroupFlags_StartTop 139,3629
+        GroupFlags_StartTop = 0x400,x400139,3629
+        GroupFlags_StartBottom 140,3666
+        GroupFlags_StartBottom = 0x800,x800140,3666
+        GroupFlags_StartMask 141,3706
+        GroupFlags_StartMask = 0xf00,xf00141,3706
+        GroupFlags_StartXMask 142,3744
+        GroupFlags_StartXMask = 0xffff xffff142,3744
+        GroupFlags_StartXMask = 0xffff ^ GroupFlags_StartMask,142,3744
+        GroupFlags_LayoutForce 145,3834
+        GroupFlags_LayoutForce = 0x8000,x8000145,3834
+        GroupFlags_LayoutDefault 146,3875
+        GroupFlags_LayoutDefault = 0x4000,x4000146,3875
+        GroupFlags_LayoutNoMargin 147,3918
+        GroupFlags_LayoutNoMargin = 0x2000,x2000147,3918
+        GroupFlags_LayoutNoSpace 148,3962
+        GroupFlags_LayoutNoSpace = 0x1000,x1000148,3962
+        GroupFlags_GrowRightFromBottom 151,4043
+        GroupFlags_GrowRightFromBottom   = GroupFlags_LayoutHorizontal 151,4043
+        GroupFlags_GrowRightFromBottom   = GroupFlags_LayoutHorizontal    | GroupFlags_StartLeft 151,4043
+        GroupFlags_GrowRightFromBottom   = GroupFlags_LayoutHorizontal    | GroupFlags_StartLeft   | GroupFlags_AlignLeft 151,4043
+        GroupFlags_GrowRightFromBottom   = GroupFlags_LayoutHorizontal    | GroupFlags_StartLeft   | GroupFlags_AlignLeft   | GroupFlags_StartBottom 151,4043
+        GroupFlags_GrowRightFromBottom   = GroupFlags_LayoutHorizontal    | GroupFlags_StartLeft   | GroupFlags_AlignLeft   | GroupFlags_StartBottom | GroupFlags_AlignBottom 151,4043
+        GroupFlags_GrowRightFromTop 152,4219
+        GroupFlags_GrowRightFromTop      = GroupFlags_LayoutHorizontal 152,4219
+        GroupFlags_GrowRightFromTop      = GroupFlags_LayoutHorizontal    | GroupFlags_StartLeft 152,4219
+        GroupFlags_GrowRightFromTop      = GroupFlags_LayoutHorizontal    | GroupFlags_StartLeft   | GroupFlags_AlignLeft 152,4219
+        GroupFlags_GrowRightFromTop      = GroupFlags_LayoutHorizontal    | GroupFlags_StartLeft   | GroupFlags_AlignLeft   | GroupFlags_StartTop 152,4219
+        GroupFlags_GrowRightFromTop      = GroupFlags_LayoutHorizontal    | GroupFlags_StartLeft   | GroupFlags_AlignLeft   | GroupFlags_StartTop    | GroupFlags_AlignTop 152,4219
+        GroupFlags_GrowLeftFromBottom 153,4392
+        GroupFlags_GrowLeftFromBottom    = GroupFlags_LayoutHorizontal 153,4392
+        GroupFlags_GrowLeftFromBottom    = GroupFlags_LayoutHorizontal    | GroupFlags_StartRight 153,4392
+        GroupFlags_GrowLeftFromBottom    = GroupFlags_LayoutHorizontal    | GroupFlags_StartRight  | GroupFlags_AlignRight 153,4392
+        GroupFlags_GrowLeftFromBottom    = GroupFlags_LayoutHorizontal    | GroupFlags_StartRight  | GroupFlags_AlignRight  | GroupFlags_StartBottom 153,4392
+        GroupFlags_GrowLeftFromBottom    = GroupFlags_LayoutHorizontal    | GroupFlags_StartRight  | GroupFlags_AlignRight  | GroupFlags_StartBottom | GroupFlags_AlignBottom,153,4392
+        GroupFlags_GrowLeftFromTop 154,4567
+        GroupFlags_GrowLeftFromTop       = GroupFlags_LayoutHorizontal 154,4567
+        GroupFlags_GrowLeftFromTop       = GroupFlags_LayoutHorizontal    | GroupFlags_StartRight 154,4567
+        GroupFlags_GrowLeftFromTop       = GroupFlags_LayoutHorizontal    | GroupFlags_StartRight  | GroupFlags_AlignRight 154,4567
+        GroupFlags_GrowLeftFromTop       = GroupFlags_LayoutHorizontal    | GroupFlags_StartRight  | GroupFlags_AlignRight  | GroupFlags_StartTop 154,4567
+        GroupFlags_GrowLeftFromTop       = GroupFlags_LayoutHorizontal    | GroupFlags_StartRight  | GroupFlags_AlignRight  | GroupFlags_StartTop    | GroupFlags_AlignTop,154,4567
+        GroupFlags_GrowUpFromLeft 155,4739
+        GroupFlags_GrowUpFromLeft        = GroupFlags_LayoutVertical 155,4739
+        GroupFlags_GrowUpFromLeft        = GroupFlags_LayoutVertical      | GroupFlags_StartBottom 155,4739
+        GroupFlags_GrowUpFromLeft        = GroupFlags_LayoutVertical      | GroupFlags_StartBottom | GroupFlags_AlignBottom 155,4739
+        GroupFlags_GrowUpFromLeft        = GroupFlags_LayoutVertical      | GroupFlags_StartBottom | GroupFlags_AlignBottom | GroupFlags_StartLeft 155,4739
+        GroupFlags_GrowUpFromLeft        = GroupFlags_LayoutVertical      | GroupFlags_StartBottom | GroupFlags_AlignBottom | GroupFlags_StartLeft   | GroupFlags_AlignLeft 155,4739
+        GroupFlags_GrowUpFromRight 156,4913
+        GroupFlags_GrowUpFromRight       = GroupFlags_LayoutVertical 156,4913
+        GroupFlags_GrowUpFromRight       = GroupFlags_LayoutVertical      | GroupFlags_StartBottom 156,4913
+        GroupFlags_GrowUpFromRight       = GroupFlags_LayoutVertical      | GroupFlags_StartBottom | GroupFlags_AlignBottom 156,4913
+        GroupFlags_GrowUpFromRight       = GroupFlags_LayoutVertical      | GroupFlags_StartBottom | GroupFlags_AlignBottom | GroupFlags_StartRight 156,4913
+        GroupFlags_GrowUpFromRight       = GroupFlags_LayoutVertical      | GroupFlags_StartBottom | GroupFlags_AlignBottom | GroupFlags_StartRight  | GroupFlags_AlignRight 156,4913
+        GroupFlags_GrowDownFromLeft 157,5088
+        GroupFlags_GrowDownFromLeft      = GroupFlags_LayoutVertical 157,5088
+        GroupFlags_GrowDownFromLeft      = GroupFlags_LayoutVertical      | GroupFlags_StartTop 157,5088
+        GroupFlags_GrowDownFromLeft      = GroupFlags_LayoutVertical      | GroupFlags_StartTop    | GroupFlags_AlignTop 157,5088
+        GroupFlags_GrowDownFromLeft      = GroupFlags_LayoutVertical      | GroupFlags_StartTop    | GroupFlags_AlignTop    | GroupFlags_StartLeft 157,5088
+        GroupFlags_GrowDownFromLeft      = GroupFlags_LayoutVertical      | GroupFlags_StartTop    | GroupFlags_AlignTop    | GroupFlags_StartLeft   | GroupFlags_AlignLeft 157,5088
+        GroupFlags_GrowDownFromRight 158,5262
+        GroupFlags_GrowDownFromRight     = GroupFlags_LayoutVertical 158,5262
+        GroupFlags_GrowDownFromRight     = GroupFlags_LayoutVertical      | GroupFlags_StartTop 158,5262
+        GroupFlags_GrowDownFromRight     = GroupFlags_LayoutVertical      | GroupFlags_StartTop    | GroupFlags_AlignTop 158,5262
+        GroupFlags_GrowDownFromRight     = GroupFlags_LayoutVertical      | GroupFlags_StartTop    | GroupFlags_AlignTop    | GroupFlags_StartRight 158,5262
+        GroupFlags_GrowDownFromRight     = GroupFlags_LayoutVertical      | GroupFlags_StartTop    | GroupFlags_AlignTop    | GroupFlags_StartRight  | GroupFlags_AlignRight 158,5262
+        GroupFlags_LayoutDefaultFallback 160,5438
+        GroupFlags_LayoutDefaultFallback = GroupFlags_GrowDownFromLeft,160,5438
+    struct Group163,5518
+        Rect bounds;165,5541
+        int flags;166,5612
+        int margin;167,5652
+        int space;168,5683
+    class UIPainter173,5820
+        NVSDKENTRY UIPainter(176,5858
+        NVSDKENTRY virtual void begin(178,5893
+        NVSDKENTRY virtual void end(179,5965
+        NVSDKENTRY virtual Rect getLabelRect(185,6155
+    class UIContext236,10156
+        NVSDKENTRY UIContext(239,10194
+        NVSDKENTRY void reshape(244,10388
+        NVSDKENTRY bool isOnFocus(249,10578
+        NVSDKENTRY void mouse(254,10780
+        NVSDKENTRY void mouse(255,10862
+        NVSDKENTRY void mouseMotion(260,11109
+        NVSDKENTRY void keyboard(265,11294
+        NVSDKENTRY void begin(272,11576
+        NVSDKENTRY void end(279,11823
+        NVSDKENTRY void doLabel(295,12506
+        NVSDKENTRY bool doButton(307,13135
+        NVSDKENTRY bool doCheckButton(309,13252
+        NVSDKENTRY bool doRadioButton(311,13359
+        NVSDKENTRY bool doHorizontalSlider(313,13477
+        NVSDKENTRY bool doListItem(315,13593
+        NVSDKENTRY bool doListBox(316,13709
+        NVSDKENTRY bool doComboBox(317,13834
+        NVSDKENTRY bool doLineEdit(319,13961
+        NVSDKENTRY void beginGroup(321,14095
+        NVSDKENTRY void endGroup(322,14205
+        NVSDKENTRY void beginFrame(324,14242
+        NVSDKENTRY void endFrame(325,14367
+        NVSDKENTRY bool beginPanel(327,14404
+        NVSDKENTRY void endPanel(328,14547
+        NVSDKENTRY int getGroupWidth(330,14584
+        NVSDKENTRY int getGroupHeight(331,14671
+        NVSDKENTRY int getCursorX(333,14760
+        NVSDKENTRY int getCursorY(334,14825
+        NVSDKENTRY const ButtonState& getMouseState(336,14891
+        NVSDKENTRY void doTextureView(338,14991
+        NVSDKENTRY UIPainter* getPainter(341,15134
+        NVSDKENTRY void setCursor(344,15213
+        NVSDKENTRY static bool overlap(346,15263
+        NVSDKENTRY bool hasFocus(348,15340
+        NVSDKENTRY bool isHover(349,15393
+        NVSDKENTRY Rect placeRect(351,15446
+        UIPainter * m_painter;354,15511
+        int m_groupIndex;356,15551
+        Group m_groupStack[m_groupStack357,15577
+        Rect m_window;359,15610
+        Point m_currentCursor;361,15634
+        ButtonState m_mouseButton[m_mouseButton362,15665
+        unsigned char m_keyBuffer[m_keyBuffer363,15703
+        int m_nbKeys;364,15742
+        int m_focusCaretPos;366,15765
+        Point m_focusPoint;367,15794
+        bool m_twoStepFocus;368,15822
+        bool m_uiOnFocus;369,15851
+
+/work/jaydy/working/SimilarityMatrix/release/src/include/nvidia_gpucomputingsdk_4.2.9_c_common_inc/rendercheck_d3d9.h,123
+#define _RENDERCHECK_D3D9_H_15,443
+class CheckRenderD3D923,571
+	CheckRenderD3D9(CheckRenderD3D9::CheckRenderD3D927,604
+
+/work/jaydy/working/SimilarityMatrix/release/src/util.h,49
+#define  UTIL_H2,16
+using namespace std;12,150
+
+/work/jaydy/working/SimilarityMatrix/release/src/move_d.cu,63
+ControlMoveAway_d 11,115
+MoveAway_d 73,2267
+Move_d 138,4427
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/move_d_extra.cu,0
+
+/work/jaydy/working/SimilarityMatrix/release/src/unused/old_cpu/header.h,0

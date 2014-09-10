@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/repos/ClassicalMC/!svn/ver/215/biology/release/src/unused/old_cpu
+END
+calcenergy.cu
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/repos/ClassicalMC/!svn/ver/215/biology/release/src/unused/old_cpu/calcenergy.cu
+END
+accept.cu
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/repos/ClassicalMC/!svn/ver/215/biology/release/src/unused/old_cpu/accept.cu
+END
+montecarlo.cu
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/repos/ClassicalMC/!svn/ver/215/biology/release/src/unused/old_cpu/montecarlo.cu
+END
+simulate.cu
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/repos/ClassicalMC/!svn/ver/215/biology/release/src/unused/old_cpu/simulate.cu
+END
+move.cu
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/repos/ClassicalMC/!svn/ver/215/biology/release/src/unused/old_cpu/move.cu
+END
+header.h
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/repos/ClassicalMC/!svn/ver/215/biology/release/src/unused/old_cpu/header.h
+END

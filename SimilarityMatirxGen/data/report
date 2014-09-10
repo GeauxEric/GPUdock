@@ -1,0 +1,65 @@
+../src/dock -id 1a07C1 -p ./1a07C1/1a07C.pdb -l ./1a07C1/1a07C1.sdf -s ./1a07C1/1a07C1-0.8.ff -opt ./parameters/08ff_opt -na ./parameters/08_nor_a -nb ./parameters/08_nor_b -para ./parameters/paras -ns 1000 -nc 10 -floor_temp 0.044f -ceiling_temp 0.036f -nt 1 -t 0.02f -r 0.08f
+------------------------------------------------------------
+                         GeauxDock                          
+                        version 0.1                         
+
+   GPU-accelerated mixed-resolution ligand docking using    
+                Replica Exchange Monte Carlo                
+------------------------------------------------------------
+
+RUNNING single temperature Monte Carlo
+FLOOR temperature used in simulaition
+Setting up temperature replicas
+================================================================================
+temp # 0			0.044000
+Start docking
+Start launching kernels
+	0 / 1000 
+================================================================================
+initial energy state
+================================================================================
+rep step vdw ele pmf psp hdb hpc kde lhm dst total
+0 0 0.5453 -0.0383 -0.2004 -0.0468 0.6729 -0.9511 -0.9179 0.2808 70.5361 2.1107
+
+================================================================================
+Inputs and Outputs
+================================================================================
+ligand file			./1a07C1/1a07C1.sdf
+protein file			./1a07C1/1a07C.pdb
+lhm file			./1a07C1/1a07C1-0.8.ff
+enepara file			./parameters/paras
+weight file			./parameters/08ff_opt
+output directory		output_20140909_102111
+out file (HDF5)			output_20140909_102111/a_XXXX.h5
+steps_per_dump			1000
+per dump record size:		5.527 MB
+================================================================================
+Replica Exchange Monte Carlo parameters
+================================================================================
+steps_total			1000
+steps_per_dump			1000
+steps_per_exchange		10
+translational scale		0.02000000 0.02000000 0.02000000 
+rotational scale		0.08000000 0.08000000 0.08000000 
+ligand conformations		21
+prt conformations		3
+temperatures			1
+replica ensembles		63
+size_lig			34
+size_prt			344
+size_pnk			454
+size_mcs			11
+AR of MC 			54455 / 63000 	0.864365
+AR of temp exchange 		0 / 6300 	0.000000
+================================================================================
+Performance
+================================================================================
+compute time			0.778 seconds
+time per MC sweep per replica	12.349 * 1e-6 seconds
+MC sweeps per second		80978.414
+speedup over 843.75		95.974 X
+wall time			0.799 seconds
+time per MC sweep per replica	12.684 * 1e-6 seconds 
+MC sweeps per second		78838.773
+speedup over 843.75		93.439 X
+================================================================================
