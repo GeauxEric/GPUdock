@@ -9,6 +9,7 @@
 #include <cmath>
 #include <ctime>
 #include <sys/stat.h>
+#include <cctype>
 
 #include "size.h"
 #include "toggle.h"
@@ -224,12 +225,14 @@ read2D(string fn)
   }
   
   while(getline(file, line)) {
-    vector < float > row;
-    istringstream iss(line);
-    while (iss >> val) {
-      row.push_back(val);
+    if (isdigit(line[0])) {
+      vector < float > row;
+      istringstream iss(line);
+      while (iss >> val) {
+	row.push_back(val);
+      }
+      matrix.push_back(row);
     }
-    matrix.push_back(row);
   }
   
   return matrix;

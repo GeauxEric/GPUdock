@@ -108,9 +108,6 @@ main (int argc, char **argv)
 #endif
 
 #if IS_CALCU_SIMILARITY_MATRIX == 1
-  // string ifn = "1a07C1.tr";
-  // string ifn = "/ddnB/work/jaydy/working/SimilarityMatrix/release/data/1a07C1.tr";
-  // string ifn = "/ddnB/work/jaydy/working/SimilarityMatrix/release/data/test_matrix.txt";
   string trace_path = inputfiles->near_native_trace_file.trace_path;
   vector < vector < float > > trace_matrix = read2D(trace_path);
 
