@@ -1,0 +1,935 @@
+#!/usr/bin/perl -w
+
+#===============================================================================
+#          _____ _           _____             _    
+#         / ____(_)         |  __ \           | |   
+#     ___| (___  _ _ __ ___ | |  | | ___   ___| | __
+#    / _ \\___ \| | '_ ` _ \| |  | |/ _ \ / __| |/ /
+#   |  __/____) | | | | | | | |__| | (_) | (__|   < 
+#   \___|_____/|_|_| |_| |_|_____/ \___/ \___|_|\_\
+#
+#                                                  
+#   eSimDock - similarity-based docking with anchor substructures
+#
+#   This software is distributed WITHOUT ANY WARRANTY (but with best wishes)
+#
+#   Report bugs and issues to michal@brylinski.org
+#
+#   Computational Systems Biology Group
+#   Department of Biological Sciences
+#   Center for Computation & Technology
+#   Louisiana State University
+#   407 Choppin Hall, Baton Rouge, LA 70803, USA
+#
+#   http://www.brylinski.org
+#
+#===============================================================================
+
+ use strict;
+ use File::Path;
+ use File::Copy;
+ use File::Slurp;
+ use File::Temp qw/ tempfile tempdir /;
+ use Compress::Zlib;
+ use Archive::Tar;
+ use Math::Vector::BestRotation;
+ use Benchmark;
+ use Cwd;
+ 
+ local $| = 1;
+ 
+ sub fix1 {
+  
+  my ($bf1, $bf2, $bf3) = @_;
+  
+  my @bat01 = read_file("$bf1"); chomp(@bat01);
+  my @bat02 = read_file("$bf2"); chomp(@bat02);
+  my @bat06 = read_file("$bf3"); chomp(@bat06);
+  
+  foreach my $wbat02 (@bat02)
+  {
+   push(@bat06, $wbat02);
+  }
+  
+  @bat02 = @bat06;
+  
+  my @but01 = ();
+  
+  my $nbat01 = @bat01;
+  my $nbat02 = @bat02;
+  
+  if ( $nbat01 > 3 and $nbat02 > 3 )
+  {
+   my $baa1 = substr($bat01[3], 0, 3) * 1;
+   my $baa2 = substr($bat01[3], 3, 3) * 1;
+   
+   my @bap01 = ();
+   
+   for ( my $xa = 4; $xa < $baa1 + 4 ; $xa++ )
+   {
+    $bap01[$xa-4][0] = substr($bat01[$xa],  0, 10) * 1.0;
+    $bap01[$xa-4][1] = substr($bat01[$xa], 10, 10) * 1.0;
+    $bap01[$xa-4][2] = substr($bat01[$xa], 20, 10) * 1.0;
+   }
+   
+   my @bat03 = ();
+   my @bat04 = ();
+   
+   foreach my $wbat02 (@bat02)
+   {
+    push(@bat04, $wbat02);
+    
+    if ( $wbat02 eq '$$$$' )
+    {
+     my $nbat04 = @bat04;
+     
+     if ( $nbat01 > 3 and $nbat02 > 3 )
+     {
+      my $baa3 = substr($bat04[3], 0, 3) * 1;
+      
+      my $btt1 = '';
+      
+      for ( my $xa = 4; $xa < $baa3 + 4 ; $xa++ )
+      {
+       $btt1 .= (substr($bat04[$xa],  0, 10) * 1.0).'?'.(substr($bat04[$xa], 10, 10) * 1.0).'?'.(substr($bat04[$xa], 20, 10) * 1.0).'&';
+      }
+      
+      if ( length($btt1) )
+      {
+       substr($btt1, -1, 1) = '' if ( substr($btt1, -1, 1) eq '&' );
+      }
+      
+      push(@bat03, $btt1);
+     }
+     
+     @bat04 = ();
+    }
+   }
+   
+   my $nbat03 = @bat03;
+   
+   if ( $nbat03 > 1 )
+   {
+    my $bref01 = shift(@bat03);
+    
+    my @bref02 = split(/\&/, $bref01);
+    
+    my $nbref02 = @bref02;
+    
+    if ( $baa1 == $nbref02 )
+    {
+     my %bmap01 = ();
+     
+     my $bww1 = 1;
+     
+     for ( my $xa = 0; $xa < $baa1; $xa++ )
+     {
+      my $brr1 = -1;
+      my $brr2 = 100000000.0;
+      
+      for ( my $xb = 0; $xb < $nbref02; $xb++ )
+      {
+       my @btt2 = split(/\?/, $bref02[$xb]);
+       
+       if ( $bap01[$xa][0] ne 'nan' and $bap01[$xa][1] ne 'nan' and $bap01[$xa][2] ne 'nan' and $btt2[0] ne 'nan' and $btt2[1] ne 'nan' and $btt2[2] ne 'nan' )
+       {
+        my $brr3 = sqrt(($bap01[$xa][0]-$btt2[0])**2 + ($bap01[$xa][1]-$btt2[1])**2 + ($bap01[$xa][2]-$btt2[2])**2);
+        
+        if ( $brr3 < $brr2 )
+        {
+         $brr1 = $xb;
+         
+         $brr2 = $brr3;
+        }
+       }
+      }
+      
+      if ( $brr1 > -1 and $brr2 < 0.01 )
+      {
+       $bmap01{$brr1} = $xa;
+       
+       $bap01[$xa][0] = 'nan';
+       $bap01[$xa][1] = 'nan';
+       $bap01[$xa][2] = 'nan';
+       
+       $bref02[$brr1] = 'nan?nan?nan'
+      }
+      else
+      {
+       $bww1 = 0;
+      }
+     }
+     
+     if ( $bww1 )
+     {
+      my @bat05 = ();
+      
+      foreach my $wbat02 (@bat02)
+      {
+       push(@bat05, $wbat02);
+       
+       if ( $wbat02 eq '$$$$' )
+       {
+        my $nbat05 = @bat05;
+        
+        if ( $nbat05 > 3 )
+        {
+         my $bbb1 = substr($bat05[3], 0, 3) * 1;
+         my $bbb2 = substr($bat05[3], 3, 3) * 1;
+         
+         if ( $bbb1 == $baa1 and $bbb2 == $baa2 )
+         {
+          my @bfix01 = ();
+          my @bfix02 = ();
+          
+          for ( my $xa = 4; $xa < $bbb1 + 4 ; $xa++ )
+          {
+           $bfix01[$bmap01{$xa-4}] = $bat05[$xa];
+          }
+          
+          for ( my $xa = $bbb1 + 4; $xa < $bbb2 + $bbb1 + 4 ; $xa++ )
+          {
+           my $tb0 = $bat05[$xa];
+           
+           my $tb1 = substr($tb0, 0, 3) - 1;
+           my $tb2 = substr($tb0, 3, 3) - 1;
+           
+           substr($tb0, 0, 3) = sprintf("%3d", $bmap01{$tb1} + 1);
+           substr($tb0, 3, 3) = sprintf("%3d", $bmap01{$tb2} + 1);
+           
+           push(@bfix02, $tb0);
+          }
+          
+          @bfix02 = sort(@bfix02);
+          
+          for ( my $xa = 0; $xa < 4; $xa++ )
+          {
+           push(@but01, $bat05[$xa]);
+          }
+          
+          foreach my $wbfix01 (@bfix01)
+          {
+           push(@but01, $wbfix01);
+          }
+          
+          foreach my $wbfix02 (@bfix02)
+          {
+           push(@but01, $wbfix02);
+          }
+          
+          my $tb3 = 0;
+          
+          foreach my $wbat05 (@bat05)
+          {
+           $tb3 = 1 if ( $wbat05 eq 'M  END' or $wbat05 eq 'M END' );
+           
+           push(@but01, $wbat05) if ( $tb3 );
+          }
+         }
+        }
+        
+        @bat05 = ();
+       }
+      }
+     }
+    }
+   }
+  }
+  
+  unlink("$bf2") if ( -e "$bf2" );
+  
+  if ( @but01 )
+  {
+   foreach my $wbut01 (@but01)
+   {
+    $wbut01 .= "\n";
+   }
+   
+   write_file("$bf2", @but01);
+  }
+  
+  return 0;
+ }
+ 
+ print "------------------------------------------------------------\n";
+ print "                        esimdock_ens\n";
+ print "                        version 1.0\n";
+ print "         ensemble of flexible ligand conformations\n\n";
+ print "       report bugs and issues to michal\@brylinski.org\n";
+ print "------------------------------------------------------------\n\n";
+ 
+ die "ESDBABEL is not set\n"    if !( $ENV{'ESDBABEL'} );
+ die "ESDBALLOON is not set\n"  if !( $ENV{'ESDBALLOON'} );
+ die "ESDSCLUSTER is not set\n" if !( $ENV{'ESDSCLUSTER'} );
+ 
+ if ($#ARGV < 5)
+ {
+  print "esimdock_ens -s <ligand in rich SD format>\n";
+  print "             -o <output filename>\n";
+  print "             -i <molecule id keyword>\n";
+  print "             -n <number of conformations (default 50)>\n";
+  die "\n";
+ }
+ 
+ my $babel    = $ENV{'ESDBABEL'};
+ my $balloon  = $ENV{'ESDBALLOON'};
+ my $scluster = $ENV{'ESDSCLUSTER'};
+ 
+ die "Could not find babel\n"    if ( !( -e $babel ) );
+ die "Could not find balloon\n"  if ( !( -d $balloon ) );
+ die "Could not find scluster\n" if ( !( -e $scluster ) );
+ 
+ my $finp1 = '';
+ my $fout1 = '';
+ my $fkey1 = '';
+ my $fmax1 = 50;
+ 
+ for ( my $i = 0; $i <= $#ARGV; $i++ )
+ {
+  $finp1 = $ARGV[$i+1] if ( $ARGV[$i] eq '-s' );
+  $fout1 = $ARGV[$i+1] if ( $ARGV[$i] eq '-o' );
+  $fkey1 = $ARGV[$i+1] if ( $ARGV[$i] eq '-i' );
+  $fmax1 = $ARGV[$i+1] if ( $ARGV[$i] eq '-n' );
+ }
+ 
+ die "Provide ligands in SD format\n" if ( !( -e $finp1 ) or !length($finp1) );
+ die "Provide output filename\n"      if ( !length($fout1) );
+ die "Provide molecule id keyword\n"  if ( !length($fkey1) );
+ 
+ my $pbal1 = 100; # --nconfs
+ my $pbal2 = 300; # --nGenerations
+ 
+ my $pclu1 = 'rbr'; # clustering method
+ my $pclu2 =  1000; # -ntrials
+ my $pclu3 =  1000; # -niter
+ 
+ my $pmax2 =  5000; # ulimit -t
+ 
+ my $bt0 = Benchmark->new;
+ 
+ my $tot1 = 0;
+ 
+ my $dir1 = getcwd();
+ 
+ my $dir2 = tempdir( CLEANUP => 1 );
+ 
+ my ($fh1, $tmpfil1) = tempfile( DIR => $dir2, UNLINK => 1);
+ my ($fh2, $tmpfil2) = tempfile( DIR => $dir2, UNLINK => 1);
+ my ($fh3, $tmpfil3) = tempfile( DIR => $dir2, UNLINK => 1);
+ my ($fh4, $tmpfil4) = tempfile( DIR => $dir2, UNLINK => 1);
+ my ($fh5, $tmpfil5) = tempfile( DIR => $dir2, UNLINK => 1);
+ my ($fh6, $tmpfil6) = tempfile( DIR => $dir2, UNLINK => 1);
+ my ($fh7, $tmpfil7) = tempfile( DIR => $dir2, UNLINK => 1);
+ 
+ printf("Tempdir created: %s\n\n", $dir2);
+ 
+ printf("Generating flexible conformations:\n\n");
+ 
+ my @sdf01 = read_file($finp1); chomp(@sdf01);
+ 
+ my @sdf02 = ();
+ 
+ my @out01 = ();
+ 
+ foreach my $wsdf01 (@sdf01)
+ {
+  push(@sdf02, $wsdf01);
+  
+  if ( $wsdf01 eq '$$$$' )
+  {
+   my $nsdf02 = @sdf02;
+   
+   my $bt2 = new Benchmark;
+   
+   my $id01 = '';
+   
+   my $bnd01 = substr($sdf02[3], 0, 3) * 1;
+   my $bnd02 = substr($sdf02[3], 3, 3) * 1;
+   
+   my @bnd03 = ();
+   
+   for ( my $xa = 4 + $bnd01; $xa < 4 + $bnd01 + $bnd02; $xa++ )
+   {
+    my $bnd04 = substr($sdf02[$xa], 0, 3) * 1;
+    my $bnd05 = substr($sdf02[$xa], 3, 3) * 1;
+    my $bnd06 = substr($sdf02[$xa], 6, length($sdf02[$xa]) - 6);
+    
+    if ( $bnd05 < $bnd04 )
+    {
+     my $bnd07 = $bnd05;
+     
+     $bnd05 = $bnd04;
+     
+     $bnd04 = $bnd07;
+    }
+    
+    push(@bnd03, sprintf("%3d%3d%s", $bnd04, $bnd05, $bnd06));
+   }
+   
+   @bnd03 = sort { $a cmp $b } @bnd03;
+   
+   my $bnd09 = 4 + $bnd01;
+   
+   foreach my $wbnd03 (@bnd03)
+   {
+    $sdf02[$bnd09++] = $wbnd03;
+   }
+   
+   for ( my $xa = 0; $xa < $nsdf02 - 1; $xa++ )
+   {
+    $id01 = $sdf02[$xa+1] if ( $sdf02[$xa] =~ /$fkey1/ );
+   }
+   
+   $id01 =~ s/\ //g if ( length($id01) );
+   
+   if ( length($id01) > 2 )
+   {
+    printf("%s -> ", $id01);
+    
+    my @sdf03 = ();
+    
+    foreach my $wsdf02 (@sdf02)
+    {
+     push(@sdf03, $wsdf02."\n");
+    }
+    
+    write_file("$tmpfil1.sdf", @sdf03);
+    
+    unlink("$tmpfil2.sdf") if ( -e "$tmpfil2.sdf" );
+    unlink("$tmpfil3.sdf") if ( -e "$tmpfil3.sdf" );
+    unlink("$tmpfil4.sdf") if ( -e "$tmpfil4.sdf" );
+    unlink("$tmpfil5.sdf") if ( -e "$tmpfil5.sdf" );
+    
+    my $fal01 = $tmpfil2.'_bad.sdf';
+    my $fal02 = $tmpfil3.'_bad.sdf';
+    my $fal03 = $tmpfil4.'_bad.sdf';
+    my $fal04 = $tmpfil5.'_bad.sdf';
+    
+    unlink("$fal01") if ( -e "$fal01" );
+    unlink("$fal02") if ( -e "$fal02" );
+    unlink("$fal03") if ( -e "$fal03" );
+    unlink("$fal04") if ( -e "$fal04" );
+    
+    open (BAL, "ulimit -t $pmax2 ; $balloon/balloon -f $balloon/MMFF94.mff --nconfs 0 --stereo --keepInitial $tmpfil1.sdf $tmpfil5.sdf 2>&1 |") || die "Cannot execute $balloon/balloon -f $balloon/MMFF94.mff --nconfs 0 --stereo --keepInitial $tmpfil1.sdf $tmpfil5.sdf\n";
+     my @bar01=<BAL>;
+     chomp(@bar01);
+    close (BAL);
+    
+    open (BAL, "ulimit -t $pmax2 ; $balloon/balloon -f $balloon/MMFF94.mff --nconfs $pbal1 --nGenerations $pbal2 --expand --stereo $tmpfil1.sdf $tmpfil2.sdf 2>&1 |") || die "Cannot execute $balloon/balloon -f $balloon/MMFF94.mff --nconfs $pbal1 --nGenerations $pbal2 --expand --stereo $tmpfil1.sdf $tmpfil2.sdf\n";
+     my @bal01=<BAL>;
+     chomp(@bal01);
+    close (BAL);
+    
+    open (BAL, "ulimit -t $pmax2 ; $balloon/balloon -f $balloon/MMFF94.mff --nconfs $pbal1 --nGenerations $pbal2 --contract --stereo $tmpfil1.sdf $tmpfil3.sdf 2>&1 |") || die "Cannot execute $balloon/balloon -f $balloon/MMFF94.mff --nconfs $pbal1 --nGenerations $pbal2 --contract --stereo $tmpfil1.sdf $tmpfil3.sdf\n";
+     my @bal02=<BAL>;
+     chomp(@bal02);
+    close (BAL);
+    
+    open (BAL, "ulimit -t $pmax2 ; $balloon/balloon -f $balloon/MMFF94.mff --nconfs $pbal1 --nGenerations $pbal2 --stereo $tmpfil1.sdf $tmpfil4.sdf 2>&1 |") || die "Cannot execute $balloon/balloon -f $balloon/MMFF94.mff --nconfs $pbal1 --nGenerations $pbal2 --stereo $tmpfil1.sdf $tmpfil4.sdf\n";
+     my @bal03=<BAL>;
+     chomp(@bal03);
+    close (BAL);
+    
+    if ( -e "$fal01" and !( -e "$tmpfil2.sdf" ) )
+    {
+     move("$fal01", "$tmpfil2.sdf");
+    }
+    
+    if ( -e "$fal02" and !( -e "$tmpfil3.sdf" ) )
+    {
+     move("$fal02", "$tmpfil3.sdf");
+    }
+    
+    if ( -e "$fal03" and !( -e "$tmpfil4.sdf" ) )
+    {
+     move("$fal03", "$tmpfil4.sdf");
+    }
+    
+    if ( -e "$fal04" and !( -e "$tmpfil5.sdf" ) )
+    {
+     move("$fal04", "$tmpfil5.sdf");
+    }
+    
+    fix1("$tmpfil1.sdf", "$tmpfil2.sdf", "$tmpfil5.sdf");
+    fix1("$tmpfil1.sdf", "$tmpfil3.sdf", "$tmpfil5.sdf");
+    fix1("$tmpfil1.sdf", "$tmpfil4.sdf", "$tmpfil5.sdf");
+    
+    unlink("$tmpfil5.sdf") if ( -e "$tmpfil5.sdf" );
+    
+    my @bab01 = read_file("$tmpfil1.sdf"); chomp(@bab01);
+    
+    open (MOL, "$babel -isdf $tmpfil1.sdf -omol2 - 2>&1 |") || die "Cannot execute $babel -isdf $tmpfil1.sdf -omol2 -\n";
+     my @mol01=<MOL>;
+     chomp(@mol01);
+    close (MOL);
+    
+    my $na01 = substr($bab01[3], 0, 3) * 1;
+    my $nb01 = substr($bab01[3], 3, 3) * 1;
+    
+    if ( $bnd01 == $na01 )
+    {
+     my @bab02 = ();
+     
+     for ( my $xa = 4; $xa < 4 + $bnd01; $xa++ )
+     {
+      my $bnd04 = substr($bab01[$xa],  0, 10) * 1.0;
+      my $bnd05 = substr($bab01[$xa], 10, 10) * 1.0;
+      my $bnd06 = substr($bab01[$xa], 20, 10) * 1.0;
+      
+      push(@bab02, "$bnd04:$bnd05:$bnd06");
+     }
+     
+     my $nbab02 = @bab02;
+     
+     my @conf02 = ();
+     
+     if ( -e "$tmpfil2.sdf" )
+     {
+      my @conf04 = read_file("$tmpfil2.sdf"); chomp(@conf04);
+      
+      foreach my $wconf04 (@conf04)
+      {
+       push(@conf02, $wconf04);
+      }
+     }
+     
+     if ( -e "$tmpfil3.sdf" )
+     {
+      my @conf04 = read_file("$tmpfil3.sdf"); chomp(@conf04);
+      
+      foreach my $wconf04 (@conf04)
+      {
+       push(@conf02, $wconf04);
+      }
+     }
+     
+     if ( -e "$tmpfil4.sdf" )
+     {
+      my @conf04 = read_file("$tmpfil4.sdf"); chomp(@conf04);
+      
+      foreach my $wconf04 (@conf04)
+      {
+       push(@conf02, $wconf04);
+      }
+     }
+     
+     if ( @conf02 )
+     {
+      my @conf03 = ();
+      
+      my @br_cen1 = ( 0.0, 0.0, 0.0 );
+      
+      for ( my $xa = 0; $xa < $nbab02; $xa++ )
+      {
+       my @br_cnd07 = split(/\:/, $bab02[$xa]);
+       
+       $br_cen1[0] += $br_cnd07[0];
+       $br_cen1[1] += $br_cnd07[1];
+       $br_cen1[2] += $br_cnd07[2];
+      }
+      
+      $br_cen1[0] /= $nbab02;
+      $br_cen1[1] /= $nbab02;
+      $br_cen1[2] /= $nbab02;
+      
+      my @br_xyz1 = ();
+      
+      for ( my $xa = 0; $xa < $nbab02; $xa++ )
+      {
+       my @br_cnd07 = split(/\:/, $bab02[$xa]);
+       
+       $br_xyz1[$xa][0] = $br_cnd07[0] - $br_cen1[0];
+       $br_xyz1[$xa][1] = $br_cnd07[1] - $br_cen1[1];
+       $br_xyz1[$xa][2] = $br_cnd07[2] - $br_cen1[2];
+      }
+      
+      my @sup02 = ();
+      
+      foreach my $wconf02 (@conf02)
+      {
+       push(@conf03, $wconf02);
+       
+       if ( $wconf02 eq '$$$$' )
+       {
+        my $na02 = substr($conf03[3], 0, 3) * 1;
+        my $nb02 = substr($conf03[3], 3, 3) * 1;
+        
+        my @br_cen2 = ( 0.0, 0.0, 0.0 );
+        
+        for ( my $xa = 4; $xa < 4 + $na02; $xa++ )
+        {
+         $br_cen2[0] += substr($conf03[$xa],  0, 10) * 1.0;
+         $br_cen2[1] += substr($conf03[$xa], 10, 10) * 1.0;
+         $br_cen2[2] += substr($conf03[$xa], 20, 10) * 1.0;
+        }
+        
+        $br_cen2[0] /= $na02;
+        $br_cen2[1] /= $na02;
+        $br_cen2[2] /= $na02;
+        
+        my @br_xyz2 = ();
+        
+        for ( my $xa = 4; $xa < 4 + $na02; $xa++ )
+        {
+         $br_xyz2[$xa-4][0] = substr($conf03[$xa],  0, 10) - $br_cen2[0];
+         $br_xyz2[$xa-4][1] = substr($conf03[$xa], 10, 10) - $br_cen2[1];
+         $br_xyz2[$xa-4][2] = substr($conf03[$xa], 20, 10) - $br_cen2[2];
+        }
+        
+        my $br_rot1 = Math::Vector::BestRotation->new();
+        
+        for ( my $xa = 0; $xa < $na02; $xa++ )
+        {
+         $br_rot1->add_pair([$br_xyz2[$xa][0], $br_xyz2[$xa][1], $br_xyz2[$xa][2]], 
+                            [$br_xyz1[$xa][0], $br_xyz1[$xa][1], $br_xyz1[$xa][2]]);
+        }
+        
+        my $br_rot2 = $br_rot1->best_rotation;
+        
+        my @br_u1 = ();
+        
+        $br_u1[0][0] = $br_rot2->element(1, 1);
+        $br_u1[0][1] = $br_rot2->element(2, 1);
+        $br_u1[0][2] = $br_rot2->element(3, 1);
+        $br_u1[1][0] = $br_rot2->element(1, 2);
+        $br_u1[1][1] = $br_rot2->element(2, 2);
+        $br_u1[1][2] = $br_rot2->element(3, 2);
+        $br_u1[2][0] = $br_rot2->element(1, 3);
+        $br_u1[2][1] = $br_rot2->element(2, 3);
+        $br_u1[2][2] = $br_rot2->element(3, 3);
+        
+        my $conf04 = '';
+        
+        my $br_prms1 = 0.0;
+        my $br_prms2 = 0.0;
+        
+        for ( my $xa = 0; $xa < $na02; $xa++ )
+        {
+         my $br_ttx1 = $br_xyz2[$xa][0];
+         my $br_tty1 = $br_xyz2[$xa][1];
+         my $br_ttz1 = $br_xyz2[$xa][2];
+         
+         $br_xyz2[$xa][0] = $br_u1[0][0] * $br_ttx1 + $br_u1[1][0] * $br_tty1 + $br_u1[2][0] * $br_ttz1;
+         $br_xyz2[$xa][1] = $br_u1[0][1] * $br_ttx1 + $br_u1[1][1] * $br_tty1 + $br_u1[2][1] * $br_ttz1;
+         $br_xyz2[$xa][2] = $br_u1[0][2] * $br_ttx1 + $br_u1[1][2] * $br_tty1 + $br_u1[2][2] * $br_ttz1;
+         
+         $conf04 .= $br_xyz2[$xa][0].':'.$br_xyz2[$xa][1].':'.$br_xyz2[$xa][2].'&';
+         
+         $br_prms1 += ( ($br_xyz1[$xa][0]-$br_xyz2[$xa][0])**2 + ($br_xyz1[$xa][1]-$br_xyz2[$xa][1])**2 + ($br_xyz1[$xa][2]-$br_xyz2[$xa][2])**2 );
+         
+         $br_prms2++;
+        }
+        
+        $br_prms1 = sqrt( $br_prms1 / $br_prms2 );
+        
+        $conf04 = $br_prms1.'?'.$conf04;
+        
+        substr($conf04, -1, 1) = '' if ( substr($conf04, -1, 1) eq '&' );
+        
+        push(@sup02, $conf04);
+        
+        @conf03 = ();
+       }
+      }
+      
+      my $nsup02 = @sup02;
+      
+      my @sup03 = ();
+      
+      foreach my $wsup02 (@sup02)
+      {
+       my @tca1 = split(/\?/, $wsup02);
+       my @tca2 = split(/\&/, $tca1[1]);
+       my $tca3 = @tca2;
+       
+       my $ww1 = 1;
+       
+       foreach my $wsup03 (@sup03)
+       {
+        my @tcb1 = split(/\?/, $wsup03);
+        my @tcb2 = split(/\&/, $tcb1[1]);
+        
+        my $tcb3 = 0.0;
+        
+        for ( my $xa = 0; $xa < $tca3; $xa++ )
+        {
+         my @tt11 = split(/\:/, $tca2[$xa]);
+         my @tt12 = split(/\:/, $tcb2[$xa]);
+         
+         $tcb3 += ( ($tt11[0]-$tt12[0])**2 + ($tt11[1]-$tt12[1])**2 + ($tt11[2]-$tt12[2])**2 );
+        }
+        
+        $tcb3 = sqrt( $tcb3 / $tca3 ) if ( $tca3 );
+        
+        if ( $tcb3 < 0.1 )
+        {
+         $ww1 = 0;
+         
+         last;
+        }
+       }
+       
+       push(@sup03, $wsup02) if ( $ww1 );
+      }
+      
+      my $nsup03 = @sup03;
+      
+      if ( $nsup03 > $fmax1 )
+      {
+       my @clus01 = ();
+       
+       push(@clus01, $nsup03."\n");
+       
+       foreach my $w1sup03 (@sup03)
+       {
+        my $tt7 = '';
+        
+        foreach my $w2sup03 (@sup03)
+        {
+         my @tt13 = split(/\?/, $w1sup03);
+         my @tt14 = split(/\?/, $w2sup03);
+         
+         my @tt8 = split(/\&/, $tt13[1]);
+         my @tt9 = split(/\&/, $tt14[1]);
+         
+         my $tt10 = @tt8;
+         
+         my $rms04 = 0.0;
+         
+         for ( my $xa = 0; $xa < $tt10; $xa++ )
+         {
+          my @tt11 = split(/\:/, $tt8[$xa]);
+          my @tt12 = split(/\:/, $tt9[$xa]);
+          
+          $rms04 += ( ($tt11[0]-$tt12[0])**2 + ($tt11[1]-$tt12[1])**2 + ($tt11[2]-$tt12[2])**2 );
+         }
+         
+         $rms04 = 1.0 / sqrt( $rms04 / $tt10 ) if ( $rms04 / $tt10 );
+         
+         $tt7 .= sprintf("%.6f ", $rms04);
+        }
+        
+        if ( length($tt7) )
+        {
+         substr($tt7, -1, 1) = '' if ( substr($tt7, -1, 1) eq ' ' );
+        }
+        
+        push(@clus01, $tt7."\n");
+       }
+       
+       write_file("$tmpfil6.dat", @clus01);
+       
+       open (CLU, "$scluster -clmethod=$pclu1 -ntrials=$pclu2 -niter=$pclu3 -clustfile=$tmpfil7.dat $tmpfil6.dat $fmax1 2>&1 |") || die "Cannot execute $scluster -clmethod=$pclu1 -ntrials=$pclu2 -niter=$pclu3 -clustfile=$tmpfil7.dat $tmpfil6.dat $fmax1\n";
+        my @clus02=<CLU>;
+        chomp(@clus02);
+       close (CLU);
+       
+       my @clus03 = read_file("$tmpfil7.dat"); chomp(@clus03);
+       
+       my $nclus03 = @clus03;
+       
+       my @clus04 = ();
+       
+       for ( my $xa = 0; $xa < $fmax1; $xa++ )
+       {
+        my @clus05 = ();
+        
+        for ( my $xb = 0; $xb < $nclus03; $xb++ )
+        {
+         push(@clus05, $sup02[$xb]) if ( $clus03[$xb] == $xa );
+        }
+        
+        my $nclu05 = @clus05;
+        
+        if ( $nclu05 > 2 )
+        {
+         my $best1 = 100000000.0;
+         my $best2 = '';
+         
+         for ( my $xb = 0; $xb < $nclu05; $xb++ )
+         {
+          my $best3 = 0.0;
+          
+          for ( my $xc = 0; $xc < $nclu05; $xc++ )
+          {
+           if ( $xb != $xc )
+           {
+            my @tt18 = split(/\?/, $clus05[$xb]);
+            my @tt19 = split(/\?/, $clus05[$xc]);
+            
+            my @tt13 = split(/\&/, $tt18[1]);
+            my @tt14 = split(/\&/, $tt18[1]);
+            
+            my $tt15 = @tt13;
+            
+            my $rms05 = 0.0;
+            
+            for ( my $xd = 0; $xd < $tt15; $xd++ )
+            {
+             my @tt16 = split(/\:/, $tt13[$xd]);
+             my @tt17 = split(/\:/, $tt14[$xd]);
+             
+             $rms05 += ( ($tt16[0]-$tt17[0])**2 + ($tt16[1]-$tt17[1])**2 + ($tt16[2]-$tt17[2])**2 );
+            }
+            
+            $rms05 = sqrt( $rms05 / $tt15 ) if ( $tt15 );
+            
+            $best3 += $rms05;
+           }
+          }
+          
+          $best3 /= $nclu05;
+          
+          if ( $best3 <= $best1 )
+          {
+           $best1 = $best3;
+           
+           $best2 = $xb;
+          }
+         }
+         
+         push(@clus04, $clus05[$best2]);
+        }
+        else
+        {
+         push(@clus04, $clus05[0]);
+        }
+       }
+       
+       @sup03 = @clus04;
+       
+       $nsup03 = @sup03;
+      }
+      
+      my %sup06 = ();
+      
+      foreach my $wsup03 (@sup03)
+      {
+       my @sup07 = split(/\?/, $wsup03);
+       
+       $sup06{$wsup03} = $sup07[0] + rand() * 0.00001;
+      }
+      
+      @sup03 = ();
+      
+      for my $wsup06 ( sort { $sup06{$a} <=> $sup06{$b} } keys %sup06 )
+      {
+       push(@sup03, $wsup06);
+      }
+      
+      $nsup03 = @sup03;
+      
+      my @conf05 = ();
+      my @conf06 = ();
+      
+      for ( my $xa = 0; $xa < $nsup03; $xa++ )
+      {
+       my @ttt1 = split(/\?/, $sup03[$xa]);
+       
+       push(@conf05, sprintf("%.3f", $ttt1[0]));
+       
+       my @ttt2 = split(/\&/, $ttt1[1]);
+       
+       my $ttt3 = '';
+       
+       foreach my $wttt2 (@ttt2)
+       {
+        my @ttt4 = split(/\:/, $wttt2);
+        
+        $ttt3 .= sprintf(" %.4f %.4f %.4f", $ttt4[0], $ttt4[1], $ttt4[2]);
+       }
+       
+       substr($ttt3, 0, 1) = '' if ( substr($ttt3, 0, 1) eq ' ' );
+       
+       push(@conf06, $ttt3);
+      }
+      
+      my $pat01 = '';
+      
+      for ( my $xb = 0; $xb < $nsdf02 - 1; $xb++ )
+      {
+       $pat01 = $sdf02[$xb] if ( $sdf02[$xb] =~ /$fkey1/ );
+      }
+      
+      my $pat02 = $pat01;
+      my $pat03 = $pat01;
+      my $pat04 = $pat01;
+      
+      $pat02 =~ s/$fkey1/ENSEMBLE_TOTAL/;
+      $pat03 =~ s/$fkey1/ENSEMBLE_RMSD/;
+      $pat04 =~ s/$fkey1/ENSEMBLE_COORDS/;
+      
+      foreach my $wsdf02 (@sdf02)
+      {
+       if ( $wsdf02 eq '$$$$' )
+       {
+        push(@out01, "$pat02\n");
+        push(@out01, "$nsup03\n");
+        push(@out01, "\n");
+        
+        push(@out01, "$pat03\n");
+        
+        foreach my $wconf05 (@conf05)
+        {
+         push(@out01, "$wconf05\n");
+        }
+        
+        push(@out01, "\n");
+        
+        push(@out01, "$pat04\n");
+        
+        foreach my $wconf06 (@conf06)
+        {
+         push(@out01, "$wconf06\n");
+        }
+        
+        push(@out01, "\n");
+       }
+       
+       push(@out01, "$wsdf02\n");
+      }
+      
+      my $bt3 = Benchmark->new;
+      
+      printf("%d confs in %s\n", $nsup03, timestr(timediff($bt3, $bt2), 'nop'));
+      
+      $tot1++;
+     }
+     else
+     {
+      printf("failed (3)\n");
+     }
+    }
+    else
+    {
+     printf("failed (2)\n");
+    }
+   }
+   else
+   {
+    printf("failed (1)\n");
+   }
+   
+   @sdf02 = ();
+  }
+ }
+ 
+ write_file($fout1, @out01);
+ 
+ if ( $tot1 > 1 )
+ {
+  printf("\nDone: %s contains %d compounds\n", $fout1, $tot1);
+ }
+ else
+ {
+  printf("\nDone: %s contains %d compound\n", $fout1, $tot1);
+ }
+ 
+ my $bt1 = Benchmark->new;
+ 
+ printf("\n------------------------------------------------------------\n");
+ printf("Walltime: %s\n", timestr(timediff($bt1, $bt0)));
+ printf("------------------------------------------------------------\n");
+ 
+ exit(0);
+ 

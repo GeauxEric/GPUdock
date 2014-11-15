@@ -1,0 +1,42 @@
+1. babel to remove H:
+
+babel -isdf ZINC37448123 -osdf a1.sdf -d
+
+2. Add MOLID
+
+M  END
+>  <MOLID> (ZINC37448123)
+ZINC37448123
+$$$$
+
+2. esimdock_sdf:
+
+export ESDBABEL=/home/michal/local/bin/babel
+export ESDOBPROP=/home/michal/local/bin/obprop
+export ESDMAYACP=/home/michal/local/src/mayachemtools/bin/CalculatePhysicochemicalProperties.pl
+export ESDMAYAMF=/home/michal/local/src/mayachemtools/bin/MACCSKeysFingerprints.pl
+
+~/local/bin/perl esimdock_sdf -s a1.sdf -o a2.sdf -i MOLID -c
+
+3. esimdock_ens:
+
+export ESDBALLOON=/home/michal/local/src/balloon_x86_64
+export ESDSCLUSTER=/home/michal/local/src/cluto-2.1.2/Linux-x86_64/scluster
+
+~/local/bin/perl esimdock_ens -s a2.sdf -o a3.sdf -i MOLID -n 50
+
+4. prepare_ff:
+
+export GEAUXDOCK_PKCOMBU=/home/michal/local/src/kcombu/pkcombu
+export GEAUXDOCK_BABEL=/home/michal/local/bin/babel
+export GEAUXDOCK_FF=/home/michal/tmp/sdf/paras
+
+~/local/bin/perl prepare_ff -l a3.sdf -i MOLID -o a3.ff -s 1a07C-efindsite.ligands.sdf -a 1a07C-efindsite.alignments.dat -p 1a07C-efindsite.pockets.dat -t 1a07C-efindsite.templates.pdb -n 1
+
+5. For GeauxDock:
+
+a3.sdf
+a3.ff
+
+
+

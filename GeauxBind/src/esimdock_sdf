@@ -1,0 +1,723 @@
+#!/usr/bin/perl -w
+
+#===============================================================================
+#          _____ _           _____             _    
+#         / ____(_)         |  __ \           | |   
+#     ___| (___  _ _ __ ___ | |  | | ___   ___| | __
+#    / _ \\___ \| | '_ ` _ \| |  | |/ _ \ / __| |/ /
+#   |  __/____) | | | | | | | |__| | (_) | (__|   < 
+#   \___|_____/|_|_| |_| |_|_____/ \___/ \___|_|\_\
+#
+#                                                  
+#   eSimDock - similarity-based docking with anchor substructures
+#
+#   This software is distributed WITHOUT ANY WARRANTY (but with best wishes)
+#
+#   Report bugs and issues to michal@brylinski.org
+#
+#   Computational Systems Biology Group
+#   Department of Biological Sciences
+#   Center for Computation & Technology
+#   Louisiana State University
+#   407 Choppin Hall, Baton Rouge, LA 70803, USA
+#
+#   http://www.brylinski.org
+#
+#===============================================================================
+
+ use strict;
+ use File::Path;
+ use File::Copy;
+ use File::Slurp;
+ use File::Temp qw/ tempfile tempdir /;
+ use Chemistry::Mol;
+ use Chemistry::File::SDF;
+ use Chemistry::Canonicalize ':all';
+ use Chemistry::Ring::Find ':all';
+ use Bit::Vector;
+ use Benchmark;
+ use Cwd;
+ 
+ local $| = 1;
+ 
+ print "------------------------------------------------------------\n";
+ print "                       efindsite_sdf\n";
+ print "                        version 1.0\n";
+ print "                     process SDF files\n\n";
+ print "       report bugs and issues to michal\@brylinski.org\n";
+ print "------------------------------------------------------------\n\n";
+ 
+ die "ESDBABEL is not set\n"  if !( $ENV{'ESDBABEL'} );
+ die "ESDOBPROP is not set\n" if !( $ENV{'ESDOBPROP'} );
+ die "ESDMAYACP is not set\n" if !( $ENV{'ESDMAYACP'} );
+ die "ESDMAYAMF is not set\n" if !( $ENV{'ESDMAYAMF'} );
+ 
+ if ($#ARGV < 5)
+ {
+  print "efindsite_sdf -s <compounds in SD format>\n";
+  print "              -o <output filename in SD format>\n";
+  print "              -i <molecule id keyword>\n";
+  print "              -f (apply a light filter, recommended)\n";
+  print "              -l (apply Lipinski's Rule of Five)\n";
+  print "              -c (canonicalize molecules)\n";
+  die "\n";
+ }
+ 
+ my $babel  = $ENV{'ESDBABEL'};
+ my $obprop = $ENV{'ESDOBPROP'};
+ my $mayacp = $ENV{'ESDMAYACP'};
+ my $mayamf = $ENV{'ESDMAYAMF'};
+ 
+ die "Could not find babel\n" if ( !( -e "$babel" ) );
+ die "Could not find obprop\n" if ( !( -e "$obprop" ) );
+ die "Could not find CalculatePhysicochemicalProperties.pl\n" if ( !( -e "$mayacp" ) );
+ die "Could not find MACCSKeysFingerprints.pl\n" if ( !( -e "$mayamf" ) );
+ 
+ my $fsdf1 = '';
+ my $fsdf2 = '';
+ my $fkey1 = '';
+ my $fcan1 = 0;
+ my $flip1 = 0;
+ my $flgh1 = 0;
+ 
+ my $cut01 =   2; # min heavy atoms
+ my $cut02 = 200; # max heavy atoms
+ my $cut03 =  50; # min mw
+ my $cut04 = 500; # max mw
+ my $cut05 =   5; # max number of hydrogen bond donors
+ my $cut06 =  10; # max number of hydrogen bond acceptors
+ my $cut07 =   5; # max logP
+ 
+ my %opt1 = ();
+ 
+ $opt1{'sort'} = 1;
+ $opt1{'invariants'} = 0;
+ 
+ for ( my $i = 0; $i <= $#ARGV; $i++ )
+ {
+  $fsdf1 = $ARGV[$i+1] if ( $ARGV[$i] eq '-s' );
+  $fsdf2 = $ARGV[$i+1] if ( $ARGV[$i] eq '-o' );
+  $fkey1 = $ARGV[$i+1] if ( $ARGV[$i] eq '-i' );
+  $flgh1 = 1           if ( $ARGV[$i] eq '-f' );
+  $flip1 = 1           if ( $ARGV[$i] eq '-l' );
+  $fcan1 = 1           if ( $ARGV[$i] eq '-c' );
+ }
+ 
+ die "Provide compounds in SD format\n" if ( !( -e $fsdf1 ) or !length($fsdf1) );
+ die "Provide output filename (SD format)\n" if ( !length($fsdf2) );
+ die "Provide molecule id keyword\n" if ( !length($fkey1) );
+ 
+ my $dir1 = getcwd();
+ 
+ my $dir2 = tempdir( CLEANUP => 1 );
+ 
+ my ($fh1, $tmpfil1) = tempfile( DIR => $dir2, UNLINK => 1);
+ my ($fh2, $tmpfil2) = tempfile( DIR => $dir2, UNLINK => 1);
+ my ($fh3, $tmpfil3) = tempfile( DIR => $dir2, UNLINK => 1);
+ my ($fh4, $tmpfil4) = tempfile( DIR => $dir2, UNLINK => 1);
+ my ($fh5, $tmpfil5) = tempfile( DIR => $dir2, UNLINK => 1);
+ 
+ printf("Tempdir created: %s\n\n", $dir2);
+ 
+ printf("Calculating molecular properties\n\n");
+ 
+ printf("Light filter applies\n\n") if ( $flgh1 );
+ 
+ printf("Lipinski's Rule of Five applies\n\n") if ( $flip1 );
+ 
+ my $bt0 = new Benchmark;
+ 
+ my $tot01 = 0;
+ my $tot02 = 0;
+ 
+ my @sdf01 = read_file($fsdf1); chomp(@sdf01);
+ 
+ my @sdf02 = ();
+ my @sdf03 = ();
+ 
+ foreach my $wsdf01 (@sdf01)
+ {
+  push(@sdf02, $wsdf01);
+  
+  if ( $wsdf01 eq '$$$$' )
+  {
+   printf("Cmp%7d: ", ++$tot01);
+   
+   my $bt2 = new Benchmark;
+   
+   my @sdf04 = ();
+   
+   foreach my $wsdf02 (@sdf02)
+   {
+    push(@sdf04, $wsdf02);
+    
+    last if ( $wsdf02 eq 'M  END' or $wsdf02 eq 'M END' );
+   }
+   
+   my $nsdf02 = @sdf02;
+   my $nsdf04 = @sdf04;
+   
+   my $na1 = substr($sdf04[3], 0, 3) * 1;
+   my $nb1 = substr($sdf04[3], 3, 3) * 1;
+   
+   my $nam01 = '';
+   
+   for ( my $xa = 0; $xa < $nsdf02 - 1; $xa++ )
+   {
+    $nam01 = $sdf02[$xa+1] if ( $sdf02[$xa] =~ /$fkey1/ );
+   }
+   
+   $nam01 =~ s/[^\w\s-]//g;
+   $nam01 =~ s/\ //g;
+   
+   if ( length($nam01) > 2 )
+   {
+    print $nam01, ' -> ';
+    
+    if ( $na1 >= $cut01 and $na1 <= $cut02 )
+    {
+     my $nsdf02 = @sdf02;
+     
+     if ( $fcan1 )
+     {
+      my @sdf05 = ();
+      
+      foreach my $wsdf04 (@sdf04)
+      {
+       push(@sdf05, $wsdf04."\n");
+      }
+      
+      push(@sdf05, '$$$$'."\n");
+      
+      write_file($tmpfil1, @sdf05);
+      
+      my $mol01 = Chemistry::Mol->read($tmpfil1, format => 'sdf', );
+      
+      unlink($tmpfil1) if ( -e $tmpfil1 );
+      
+      canonicalize($mol01, %opt1);
+      
+      $mol01->write($tmpfil2, format => 'sdf', );
+      
+      my @sdf06 = read_file($tmpfil2); chomp(@sdf06);
+      
+      unlink($tmpfil2) if ( -e $tmpfil2 );
+      
+      my $na2 = substr($sdf06[3], 0, 3) * 1;
+      my $nb2 = substr($sdf06[3], 3, 3) * 1;
+     
+      my @atm01 = ();
+      my @bnd01 = ();
+      
+      for ( my $xa = 4; $xa < $na2 + 4; $xa++ )
+      {
+       push(@atm01, substr($sdf06[$xa], 0, 48));
+      }
+      
+      for ( my $xa = $na2 + 4; $xa < $na2 + $nb2 + 4; $xa++ )
+      {
+       push(@bnd01, substr($sdf06[$xa], 0, 18));
+      }
+      
+      @bnd01 = sort @bnd01;
+      
+      my $atm02 = 0;
+      my $bnd02 = 0;
+      
+      for ( my $xa = 4; $xa < $na1 + 4; $xa++ )
+      {
+       $sdf02[$xa] = $atm01[$atm02];
+       $sdf04[$xa] = $atm01[$atm02];
+       
+       $atm02++;
+      }
+      
+      for ( my $xa = $na1 + 4; $xa < $na1 + $nb1 + 4; $xa++ )
+      {
+       $sdf02[$xa] = $bnd01[$bnd02];
+       $sdf04[$xa] = $bnd01[$bnd02];
+       
+       $bnd02++;
+      }
+     }
+     
+     if ( $flgh1 )
+     {
+      my @fix03 = ();
+      
+      foreach my $wsdf04 (@sdf04)
+      {
+       push(@fix03, $wsdf04."\n");
+      }
+      
+      push(@fix03, '$$$$'."\n");
+      
+      write_file($tmpfil4, @fix03);
+      
+      my $fix04 = Chemistry::Mol->read($tmpfil4, format => 'sdf', );
+      
+      unlink($tmpfil4) if ( -e $tmpfil4 );
+      
+      my @fix05 = $fix04->atoms();
+      
+      foreach my $wfix05 (@fix05)
+      {
+       $fix04->delete_atom($wfix05) if ( $wfix05->symbol() ne 'C'  and 
+                                         $wfix05->symbol() ne 'N'  and 
+                                         $wfix05->symbol() ne 'O'  and 
+                                         $wfix05->symbol() ne 'P'  and 
+                                         $wfix05->symbol() ne 'S'  and 
+                                         $wfix05->symbol() ne 'F'  and 
+                                         $wfix05->symbol() ne 'I'  and 
+                                         $wfix05->symbol() ne 'Cl' and 
+                                         $wfix05->symbol() ne 'Br' and 
+                                         $wfix05->symbol() ne 'B'  and 
+                                         $wfix05->symbol() ne 'Mg' and 
+                                         $wfix05->symbol() ne 'Fe' and 
+                                         $wfix05->symbol() ne 'Cu' and 
+                                         $wfix05->symbol() ne 'Cd' and 
+                                         $wfix05->symbol() ne 'Ca' and 
+                                         $wfix05->symbol() ne 'Zn' );
+      }
+      
+      my @fix06 = $fix04->separate();
+      
+      my $nfix06 = @fix06;
+      
+      my $fix07 = 0;
+      my $fix08 = 0;
+      
+      for ( my $xa = 0; $xa < $nfix06; $xa++ )
+      {
+       my $fix09 = scalar $fix06[$xa]->atoms();
+       
+       if ( $fix09 > $fix08 )
+       {
+        $fix08 = $fix09;
+        
+        $fix07 = $xa;
+       }
+      }
+      
+      $fix06[$fix07]->write($tmpfil5, format => 'sdf', );
+      
+      my @fix10 = read_file($tmpfil5); chomp(@fix10);
+      
+      unlink($tmpfil5) if ( -e $tmpfil5 );
+      
+      my $na1f = substr($fix10[3], 0, 3) * 1;
+      my $nb1f = substr($fix10[3], 3, 3) * 1;
+      
+      my @fix11 = ();
+      my @fix12 = ();
+      
+      for ( my $xa = 0; $xa < 3; $xa++ )
+      {
+       push(@fix11, $sdf02[$xa]);
+       
+       push(@fix12, $sdf04[$xa]);
+      }
+      
+      for ( my $xa = 3; $xa < $na1f + $nb1f + 4; $xa++ )
+      {
+       push(@fix11, $fix10[$xa]);
+       
+       push(@fix12, $fix10[$xa]);
+      }
+      
+      my $fix13 = 0;
+      
+      foreach my $wsdf02 (@sdf02)
+      {
+       $fix13 = 1 if ( $wsdf02 eq 'M  END' or $wsdf02 eq 'M END' );
+       
+       push(@fix11, $wsdf02) if ( $fix13 );
+      }
+      
+      $fix13 = 0;
+      
+      foreach my $wsdf04 (@sdf04)
+      {
+       $fix13 = 1 if ( $wsdf04 eq 'M  END' or $wsdf04 eq 'M END' );
+       
+       push(@fix12, $wsdf04) if ( $fix13 );
+      }
+      
+      @sdf02 = @fix11;
+      @sdf04 = @fix12;
+      
+      $nsdf02 = @sdf02;
+      $nsdf04 = @sdf04;
+      
+      $na1 = $na1f;
+      $nb1 = $nb1f;
+     }
+     
+     my @fix01 = ();
+     my @fix02 = ();
+     
+     for ( my $xa = $na1 + 4; $xa < $na1 + $nb1 + 4; $xa++ )
+     {
+      my $ta1 = substr($sdf02[$xa], 0, 3) * 1;
+      my $ta2 = substr($sdf02[$xa], 3, 3) * 1;
+      
+      if ( $ta1 > $ta2 )
+      {
+       substr($sdf02[$xa], 0, 3) = sprintf("%3d", $ta2);
+       substr($sdf02[$xa], 3, 3) = sprintf("%3d", $ta1);
+      }
+      
+      push(@fix01, $sdf02[$xa]);
+      
+      $ta1 = substr($sdf04[$xa], 0, 3) * 1;
+      $ta2 = substr($sdf04[$xa], 3, 3) * 1;
+      
+      if ( $ta1 > $ta2 )
+      {
+       substr($sdf04[$xa], 0, 3) = sprintf("%3d", $ta2);
+       substr($sdf04[$xa], 3, 3) = sprintf("%3d", $ta1);
+      }
+      
+      push(@fix02, $sdf04[$xa]);
+     }
+     
+     @fix01 = sort @fix01;
+     @fix02 = sort @fix02;
+     
+     my $nfix01 = 0;
+     my $nfix02 = 0;
+     
+     for ( my $xa = $na1 + 4; $xa < $na1 + $nb1 + 4; $xa++ )
+     {
+      $sdf02[$xa] = $fix01[$nfix01++];
+      
+      $sdf04[$xa] = $fix02[$nfix02++];
+     }
+     
+     if ( $na1 >= $cut01 and $na1 <= $cut02 )
+     {
+      my @sdf05 = ();
+      
+      foreach my $wsdf04 (@sdf04)
+      {
+       push(@sdf05, $wsdf04."\n");
+      }
+      
+      push(@sdf05, '$$$$'."\n");
+      
+      write_file($tmpfil3.'.sdf', @sdf05);
+      
+      open (PRP, "$obprop $tmpfil3.sdf 2>&1 |") || die "Cannot execute $obprop $tmpfil3.sdf\n";
+       my @prp01=<PRP>;
+       chomp(@prp01);
+      close (PRP);
+      
+      my $prp02 = '';  # smiles
+      my $prp03 = 0.0; # mass
+      my $prp04 = 0.0; # logP
+      my $prp05 = 0.0; # PSA
+      my $prp06 = 0.0; # MR
+      
+      my @prp07 = grep(/canonical_SMILES /, @prp01);
+      my @prp08 = grep(/exact_mass /, @prp01);
+      my @prp09 = grep(/logP /, @prp01);
+      my @prp10 = grep(/PSA /, @prp01);
+      my @prp11 = grep(/MR /, @prp01);
+      
+      if ( @prp07 ) { my @prp12 = split(/\ /, $prp07[0]); $prp02 = pop(@prp12); }
+      if ( @prp08 ) { my @prp12 = split(/\ /, $prp08[0]); $prp03 = pop(@prp12); }
+      if ( @prp09 ) { my @prp12 = split(/\ /, $prp09[0]); $prp04 = pop(@prp12); }
+      if ( @prp10 ) { my @prp12 = split(/\ /, $prp10[0]); $prp05 = pop(@prp12); }
+      if ( @prp11 ) { my @prp12 = split(/\ /, $prp11[0]); $prp06 = pop(@prp12); }
+      
+      open (CHG, "$babel -isdf $tmpfil3.sdf -oreport - 2>&1 |") || die "Cannot execute $babel -isdf $tmpfil3.sdf -oreport -\n";
+       my @chg01=<CHG>;
+       chomp(@chg01);
+      close (CHG);
+      
+      my $chg02 = '';
+      
+      my $w1 = 0;
+      
+      foreach my $wchg01 (@chg01)
+      {
+       $w1 = 0 if ( !length($wchg01) );
+       
+       $chg02 .= ' '.( substr($wchg01, 8, 16) * 1.0 ) if ( $w1 );
+       
+       $w1 = 1 if ( $wchg01 =~ /ATOMIC CHARGES/ );
+      }
+      
+      substr($chg02, 0, 1) = '' if ( substr($chg02, 0, 1) eq ' ' );
+      
+      my $nhb01 = 0;
+      my $nhb02 = 0;
+      
+      open (BAB, "$babel -isdf $tmpfil3.sdf -osmi - --append HBD 2>&1 |") || die "Cannot execute $babel -isdf $tmpfil3.sdf -osmi - --append HBD\n";
+       my @nhb03=<BAB>;
+       chomp(@nhb03);
+      close (BAB);
+      
+      @nhb03 = grep(!/converted|messages/, @nhb03);
+      
+      open (BAB, "$babel -isdf $tmpfil3.sdf -osmi - --append HBA1 2>&1 |") || die "Cannot execute $babel -isdf $tmpfil3.sdf -osmi - --append HBA1\n";
+       my @nhb04=<BAB>;
+       chomp(@nhb04);
+      close (BAB);
+      
+      @nhb04 = grep(!/converted|messages/, @nhb04);
+      
+      if ( @nhb03 )
+      {
+       $nhb03[0] =~ s/\t/\ /g;
+       $nhb03[0] =~ s/\ \ /\ /g;
+       
+       my @nhb05 = split(/\ /, $nhb03[0]);
+       
+       $nhb01 = pop(@nhb05) if ( @nhb05 );
+      }
+      
+      if ( @nhb04 )
+      {
+       $nhb04[0] =~ s/\t/\ /g;
+       $nhb04[0] =~ s/\ \ /\ /g;
+       
+       my @nhb05 = split(/\ /, $nhb04[0]);
+       
+       $nhb02 = pop(@nhb05) if ( @nhb05 );
+      }
+      
+      if ( !$flip1 or $prp03 >= $cut03 and $prp03 <= $cut04 and 
+                      $prp04 <= $cut07 and 
+                      $nhb01 <= $cut05 and 
+                      $nhb02 <= $cut06 )
+      {
+       open (BIT, "$babel -isdf $tmpfil3.sdf -ofpt - -xN1024 2>&1 |") || die "Cannot execute $babel -isdf $tmpfil3.sdf -ofpt - -xN1024\n";
+        my @bit01=<BIT>;
+        chomp(@bit01);
+       close (BIT);
+       
+       @bit01 = grep(!/converted|messages/, @bit01);
+       
+       my $nbit01 = @bit01;
+       
+       my $bit02 = '';
+       
+       for ( my $xa = 1; $xa < $nbit01; $xa++ )
+       {
+        my @bit03 = split(/ /, $bit01[$xa]);
+        
+        foreach my $wbit03 (@bit03)
+        {
+         $bit02 .= $wbit03 if ( length($wbit03) == 8 );
+        }
+       }
+       
+       my $bit04 = Bit::Vector->new_Hex(1024,$bit02);
+       my $bit05 = $bit04->to_Bin();
+       
+       chdir($dir2);
+       
+       my $tmpfil6 = 'xsdf01-'.int(rand(100001)+100001).int(rand(100001)+100001).'.sdf';
+       
+       copy($tmpfil3.'.sdf', $tmpfil6);
+       
+       open (MAY, "$mayacp -m All -r SampleAllProperties -o $tmpfil6 2>&1 |") || die "Failed: $mayacp -m All -r SampleAllProperties -o $tmpfil6\n";
+        my @may01=<MAY>;
+        chomp(@may01);
+       close (MAY);
+       
+       open (MAY, "$mayamf -r SampleMACCS166FPBin -o $tmpfil6 2>&1 |") || die "Failed: $mayamf -r SampleMACCS166FPBin -o $tmpfil6\n";
+        my @may02=<MAY>;
+        chomp(@may02);
+       close (MAY);
+       
+       my @may03 = read_file('SampleAllProperties.csv'); chomp(@may03);
+       my @may04 = read_file('SampleMACCS166FPBin.csv'); chomp(@may04);
+       
+       unlink($tmpfil6) if ( -e $tmpfil6 );
+       unlink('SampleAllProperties.csv') if ( -e 'SampleAllProperties.csv' );
+       unlink('SampleMACCS166FPBin.csv') if ( -e 'SampleMACCS166FPBin.csv' );
+       
+       chdir($dir1);
+       
+       unlink($tmpfil3.'.sdf') if ( -e $tmpfil3.'.sdf' );
+       
+       $may03[1] =~ s/\"//g;
+       
+       my @may05 = split(/\,/, $may03[1]);
+       
+       my $may07 = $may05[8];
+       my $may08 = $may05[9];
+       
+       $may04[1] =~ s/\"//g;
+       
+       my @may06 = split(/\;/, $may04[1]);
+       
+       my $may09 = pop(@may06);
+       
+       my @sdf07 = ();
+       
+       for ( my $xa = 0; $xa < $nsdf02; $xa++ )
+       {
+        if ( $sdf02[$xa] =~ /SMILES_CANONICAL/ or 
+             $sdf02[$xa] =~ /FINGERPRINT/ or 
+             $sdf02[$xa] =~ /MACCS166/ or 
+             $sdf02[$xa] =~ /OB_MW/ or 
+             $sdf02[$xa] =~ /OB_logP/ or 
+             $sdf02[$xa] =~ /OB_PSA/ or 
+             $sdf02[$xa] =~ /OB_MR/ or 
+             $sdf02[$xa] =~ /OB_HBD/ or 
+             $sdf02[$xa] =~ /OB_HBA1/ )
+        {
+         while ( length($sdf02[$xa]) )
+         {
+          $xa++;
+         }
+        }
+        else
+        {
+         push(@sdf07, $sdf02[$xa]);
+        }
+       }
+       
+       my @sdf08 = ();
+       
+       foreach my $wsdf07 (@sdf07)
+       {
+        if ( $wsdf07 eq '$$$$' )
+        {
+         push(@sdf08, '>  <SMILES_CANONICAL> ('.$nam01.')');
+         push(@sdf08, $prp02);
+         push(@sdf08, '');
+         
+         push(@sdf08, '>  <FINGERPRINT> ('.$nam01.')');
+         push(@sdf08, $bit05);
+         push(@sdf08, '');
+         
+         push(@sdf08, '>  <MACCS166> ('.$nam01.')');
+         push(@sdf08, $may09);
+         push(@sdf08, '');
+         
+         push(@sdf08, '>  <OB_MW> ('.$nam01.')');
+         push(@sdf08, $prp03);
+         push(@sdf08, '');
+         
+         push(@sdf08, '>  <OB_logP> ('.$nam01.')');
+         push(@sdf08, $prp04);
+         push(@sdf08, '');
+         
+         push(@sdf08, '>  <OB_PSA> ('.$nam01.')');
+         push(@sdf08, $prp05);
+         push(@sdf08, '');
+         
+         push(@sdf08, '>  <OB_MR> ('.$nam01.')');
+         push(@sdf08, $prp06);
+         push(@sdf08, '');
+         
+         push(@sdf08, '>  <OB_CHARGES> ('.$nam01.')');
+         push(@sdf08, $chg02);
+         push(@sdf08, '');
+         
+         push(@sdf08, '>  <MCT_HBD> ('.$nam01.')');
+         push(@sdf08, $may07);
+         push(@sdf08, '');
+         
+         push(@sdf08, '>  <MCT_HBA> ('.$nam01.')');
+         push(@sdf08, $may08);
+         push(@sdf08, '');
+        }
+        
+        push(@sdf08, $wsdf07);
+       }
+       
+       foreach my $wsdf08 (@sdf08)
+       {
+        push(@sdf03, $wsdf08."\n");
+       }
+       
+       my $bt3 = Benchmark->new;
+       
+       printf("done in %s\n", timestr(timediff($bt3, $bt2), 'nop'));
+       
+       $tot02++;
+      }
+      else
+      {
+       print "doesn't satisfy Lipinski's Rule of Five: ";
+       
+          if ( $prp03 < $cut03 or $prp03 > $cut04 )
+       {
+        print "molecular weight is $prp03\n";
+       }
+       elsif ( $prp04 > $cut07 )
+       {
+        print "logP is $prp04\n";
+       }
+       elsif ( $nhb01 > $cut05 )
+       {
+        print "# HB donors is $nhb01\n";
+       }
+       elsif ( $nhb02 > $cut06 )
+       {
+        print "# HB acceptors is $nhb02\n";
+       }
+       else
+       {
+        print "\n";
+       }
+      }
+     }
+     else
+     {
+      if ( $na1 > $cut02 )
+      {
+       print "too many atoms: $na1\n";
+      }
+      else
+      {
+       print "too few atoms: $na1\n";
+      }
+     }
+    }
+    else
+    {
+     if ( $na1 > $cut02 )
+     {
+      print "too many atoms: $na1\n";
+     }
+     else
+     {
+      print "too few atoms: $na1\n";
+     }
+    }
+   }
+   else
+   {
+    print "failed: could't find compound id for $fkey1 keyword\n";
+   }
+   
+   @sdf02 = ();
+  }
+ }
+ 
+ write_file($fsdf2, @sdf03) if ( $tot02 );
+ 
+ if ( $tot02 > 1 )
+ {
+  printf("\nDone: %s contains %d compounds\n", $fsdf2, $tot02);
+ }
+ else
+ {
+  printf("\nDone: %s contains %d compound\n", $fsdf2, $tot02);
+ }
+ 
+ my $bt1 = Benchmark->new;
+ 
+ printf("\n------------------------------------------------------------\n");
+ printf("Walltime: %s\n", timestr(timediff($bt1, $bt0)));
+ printf("------------------------------------------------------------\n");
+ 
+ exit(0);
+ 
+ 

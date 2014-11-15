@@ -1,0 +1,33 @@
+------------------------------------------------------------
+                         efindsite
+                        version 1.0
+              ligand binding pocket prediction
+
+       report bugs and issues to michal@brylinski.org
+------------------------------------------------------------
+
+!!! Benchmarking mode activated with max sid of 0.4 !!!
+
+Loading SVM models ............ done
+
+Checking Affinity Propagation library ... looks good
+
+eFindSite library: /work/wfeinste/efindsite/efindsite-lib-jan2012/
+eFindSite mapping: /work/wfeinste/efindsite/efindsite-lib-jan2012/ethread-lib-jan2012.map
+
+Number of ligand-bound templates:    31
+
+Template filtering ... 14/20 templates/ligands survived
+
+Detecting pockets ... 6 pockets found
+
+Calculating binding residues ... 6 pockets survived
+
+Calculating ligand fingerprints ... done
+
+Ranking pockets ... top-ranked pocket has a confidence index of 59.3%
+
+------------------------------------------------------------
+Walltime: 0 h 0 m 52 s  (52 s)
+------------------------------------------------------------
+maxres: max resident size was 274.8 MB
