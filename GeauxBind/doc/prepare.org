@@ -1,0 +1,13 @@
+* Prepare input files for Geauxdock
+
+** Remove H atom
+   1. babel to remove H:
+      babel -isdf ZINC37448123 -osdf a1.sdf -d
+
+** Add MOLID
+   2. Add MOLID
+
+      M  END
+      >  <MOLID> (ZINC37448123)
+      ZINC37448123
+      $$$$
