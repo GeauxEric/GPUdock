@@ -21,9 +21,13 @@
 ** DONE Add chemical properties
    1. env variables dependence
       export ESDBABEL=~/local/bin/babel  # use babel version 2.3.1, the 2.3.2 version has bugs
+
       export ESDOBPROP=~/local/bin/obprop
+
       export ESDMAYACP=$HOME/local/mayachemtools/bin/CalculatePhysicochemicalProperties.pl
+
       export ESDMAYAMF=$HOME/local/mayachemtools/bin/MACCSKeysFingerprints.pl
+
    2. script
       ./src/esimdock_sdf
    3. cmd
@@ -34,12 +38,36 @@
       
 ** DONE Add ensembles coords
    1. env variables dependence
+
       export ESDBALLOON=~/local/balloon
+
       export ESDSCLUSTER=~/local/cluto-2.1.2/Linux-x86_64/scluster
+
    2. sript
       ./src/esimdock_ens
    3. cmd 
       perl ./src/esimdock_ens -s ./data/ZINC00002158.sdf3 -o ./data/ZINC00002158.sdf4 -i MOLID -n 50
       
 ** TODO Add pocket center parameters
+   1. env variables dependence
+
+      export GEAUXDOCK_PKCOMBU=~/local/pkcombu
+
+      export GEAUXDOCK_BABEL=~/local/bin/babel
+
+      export GEAUXDOCK_FF=~/dat/paras
+
+   2. script
+      ./src/prepare_ff
+
+   3. cmd
+      $ cd ./data
+      $ perl ../src/prepare_ff -l ZINC00002158_4.sdf \
+        -i MOLID \
+        -o ZINC00002158_4.ff \
+        -s 1b9vA.ligands.sdf \
+        -a 1b9vA.alignments.dat \
+        -p 1b9vA.pockets.dat \
+        -t 1b9vA.templates.pdb \
+        -n 1
    
