@@ -1,13 +1,45 @@
 * Prepare input files for Geauxdock
 
-** Remove H atom
-   1. babel to remove H:
+** DONE Remove H atom
+   1. babel to remove H example:
       babel -isdf ZINC37448123 -osdf a1.sdf -d
+   2. script
+      ./src/prepare_sdf.rb
 
-** Add MOLID
-   2. Add MOLID
+** DONE Add MOLID
+   1. Add MOLID example:
 
       M  END
       >  <MOLID> (ZINC37448123)
       ZINC37448123
       $$$$
+
+   2. script
+      ./src/prepare_sdf.rb
+
+      
+** DONE Add chemical properties
+   1. env variables dependence
+      export ESDBABEL=~/local/bin/babel  # use babel version 2.3.1, the 2.3.2 version has bugs
+      export ESDOBPROP=~/local/bin/obprop
+      export ESDMAYACP=$HOME/local/mayachemtools/bin/CalculatePhysicochemicalProperties.pl
+      export ESDMAYAMF=$HOME/local/mayachemtools/bin/MACCSKeysFingerprints.pl
+   2. script
+      ./src/esimdock_sdf
+   3. cmd
+      perl esimdock -s <input sdf file> -o <output sdf file> -i MOLID -c
+      
+      example:
+      perl esimdock_sdf -s ../data/ZINC00002158.sdf2 -o ../data/ZINC00002158.sdf3 -i MOLID -c
+      
+** DONE Add ensembles coords
+   1. env variables dependence
+      export ESDBALLOON=~/local/balloon
+      export ESDSCLUSTER=~/local/cluto-2.1.2/Linux-x86_64/scluster
+   2. sript
+      ./src/esimdock_ens
+   3. cmd 
+      perl ./src/esimdock_ens -s ./data/ZINC00002158.sdf3 -o ./data/ZINC00002158.sdf4 -i MOLID -n 50
+      
+** TODO Add pocket center parameters
+   
