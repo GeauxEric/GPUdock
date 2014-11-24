@@ -40,3 +40,7 @@ a3.ff
 
 
 
+I need to
+1. fix the problem of cannot generate atom types and charges
+2. fix the print format of RMSD
+3. prepare_ff can handle multiple sdf inputs ?
