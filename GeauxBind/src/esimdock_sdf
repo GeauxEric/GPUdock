@@ -98,9 +98,9 @@
   $fsdf1 = $ARGV[$i+1] if ( $ARGV[$i] eq '-s' );
   $fsdf2 = $ARGV[$i+1] if ( $ARGV[$i] eq '-o' );
   $fkey1 = $ARGV[$i+1] if ( $ARGV[$i] eq '-i' );
-  $flgh1 = 1           if ( $ARGV[$i] eq '-f' );
+  $flgh1 = 1           if ( $ARGV[$i] eq '-f' );  # what is this??? this is not yet set to 1 currently
   $flip1 = 1           if ( $ARGV[$i] eq '-l' );
-  $fcan1 = 1           if ( $ARGV[$i] eq '-c' );
+  $fcan1 = 1           if ( $ARGV[$i] eq '-c' );  # what is this??? sort by bond???
  }
  
  die "Provide compounds in SD format\n" if ( !( -e $fsdf1 ) or !length($fsdf1) );
@@ -130,10 +130,10 @@
  my $tot01 = 0;
  my $tot02 = 0;
  
- my @sdf01 = read_file($fsdf1); chomp(@sdf01);
+ my @sdf01 = read_file($fsdf1); chomp(@sdf01);  # the whole sdf file content
  
- my @sdf02 = ();
- my @sdf03 = ();
+ my @sdf02 = ();  # content of one compound
+ my @sdf03 = ();  # content for all the compounds
  
  foreach my $wsdf01 (@sdf01)
  {
@@ -145,7 +145,7 @@
    
    my $bt2 = new Benchmark;
    
-   my @sdf04 = ();
+   my @sdf04 = (); # info of one compound without MOLID name
    
    foreach my $wsdf02 (@sdf02)
    {
@@ -160,7 +160,8 @@
    my $na1 = substr($sdf04[3], 0, 3) * 1;
    my $nb1 = substr($sdf04[3], 3, 3) * 1;
    
-   my $nam01 = '';
+   # to find compound name
+   my $nam01 = '';  # compound name
    
    for ( my $xa = 0; $xa < $nsdf02 - 1; $xa++ )
    {
@@ -174,6 +175,8 @@
    {
     print $nam01, ' -> ';
     
+    ################################################################################
+    # if number of atom and bond within the limits
     if ( $na1 >= $cut01 and $na1 <= $cut02 )
     {
      my $nsdf02 = @sdf02;
@@ -189,8 +192,10 @@
       
       push(@sdf05, '$$$$'."\n");
       
-      write_file($tmpfil1, @sdf05);
+      write_file($tmpfil1, @sdf05);  # pure sdf file
       
+      ################################################################################
+      # generate perl mol file
       my $mol01 = Chemistry::Mol->read($tmpfil1, format => 'sdf', );
       
       unlink($tmpfil1) if ( -e $tmpfil1 );
@@ -206,6 +211,8 @@
       my $na2 = substr($sdf06[3], 0, 3) * 1;
       my $nb2 = substr($sdf06[3], 3, 3) * 1;
      
+      ################################################################################
+      # sort by the bond, write to buffer
       my @atm01 = ();
       my @bnd01 = ();
       
@@ -219,7 +226,7 @@
        push(@bnd01, substr($sdf06[$xa], 0, 18));
       }
       
-      @bnd01 = sort @bnd01;
+      @bnd01 = sort @bnd01;  # sort by the bond ???
       
       my $atm02 = 0;
       my $bnd02 = 0;
@@ -352,10 +359,12 @@
       $na1 = $na1f;
       $nb1 = $nb1f;
      }
+
      
      my @fix01 = ();
      my @fix02 = ();
      
+     # exchange the bond and atom number ???
      for ( my $xa = $na1 + 4; $xa < $na1 + $nb1 + 4; $xa++ )
      {
       my $ta1 = substr($sdf02[$xa], 0, 3) * 1;
@@ -394,6 +403,8 @@
       $sdf04[$xa] = $fix02[$nfix02++];
      }
      
+     ################################################################################
+     # start fetching using babel, pbprob and maya
      if ( $na1 >= $cut01 and $na1 <= $cut02 )
      {
       my @sdf05 = ();
@@ -408,7 +419,7 @@
       write_file($tmpfil3.'.sdf', @sdf05);
       
       open (PRP, "$obprop $tmpfil3.sdf 2>&1 |") || die "Cannot execute $obprop $tmpfil3.sdf\n";
-       my @prp01=<PRP>;
+       my @prp01=<PRP>;  # obprop results
        chomp(@prp01);
       close (PRP);
       
@@ -431,7 +442,7 @@
       if ( @prp11 ) { my @prp12 = split(/\ /, $prp11[0]); $prp06 = pop(@prp12); }
       
       open (CHG, "$babel -isdf $tmpfil3.sdf -oreport - 2>&1 |") || die "Cannot execute $babel -isdf $tmpfil3.sdf -oreport -\n";
-       my @chg01=<CHG>;
+       my @chg01=<CHG>;  # babel report content
        chomp(@chg01);
       close (CHG);
       
@@ -450,18 +461,18 @@
       
       substr($chg02, 0, 1) = '' if ( substr($chg02, 0, 1) eq ' ' );
       
-      my $nhb01 = 0;
-      my $nhb02 = 0;
+      my $nhb01 = 0;  # number of Hydrogen Bond Donors ???
+      my $nhb02 = 0;  # number of Hydrogen Bond Acceptors ???
       
       open (BAB, "$babel -isdf $tmpfil3.sdf -osmi - --append HBD 2>&1 |") || die "Cannot execute $babel -isdf $tmpfil3.sdf -osmi - --append HBD\n";
-       my @nhb03=<BAB>;
+       my @nhb03=<BAB>;  # SMILE format content, with Hydrogen Bond Donors
        chomp(@nhb03);
       close (BAB);
       
       @nhb03 = grep(!/converted|messages/, @nhb03);
       
       open (BAB, "$babel -isdf $tmpfil3.sdf -osmi - --append HBA1 2>&1 |") || die "Cannot execute $babel -isdf $tmpfil3.sdf -osmi - --append HBA1\n";
-       my @nhb04=<BAB>;
+       my @nhb04=<BAB>;  # Hydrogen Bond Acceptors 1
        chomp(@nhb04);
       close (BAB);
       
@@ -493,7 +504,7 @@
                       $nhb02 <= $cut06 )
       {
        open (BIT, "$babel -isdf $tmpfil3.sdf -ofpt - -xN1024 2>&1 |") || die "Cannot execute $babel -isdf $tmpfil3.sdf -ofpt - -xN1024\n";
-        my @bit01=<BIT>;
+        my @bit01=<BIT>;  # Finger print
         chomp(@bit01);
        close (BIT);
        
@@ -523,12 +534,12 @@
        copy($tmpfil3.'.sdf', $tmpfil6);
        
        open (MAY, "$mayacp -m All -r SampleAllProperties -o $tmpfil6 2>&1 |") || die "Failed: $mayacp -m All -r SampleAllProperties -o $tmpfil6\n";
-        my @may01=<MAY>;
+        my @may01=<MAY>;  # maya std out
         chomp(@may01);
        close (MAY);
        
        open (MAY, "$mayamf -r SampleMACCS166FPBin -o $tmpfil6 2>&1 |") || die "Failed: $mayamf -r SampleMACCS166FPBin -o $tmpfil6\n";
-        my @may02=<MAY>;
+        my @may02=<MAY>;  # maya std out
         chomp(@may02);
        close (MAY);
        
