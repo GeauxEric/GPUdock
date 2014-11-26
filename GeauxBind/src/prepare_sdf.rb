@@ -37,7 +37,7 @@ def addMultipleMolids(ifns, ofn)
     if File::exists?(ifn)
       lines = File.open(ifn).readlines
       added_lines = addMolid(lines)
-      File.open(ofn, 'a') {|file| file.write(added_lines.join + "\n")}
+      File.open(ofn, 'a') {|file| file.write(added_lines.join)}
     else
       raise "#{ifn} does not exist"
     end

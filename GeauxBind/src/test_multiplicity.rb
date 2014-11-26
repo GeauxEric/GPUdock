@@ -40,9 +40,14 @@ class PrepareSdfTest < Test::Unit::TestCase
     ofn = "../data/ZINC0000_1.sdf"
     perl_script = "./esimdock_sdf"
     cmd = "perl #{perl_script} -s #{ifn} -o #{ofn} -i MOLID -c"
-    puts cmd + "\n"
+    puts "\n" + cmd + "\n"
+
     sdf_runs_well = system cmd
-    raise "failure in running #{perl_script}\n" unless sdf_runs_well
+    if sdf_runs_well
+      puts "write to #{ofn}"
+    else
+      raise "failure in running #{perl_script}\n"
+    end
   end
 
 
