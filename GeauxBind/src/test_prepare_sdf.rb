@@ -11,10 +11,10 @@ class PrepareSdfTest < Test::Unit::TestCase
     removeH(ifn, ofn, babel=babel)
   end
 
-  def test_addMolid
+  def test_addMolid2File
     ifn = "../data/ZINC00002158_1.sdf"
     ofn = "../data/ZINC00002158_2.sdf"
-    addMolid(ifn, ofn)
+    addMolid2File(ifn, ofn)
   end
 
   def test_run_sdf
