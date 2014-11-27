@@ -858,6 +858,7 @@
       $pat02 =~ s/$fkey1/ENSEMBLE_TOTAL/;
       $pat03 =~ s/$fkey1/ENSEMBLE_RMSD/;
       $pat04 =~ s/$fkey1/ENSEMBLE_COORDS/;
+
       
       foreach my $wsdf02 (@sdf02)
       {
@@ -868,16 +869,16 @@
         push(@out01, "\n");
         
         push(@out01, "$pat03\n");
-        
-        foreach my $wconf05 (@conf05)
-        {
-         push(@out01, "$wconf05\n");
-        }
-        
-        push(@out01, "\n");
+
+	# @conf05 contains ensemble RMSD values
+	my $rmsds = join(' ', @conf05);
+	push(@out01, "$rmsds\n\n");
+
         
         push(@out01, "$pat04\n");
         
+	# ensemble with 0 rmsd does not have exactly the same coords with native ???
+	# $DB::single = 1;
         foreach my $wconf06 (@conf06)
         {
          push(@out01, "$wconf06\n");
