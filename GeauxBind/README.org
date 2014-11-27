@@ -2,8 +2,11 @@
 
 ** DONE Remove H atom
    1. babel to remove H example:
+
       babel -isdf ZINC37448123 -osdf a1.sdf -d
+
    2. script
+
       ./src/prepare_sdf.rb
 
 ** DONE Add MOLID
@@ -20,6 +23,7 @@
       
 ** DONE Add chemical properties
    1. env variables dependence
+
       export ESDBABEL=~/local/bin/babel  # use babel version 2.3.1, the 2.3.2 version has bugs
 
       export ESDOBPROP=~/local/bin/obprop
@@ -48,7 +52,7 @@
    3. cmd 
       perl ./src/esimdock_ens -s ./data/ZINC00002158.sdf3 -o ./data/ZINC00002158.sdf4 -i MOLID -n 50
       
-** TODO Add pocket center parameters
+** DONE Add pocket center parameters
    1. env variables dependence
 
       export GEAUXDOCK_PKCOMBU=~/local/pkcombu
@@ -70,4 +74,10 @@
         -p 1b9vA.pockets.dat \
         -t 1b9vA.templates.pdb \
         -n 1
+      
+
+   
+* Develop to handle multiple compounds in one file
+
+** TODO run sdf
    
