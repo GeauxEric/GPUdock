@@ -8,36 +8,27 @@ class PrepareSdfTest < Test::Unit::TestCase
   ################################################################################
   # removeH
 
-  # on multiple compound
-  def test_ab_removeH
+  # on single compound
+  def test_aa_removeH
     puts "\n################################################################################\nremove H\n"
     babel = "/home/jaydy/local/bin/babel"
 
-    ifn1 = "../data/ZINC00002158"
-    ifn2 = "../data/ZINC00089285"
-    ifn3 = "../data/ZINC01572843"
-    ifns = [ifn1, ifn2, ifn3]
+    ifn = "../data/ZINC00002158"
+    ofn = "../data/ZINC00002158_1.sdf"
 
-    tmp = Tempfile.new("/ZINC")
-    tmp_path = tmp.path
-    tmp.close
-
-    concatFiles(ifns, tmp_path)
-
-    ofn = "../data/ZINC_1.sdf"
-    removeH(tmp_path, ofn, babel=babel)
-
-    tmp.unlink
+    removeH(ifn, ofn, babel=babel)
+    puts "write to #{ofn}\n"
   end
+
 
   ################################################################################
   # addMolid2File
 
-  # on multiple compounds
-  def test_bb_addMolid2File
+  # on single compound
+  def test_ba_addMolid2File
     puts "\n################################################################################\nadd MOLID\n"
-    ifn = "../data/ZINC_1.sdf"
-    ofn = "../data/ZINC_2.sdf"
+    ifn = "../data/ZINC00002158_1.sdf"
+    ofn = "../data/ZINC00002158_2.sdf"
     addMolid2File(ifn, ofn)
     puts "\nwrite to #{ofn}\n"
   end
@@ -45,11 +36,11 @@ class PrepareSdfTest < Test::Unit::TestCase
   ################################################################################
   # run esimdock_sdf
 
-  # on multiple compounds
-  def test_cb_run_sdf
+  # on single compound
+  def test_ca_run_sdf
     puts "\n################################################################################\nrun esimdock_sdf\n"
-    ifn = "../data/ZINC_2.sdf"
-    ofn = "../data/ZINC_3.sdf"
+    ifn = "../data/ZINC00002158_2.sdf"
+    ofn = "../data/ZINC00002158_3.sdf"
     perl_script = "./esimdock_sdf"
     cmd = "perl #{perl_script} -s #{ifn} -o #{ofn} -i MOLID -c"
     puts "\n" + cmd + "\n"
@@ -63,15 +54,14 @@ class PrepareSdfTest < Test::Unit::TestCase
   end
 
 
-
   ################################################################################
   # run esimdock_ens
 
-  # on multiple compounds
-  def test_db_run_ens
+  # on single compound
+  def test_da_run_ens
     puts "\n################################################################################\nrun esimdock_ens\n"
-    ifn = "../data/ZINC_3.sdf"
-    ofn = "../data/ZINC_4.sdf"
+    ifn = "../data/ZINC00002158_3.sdf"
+    ofn = "../data/ZINC00002158_4.sdf"
     perl_script = "./esimdock_ens"
     cmd = "perl #{perl_script} -s #{ifn} -o #{ofn} -i MOLID -n 50"
     puts "\n" + cmd + "\n"
@@ -87,10 +77,11 @@ class PrepareSdfTest < Test::Unit::TestCase
   ################################################################################
   # run prepare_ff
 
-  def test_eb_run_prepare_ff
+  # on single compound
+  def test_ea_run_prepare_ff
     puts "\n################################################################################\nrun prepare_ff\n"
-    ifn = "../data/ZINC_4.sdf"
-    ofn = "../data/ZINC_4.ff"
+    ifn = "../data/ZINC00002158_4.sdf"
+    ofn = "../data/ZINC00002158_4.ff"
 
     perl_script = "./prepare_ff"
     cmd = "perl #{perl_script} -l #{ifn} -i MOLID -o #{ofn} \
