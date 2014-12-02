@@ -1,6 +1,7 @@
 require 'test/unit'
 require 'tempfile'
-require_relative 'prepare_sdf'
+require 'open3'
+require_relative '../src/prepare_sdf'
 
 
 class PrepareSdfTest < Test::Unit::TestCase
@@ -10,7 +11,6 @@ class PrepareSdfTest < Test::Unit::TestCase
 
   # on multiple compound
   def test_ab_removeH
-    puts "\n################################################################################\nremove H\n"
     babel = "/home/jaydy/local/bin/babel"
 
     ifn1 = "../data/ZINC00002158"
@@ -35,7 +35,6 @@ class PrepareSdfTest < Test::Unit::TestCase
 
   # on multiple compounds
   def test_bb_addMolid2File
-    puts "\n################################################################################\nadd MOLID\n"
     ifn = "../data/ZINC_1.sdf"
     ofn = "../data/ZINC_2.sdf"
     addMolid2File(ifn, ofn)
@@ -47,18 +46,18 @@ class PrepareSdfTest < Test::Unit::TestCase
 
   # on multiple compounds
   def test_cb_run_sdf
-    puts "\n################################################################################\nrun esimdock_sdf\n"
     ifn = "../data/ZINC_2.sdf"
     ofn = "../data/ZINC_3.sdf"
-    perl_script = "./esimdock_sdf"
+    perl_script = "../src/esimdock_sdf"
     cmd = "perl #{perl_script} -s #{ifn} -o #{ofn} -i MOLID -c"
-    puts "\n" + cmd + "\n"
+    puts "\nRunning\t\t#{cmd}\n"
+    stdout_str, stderr_str, status = Open3.capture3(cmd)
 
-    runs_well = system cmd
-    if runs_well
-      puts "write to #{ofn}"
+    if status.success?
+      puts "write to\t#{ofn}\n"
     else
-      raise "failure in running #{perl_script}\n"
+      STDERR.puts "Error running #{cmd}\n"
+      exit 1
     end
   end
 
@@ -69,18 +68,18 @@ class PrepareSdfTest < Test::Unit::TestCase
 
   # on multiple compounds
   def test_db_run_ens
-    puts "\n################################################################################\nrun esimdock_ens\n"
     ifn = "../data/ZINC_3.sdf"
     ofn = "../data/ZINC_4.sdf"
-    perl_script = "./esimdock_ens"
+    perl_script = "../src/esimdock_ens"
     cmd = "perl #{perl_script} -s #{ifn} -o #{ofn} -i MOLID -n 50"
-    puts "\n" + cmd + "\n"
+    puts "\nRunning\t\t#{cmd}\n"
+    stdout_str, stderr_str, status = Open3.capture3(cmd)
 
-    runs_well = system cmd
-    if runs_well
-      puts "write to #{ofn}"
+    if status.success?
+      puts "write to\t#{ofn}\n"
     else
-      raise "failure in running #{perl_script}\n"
+      STDERR.puts "Error running #{cmd}\n"
+      exit 1
     end
   end
 
@@ -88,22 +87,21 @@ class PrepareSdfTest < Test::Unit::TestCase
   # run prepare_ff
 
   def test_eb_run_prepare_ff
-    puts "\n################################################################################\nrun prepare_ff\n"
     ifn = "../data/ZINC_4.sdf"
     ofn = "../data/ZINC_4.ff"
 
-    perl_script = "./prepare_ff"
+    perl_script = "../src/prepare_ff"
     cmd = "perl #{perl_script} -l #{ifn} -i MOLID -o #{ofn} \
 -s ../data/1b9vA.ligands.sdf -a ../data/1b9vA.alignments.dat \
 -p ../data/1b9vA.pockets.dat -t ../data/1b9vA.templates.pdb -n 1"
 
-    puts "\n" + cmd + "\n"
-
-    runs_well = system cmd
-    if runs_well
-      puts "write to #{ofn}"
+    puts "\nRunning\t\t#{cmd}\n"
+    stdout_str, stderr_str, status = Open3.capture3(cmd)
+    if status.success?
+      puts "write to\t#{ofn}\n"
     else
-      raise "failure in running \n #{cmd}\n"
+      STDERR.puts "Error running #{cmd}\n"
+      exit 1
     end
   end
 

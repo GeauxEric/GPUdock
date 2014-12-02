@@ -1,6 +1,7 @@
 require 'test/unit'
 require 'tempfile'
-require_relative 'prepare_sdf'
+require 'open3'
+require_relative '../src/prepare_sdf'
 
 
 class PrepareSdfTest < Test::Unit::TestCase
@@ -10,14 +11,21 @@ class PrepareSdfTest < Test::Unit::TestCase
 
   # on single compound
   def test_aa_removeH
-    puts "\n################################################################################\nremove H\n"
     babel = "/home/jaydy/local/bin/babel"
 
     ifn = "../data/ZINC00002158"
     ofn = "../data/ZINC00002158_1.sdf"
 
-    removeH(ifn, ofn, babel=babel)
-    puts "write to #{ofn}\n"
+    cmd = "#{babel} -isdf #{ifn} -osdf #{ofn} -d"
+    puts "\nRunning\t\t#{cmd}\n"
+    stdout_str, stderr_str, status = Open3.capture3(cmd)
+
+    if status.success?
+      puts "write to\t#{ofn}\n"
+    else
+      STDERR.puts "Error running #{cmd}\n"
+      exit 1
+    end
   end
 
 
@@ -26,11 +34,10 @@ class PrepareSdfTest < Test::Unit::TestCase
 
   # on single compound
   def test_ba_addMolid2File
-    puts "\n################################################################################\nadd MOLID\n"
     ifn = "../data/ZINC00002158_1.sdf"
     ofn = "../data/ZINC00002158_2.sdf"
     addMolid2File(ifn, ofn)
-    puts "\nwrite to #{ofn}\n"
+    puts "\nwrite to\t#{ofn}\n"
   end
 
   ################################################################################
@@ -38,18 +45,19 @@ class PrepareSdfTest < Test::Unit::TestCase
 
   # on single compound
   def test_ca_run_sdf
-    puts "\n################################################################################\nrun esimdock_sdf\n"
     ifn = "../data/ZINC00002158_2.sdf"
     ofn = "../data/ZINC00002158_3.sdf"
-    perl_script = "./esimdock_sdf"
-    cmd = "perl #{perl_script} -s #{ifn} -o #{ofn} -i MOLID -c"
-    puts "\n" + cmd + "\n"
+    perl_script = "../src/esimdock_sdf"
 
-    runs_well = system cmd
-    if runs_well
-      puts "write to #{ofn}"
+    cmd = "perl #{perl_script} -s #{ifn} -o #{ofn} -i MOLID -c"
+    puts "\nRunning\t\t#{cmd}\n"
+    stdout_str, stderr_str, status = Open3.capture3(cmd)
+
+    if status.success?
+      puts "write to\t#{ofn}\n"
     else
-      raise "failure in running #{perl_script}\n"
+      STDERR.puts "Error running #{cmd}\n"
+      exit 1
     end
   end
 
@@ -59,18 +67,18 @@ class PrepareSdfTest < Test::Unit::TestCase
 
   # on single compound
   def test_da_run_ens
-    puts "\n################################################################################\nrun esimdock_ens\n"
     ifn = "../data/ZINC00002158_3.sdf"
     ofn = "../data/ZINC00002158_4.sdf"
-    perl_script = "./esimdock_ens"
+    perl_script = "../src/esimdock_ens"
     cmd = "perl #{perl_script} -s #{ifn} -o #{ofn} -i MOLID -n 50"
-    puts "\n" + cmd + "\n"
+    puts "\nRunning\t\t#{cmd}\n"
+    stdout_str, stderr_str, status = Open3.capture3(cmd)
 
-    runs_well = system cmd
-    if runs_well
-      puts "write to #{ofn}"
+    if status.success?
+      puts "write to\t#{ofn}\n"
     else
-      raise "failure in running #{perl_script}\n"
+      STDERR.puts "Error running #{cmd}\n"
+      exit 1
     end
   end
 
@@ -79,22 +87,21 @@ class PrepareSdfTest < Test::Unit::TestCase
 
   # on single compound
   def test_ea_run_prepare_ff
-    puts "\n################################################################################\nrun prepare_ff\n"
     ifn = "../data/ZINC00002158_4.sdf"
     ofn = "../data/ZINC00002158_4.ff"
+    perl_script = "../src/prepare_ff"
 
-    perl_script = "./prepare_ff"
     cmd = "perl #{perl_script} -l #{ifn} -i MOLID -o #{ofn} \
 -s ../data/1b9vA.ligands.sdf -a ../data/1b9vA.alignments.dat \
 -p ../data/1b9vA.pockets.dat -t ../data/1b9vA.templates.pdb -n 1"
 
-    puts "\n" + cmd + "\n"
-
-    runs_well = system cmd
-    if runs_well
-      puts "write to #{ofn}"
+    puts "\nRunning\t\t#{cmd}\n"
+    stdout_str, stderr_str, status = Open3.capture3(cmd)
+    if status.success?
+      puts "write to\t#{ofn}\n"
     else
-      raise "failure in running \n #{cmd}\n"
+      STDERR.puts "Error running #{cmd}\n"
+      exit 1
     end
   end
 
