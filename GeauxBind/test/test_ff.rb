@@ -1,5 +1,6 @@
 #!/home/jaydy/.local/bin/ruby
 
+require 'pry'
 require 'optparse'
 require_relative '../src/ff'
 
@@ -33,12 +34,25 @@ fnum1 = 1
 
 puts "Preparing data for KDE ... \n";
 eligible_ligs = getEligibleLigs(flig1, fnum1)
-kde_pts, kde_atom_num = prepareKDE(eligible_ligs, babel=babel)
-raise "error calculating KDE" unless kde_pts[0] == "KDE C.2 33.143 -12.2923 66.0406\n"
+kde = prepareKDE(eligible_ligs, babel=babel)
+
 puts "done\n\n";
  
 puts "Calculating pocket-specific potential ... \n";
+psp = preparePSP(fali1, paramsff, fpkt1, ftpl1, eligible_ligs, fnum1, kde, babel=babel)
+puts "done\n\n"
 
-psp = preparePSP(fali1, paramsff, fpkt1, ftpl1, eligible_ligs, fnum1, kde_pts, kde_atom_num, babel=babel)
-puts kde_pts
-puts psp
+print "Calculating position restraints for docking compounds:\n\n";
+mcs = prepareMCS(fsdf1, eligible_ligs, fkey1, pkcombu=pkcombu)
+print "done\n"
+
+output_lines = kde.join("\n") + "\n" + psp.join("\n") + "\n" + mcs.join("\n")
+
+File.open(fout1, 'w') do |file| 
+  file.write(output_lines)
+end
+
+ref_ifn = "../data/ZINC_single_correct.ff"
+ref_lines = File.open(ref_ifn).readlines.join
+
+raise "Wroing generating .ff" unless output_lines == ref_lines
