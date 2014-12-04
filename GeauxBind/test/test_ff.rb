@@ -4,14 +4,9 @@ require 'pry'
 require 'optparse'
 require_relative '../src/ff'
 
-puts "------------------------------------------------------------\n";
-puts "                         GeauxDock\n";
-puts "                        version 1.0\n\n";
-puts "   GPU-accelerated mixed-resolution ligand docking using\n";
-puts "                Replica Exchange Monte Carlo\n";
-puts "------------------------------------------------------------\n\n";
 
 
+################################################################################
 raise "GEAUXDOCK_PKCOMBU is not set\n" unless File.exist? ENV['GEAUXDOCK_PKCOMBU']
 raise "GEAUXDOCK_BABEL is not set\n" unless File.exist? ENV['GEAUXDOCK_BABEL']
 raise "GEAUXDOCK_FF is not set\n" unless File.exist? ENV['GEAUXDOCK_FF']
@@ -37,7 +32,7 @@ eligible_ligs = getEligibleLigs(flig1, fnum1)
 kde = prepareKDE(eligible_ligs, babel=babel)
 
 puts "done\n\n";
- 
+
 puts "Calculating pocket-specific potential ... \n";
 psp = preparePSP(fali1, paramsff, fpkt1, ftpl1, eligible_ligs, fnum1, kde, babel=babel)
 puts "done\n\n"
@@ -56,3 +51,19 @@ ref_ifn = "../data/ZINC_single_correct.ff"
 ref_lines = File.open(ref_ifn).readlines.join
 
 raise "Wroing generating .ff" unless output_lines == ref_lines
+
+
+################################################################################
+cmd = <<ff
+ruby ../src/prepare_ff.rb -l ../data/ZINC00002158_4.sdf -i MOLID \
+-o ../data/ZINC00002158_4.ff -s ../data/1b9vA.ligands.sdf -a \
+../data/1b9vA.alignments.dat -p ../data/1b9vA.pockets.dat \
+-t ../data/1b9vA.templates.pdb -n 1
+ff
+
+stdout_str, stderr_str, status = Open3.capture3(cmd)
+if not status.success?
+  STDERR.puts "Error running #{cmd}\n"
+  exit 1
+end
+
