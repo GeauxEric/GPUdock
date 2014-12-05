@@ -47,9 +47,9 @@ class PrepareSdfTest < Test::Unit::TestCase
   def test_ca_run_sdf
     ifn = "../data/ZINC00002158_2.sdf"
     ofn = "../data/ZINC00002158_3.sdf"
-    perl_script = "../src/esimdock_sdf"
+    script = "../src/esimdock_sdf"
 
-    cmd = "perl #{perl_script} -s #{ifn} -o #{ofn} -i MOLID -c"
+    cmd = "perl #{script} -s #{ifn} -o #{ofn} -i MOLID -c"
     puts "\nRunning\t\t#{cmd}\n"
     stdout_str, stderr_str, status = Open3.capture3(cmd)
 
@@ -69,8 +69,8 @@ class PrepareSdfTest < Test::Unit::TestCase
   def test_da_run_ens
     ifn = "../data/ZINC00002158_3.sdf"
     ofn = "../data/ZINC00002158_4.sdf"
-    perl_script = "../src/esimdock_ens"
-    cmd = "perl #{perl_script} -s #{ifn} -o #{ofn} -i MOLID -n 50"
+    script = "../src/esimdock_ens"
+    cmd = "perl #{script} -s #{ifn} -o #{ofn} -i MOLID -n 50"
     puts "\nRunning\t\t#{cmd}\n"
     stdout_str, stderr_str, status = Open3.capture3(cmd)
 
@@ -89,9 +89,9 @@ class PrepareSdfTest < Test::Unit::TestCase
   def test_ea_run_prepare_ff
     ifn = "../data/ZINC00002158_4.sdf"
     ofn = "../data/ZINC00002158_4.ff"
-    perl_script = "../src/prepare_ff"
+    script = "../src/prepare_ff.rb"
 
-    cmd = "perl #{perl_script} -l #{ifn} -i MOLID -o #{ofn} \
+    cmd = "ruby #{script} -l #{ifn} -i MOLID -o #{ofn} \
 -s ../data/1b9vA.ligands.sdf -a ../data/1b9vA.alignments.dat \
 -p ../data/1b9vA.pockets.dat -t ../data/1b9vA.templates.pdb -n 1"
 
@@ -103,6 +103,11 @@ class PrepareSdfTest < Test::Unit::TestCase
       STDERR.puts "Error running #{cmd}\n"
       exit 1
     end
+
+    test_ff = IO.read(ofn)
+    correct_ff = IO.read("../data/ZINC_single_correct.ff")
+    raise "Error" unless test_ff == correct_ff
+
   end
 
 end
