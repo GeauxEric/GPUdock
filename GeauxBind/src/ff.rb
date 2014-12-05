@@ -213,7 +213,7 @@ def preparePSP(fali1, paramsff, fpkt1, ftpl1, eligible_ligs, fnum1, kde_pts, bab
     amino_acids
   end
 
-  define_method :getNoneBackboneCenter do |amino_acid|
+  define_method :getPeptidePlaneCenter do |amino_acid|
     acid_name = amino_acid[0][17, 3]
     if acid_name == 'GLY'
       atom_num = amino_acid[0][22, 4].to_i.to_s
@@ -224,10 +224,10 @@ def preparePSP(fali1, paramsff, fpkt1, ftpl1, eligible_ligs, fnum1, kde_pts, bab
       return "G:#{atom_num}:#{x}:#{y}:#{z}&"
     elsif ['ALA', 'SER', 'THR', 'VAL', 'LEU', 'ILE', 'ASN', 'ASP', 'PRO', 'CYS'].include? acid_name
       atom_num = amino_acid[0][22, 4].to_i.to_s
-      none_backbones = amino_acid.reject { |atom| / N  | CA | C  | O  / =~ atom }
-      if none_backbones.size > 0
+      plane_atoms = amino_acid.reject { |atom| / N  | CA | C  | O  / =~ atom }
+      if plane_atoms.size > 0
         x_coords, y_coords, z_coords = [], [], []
-        none_backbones.each do |atom_line|
+        plane_atoms.each do |atom_line|
           x_coords.push(atom_line[30, 8].to_f)
           y_coords.push(atom_line[38, 8].to_f)
           z_coords.push(atom_line[46, 8].to_f)
@@ -241,10 +241,10 @@ def preparePSP(fali1, paramsff, fpkt1, ftpl1, eligible_ligs, fnum1, kde_pts, bab
       end
     elsif ['ARG', 'LYS', 'GLU', 'GLN', 'HIS', 'MET', 'PHE', 'TYR', 'TRP'].include? acid_name
       atom_num = amino_acid[0][22, 4].to_i.to_s
-      none_backbones = amino_acid.reject { |atom|  / N  | CA | C  | O  | CB | CG / =~ atom }
-      if none_backbones.size > 0
+      plane_atoms = amino_acid.reject { |atom|  / N  | CA | C  | O  | CB | CG / =~ atom }
+      if plane_atoms.size > 0
         x_coords, y_coords, z_coords = [], [], []
-        none_backbones.each do |atom_line|
+        plane_atoms.each do |atom_line|
           x_coords.push(atom_line[30, 8].to_f)
           y_coords.push(atom_line[38, 8].to_f)
           z_coords.push(atom_line[46, 8].to_f)
@@ -273,7 +273,7 @@ def preparePSP(fali1, paramsff, fpkt1, ftpl1, eligible_ligs, fnum1, kde_pts, bab
     atoms = protein.grep(/ATOM /)
     amino_acids = split2AminoAcids(atoms)
     amino_acids.each do |aa|
-      effective_pts += getNoneBackboneCenter(aa)
+      effective_pts += getPeptidePlaneCenter(aa)
     end
     effective_pts[-1] = '' if effective_pts[-1] == '&'
     templates[protein_id] = effective_pts 
