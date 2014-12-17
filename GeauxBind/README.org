@@ -77,7 +77,10 @@
       
 
    
-* Develop to handle multiple compounds in one file
+* DONE Develop to handle multiple compounds in one file
 
-** TODO run sdf
-   
+** DONE esimdock_sdf
+
+** DONE esimdock_ens
+      
+** DONE prepare_ff
