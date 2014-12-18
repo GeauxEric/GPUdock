@@ -5,12 +5,12 @@ require 'open3'
 class PrepareSdfTest < Test::Unit::TestCase
 
   def test_model_ens
-    work_dir = "."
+    work_dir = "../data"
     prt_code = '1b9vA'
 
-
-    cmd = "python ../src/model_ens.py -d #{work_dir} -p #{prt_code}"
     Dir.chdir(work_dir)
+    py = "../src/prt_ens.py"
+    cmd = "python #{py} -d . -p #{prt_code}"
 
     puts "\nRunning\t\t#{cmd}\n"
     stdout_str, stderr_str, status = Open3.capture3(cmd)
@@ -22,6 +22,4 @@ class PrepareSdfTest < Test::Unit::TestCase
     #   exit 1
     # end
   end
-
-
 end
