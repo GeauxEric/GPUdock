@@ -19,7 +19,7 @@ def genProteinEnsemble(work_dir, prt_code):
     cmd = [babel, '-ipdb', prt_pdb, '-ofasta', '-']
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = process.communicate()
-    fasta_seq = "\n".join(out.split("\n")[1:-1]) + "*"
+    fasta_seq = "\n".join(out.split("\n")[1:-1]) + "*\n"
 
     # remove all except for the Ca atoms in the protein
     shutil.copyfile(prt_pdb, prt_pdb_bk)  # back up the original protein pdb
@@ -28,12 +28,25 @@ def genProteinEnsemble(work_dir, prt_code):
         for line in ca_lines:
             f.write(line)
 
+    first_res = ca_lines[0].split()[5]
+    last_line = ca_lines[-1]
+    chain_id = last_line.split()[4]
+    last_res = last_line.split()[5]
+
     ################################################################################
     # write to alignment file
+    # for PIR format in Modeller, see https://salilab.org/modeller/9v8/manual/node454.html
     ali_lines = []
-    ali_lines.append(">P1;model\nsequence:model:::::::0.00:0.00\n" + fasta_seq)
-    ali_lines.append("\n\n")
-    header = ">P1;%s\nstructureX:%s.pdb:1:A:::undefined:undefined:-1.00:-1.00\n" % (prt_code, prt_code)
+    header = ">P1;%s\n%s:%s:%s:%s:%s:%s::::\n" % ('model', 'sequence',
+                                                  'model',
+                                                  first_res, chain_id,
+                                                  last_res, chain_id)
+    ali_lines.append(header + fasta_seq)
+    ali_lines.append("\n")
+    header = ">P1;%s\n%s:%s:%s:%s:%s:%s::::\n" % (prt_code, 'structureX',
+                                                  prt_code,
+                                                  first_res, chain_id,
+                                                  last_res, chain_id)
     ali_lines.append(header + fasta_seq)
 
     with open(ali_fn, 'w') as f:
@@ -54,6 +67,15 @@ def genProteinEnsemble(work_dir, prt_code):
     a.starting_model= 1                 # index of the first model
     a.ending_model  = 10                 # index of the last model
                                         # (determines how many models to calculate)
+
+    # write the modeller ali seq to file
+    # If you also want to see HETATM residues, uncomment this line:
+    #env.io.hetatm = True
+    code = prt_code
+    mdl = model(env, file=code)
+    aln = alignment(env)
+    aln.append_model(mdl, align_codes=code)
+    aln.write(file=code+'.seq')
 
     a.library_schedule = autosched.slow
     a.max_var_iterations = 300
