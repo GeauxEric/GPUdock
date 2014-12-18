@@ -8,9 +8,8 @@ class PrepareSdfTest < Test::Unit::TestCase
     work_dir = "../data"
     prt_code = '1b9vA'
 
-    Dir.chdir(work_dir)
-    py = "../src/prt_ens.py"
-    cmd = "python #{py} -d . -p #{prt_code}"
+    py = "../src/run_prt_ens.py"
+    cmd = "cd #{work_dir} && python #{py} -d . -p #{prt_code}"
 
     puts "\nRunning\t\t#{cmd}\n"
     stdout_str, stderr_str, status = Open3.capture3(cmd)
