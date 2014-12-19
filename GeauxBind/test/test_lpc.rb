@@ -55,15 +55,13 @@ class PrepareSdfTest < Test::Unit::TestCase
     f.write(zones)
     f.write("FIT\n")
     f.close()
-    
-  end
 
-  def test_af_runProfit
     ref_pdb = "../data/reference.pdb"
     mob_pdb = "../data/mobile.pdb"
-    rms = runProfit(ref_pdb, mob_pdb)
+
+    rms = runProfit(ref_pdb, mob_pdb, script_fn)
     puts "\nRMSD\t #{rms}"
+    
   end
-  
 
 end

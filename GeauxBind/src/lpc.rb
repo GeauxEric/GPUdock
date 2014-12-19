@@ -93,24 +93,13 @@ def lpcContact(prt_pdb, prt_contact_pdb, lpc_result)
 end
 
 
-def runProfit(ref_pdb, mob_pdb, zones='', profit="~/local/ProFitV3.1/src/profit")
-  tmp = Tempfile.new("kde_sdf")
-  path = tmp.path
-  tmp.close
-
-  File.open(path, 'w') do |file| 
-    file.write(zones)
-    file.write("FIT\n")
-  end
-
-  cmd = "#{profit} -f #{path} #{ref_pdb} #{mob_pdb}"
+def runProfit(ref_pdb, mob_pdb, zones, profit="~/local/ProFitV3.1/src/profit")
+  cmd = "#{profit} -f #{zones} #{ref_pdb} #{mob_pdb}"
   stdout_str, stderr_str, status = Open3.capture3(cmd)
   STDERR.puts "Error running #{cmd}\n" unless status.success?
 
   # puts stdout_str
   rms = stdout_str.split("\n").select { |line| line.include? "RMS" }[0].split()[-1]
-  
-  tmp.unlink
 
   rms
 end
