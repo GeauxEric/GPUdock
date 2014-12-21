@@ -5,8 +5,29 @@ import os
 import shutil
 import subprocess
 
-def genProteinEnsemble(work_dir, prt_code):
-    prt_pdb = "%s/%s.pdb" % (work_dir, prt_code)
+
+def readContacts(lpc_result):
+    result_lines = file(lpc_result).readlines()
+    pattern = "Residue      Dist    Surf    HB    Arom    Phob    DC"
+    pattern_line_num = -1
+    for idx, line in enumerate(result_lines):
+        if pattern in line:
+            pattern_line_num = idx
+    if pattern_line_num == -1: raise "Cannot find contacts in the LPC result" 
+
+    # import ipdb; ipdb.set_trace()
+    contacts = []
+    for idx, line in enumerate(result_lines):
+        if idx > pattern_line_num + 1:
+            if '----------' in line: break
+            contacts.append(line)
+
+    return contacts
+
+
+
+def genProteinEnsemble(work_dir, prt_code, EdudPrtRmsd = '/home/jaydy/work/working/EdudPrtRmsd'):
+    prt_pdb = os.path.abspath("%s/%s.pdb" % (work_dir, prt_code))
     prt_pdb_bk = prt_pdb + '_bk'
     ali_fn = prt_pdb.split('.')[0] + '.ali'
 
@@ -37,18 +58,31 @@ def genProteinEnsemble(work_dir, prt_code):
     # write to alignment file
     # for PIR format in Modeller, see https://salilab.org/modeller/9v8/manual/node454.html
     ali_lines = []
-    header = ">P1;%s\n%s:%s:%s:%s:%s:%s::::\n" % ('model', 'sequence',
-                                                  'model',
-                                                  first_res, chain_id,
-                                                  last_res, chain_id)
-    ali_lines.append(header + fasta_seq)
-    ali_lines.append("\n")
     header = ">P1;%s\n%s:%s:%s:%s:%s:%s::::\n" % (prt_code, 'structureX',
                                                   prt_code,
                                                   first_res, chain_id,
                                                   last_res, chain_id)
     ali_lines.append(header + fasta_seq)
+    ali_lines.append("\n")
 
+    ################################################################################
+    # mark the binding residues in the sequence
+    lpc_result = EdudPrtRmsd + '/' + prt_code + '/RES1'
+    lpc_result = os.path.normpath(lpc_result)
+    contacts = readContacts(lpc_result)
+    binding_res_nums = [int(contact.split()[0][0:-1]) for contact in contacts]
+    fasta_seq = list(''.join(fasta_seq.split("\n")))
+    for res_num in binding_res_nums:
+        fasta_seq[res_num - 1] = '-'
+    fasta_seq = ''.join(fasta_seq) + "\n"
+    
+    header = ">P1;%s\n%s:%s:%s:%s:%s:%s::::\n" % ('model', 'sequence',
+                                                  'model',
+                                                  first_res, chain_id,
+                                                  last_res, chain_id)
+    ali_lines.append(header + fasta_seq)
+
+    ali_fn = os.path.normpath(ali_fn)
     with open(ali_fn, 'w') as f:
         for line in ali_lines:
             f.write(line)
