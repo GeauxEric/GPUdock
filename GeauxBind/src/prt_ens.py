@@ -13,7 +13,7 @@ def readContacts(lpc_result):
     for idx, line in enumerate(result_lines):
         if pattern in line:
             pattern_line_num = idx
-    if pattern_line_num == -1: raise "Cannot find contacts in the LPC result" 
+    if pattern_line_num == -1: raise "Cannot find contacts in the LPC result"
 
     # import ipdb; ipdb.set_trace()
     contacts = []
@@ -25,11 +25,41 @@ def readContacts(lpc_result):
     return contacts
 
 
+# mark the binding residues in the structure sequence
+def maskBindingRes(contacts, fasta_seq):
+    binding_res_nums = [int(contact.split()[0][0:-1]) for contact in contacts]
+    fasta_seq = list(''.join(fasta_seq.split("\n")))
+    for res_num in binding_res_nums:
+        fasta_seq[res_num - 1] = '-'
+    fasta_seq = ''.join(fasta_seq) + "\n"
+
+    return fasta_seq
+
+def isContactRes(contacts, pdb_line):
+    binding_res_nums = [int(contact.split()[0][0:-1]) for contact in contacts]
+    my_res_num = int(pdb_line.split()[5])
+    if my_res_num in binding_res_nums:
+        return True
+    else:
+        return False
+    
 
 def genProteinEnsemble(work_dir, prt_code, EdudPrtRmsd = '/home/jaydy/work/working/EdudPrtRmsd'):
     prt_pdb = os.path.abspath("%s/%s.pdb" % (work_dir, prt_code))
+
     prt_pdb_bk = prt_pdb + '_bk'
+    shutil.copyfile(prt_pdb, prt_pdb_bk)  # back up the original protein pdb
+
     ali_fn = prt_pdb.split('.')[0] + '.ali'
+
+    temp_code = prt_code + '.model'
+
+    lpc_result = EdudPrtRmsd + '/' + prt_code + '/RES1'
+    lpc_result = os.path.normpath(lpc_result)
+
+    ################################################################################
+    # read the contacts lines from the lpc result file
+    contacts = readContacts(lpc_result)
 
     ################################################################################
     # run babel to convert to fasta
@@ -43,41 +73,54 @@ def genProteinEnsemble(work_dir, prt_code, EdudPrtRmsd = '/home/jaydy/work/worki
     fasta_seq = "\n".join(out.split("\n")[1:-1]) + "*\n"
 
     # remove all except for the Ca atoms in the protein
-    shutil.copyfile(prt_pdb, prt_pdb_bk)  # back up the original protein pdb
     ca_lines = [line for line in file(prt_pdb_bk) if "CA" in line]
     with open(prt_pdb, 'w') as f:
-        for line in ca_lines:
-            f.write(line)
+        my_res_num = 0
+        for idx, line in enumerate(ca_lines):
+            if not isContactRes(contacts, line):
+                my_res_num += 1
+                renumbered = "%4s" % str(my_res_num)
+                left_part = line[:22]
+                right_part = line[26:]
+                my_line = left_part + renumbered + right_part
+                # print renumbered
+                # pass
+                f.write(my_line) 
 
+
+    ################################################################################
+    # write to alignment file
+    # for PIR format in Modeller, see https://salilab.org/modeller/9v8/manual/node454.html
+
+    ali_lines = []
+
+    ################################################################################
+    # header for template
     first_res = ca_lines[0].split()[5]
     last_line = ca_lines[-1]
     chain_id = last_line.split()[4]
     last_res = last_line.split()[5]
 
-    ################################################################################
-    # write to alignment file
-    # for PIR format in Modeller, see https://salilab.org/modeller/9v8/manual/node454.html
-    ali_lines = []
-    header = ">P1;%s\n%s:%s:%s:%s:%s:%s::::\n" % (prt_code, 'structureX',
-                                                  prt_code,
+    header = ">P1;%s\n%s:%s:%s:%s:%s:%s::::\n" % (temp_code, 'sequence',
+                                                  temp_code,
                                                   first_res, chain_id,
                                                   last_res, chain_id)
     ali_lines.append(header + fasta_seq)
+
     ali_lines.append("\n")
 
     ################################################################################
-    # mark the binding residues in the sequence
-    lpc_result = EdudPrtRmsd + '/' + prt_code + '/RES1'
-    lpc_result = os.path.normpath(lpc_result)
-    contacts = readContacts(lpc_result)
-    binding_res_nums = [int(contact.split()[0][0:-1]) for contact in contacts]
-    fasta_seq = list(''.join(fasta_seq.split("\n")))
-    for res_num in binding_res_nums:
-        fasta_seq[res_num - 1] = '-'
-    fasta_seq = ''.join(fasta_seq) + "\n"
-    
-    header = ">P1;%s\n%s:%s:%s:%s:%s:%s::::\n" % ('model', 'sequence',
-                                                  'model',
+    # header for structure
+    str_ca_lines = [line for line in file(prt_pdb) if 'CA' in line]
+    first_res = str_ca_lines[0].split()[5]
+    last_line = str_ca_lines[-1]
+    chain_id = last_line.split()[4]
+    last_res = last_line.split()[5]
+        
+    fasta_seq = maskBindingRes(contacts, fasta_seq)  # mask the structure sequence
+
+    header = ">P1;%s\n%s:%s:%s:%s:%s:%s::::\n" % (prt_code, 'structureX',
+                                                  prt_code,
                                                   first_res, chain_id,
                                                   last_res, chain_id)
     ali_lines.append(header + fasta_seq)
@@ -97,7 +140,7 @@ def genProteinEnsemble(work_dir, prt_code, EdudPrtRmsd = '/home/jaydy/work/worki
     a = automodel(env,
                   alnfile  = ali_fn,     # alignment filename
                   knowns   = prt_code,              # codes of the templates
-                  sequence = prt_code)              # code of the target
+                  sequence = temp_code)              # code of the target
     a.starting_model= 1                 # index of the first model
     a.ending_model  = 10                 # index of the last model
                                         # (determines how many models to calculate)
@@ -121,4 +164,6 @@ def genProteinEnsemble(work_dir, prt_code, EdudPrtRmsd = '/home/jaydy/work/worki
 
     a.make()                            # do the actual comparative modeling
 
+    prt_pdb_for_modeller = prt_pdb + '.mod'
+    shutil.copyfile(prt_pdb, prt_pdb_for_modeller)
     shutil.copyfile(prt_pdb_bk, prt_pdb)

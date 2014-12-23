@@ -1,3 +1,4 @@
+require 'pry'
 require 'tempfile'
 require 'open3'
 
@@ -96,9 +97,9 @@ end
 def runProfit(ref_pdb, mob_pdb, zones, profit="~/local/ProFitV3.1/src/profit")
   cmd = "#{profit} -f #{zones} #{ref_pdb} #{mob_pdb}"
   stdout_str, stderr_str, status = Open3.capture3(cmd)
+  # binding.pry
   STDERR.puts "Error running #{cmd}\n" unless status.success?
 
-  # puts stdout_str
   rms = stdout_str.split("\n").select { |line| line.include? "RMS" }[0].split()[-1]
 
   rms
