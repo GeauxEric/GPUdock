@@ -84,7 +84,7 @@ class PrepareSdfTest < Test::Unit::TestCase
   end
 
   ################################################################################
-  # run prepare_ff
+  # run the perl version of prepare_ff
 
   def test_eb_run_prepare_ff
     ifn = "../data/ZINC_4.sdf"
@@ -92,6 +92,28 @@ class PrepareSdfTest < Test::Unit::TestCase
 
     perl_script = "../src/prepare_ff"
     cmd = "perl #{perl_script} -l #{ifn} -i MOLID -o #{ofn} \
+-s ../data/1b9vA.ligands.sdf -a ../data/1b9vA.alignments.dat \
+-p ../data/1b9vA.pockets.dat -t ../data/1b9vA.templates.pdb -n 1"
+
+    puts "\nRunning\t\t#{cmd}\n"
+    stdout_str, stderr_str, status = Open3.capture3(cmd)
+    if status.success?
+      puts "write to\t#{ofn}\n"
+    else
+      STDERR.puts "Error running #{cmd}\n"
+      exit 1
+    end
+  end
+
+  
+  ################################################################################
+  # run the ruby version of prepare_ff
+  def test_fb_run_prepare_ff
+    ifn = "../data/ZINC_4.sdf"
+    ofn = "../data/ZINC_5.ff"
+
+    ruby_script = "../src/prepare_ff.rb"
+    cmd = "ruby #{ruby_script} -l #{ifn} -i MOLID -o #{ofn} \
 -s ../data/1b9vA.ligands.sdf -a ../data/1b9vA.alignments.dat \
 -p ../data/1b9vA.pockets.dat -t ../data/1b9vA.templates.pdb -n 1"
 
