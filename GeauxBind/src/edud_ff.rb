@@ -8,15 +8,10 @@ class EdudForceField
   ################################################################################
   # removeH
   # on multiple compound
-  def run_removeH()
+  def run_removeH(ifns)
     babel = "/home/jaydy/local/bin/babel"
 
-    chembl_fns = Dir.glob(@work_dir + '/CHEMBL*')
-
-    ifns = chembl_fns.sample(6)
-    # ifns = chembl_fns
-
-    tmp = Tempfile.new('/CHEMBL')
+    tmp = Tempfile.new('/ANCHORS')
     tmp_path = tmp.path
     tmp.close
 
@@ -80,7 +75,7 @@ class EdudForceField
   
   ################################################################################
   # run the ruby version of prepare_ff
-  def run_prepare_ff(ruby_script)
+  def run_prepare_ff(ruby_script, pocket_num)
     ifn = @work_dir + '_4.sdf'
     ofn = @work_dir + '_4.ff'
 
@@ -90,7 +85,7 @@ class EdudForceField
     templates = File.join(@work_dir, @prt_id + '.templates.pdb')
 
     cmd = <<ff
-ruby #{ruby_script} -l #{ifn} -i MOLID -o #{ofn} -s #{ligands_sdf} -a #{ali} -p #{pocket} -t #{templates} -n 1
+ruby #{ruby_script} -l #{ifn} -i MOLID -o #{ofn} -s #{ligands_sdf} -a #{ali} -p #{pocket} -t #{templates} -n #{pocket_num}
 ff
 
     puts "\nRunning\t\t#{cmd}\n"

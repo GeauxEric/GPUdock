@@ -20,6 +20,7 @@ class PrepareSdfTest < Test::Unit::TestCase
     chembl_fns = Dir.glob(@@env + '/CHEMBL*')
 
     ifns = chembl_fns.sample(6)
+    # ifns = chembl_fns
 
     tmp = Tempfile.new('/CHEMBL')
     tmp_path = tmp.path
@@ -68,8 +69,6 @@ class PrepareSdfTest < Test::Unit::TestCase
 
   ################################################################################
   # run esimdock_ens
-
-  # on multiple compounds
   def test_db_run_ens
     ifn = @@env + '_3.sdf'
     ofn = @@env + '_4.sdf'
@@ -87,29 +86,6 @@ class PrepareSdfTest < Test::Unit::TestCase
   end
 
 
-=begin
-  ################################################################################
-  # run the perl version of prepare_ff
-
-  def test_eb_run_prepare_ff
-    ifn = "../data/ZINC_4.sdf"
-    ofn = "../data/ZINC_4.ff"
-
-    perl_script = "../src/prepare_ff"
-    cmd = "perl #{perl_script} -l #{ifn} -i MOLID -o #{ofn} \
--s ../data/1b9vA.ligands.sdf -a ../data/1b9vA.alignments.dat \
--p ../data/1b9vA.pockets.dat -t ../data/1b9vA.templates.pdb -n 1"
-
-    puts "\nRunning\t\t#{cmd}\n"
-    stdout_str, stderr_str, status = Open3.capture3(cmd)
-    if status.success?
-      puts "write to\t#{ofn}\n"
-    else
-      STDERR.puts "Error running #{cmd}\n"
-      exit 1
-    end
-  end
-=end
   
   ################################################################################
   # run the ruby version of prepare_ff
