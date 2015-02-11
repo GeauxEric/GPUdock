@@ -44,9 +44,7 @@ def isContactRes(contacts, pdb_line):
         return False
     
 
-def genProteinEnsemble(work_dir, prt_code, EdudPrtRmsd = '/home/jaydy/work/working/EdudPrtRmsd'):
-    prt_pdb = os.path.abspath("%s/%s.pdb" % (work_dir, prt_code))
-
+def genProteinEnsemble(work_dir, prt_pdb, prt_code, lpc_result):
     prt_pdb_bk = prt_pdb + '_bk'
     shutil.copyfile(prt_pdb, prt_pdb_bk)  # back up the original protein pdb
 
@@ -54,7 +52,6 @@ def genProteinEnsemble(work_dir, prt_code, EdudPrtRmsd = '/home/jaydy/work/worki
 
     temp_code = prt_code + '.model'
 
-    lpc_result = EdudPrtRmsd + '/' + prt_code + '/RES1'
     lpc_result = os.path.normpath(lpc_result)
 
     ################################################################################
