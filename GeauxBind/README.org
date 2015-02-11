@@ -1,3 +1,62 @@
+* Environment preparation
+
+** CPAN modules
+   Some perl scripts depend on CPAN modules
+   1. Install cpanm
+
+      cd ~/local/bin && curl -LO http://xrl.us/cpanm && chmod +x cpanm
+
+   2. Install the modules
+
+      1. cpanm File::Path
+
+      2. cpanm File::Copy
+
+      3. cpanm File::Slurp
+
+      4. cpanm Chemistry::Mol
+
+      5. cpanm Chemistry::File::SDF
+
+      6. cpanm Chemistry::Canonicalize
+
+      7. cpanm Chemistry::Ring::Find
+
+      8. cpanm Bit::Vector
+
+      9. cpanm Math::Vector::BestRotation
+
+      10. cpanm Compress::Zlib
+
+      11. cpanm Archive::Tar
+
+      12. cpanm Benchmark
+
+      13. cpanm Cwd
+
+      14. cpanm Statistics::Descriptive
+
+      15. cpanm Uniq
+
+   3. Export the CPAN PATH
+
+      1. if the modules are installed at /home/$USER/perl5/lib/perl5, put the below in ~/.bashrc
+          
+         export PERL5LIB=/home/$USER/perl5/lib/perl5:$PERL5LIBb
+	 
+** Other environment variables
+   1. export ESDBABEL=~/local/bin/babel
+   2. export ESDOBPROP=~/local/bin/obprop
+   3. export ESDMAYACP=$HOME/local/mayachemtools/bin/CalculatePhysicochemicalProperties.pl
+   4. export ESDMAYAMF=$HOME/local/mayachemtools/bin/MACCSKeysFingerprints.pl
+   5. export ESDBALLOON=~/local/balloon
+   6. export ESDSCLUSTER=~/local/cluto-2.1.2/Linux-x86_64/scluster
+   7. export GEAUXDOCK_PKCOMBU=~/local/pkcombu
+   8. export GEAUXDOCK_BABEL=~/local/bin/babel
+   9. export GEAUXDOCK_FF=~/dat/paras
+
+
+
 * Prepare input files for Geauxdock
 
 ** DONE Remove H atom
@@ -74,8 +133,6 @@
         -p 1b9vA.pockets.dat \
         -t 1b9vA.templates.pdb \
         -n 1
-      
-
    
 * DONE Develop to handle multiple compounds in one file
 
