@@ -2,6 +2,7 @@
 
 import glob
 import argparse
+import os
 
 '''
 usage: combine_prt_ens.py [-h] [-d DIRECTORY] [-o OUTPUT]
@@ -23,8 +24,8 @@ def extractAtoms(pdb_fn):
 
 
 def main(work_dir, ofn, regx='*.model.*.pdb'):
-    pattern = work_dir + regx
-    models_paths = glob.glob(pattern)
+    os.chdir(work_dir)
+    models_paths = glob.glob(regx)
     if not models_paths:
         raise Exception, "No modelled files found in %s" % work_dir
     with open(ofn, 'w') as f:
