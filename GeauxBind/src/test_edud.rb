@@ -7,7 +7,7 @@ require_relative 'prepare_sdf'
 class PrepareSdfTest < Test::Unit::TestCase
   @@lig = '1b9vA'
   @@prt = '1b9v'
-  @@work_dir = '/home/jaydy/work/working/EdudCrystalLig/'
+  @@work_dir = '/work/jaydy/working/EdudCrystalLig/'
   @@env = File.join(@@work_dir, @@prt)
 
   ################################################################################

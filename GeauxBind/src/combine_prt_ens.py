@@ -4,6 +4,8 @@ import glob
 import argparse
 import os
 
+
+
 '''
 usage: combine_prt_ens.py [-h] [-d DIRECTORY] [-o OUTPUT]
 
@@ -36,6 +38,7 @@ def main(work_dir, ofn, regx='*.model.*.pdb'):
             f.writelines(header)
             f.writelines(atom_lines)
             f.writelines(foot)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="combine modeller ensembles into one pdb file\
