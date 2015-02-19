@@ -1,7 +1,7 @@
 require 'test/unit'
 require 'tempfile'
 require 'open3'
-require_relative 'prepare_sdf'
+require_relative '../src/prepare_sdf'
 
 
 class PrepareSdfTest < Test::Unit::TestCase
