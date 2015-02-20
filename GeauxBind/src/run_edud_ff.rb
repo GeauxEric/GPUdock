@@ -43,7 +43,7 @@ puts "------------------------------------------------------------\n\n";
 edud_dat = '/work/jaydy/dat/EDUD'
 efindsite_edud = '/work/jaydy/dat/EDUD/efindsite-EDUD-crystal/'
 
-env = '/home/jaydy/work/working/EdudCrystalLig/'
+env = '/work/jaydy/working/EdudCrystalLig/'
 esimdock_sdf = '/home/jaydy/Workspace/GitHub/GPUdock/GeauxBind/src/esimdock_sdf'
 esimdock_ens = '/home/jaydy/Workspace/GitHub/GPUdock/GeauxBind/src/esimdock_ens'
 ruby_prepare_ff = '/home/jaydy/Workspace/GitHub/GPUdock/GeauxBind/src/prepare_ff.rb'
