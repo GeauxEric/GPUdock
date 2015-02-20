@@ -626,7 +626,7 @@
          push(@sdf08, $prp06);
          push(@sdf08, '');
          
-         push(@sdf08, '>  <OB_CHARGES> ('.$nam01.')');
+         push(@sdf08, '>  <OB_ATOMIC_CHARGES> ('.$nam01.')');
          push(@sdf08, $chg02);
          push(@sdf08, '');
          
