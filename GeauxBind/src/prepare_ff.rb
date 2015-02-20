@@ -86,7 +86,12 @@ print "Calculating position restraints for docking compounds:\n\n";
 mcs = prepareMCS(fsdf1, eligible_ligs, fkey1, pkcombu=pkcombu)
 print "done\n"
 
-output_lines = kde.join("\n") + "\n" + psp.join("\n") + "\n" + mcs.join("\n")
+print "Load pocket center found by eFindsite:\n\n";
+center = getPocketCenterCoords(fpkt1, fnum1)
+print "done\n"
+
+output_lines = center + "\n" + kde.join("\n") + "\n" + psp.join("\n") + "\n" +
+               mcs.join("\n")
 
 File.open(fout1, 'w') do |file| 
   file.write(output_lines)

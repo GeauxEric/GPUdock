@@ -35,6 +35,42 @@ def seperateLines(lines, seperator_requirement)
   splitted
 end
 
+def getPocketCenterCoords(fpkt1, fnum1)
+  lines = File.readlines(fpkt1).each{ |line| line.chomp! }
+  seperator_line_requirement = Proc.new do |line| line == "TER" end 
+  pockets = seperateLines(lines, seperator_line_requirement)
+
+  def getPocketNum(pocket)
+    num = -1
+    pocket.each do |line| 
+      num = line.split[1].to_i if line.start_with?("POCKET")
+    end
+    num
+  end
+
+  def getCoords(pocket)
+    pocket.each do |line| 
+      if line.start_with?("CENTER")
+        return line.split[1, 3]
+      end
+    end
+  end
+
+  my_center = []
+  pockets.each do |pocket| 
+    my_num = getPocketNum(pocket)
+    if my_num == fnum1
+      my_center = getCoords(pocket)
+    end
+  end
+
+  if not my_center.empty?
+    return 'CENTER ' + my_center.join(' ')
+  else
+    raise "not center found for" + fpkt1
+  end
+end
+
 # read a .ligands.sdf file, get the ligands with required pocket number
 def getEligibleLigs(flig1, fnum1)
 
@@ -453,3 +489,4 @@ def prepareMCS(fsdf1, eligible_ligs, fkey1, pkcombu='')
 
   return mcs
 end
+
