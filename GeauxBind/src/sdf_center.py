@@ -56,13 +56,16 @@ def addCenter(sdf_ifn, ff_ifn):
     shutil.copyfile(ff_ifn, bk)
 
     lines = file(ff_ifn).readlines()
-    centers = ligCenter(sdf_ifn)
-    centers = map(str, centers)
-    center_line = "CENTER " + ' '.join(centers) + "\n"
-    lines.insert(0, center_line)
+    if "CENTER" in lines[0]:
+        pass
+    else:
+        centers = ligCenter(sdf_ifn)
+        centers = map(str, centers)
+        center_line = "CENTER " + ' '.join(centers) + "\n"
+        lines.insert(0, center_line)
 
-    with open(ff_ifn, 'w') as f:
-        f.writelines(lines)
+        with open(ff_ifn, 'w') as f:
+            f.writelines(lines)
 
 if __name__ == '__main__':
     import argparse
