@@ -37,7 +37,7 @@ def getCoordVals(lines, coord='x'):
 
 def getCenters(non_H_lines):
     centers = []
-    for coord in options.keys():
+    for coord in ['x', 'y', 'z']:
         vals = getCoordVals(non_H_lines, coord=coord)
         center = sum(vals) / float(len(vals))
         centers.append(center)
