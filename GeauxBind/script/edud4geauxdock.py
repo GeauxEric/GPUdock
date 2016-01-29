@@ -2,10 +2,15 @@
 
 
 import os
+import logging
+import pybel
 import shlex
 import subprocess32
-
 import luigi
+
+from glob import glob
+
+logging.basicConfig(level=logging.INFO)
 
 
 class Path(luigi.Task):
@@ -84,10 +89,63 @@ class Extract(Path):
         self.__untar()
 
 
+class PrepareLig1stStage(Extract):
+    esimdock_ens = luigi.Parameter(
+        default="/home/jaydy/Workspace/GitHub/GPUdock/GeauxBind/src/esimdock_ens")
+
+    def output(self):
+        self.ens_ofn = os.path.join(
+            self.subset_work_dir, self.ligand_code + '_2.sdf')
+        return luigi.LocalTarget(self.ens_ofn)
+
+    def requires(self):
+        return Extract(
+            subset=self.subset,
+            ligand_code=self.ligand_code
+        )
+
+    def aggregate(self):
+        """remove hydrogen and add <MOLID>
+        """
+        untarred_dir = self.requires().output().path
+        zincs = glob(os.path.join(untarred_dir, "ZINC*"))
+        mols = []
+        for zinc in zincs:
+            try:
+                mols.append(list(pybel.readfile('sdf', zinc)))
+            except Exception:
+                logging.info("Fail to load zinc ligand %s" % zinc)
+        mols = [mol for sub in mols for mol in sub]
+        ofn = os.path.join(
+            self.subset_work_dir, self.ligand_code + '_1.sdf')
+        self.aggregated_ofn = ofn
+        ofs = pybel.Outputfile('sdf', ofn, overwrite=True)
+        try:
+            for mol in mols:
+                mol.removeh()
+                mol.data['MOLID'] = mol.title
+                ofs.write(mol)
+        except Exception as detail:
+            logging.info(detail)
+        finally:
+            ofs.close()
+
+    def ens(self):
+        cmds = shlex.split(
+            '''perl %s -s %s -o %s -i MOLID -c''' % (
+                self.esimdock_ens, self.aggregated_ofn, self.ens_ofn))
+        subprocess32.call(cmds)
+
+    def run(self):
+        self.aggregate()
+        self.ens()
+
+
 def test():
     luigi.build(
         [
-            Extract("1b9vA")
+            Extract("1b9vA"),
+            PrepareLig1stStage("1b9vA"),
         ], local_scheduler=True,
     )
 
