@@ -1,21 +1,18 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
+import sys
 
 import os
-import logging
 import pybel
 import shlex
 import subprocess32
 import luigi
-
 from glob import glob
-
-logging.basicConfig(level=logging.INFO)
 
 
 class Path(luigi.Task):
     ligand_code = luigi.Parameter()
-
     efindsite_edud_crystal = luigi.Parameter(
         default="/work/jaydy/dat/edud/EDUD-efindiste/efindsite-EDUD-crystal")
     decoy_ligands = luigi.Parameter(
@@ -65,44 +62,34 @@ class Extract(Path):
         except:
             pass
         # decoy-ligands
-        targz = os.path.join(self.decoy_ligands,
-                             self.prt_code + '.tar.gz')
-        args = shlex.split(
-            '''tar -xf %s -C %s''' % (
-                targz, self.output().path
-            )
-        )
+        targz = os.path.join(self.decoy_ligands, self.prt_code + '.tar.gz')
+        args = shlex.split('''tar -xf %s -C %s''' % (targz,
+                                                     self.output().path))
         subprocess32.call(args)
 
         # efindsite-EDUD-crystal
-        targz = os.path.join(self.efindsite_edud_crystal,
-                             self.ligand_code,
+        targz = os.path.join(self.efindsite_edud_crystal, self.ligand_code,
                              self.ligand_code + '-efindsite.tar.gz')
-        args = shlex.split(
-            '''tar -xf %s -C %s''' % (
-                targz, self.output().path
-            )
-        )
+        args = shlex.split('''tar -xf %s -C %s''' % (targz,
+                                                     self.output().path))
         subprocess32.call(args)
 
     def run(self):
         self.__untar()
 
 
-class PrepareLig1stStage(Extract):
+class PrepareLigStateEnsemble(Extract):
     esimdock_ens = luigi.Parameter(
-        default="/home/jaydy/Workspace/GitHub/GPUdock/GeauxBind/src/esimdock_ens")
+        default=
+        "/home/jaydy/Workspace/GitHub/GPUdock/GeauxBind/src/esimdock_ens")
 
     def output(self):
-        self.ens_ofn = os.path.join(
-            self.subset_work_dir, self.ligand_code + '_2.sdf')
+        self.ens_ofn = os.path.join(self.subset_work_dir,
+                                    self.ligand_code + '_2.sdf')
         return luigi.LocalTarget(self.ens_ofn)
 
     def requires(self):
-        return Extract(
-            subset=self.subset,
-            ligand_code=self.ligand_code
-        )
+        return Extract(subset=self.subset, ligand_code=self.ligand_code)
 
     def aggregate(self):
         """remove hydrogen and add <MOLID>
@@ -114,10 +101,11 @@ class PrepareLig1stStage(Extract):
             try:
                 mols.append(list(pybel.readfile('sdf', zinc)))
             except Exception:
-                logging.info("Fail to load zinc ligand %s" % zinc)
+                print("WARNING: ",
+                      "Fail to load zinc ligand %s" % zinc,
+                      file=sys.stderr)
         mols = [mol for sub in mols for mol in sub]
-        ofn = os.path.join(
-            self.subset_work_dir, self.ligand_code + '_1.sdf')
+        ofn = os.path.join(self.subset_work_dir, self.ligand_code + '_1.sdf')
         self.aggregated_ofn = ofn
         ofs = pybel.Outputfile('sdf', ofn, overwrite=True)
         try:
@@ -126,14 +114,14 @@ class PrepareLig1stStage(Extract):
                 mol.data['MOLID'] = mol.title
                 ofs.write(mol)
         except Exception as detail:
-            logging.info(detail)
+            print("WARNING:", detail, file=sys.stderr)
         finally:
             ofs.close()
 
     def ens(self):
-        cmds = shlex.split(
-            '''perl %s -s %s -o %s -i MOLID -c''' % (
-                self.esimdock_ens, self.aggregated_ofn, self.ens_ofn))
+        cmds = shlex.split('''perl %s -s %s -o %s -i MOLID -c''' %
+                           (self.esimdock_ens, self.aggregated_ofn,
+                            self.ens_ofn))
         subprocess32.call(cmds)
 
     def run(self):
@@ -145,14 +133,15 @@ def test():
     luigi.build(
         [
             Extract("1b9vA"),
-            PrepareLig1stStage("1b9vA"),
-        ], local_scheduler=True,
-    )
+            PrepareLigStateEnsemble("1b9vA"),
+        ],
+        local_scheduler=True, )
 
 
 def main():
     test()
     pass
 
+
 if __name__ == '__main__':
-    main()
+    luigi.build([PrepareLigStateEnsemble(sys.argv[1])], local_scheduler=True, )
