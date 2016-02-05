@@ -1,5 +1,5 @@
-from modeller import *              # Load standard Modeller classes
-from modeller.automodel import *    # Load the automodel class
+from modeller import *  # Load standard Modeller classes
+from modeller.automodel import *  # Load the automodel class
 
 import os
 import shutil
@@ -13,13 +13,15 @@ def readContacts(lpc_result):
     for idx, line in enumerate(result_lines):
         if pattern in line:
             pattern_line_num = idx
-    if pattern_line_num == -1: raise "Cannot find contacts in the LPC result"
+    if pattern_line_num == -1:
+        raise "Cannot find contacts in the LPC result"
 
     # import ipdb; ipdb.set_trace()
     contacts = []
     for idx, line in enumerate(result_lines):
         if idx > pattern_line_num + 1:
-            if '----------' in line: break
+            if '----------' in line:
+                break
             contacts.append(line)
 
     return contacts
@@ -35,6 +37,7 @@ def maskBindingRes(contacts, fasta_seq):
 
     return fasta_seq
 
+
 def isContactRes(contacts, pdb_line):
     binding_res_nums = [int(contact.split()[0][0:-1]) for contact in contacts]
     my_res_num = int(pdb_line.split()[5])
@@ -42,7 +45,7 @@ def isContactRes(contacts, pdb_line):
         return True
     else:
         return False
-    
+
 
 def genProteinEnsemble(work_dir, prt_pdb, prt_code, lpc_result):
     prt_pdb_bk = prt_pdb + '_bk'
@@ -54,18 +57,20 @@ def genProteinEnsemble(work_dir, prt_pdb, prt_code, lpc_result):
 
     lpc_result = os.path.normpath(lpc_result)
 
-    ################################################################################
+    ##########################################################################
     # read the contacts lines from the lpc result file
     contacts = readContacts(lpc_result)
 
-    ################################################################################
+    ##########################################################################
     # run babel to convert to fasta
     babel = os.environ['GEAUXDOCK_BABEL']
     if not os.path.exists(babel):
         raise "GEAUXDOCK_BABEL is not properly set"
 
     cmd = [babel, '-ipdb', prt_pdb, '-ofasta', '-']
-    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(cmd,
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
     out, err = process.communicate()
     fasta_seq = "\n".join(out.split("\n")[1:-1]) + "*\n"
 
@@ -82,16 +87,16 @@ def genProteinEnsemble(work_dir, prt_pdb, prt_code, lpc_result):
                 my_line = left_part + renumbered + right_part
                 # print renumbered
                 # pass
-                f.write(my_line) 
+                f.write(my_line)
 
-
-    ################################################################################
+    ##########################################################################
     # write to alignment file
-    # for PIR format in Modeller, see https://salilab.org/modeller/9v8/manual/node454.html
+    # for PIR format in Modeller, see
+    # https://salilab.org/modeller/9v8/manual/node454.html
 
     ali_lines = []
 
-    ################################################################################
+    ##########################################################################
     # header for template
     first_res = ca_lines[0].split()[5]
     last_line = ca_lines[-1]
@@ -99,27 +104,26 @@ def genProteinEnsemble(work_dir, prt_pdb, prt_code, lpc_result):
     last_res = last_line.split()[5]
 
     header = ">P1;%s\n%s:%s:%s:%s:%s:%s::::\n" % (temp_code, 'sequence',
-                                                  temp_code,
-                                                  first_res, chain_id,
-                                                  last_res, chain_id)
+                                                  temp_code, first_res,
+                                                  chain_id, last_res, chain_id)
     ali_lines.append(header + fasta_seq)
 
     ali_lines.append("\n")
 
-    ################################################################################
+    ##########################################################################
     # header for structure
     str_ca_lines = [line for line in file(prt_pdb) if 'CA' in line]
     first_res = str_ca_lines[0].split()[5]
     last_line = str_ca_lines[-1]
     chain_id = last_line.split()[4]
     last_res = last_line.split()[5]
-        
-    fasta_seq = maskBindingRes(contacts, fasta_seq)  # mask the structure sequence
+
+    fasta_seq = maskBindingRes(contacts,
+                               fasta_seq)  # mask the structure sequence
 
     header = ">P1;%s\n%s:%s:%s:%s:%s:%s::::\n" % (prt_code, 'structureX',
-                                                  prt_code,
-                                                  first_res, chain_id,
-                                                  last_res, chain_id)
+                                                  prt_code, first_res,
+                                                  chain_id, last_res, chain_id)
     ali_lines.append(header + fasta_seq)
 
     ali_fn = os.path.normpath(ali_fn)
@@ -127,7 +131,7 @@ def genProteinEnsemble(work_dir, prt_pdb, prt_code, lpc_result):
         for line in ali_lines:
             f.write(line)
 
-    ################################################################################
+    ##########################################################################
     # modeller
     env = environ()  # create a new MODELLER environment to build this model in
 
@@ -135,21 +139,21 @@ def genProteinEnsemble(work_dir, prt_pdb, prt_code, lpc_result):
     env.io.atom_files_directory = [work_dir]
 
     a = automodel(env,
-                  alnfile  = ali_fn,     # alignment filename
-                  knowns   = prt_code,              # codes of the templates
-                  sequence = temp_code)              # code of the target
-    a.starting_model= 1                 # index of the first model
-    a.ending_model  = 10                 # index of the last model
-                                        # (determines how many models to calculate)
+                  alnfile=ali_fn,     # alignment filename
+                  knowns=prt_code,              # codes of the templates
+                  sequence=temp_code)              # code of the target
+    a.starting_model = 1  # index of the first model
+    a.ending_model = 10  # index of the last model
+    # (determines how many models to calculate)
 
     # write the modeller ali seq to file
     # If you also want to see HETATM residues, uncomment this line:
-    #env.io.hetatm = True
+    # env.io.hetatm = True
     code = prt_code
     mdl = model(env, file=code)
     aln = alignment(env)
     aln.append_model(mdl, align_codes=code)
-    aln.write(file=code+'.seq')
+    aln.write(file=code + '.seq')
 
     a.library_schedule = autosched.slow
     a.max_var_iterations = 300
@@ -159,7 +163,7 @@ def genProteinEnsemble(work_dir, prt_pdb, prt_code, lpc_result):
 
     # a.very_fast()
 
-    a.make()                            # do the actual comparative modeling
+    a.make()  # do the actual comparative modeling
 
     prt_pdb_for_modeller = prt_pdb + '.mod'
     shutil.copyfile(prt_pdb, prt_pdb_for_modeller)
