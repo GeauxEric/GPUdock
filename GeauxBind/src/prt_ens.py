@@ -7,7 +7,10 @@ import subprocess
 
 
 def readContacts(lpc_result):
-    result_lines = file(lpc_result).readlines()
+    if os.path.isfile(lpc_result):
+        result_lines = file(lpc_result).readlines()
+    else:
+        result_lines = lpc_result.splitlines()
     pattern = "Residue      Dist    Surf    HB    Arom    Phob    DC"
     pattern_line_num = -1
     for idx, line in enumerate(result_lines):
@@ -27,7 +30,7 @@ def readContacts(lpc_result):
     return contacts
 
 
-# mark the binding residues in the structure sequence
+# mask the binding residues with '-' in the structure sequence
 def maskBindingRes(contacts, fasta_seq):
     binding_res_nums = [int(contact.split()[0][0:-1]) for contact in contacts]
     fasta_seq = list(''.join(fasta_seq.split("\n")))
