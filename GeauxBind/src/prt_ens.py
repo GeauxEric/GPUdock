@@ -139,7 +139,8 @@ def genProteinEnsemble(work_dir, prt_pdb, prt_code, lpc_result):
     env = environ()  # create a new MODELLER environment to build this model in
 
     # directories for input atom files
-    env.io.atom_files_directory = [work_dir]
+    os.chdir(work_dir)
+    env.io.atom_files_directory = ['.', work_dir]
 
     a = automodel(env,
                   alnfile=ali_fn,     # alignment filename
