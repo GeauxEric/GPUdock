@@ -55,5 +55,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
-    test()
+    import sys
+    luigi.build([PrepareProteinEns(sys.argv[1])], local_scheduler=True)
