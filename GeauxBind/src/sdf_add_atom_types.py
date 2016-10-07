@@ -1,21 +1,37 @@
+#!/usr/bin/env python
+
 import pybel
+from openbabel import OBTypeTable
+
+typetable = OBTypeTable()
+typetable.SetFromType('INT')
+typetable.SetToType('SYB')
 
 
-authentic_sdf = "../data/1a07C1.sdf"
+def addTypes(ifn, ofn):
+    """add the SYB atom types to the molecules in a sdf file
+    """
+    largeSDfile = pybel.Outputfile("sdf", ofn)
+
+    for lig in pybel.readfile("sdf", ifn):
+        types_from_ob = []
+        for atom in lig:
+            types_from_ob.append(typetable.Translate(atom.type))
+
+        lig.data['NEW_OB_ATOM_TYPES'] = ' '.join(types_from_ob)
+        largeSDfile.write(lig)
+
+    largeSDfile.close()
 
 
-with open(authentic_sdf, 'r') as ifs:
-    lines = ifs.readlines()
-    for idx, line in enumerate(lines):
-        if "OB_ATOM_TYPES" in line:
-            types = lines[idx + 1].rstrip()
+def test():
+    ifn = "../data/ZINC_3.sdf"
+    ofn = ifn + ".add.sdf"
+    addTypes(ifn, ofn)
 
 
-lig = pybel.readfile("sdf", authentic_sdf).next()
-
-types_from_ob = []
-for atom in lig:
-    print atom.type
-    types_from_ob.append(atom.type)
-
-assert ' '.join(types_from_ob) == types
+if __name__ == '__main__':
+    import sys
+    ifn = sys.argv[1]
+    ofn = sys.argv[2]
+    addTypes(ifn, ofn)
